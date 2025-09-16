@@ -1,0 +1,104 @@
+{
+  "name": "KaTeX Rendering Test",
+  "description": "Test module for KaTeX inline and display math rendering",
+  "chapters": [
+    {
+      "id": "ch1",
+      "name": "Inline Math",
+      "description": "Testing inline KaTeX rendering",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is the value of $x$ in the equation $2x + 3 = 7$?",
+          "options": [
+            { "optionId": "opt1", "optionText": "$x = 1$" },
+            { "optionId": "opt2", "optionText": "$x = 2$" },
+            { "optionId": "opt3", "optionText": "$x = 3$" },
+            { "optionId": "opt4", "optionText": "$x = 4$" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "Solving $2x + 3 = 7$: $2x = 4$, so $x = 2$.",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q2",
+          "questionText": "What is the derivative of $f(x) = x^2$?",
+          "options": [
+            { "optionId": "opt1", "optionText": "$f'(x) = x$" },
+            { "optionId": "opt2", "optionText": "$f'(x) = 2x$" },
+            { "optionId": "opt3", "optionText": "$f'(x) = x^2$" },
+            { "optionId": "opt4", "optionText": "$f'(x) = 2x^2$" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "Using the power rule: $\\frac{d}{dx}x^2 = 2x$.",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 2,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    },
+    {
+      "id": "ch2",
+      "name": "Display Math",
+      "description": "Testing display KaTeX rendering",
+      "questions": [
+        {
+          "questionId": "q3",
+          "questionText": "What is the quadratic formula?",
+          "options": [
+            { "optionId": "opt1", "optionText": "$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$" },
+            { "optionId": "opt2", "optionText": "$$x = \\frac{b \\pm \\sqrt{b^2 - 4ac}}{2a}$$" },
+            { "optionId": "opt3", "optionText": "$$x = \\frac{-b \\pm \\sqrt{b^2 + 4ac}}{2a}$$" },
+            { "optionId": "opt4", "optionText": "$$x = \\frac{b \\pm \\sqrt{b^2 + 4ac}}{2a}$$" }
+          ],
+          "correctOptionIds": ["opt1"],
+          "explanationText": "The quadratic formula is: $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$ where $a \\neq 0$.",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q4",
+          "questionText": "What is the integral of $\\int x^2 dx$?",
+          "options": [
+            { "optionId": "opt1", "optionText": "$$\\frac{x^3}{3} + C$$" },
+            { "optionId": "opt2", "optionText": "$$\\frac{x^3}{2} + C$$" },
+            { "optionId": "opt3", "optionText": "$$x^3 + C$$" },
+            { "optionId": "opt4", "optionText": "$$\\frac{x^2}{3} + C$$" }
+          ],
+          "correctOptionIds": ["opt1"],
+          "explanationText": "Using the power rule for integration: $$\\int x^2 dx = \\frac{x^3}{3} + C$$",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 2,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    },
+    {
+      "id": "ch3",
+      "name": "Mixed Math",
+      "description": "Testing mixed inline and display math",
+      "questions": [
+        {
+          "questionId": "q5",
+          "questionText": "What is the limit as $x$ approaches $0$ of $\\frac{\\sin x}{x}$?",
+          "options": [
+            { "optionId": "opt1", "optionText": "$0$" },
+            { "optionId": "opt2", "optionText": "$1$" },
+            { "optionId": "opt3", "optionText": "$\\infty$" },
+            { "optionId": "opt4", "optionText": "Does not exist" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "This is a fundamental limit: $$\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$$",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 1,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    }
+  ]
+}

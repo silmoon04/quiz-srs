@@ -619,6 +619,153 @@ Comprehensive validation system:
 - **Result Visualization**: Clear test result display
 - **Debug Information**: Detailed debug output
 
+## 🧪 Testing & CI
+
+### Testing Framework
+
+#### **Unit Testing**
+- **Vitest**: Fast unit testing framework with Vite integration
+- **@testing-library/react**: React component testing utilities
+- **Coverage**: 90% coverage required for parser modules, 80% for components
+- **Watch Mode**: Real-time test execution during development
+
+#### **Integration Testing**
+- **Component Integration**: Test component interactions and state management
+- **Rendering Tests**: Verify component rendering with different props
+- **State Management**: Test complex state transitions and data flow
+
+#### **End-to-End Testing**
+- **Playwright**: Cross-browser E2E testing with built-in browser automation
+- **User Flows**: Complete user journey testing across the application
+- **Cross-browser**: Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
+- **Visual Testing**: Screenshot comparison and visual regression testing
+
+#### **Accessibility Testing**
+- **axe-core**: Automated accessibility testing with WCAG compliance
+- **Keyboard Navigation**: Focus management and tab order testing
+- **Screen Reader**: ARIA labels and landmarks validation
+- **Color Contrast**: Automated contrast ratio verification
+
+### Test Structure
+
+#### **Test Organization**
+```
+tests/
+├── unit/           # Unit tests for individual functions and components
+├── int/            # Integration tests for component interactions
+├── e2e/            # End-to-end tests for complete user flows
+├── access/         # Accessibility tests for WCAG compliance
+├── fixtures/       # Test data and mock files
+└── setup.ts        # Test configuration and setup
+```
+
+#### **Test Fixtures**
+- **Markdown Parser Tests**: Comprehensive test cases for markdown parsing
+- **LaTeX Rendering Tests**: Math expression rendering validation
+- **Validation Tests**: Schema validation and error handling
+- **Edge Cases**: Boundary conditions and error scenarios
+
+### Continuous Integration
+
+#### **CI Pipeline**
+1. **TypeScript Type Check**: Compile-time type validation
+2. **ESLint**: Code quality and style enforcement
+3. **Unit Tests**: Fast, isolated component and function tests
+4. **Integration Tests**: Component interaction and state management
+5. **Accessibility Tests**: WCAG compliance and screen reader support
+6. **E2E Tests**: Cross-browser user journey validation
+7. **Build**: Production build verification
+8. **Coverage Check**: Coverage threshold enforcement
+9. **Dependency Check**: Unused dependency and export analysis
+10. **Bundle Analysis**: Size monitoring and optimization insights
+
+#### **Coverage Thresholds**
+- **Parser modules** (`lib/schema/`): 90% coverage required
+- **Components**: 80% coverage required
+- **Global**: 80% coverage required
+
+#### **Quality Gates**
+- **Type Safety**: All TypeScript errors must be resolved
+- **Linting**: All ESLint warnings must be addressed
+- **Test Coverage**: Coverage thresholds must be met
+- **Accessibility**: No accessibility violations allowed
+- **Build Success**: Production build must complete successfully
+
+### Running Tests
+
+#### **Local Development**
+```bash
+# Run all tests
+npm run test
+
+# Run specific test suites
+npm run test:unit          # Unit tests
+npm run test:int           # Integration tests
+npm run test:e2e           # End-to-end tests
+npm run test:access        # Accessibility tests
+
+# Run tests in watch mode
+npm run test:unit:watch
+
+# Generate coverage report
+npm run coverage
+```
+
+#### **CI Checks**
+```bash
+# Type checking
+npm run typecheck
+
+# Linting
+npm run lint
+
+# Dependency analysis
+npm run depcheck
+
+# Bundle analysis
+npm run analyze
+```
+
+### Pre-commit Hooks
+
+#### **Automated Quality Checks**
+- **Lint-staged**: Runs ESLint and Prettier on staged files
+- **Type Checking**: Ensures TypeScript compilation success
+- **Test Execution**: Runs relevant tests for changed files
+- **Formatting**: Automatically formats code before commit
+
+#### **Git Hooks**
+- **pre-commit**: Runs lint-staged before commit
+- **prepare**: Installs husky hooks automatically
+
+### Test Data Management
+
+#### **Fixtures**
+- **Realistic Data**: Test fixtures based on actual usage patterns
+- **Edge Cases**: Boundary conditions and error scenarios
+- **Performance Data**: Large datasets for performance testing
+- **Accessibility Data**: Content with various accessibility requirements
+
+#### **Mock Data**
+- **API Responses**: Mock API responses for testing
+- **User Interactions**: Simulated user behavior patterns
+- **Error States**: Various error conditions and recovery
+- **Loading States**: Different loading and async scenarios
+
+### Performance Testing
+
+#### **Bundle Analysis**
+- **Size Monitoring**: Track bundle size changes over time
+- **Dependency Analysis**: Identify unused dependencies
+- **Code Splitting**: Verify optimal code splitting
+- **Tree Shaking**: Ensure dead code elimination
+
+#### **Runtime Performance**
+- **Component Rendering**: Measure component render times
+- **Memory Usage**: Monitor memory consumption patterns
+- **User Interactions**: Test responsiveness of user interactions
+- **Large Datasets**: Performance with large quiz modules
+
 ### Performance
 
 #### **Optimization**

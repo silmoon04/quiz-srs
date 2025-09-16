@@ -1845,12 +1845,37 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         const completedChapter = getCurrentChapter()
         if (!completedChapter) return null
 
+        // Calculate results for the completed chapter
+        const results = {
+          totalQuestions: completedChapter.totalQuestions,
+          correctAnswers: completedChapter.correctAnswers,
+          incorrectAnswers: completedChapter.totalQuestions - completedChapter.correctAnswers,
+          accuracy: completedChapter.totalQuestions > 0 
+            ? Math.round((completedChapter.correctAnswers / completedChapter.totalQuestions) * 100)
+            : 0
+        }
+
+        // Check if there are incorrect answers to export
+        const hasIncorrectAnswers = results.incorrectAnswers > 0
+
+        // Find next chapter
+        const currentChapterIndex = currentModule?.chapters.findIndex(c => c.id === completedChapter.id) ?? -1
+        const nextChapter = currentModule && currentChapterIndex >= 0 && currentChapterIndex < currentModule.chapters.length - 1 
+          ? currentModule.chapters[currentChapterIndex + 1] 
+          : null
+
         return (
           <QuizComplete
             chapter={completedChapter}
-            onRetryChapter={handleRetryChapter}
+            results={results}
+            onRetryQuiz={handleRetryChapter}
             onBackToDashboard={handleBackToDashboard}
-            isReviewSession={isReviewSessionActive}
+            onExportResults={handleExportState}
+            onLoadNewModule={() => setAppState("welcome")}
+            onExportIncorrectAnswers={handleExportIncorrectAnswers}
+            hasIncorrectAnswers={hasIncorrectAnswers}
+            nextChapterId={nextChapter?.id}
+            onStartChapterQuiz={handleStartQuiz}
           />
         )
 
