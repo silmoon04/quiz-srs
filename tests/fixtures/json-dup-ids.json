@@ -1,0 +1,73 @@
+{
+  "name": "Duplicate IDs Test",
+  "description": "Test module with duplicate IDs across chapters",
+  "chapters": [
+    {
+      "id": "ch1",
+      "name": "First Chapter",
+      "description": "Testing duplicate question IDs",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is 2 + 2?",
+          "options": [
+            { "optionId": "opt1", "optionText": "3" },
+            { "optionId": "opt2", "optionText": "4" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "2 + 2 equals 4",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q2",
+          "questionText": "What is 3 + 3?",
+          "options": [
+            { "optionId": "opt1", "optionText": "5" },
+            { "optionId": "opt2", "optionText": "6" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "3 + 3 equals 6",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 2,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    },
+    {
+      "id": "ch2",
+      "name": "Second Chapter",
+      "description": "Testing duplicate question and option IDs",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is 4 + 4?",
+          "options": [
+            { "optionId": "opt1", "optionText": "7" },
+            { "optionId": "opt2", "optionText": "8" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "4 + 4 equals 8",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q3",
+          "questionText": "What is 5 + 5?",
+          "options": [
+            { "optionId": "opt1", "optionText": "9" },
+            { "optionId": "opt2", "optionText": "10" },
+            { "optionId": "opt1", "optionText": "11" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "5 + 5 equals 10",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 2,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    }
+  ]
+}

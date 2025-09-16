@@ -9,7 +9,7 @@ interface QuizCompleteProps {
     id: string
     name: string
   }
-  results: {
+  results?: {
     totalQuestions: number
     correctAnswers: number
     incorrectAnswers: number
@@ -38,6 +38,7 @@ export function QuizComplete({
   onStartChapterQuiz,
 }: QuizCompleteProps) {
   const getPerformanceMessage = () => {
+    if (!results) return "No results available"
     if (results.accuracy >= 90) return "Outstanding! 🎉"
     if (results.accuracy >= 80) return "Excellent work! 👏"
     if (results.accuracy >= 70) return "Good job! 👍"
@@ -46,6 +47,7 @@ export function QuizComplete({
   }
 
   const getPerformanceColor = () => {
+    if (!results) return "text-gray-400"
     if (results.accuracy >= 80) return "text-green-400"
     if (results.accuracy >= 60) return "text-yellow-400"
     return "text-red-400"
@@ -77,29 +79,29 @@ export function QuizComplete({
           <CardContent className="space-y-6">
             {/* Score Display */}
             <div className="text-center">
-              <div className={`text-6xl font-bold ${getPerformanceColor()}`}>{results.accuracy}%</div>
+              <div className={`text-6xl font-bold ${getPerformanceColor()}`}>{results?.accuracy ?? 0}%</div>
               <p className="text-gray-300 mt-2">Overall Accuracy</p>
             </div>
 
             {/* Progress Bar */}
             <ProgressBar
-              current={results.correctAnswers}
-              total={results.totalQuestions}
-              variant={results.accuracy >= 70 ? "success" : results.accuracy >= 50 ? "warning" : "default"}
+              current={results?.correctAnswers ?? 0}
+              total={results?.totalQuestions ?? 0}
+              variant={results && results.accuracy >= 70 ? "success" : results && results.accuracy >= 50 ? "warning" : "default"}
             />
 
             {/* Detailed Stats */}
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-white">{results.totalQuestions}</div>
+                <div className="text-2xl font-bold text-white">{results?.totalQuestions ?? 0}</div>
                 <div className="text-sm text-gray-300">Total Questions</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-green-400">{results.correctAnswers}</div>
+                <div className="text-2xl font-bold text-green-400">{results?.correctAnswers ?? 0}</div>
                 <div className="text-sm text-gray-300">Correct</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-red-400">{results.incorrectAnswers}</div>
+                <div className="text-2xl font-bold text-red-400">{results?.incorrectAnswers ?? 0}</div>
                 <div className="text-sm text-gray-300">Incorrect</div>
               </div>
             </div>

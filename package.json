@@ -6,7 +6,21 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:int": "vitest run --config vitest.config.integration.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:access": "vitest run --config vitest.config.accessibility.ts",
+    "test": "npm run test:unit && npm run test:int && npm run test:access",
+    "coverage": "vitest run --coverage",
+    "mutation": "echo 'Mutation testing not implemented yet'",
+    "analyze": "ANALYZE=true next build",
+    "depcheck": "depcheck",
+    "prune:exports": "ts-prune",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -63,11 +77,39 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.10.2",
+    "@next/bundle-analyzer": "^15.5.3",
+    "@playwright/test": "^1.55.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.0.2",
+    "axe-core": "^4.10.3",
+    "depcheck": "^1.4.7",
+    "fast-check": "^4.3.0",
+    "husky": "^9.1.7",
+    "jest-axe": "^10.0.0",
+    "jsdom": "^27.0.0",
+    "lint-staged": "^16.1.6",
+    "playwright": "^1.55.0",
     "postcss": "^8.5",
+    "prettier": "^3.6.2",
+    "size-limit": "^11.2.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "ts-prune": "^0.10.3",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
