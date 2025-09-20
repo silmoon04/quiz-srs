@@ -1,64 +1,90 @@
 # Missing IDs Test
 
+---
+
 ## Chapter 1: Questions without explicit IDs
 
-### Question: What is 5 + 3?
+---
+
+### Q: What is 5 + 3?
+
 **Options:**
-- A) 6
-- B) 7
-- C) 8
-- D) 9
 
-**Correct:** C
+- **A1:** 6
+- **A2:** 7
+- **A3:** 8
+- **A4:** 9
 
-**Explanation:** 5 + 3 equals 8.
+**Correct:** A3
 
-### Question: What is the capital of Japan?
+**Exp:** 5 + 3 equals 8.
+
+---
+
+### Q: What is the capital of Japan?
+
 **Options:**
-- A) Osaka
-- B) Tokyo
-- C) Kyoto
-- D) Hiroshima
 
-**Correct:** B
+- **A1:** Osaka
+- **A2:** Tokyo
+- **A3:** Kyoto
+- **A4:** Hiroshima
 
-**Explanation:** Tokyo is the capital and largest city of Japan.
+**Correct:** A2
 
-### Question: Which is the largest planet?
+**Exp:** Tokyo is the capital and largest city of Japan.
+
+---
+
+### Q: Which is the largest planet?
+
 **Options:**
-- A) Earth
-- B) Jupiter
-- C) Saturn
-- D) Neptune
 
-**Correct:** B
+- **A1:** Earth
+- **A2:** Jupiter
+- **A3:** Saturn
+- **A4:** Neptune
 
-**Explanation:** Jupiter is the largest planet in our solar system.
+**Correct:** A2
+
+**Exp:** Jupiter is the largest planet in our solar system.
+
+---
 
 ## Chapter 2: Mixed ID scenarios
 
-### Question 4: Has explicit ID
+---
+
+### Q: Has explicit ID <!-- ID:explicit_q -->
+
 What is 10 ÷ 2?
 
 **Options:**
-- A) 3
-- B) 4
-- C) 5
-- D) 6
 
-**Correct:** C
+- **A1:** 3
+- **A2:** 4
+- **A3:** 5
+- **A4:** 6
 
-**Explanation:** 10 ÷ 2 equals 5.
+**Correct:** A3
 
-### Question: No ID specified
+**Exp:** 10 ÷ 2 equals 5.
+
+---
+
+### Q: No ID specified
+
 What is the square root of 16?
 
 **Options:**
-- A) 2
-- B) 3
-- C) 4
-- D) 5
 
-**Correct:** C
+- **A1:** 2
+- **A2:** 3
+- **A3:** 4
+- **A4:** 5
 
-**Explanation:** The square root of 16 is 4, because 4 × 4 = 16.
+**Correct:** A3
+
+**Exp:** The square root of 16 is 4, because 4 × 4 = 16.
+
+---

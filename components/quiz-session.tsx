@@ -1,12 +1,12 @@
-"use client"
-import { useState, useEffect, useRef, useMemo } from "react"
-import type React from "react"
+"use client";
+import { useState, useEffect, useRef, useMemo } from "react";
+import type React from "react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { TextRenderer } from "./text-renderer"
-import { OptionCard } from "./option-card"
-import { QuestionNavigationMenu } from "./question-navigation-menu"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SecureTextRenderer } from "./secure-text-renderer";
+import { OptionCard } from "./option-card";
+import { QuestionNavigationMenu } from "./question-navigation-menu";
 import {
   ArrowLeft,
   ArrowRight,
@@ -20,7 +20,7 @@ import {
   Plus,
   Home,
   List,
-} from "lucide-react"
+} from "lucide-react";
 import type {
   QuizChapter,
   QuizQuestion,
@@ -28,46 +28,54 @@ import type {
   SrsProgressCounts,
   SessionHistoryEntry,
   QuizModule,
-} from "@/types/quiz-types"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { QuestionEditor } from "./question-editor"
-import { CircularProgress } from "@/components/ui/circular-progress"
-import { ProgressBar } from "./progress-bar"
+} from "@/types/quiz-types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { QuestionEditor } from "./question-editor";
+import { CircularProgress } from "@/components/ui/circular-progress";
+import { ProgressBar } from "./progress-bar";
 
 interface QuizSessionProps {
-  chapter: QuizChapter
-  question: QuizQuestion
-  currentQuestionIndex: number
-  totalQuestions: number
-  selectedOptionId: string | null
-  isSubmitted: boolean
-  isReviewSession?: boolean
-  srsProgressCounts?: SrsProgressCounts
-  currentModule?: QuizModule
+  chapter: QuizChapter;
+  question: QuizQuestion;
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  selectedOptionId: string | null;
+  isSubmitted: boolean;
+  isReviewSession?: boolean;
+  srsProgressCounts?: SrsProgressCounts;
+  currentModule?: QuizModule;
   // Session History Navigation Props
-  sessionHistory?: SessionHistoryEntry[]
-  currentHistoryViewIndex?: number | null
+  sessionHistory?: SessionHistoryEntry[];
+  currentHistoryViewIndex?: number | null;
   // Edit Mode Props - Phase 1
-  isEditModeActive?: boolean
-  editingQuestionData?: QuizQuestion | null
-  onSetEditMode?: (question: QuizQuestion | null) => void
-  onSaveQuestion?: (question: QuizQuestion) => void
-  onDeleteQuestion?: (questionId: string) => void
-  generateUniqueQuestionId?: (chapterId: string) => string
-  generateUniqueOptionId?: (questionId: string, existingOptionIds: string[]) => string
-  onSelectOption: (optionId: string) => void
-  onSubmitAnswer: (displayedOptions: DisplayedOption[]) => void
-  onNextQuestion: () => void
-  onBackToDashboard: () => void
-  onExportCurrentQuestionState: () => void
-  onImportQuestionStateFromFile: (file: File) => void
-  onRetryChapter: () => void
-  onNavigateToQuestion: (questionIndex: number) => void
+  isEditModeActive?: boolean;
+  editingQuestionData?: QuizQuestion | null;
+  onSetEditMode?: (question: QuizQuestion | null) => void;
+  onSaveQuestion?: (question: QuizQuestion) => void;
+  onDeleteQuestion?: (questionId: string) => void;
+  generateUniqueQuestionId?: (chapterId: string) => string;
+  generateUniqueOptionId?: (
+    questionId: string,
+    existingOptionIds: string[],
+  ) => string;
+  onSelectOption: (optionId: string) => void;
+  onSubmitAnswer: (displayedOptions: DisplayedOption[]) => void;
+  onNextQuestion: () => void;
+  onBackToDashboard: () => void;
+  onExportCurrentQuestionState: () => void;
+  onImportQuestionStateFromFile: (file: File) => void;
+  onRetryChapter: () => void;
+  onNavigateToQuestion: (questionIndex: number) => void;
   // Session History Navigation Handlers
-  onViewPrevious?: () => void
-  onViewNextInHistory?: () => void
+  onViewPrevious?: () => void;
+  onViewNextInHistory?: () => void;
   // NEW: All Questions View Handler
-  onViewAllQuestions?: () => void
+  onViewAllQuestions?: () => void;
 }
 
 export function QuizSession({
@@ -102,10 +110,13 @@ export function QuizSession({
   onViewNextInHistory,
   onViewAllQuestions,
 }: QuizSessionProps) {
-  const [displayedOptionsCache, setDisplayedOptionsCache] = useState<DisplayedOption[]>([])
-  const [targetCorrectOptionForFeedback, setTargetCorrectOptionForFeedback] = useState<string | null>(null)
+  const [displayedOptionsCache, setDisplayedOptionsCache] = useState<
+    DisplayedOption[]
+  >([]);
+  const [targetCorrectOptionForFeedback, setTargetCorrectOptionForFeedback] =
+    useState<string | null>(null);
 
-  const importFileInputRef = useRef<HTMLInputElement>(null)
+  const importFileInputRef = useRef<HTMLInputElement>(null);
 
   // FIXED: Correctly access props for history state
   const isViewingHistoricalEntry =
@@ -113,138 +124,194 @@ export function QuizSession({
     currentHistoryViewIndex >= 0 &&
     sessionHistory &&
     sessionHistory.length > 0 &&
-    currentHistoryViewIndex < sessionHistory.length
+    currentHistoryViewIndex < sessionHistory.length;
 
-  const historicalEntry = isViewingHistoricalEntry ? sessionHistory[currentHistoryViewIndex] : null
+  const historicalEntry = isViewingHistoricalEntry
+    ? sessionHistory[currentHistoryViewIndex]
+    : null;
 
   // Use historical data when viewing history, otherwise use live data
-  const displayQuestion = historicalEntry ? historicalEntry.questionSnapshot : question
-  const displaySelectedOptionId = historicalEntry ? historicalEntry.selectedOptionId : selectedOptionId
-  const displayIsSubmitted = historicalEntry ? true : isSubmitted // Historical entries are always "submitted"
-  const displayDisplayedOptions = historicalEntry ? historicalEntry.displayedOptions : displayedOptionsCache
+  const displayQuestion = historicalEntry
+    ? historicalEntry.questionSnapshot
+    : question;
+  const displaySelectedOptionId = historicalEntry
+    ? historicalEntry.selectedOptionId
+    : selectedOptionId;
+  const displayIsSubmitted = historicalEntry ? true : isSubmitted; // Historical entries are always "submitted"
+  const displayDisplayedOptions = historicalEntry
+    ? historicalEntry.displayedOptions
+    : displayedOptionsCache;
 
-  const handleImportFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+  const handleImportFileSelect = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
     if (file) {
-      onImportQuestionStateFromFile(file)
+      onImportQuestionStateFromFile(file);
     }
     if (importFileInputRef.current) {
-      importFileInputRef.current.value = "" // Reset file input
+      importFileInputRef.current.value = ""; // Reset file input
     }
-  }
+  };
 
   const triggerImportFileInput = () => {
-    importFileInputRef.current?.click()
-  }
+    importFileInputRef.current?.click();
+  };
 
-  console.log("Quiz Session - isSubmitted:", displayIsSubmitted)
-  console.log("Quiz Session - question:", displayQuestion.questionId)
-  console.log("Quiz Session - isViewingHistoricalEntry:", isViewingHistoricalEntry)
+  console.log("Quiz Session - isSubmitted:", displayIsSubmitted);
+  console.log("Quiz Session - question:", displayQuestion.questionId);
+  console.log(
+    "Quiz Session - isViewingHistoricalEntry:",
+    isViewingHistoricalEntry,
+  );
 
   // FIXED: Stable display options for historical view
   useEffect(() => {
     if (isViewingHistoricalEntry && historicalEntry) {
       // Use historical displayed options directly
-      setDisplayedOptionsCache(historicalEntry.displayedOptions)
-      setTargetCorrectOptionForFeedback(null) // Not relevant for historical views
-      console.log(`Using historical options for question: ${historicalEntry.questionSnapshot.questionId}`)
-      return
+      setDisplayedOptionsCache(historicalEntry.displayedOptions);
+      setTargetCorrectOptionForFeedback(null); // Not relevant for historical views
+      console.log(
+        `Using historical options for question: ${historicalEntry.questionSnapshot.questionId}`,
+      );
+      return;
     }
 
     // Generate options only for live questions (not historical)
-    console.log(`=== Generating options for live question: ${question.questionId} ===`)
+    console.log(
+      `=== Generating options for live question: ${question.questionId} ===`,
+    );
 
     const generateDisplayedOptions = (): DisplayedOption[] => {
-      const maxDisplayOptions = 5
-      const correctOptions = question.options.filter((opt) => question.correctOptionIds.includes(opt.optionId))
-      const incorrectOptions = question.options.filter((opt) => !question.correctOptionIds.includes(opt.optionId))
+      const maxDisplayOptions = 5;
+      const correctOptions = question.options.filter((opt) =>
+        question.correctOptionIds.includes(opt.optionId),
+      );
+      const incorrectOptions = question.options.filter(
+        (opt) => !question.correctOptionIds.includes(opt.optionId),
+      );
 
-      const shownIncorrectIds = question.shownIncorrectOptionIds || []
-      const unshownIncorrectOptions = incorrectOptions.filter((opt) => !shownIncorrectIds.includes(opt.optionId))
-      const shownIncorrectOptions = incorrectOptions.filter((opt) => shownIncorrectIds.includes(opt.optionId))
+      const shownIncorrectIds = question.shownIncorrectOptionIds || [];
+      const unshownIncorrectOptions = incorrectOptions.filter(
+        (opt) => !shownIncorrectIds.includes(opt.optionId),
+      );
+      const shownIncorrectOptions = incorrectOptions.filter((opt) =>
+        shownIncorrectIds.includes(opt.optionId),
+      );
 
-      const selectedOptions: DisplayedOption[] = []
+      const selectedOptions: DisplayedOption[] = [];
 
       if (correctOptions.length > 0) {
-        const correctIndex = question.srsLevel ? question.srsLevel % correctOptions.length : 0
-        const selectedCorrectOption = correctOptions[correctIndex] || correctOptions[0]
+        const correctIndex = question.srsLevel
+          ? question.srsLevel % correctOptions.length
+          : 0;
+        const selectedCorrectOption =
+          correctOptions[correctIndex] || correctOptions[0];
         selectedOptions.push({
           ...selectedCorrectOption,
           isCorrect: true,
-        })
+        });
       }
 
-      const remainingSlots = maxDisplayOptions - selectedOptions.length
+      const remainingSlots = maxDisplayOptions - selectedOptions.length;
 
-      const shuffledUnshown = [...unshownIncorrectOptions].sort(() => Math.random() - 0.5)
-      for (let i = 0; i < Math.min(remainingSlots, shuffledUnshown.length); i++) {
+      const shuffledUnshown = [...unshownIncorrectOptions].sort(
+        () => Math.random() - 0.5,
+      );
+      for (
+        let i = 0;
+        i < Math.min(remainingSlots, shuffledUnshown.length);
+        i++
+      ) {
         selectedOptions.push({
           ...shuffledUnshown[i],
           isCorrect: false,
-        })
+        });
       }
 
-      const remainingSlotsAfterUnshown = maxDisplayOptions - selectedOptions.length
+      const remainingSlotsAfterUnshown =
+        maxDisplayOptions - selectedOptions.length;
       if (remainingSlotsAfterUnshown > 0 && shownIncorrectOptions.length > 0) {
-        const shuffledShown = [...shownIncorrectOptions].sort(() => Math.random() - 0.5)
-        for (let i = 0; i < Math.min(remainingSlotsAfterUnshown, shuffledShown.length); i++) {
+        const shuffledShown = [...shownIncorrectOptions].sort(
+          () => Math.random() - 0.5,
+        );
+        for (
+          let i = 0;
+          i < Math.min(remainingSlotsAfterUnshown, shuffledShown.length);
+          i++
+        ) {
           selectedOptions.push({
             ...shuffledShown[i],
             isCorrect: false,
-          })
+          });
         }
       }
 
-      const remainingSlotsAfterIncorrect = maxDisplayOptions - selectedOptions.length
+      const remainingSlotsAfterIncorrect =
+        maxDisplayOptions - selectedOptions.length;
       const remainingCorrect = correctOptions.filter(
-        (opt) => !selectedOptions.some((selected) => selected.optionId === opt.optionId),
-      )
+        (opt) =>
+          !selectedOptions.some(
+            (selected) => selected.optionId === opt.optionId,
+          ),
+      );
 
-      for (let i = 0; i < Math.min(remainingSlotsAfterIncorrect, remainingCorrect.length); i++) {
+      for (
+        let i = 0;
+        i < Math.min(remainingSlotsAfterIncorrect, remainingCorrect.length);
+        i++
+      ) {
         selectedOptions.push({
           ...remainingCorrect[i],
           isCorrect: true,
-        })
+        });
       }
 
-      const finalOptions = selectedOptions.sort(() => Math.random() - 0.5)
+      const finalOptions = selectedOptions.sort(() => Math.random() - 0.5);
 
-      console.log(`Generated ${finalOptions.length} options for display:`)
+      console.log(`Generated ${finalOptions.length} options for display:`);
       finalOptions.forEach((opt, index) => {
-        console.log(`  ${index + 1}. ${opt.optionId} (${opt.isCorrect ? "CORRECT" : "incorrect"})`)
-      })
+        console.log(
+          `  ${index + 1}. ${opt.optionId} (${opt.isCorrect ? "CORRECT" : "incorrect"})`,
+        );
+      });
 
-      return finalOptions
-    }
+      return finalOptions;
+    };
 
-    const newDisplayedOptions = generateDisplayedOptions()
-    setDisplayedOptionsCache(newDisplayedOptions)
-    setTargetCorrectOptionForFeedback(null)
+    const newDisplayedOptions = generateDisplayedOptions();
+    setDisplayedOptionsCache(newDisplayedOptions);
+    setTargetCorrectOptionForFeedback(null);
 
-    console.log(`Options cached for question ${question.questionId} - will remain stable during feedback`)
-  }, [question.questionId, isViewingHistoricalEntry, historicalEntry])
+    console.log(
+      `Options cached for question ${question.questionId} - will remain stable during feedback`,
+    );
+  }, [question.questionId, isViewingHistoricalEntry, historicalEntry]);
 
   // FIXED: Accurate feedback for historical answers
   const getOptionDisplayState = (option: DisplayedOption) => {
     if (isViewingHistoricalEntry && historicalEntry) {
       // Historical view logic
-      const isSelected = historicalEntry.selectedOptionId === option.optionId
-      const userWasCorrect = historicalEntry.isCorrect
-      const optionIsActuallyCorrect = historicalEntry.questionSnapshot.correctOptionIds.includes(option.optionId)
+      const isSelected = historicalEntry.selectedOptionId === option.optionId;
+      const userWasCorrect = historicalEntry.isCorrect;
+      const optionIsActuallyCorrect =
+        historicalEntry.questionSnapshot.correctOptionIds.includes(
+          option.optionId,
+        );
 
       if (isSelected) {
         return {
           isSelected: true,
           showAsCorrect: userWasCorrect,
           showAsIncorrect: !userWasCorrect,
-        }
+        };
       } else {
         // Not selected by user - highlight correct answer if user was wrong
         return {
           isSelected: false,
           showAsCorrect: !userWasCorrect && optionIsActuallyCorrect,
           showAsIncorrect: false,
-        }
+        };
       }
     }
 
@@ -254,130 +321,152 @@ export function QuizSession({
         isSelected: displaySelectedOptionId === option.optionId,
         showAsCorrect: false,
         showAsIncorrect: false,
-      }
+      };
     }
 
-    const isSelected = displaySelectedOptionId === option.optionId
-    const isCorrectOption = displayQuestion.correctOptionIds.includes(option.optionId)
+    const isSelected = displaySelectedOptionId === option.optionId;
+    const isCorrectOption = displayQuestion.correctOptionIds.includes(
+      option.optionId,
+    );
     const selectedWasCorrect = displaySelectedOptionId
       ? displayQuestion.correctOptionIds.includes(displaySelectedOptionId)
-      : false
+      : false;
 
     if (selectedWasCorrect) {
       return {
         isSelected,
         showAsCorrect: isSelected && isCorrectOption,
         showAsIncorrect: false,
-      }
+      };
     } else {
       if (isSelected) {
         return {
           isSelected,
           showAsCorrect: false,
           showAsIncorrect: true,
-        }
+        };
       } else if (option.optionId === targetCorrectOptionForFeedback) {
         return {
           isSelected: false,
           showAsCorrect: true,
           showAsIncorrect: false,
-        }
+        };
       } else {
         return {
           isSelected: false,
           showAsCorrect: false,
           showAsIncorrect: false,
-        }
+        };
       }
     }
-  }
+  };
 
   const handleSubmitAnswer = () => {
-    if (!selectedOptionId || isViewingHistoricalEntry) return
+    if (!selectedOptionId || isViewingHistoricalEntry) return;
 
     // Add validation for correctOptionIds
-    if (!question.correctOptionIds || !Array.isArray(question.correctOptionIds)) {
-      console.error("Question missing correctOptionIds:", question.questionId)
-      return
+    if (
+      !question.correctOptionIds ||
+      !Array.isArray(question.correctOptionIds)
+    ) {
+      console.error("Question missing correctOptionIds:", question.questionId);
+      return;
     }
 
-    console.log(`=== Submitting answer for question: ${question.questionId} ===`)
-    console.log(`Selected option: ${selectedOptionId}`)
+    console.log(
+      `=== Submitting answer for question: ${question.questionId} ===`,
+    );
+    console.log(`Selected option: ${selectedOptionId}`);
     console.log(
       `Options being submitted:`,
       displayedOptionsCache.map((opt) => opt.optionId),
-    )
+    );
 
-    const selectedWasCorrect = question.correctOptionIds.includes(selectedOptionId)
+    const selectedWasCorrect =
+      question.correctOptionIds.includes(selectedOptionId);
     if (!selectedWasCorrect) {
       const displayedCorrectOptions = displayedOptionsCache.filter((opt) =>
         question.correctOptionIds.includes(opt.optionId),
-      )
+      );
 
       if (displayedCorrectOptions.length > 0) {
         const targetOption =
           question.correctOptionIds.find((correctId) =>
-            displayedCorrectOptions.some((displayed) => displayed.optionId === correctId),
-          ) || displayedCorrectOptions[0].optionId
+            displayedCorrectOptions.some(
+              (displayed) => displayed.optionId === correctId,
+            ),
+          ) || displayedCorrectOptions[0].optionId;
 
-        setTargetCorrectOptionForFeedback(targetOption)
-        console.log(`Set target correct option for feedback: ${targetOption}`)
+        setTargetCorrectOptionForFeedback(targetOption);
+        console.log(`Set target correct option for feedback: ${targetOption}`);
       } else {
-        setTargetCorrectOptionForFeedback(question.correctOptionIds[0])
-        console.log(`Fallback target correct option: ${question.correctOptionIds[0]}`)
+        setTargetCorrectOptionForFeedback(question.correctOptionIds[0]);
+        console.log(
+          `Fallback target correct option: ${question.correctOptionIds[0]}`,
+        );
       }
     }
 
-    onSubmitAnswer(displayedOptionsCache)
-  }
+    onSubmitAnswer(displayedOptionsCache);
+  };
 
   const processExplanationText = (explanationText: string): string => {
-    let processedText = explanationText
+    let processedText = explanationText;
 
     // First, handle option IDs wrapped in <code> tags (existing functionality)
-    processedText = processedText.replace(/<code>(.*?)<\/code>/g, (match, optionId) => {
-      const option = displayQuestion.options.find((opt) => opt.optionId === optionId)
-      if (option) {
-        return `<code>${option.optionText}</code>`
-      } else {
-        console.warn(`Option ID ${optionId} not found in question ${displayQuestion.questionId}`)
-        return match
-      }
-    })
+    processedText = processedText.replace(
+      /<code>(.*?)<\/code>/g,
+      (match, optionId) => {
+        const option = displayQuestion.options.find(
+          (opt) => opt.optionId === optionId,
+        );
+        if (option) {
+          return `<code>${option.optionText}</code>`;
+        } else {
+          console.warn(
+            `Option ID ${optionId} not found in question ${displayQuestion.questionId}`,
+          );
+          return match;
+        }
+      },
+    );
 
     // Then, replace any bare option IDs with their corresponding option text
     // This handles option IDs that appear directly in the explanation text
     displayQuestion.options.forEach((option) => {
-      const optionIdPattern = new RegExp(`\\b${option.optionId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "g")
+      const optionIdPattern = new RegExp(
+        `\\b${option.optionId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        "g",
+      );
 
       processedText = processedText.replace(optionIdPattern, (match) => {
         // Check if this option ID is the currently selected option
-        const isSelectedOption = displaySelectedOptionId === option.optionId
+        const isSelectedOption = displaySelectedOptionId === option.optionId;
 
         if (isSelectedOption) {
           // Highlight the selected option text
-          return `<strong class="text-blue-300">"${option.optionText}"</strong>`
+          return `<strong class="text-blue-300">"${option.optionText}"</strong>`;
         } else {
           // Regular option text replacement
-          return `"${option.optionText}"`
+          return `"${option.optionText}"`;
         }
-      })
-    })
+      });
+    });
 
-    return processedText
-  }
+    return processedText;
+  };
 
   // Enhanced chapter name parsing for better formatting
   const parseChapterName = (name: string) => {
     // Match patterns like "Chapter X:" or "Chapter XX:" at the beginning
-    const chapterMatch = name.match(/^(Chapter\s+\d+):\s*(.*)$/i)
+    const chapterMatch = name.match(/^(Chapter\s+\d+):\s*(.*)$/i);
 
     if (chapterMatch) {
       return {
         chapterNumber: chapterMatch[1], // e.g., "Chapter 1"
         chapterTitle: chapterMatch[2].trim(), // e.g., "Fundamentals of Algorithms & Complexity"
         hasChapterNumber: true,
-      }
+      };
     }
 
     // Fallback for names that don't follow the "Chapter X:" pattern
@@ -385,50 +474,60 @@ export function QuizSession({
       chapterNumber: "",
       chapterTitle: name,
       hasChapterNumber: false,
-    }
-  }
+    };
+  };
 
   const getHeaderTitle = () => {
     if (isReviewSession) {
-      return `Review Session`
+      return `Review Session`;
     }
-    return parseChapterName(chapter.name)
-  }
+    return parseChapterName(chapter.name);
+  };
 
   const getProgressInfo = () => {
     if (isReviewSession) {
-      return ""
+      return "";
     }
-    return "Chapter Progress"
-  }
+    return "Chapter Progress";
+  };
 
-  const headerInfo = getHeaderTitle()
+  const headerInfo = getHeaderTitle();
 
   // FIXED: Navigation button visibility and state logic using props
-  const canViewPrevious = isViewingHistoricalEntry || (isSubmitted && sessionHistory && sessionHistory.length > 0)
+  const canViewPrevious =
+    isViewingHistoricalEntry ||
+    (isSubmitted && sessionHistory && sessionHistory.length > 0);
 
   const canViewNextInHistory =
-    isViewingHistoricalEntry && currentHistoryViewIndex !== null && currentHistoryViewIndex < sessionHistory.length - 1
+    isViewingHistoricalEntry &&
+    currentHistoryViewIndex !== null &&
+    currentHistoryViewIndex < sessionHistory.length - 1;
 
   const shouldShowNextQuestion =
     (!isViewingHistoricalEntry && isSubmitted) ||
     (isViewingHistoricalEntry &&
       currentHistoryViewIndex !== null &&
-      currentHistoryViewIndex === sessionHistory.length - 1)
+      currentHistoryViewIndex === sessionHistory.length - 1);
 
   // Calculate progress and score percentages
   const progressPercentage = useMemo(() => {
-    return totalQuestions > 0 ? Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100) : 0
-  }, [currentQuestionIndex, totalQuestions])
+    return totalQuestions > 0
+      ? Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100)
+      : 0;
+  }, [currentQuestionIndex, totalQuestions]);
 
   const scorePercentage = useMemo(() => {
-    if (!currentModule) return 0
-    const currentChapter = currentModule.chapters.find((c) => c.id === chapter.id)
-    if (!currentChapter) return 0
+    if (!currentModule) return 0;
+    const currentChapter = currentModule.chapters.find(
+      (c) => c.id === chapter.id,
+    );
+    if (!currentChapter) return 0;
     return currentChapter.totalQuestions > 0
-      ? Math.round((currentChapter.correctAnswers / currentChapter.totalQuestions) * 100)
-      : 0
-  }, [currentModule, chapter.id])
+      ? Math.round(
+          (currentChapter.correctAnswers / currentChapter.totalQuestions) * 100,
+        )
+      : 0;
+  }, [currentModule, chapter.id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950">
@@ -438,8 +537,9 @@ export function QuizSession({
           <div className="flex items-center gap-4">
             {/* Progress Section */}
             <div className="flex items-center gap-3 flex-1">
-              
-              <span className="font-medium text-blue-300 min-w-[3rem] text-lg text-right">{progressPercentage}%</span>
+              <span className="font-medium text-blue-300 min-w-[3rem] text-lg text-right">
+                {progressPercentage}%
+              </span>
               <ProgressBar
                 current={currentQuestionIndex + 1}
                 total={totalQuestions}
@@ -453,8 +553,14 @@ export function QuizSession({
             {/* Score Section */}
             <div className="flex items-center gap-3">
               <Brain className="w-5 h-5 text-green-300 flex-shrink-0" />
-              <span className="text-sm font-medium text-green-300 whitespace-nowrap">Score:</span>
-              <CircularProgress value={scorePercentage} size={32} className="text-green-400" />
+              <span className="text-sm font-medium text-green-300 whitespace-nowrap">
+                Score:
+              </span>
+              <CircularProgress
+                value={scorePercentage}
+                size={32}
+                className="text-green-400"
+              />
             </div>
           </div>
         </div>
@@ -478,11 +584,14 @@ export function QuizSession({
                           // Get chapter name for display
                           const chapterNameForDisplay =
                             isViewingHistoricalEntry && historicalEntry
-                              ? currentModule?.chapters.find((c) => c.id === historicalEntry.chapterId)?.name ||
-                                chapter.name
-                              : chapter.name
+                              ? currentModule?.chapters.find(
+                                  (c) => c.id === historicalEntry.chapterId,
+                                )?.name || chapter.name
+                              : chapter.name;
 
-                          const parsedChapterName = parseChapterName(chapterNameForDisplay)
+                          const parsedChapterName = parseChapterName(
+                            chapterNameForDisplay,
+                          );
 
                           if (parsedChapterName.hasChapterNumber) {
                             return (
@@ -494,20 +603,21 @@ export function QuizSession({
                                   {parsedChapterName.chapterTitle}
                                 </div>
                               </div>
-                            )
+                            );
                           } else {
                             return (
                               <p className="text-lg text-orange-300 mt-1 break-words font-medium">
                                 {parsedChapterName.chapterTitle}
                               </p>
-                            )
+                            );
                           }
                         })()}
                       </div>
                     </div>
                   ) : (
                     <div>
-                      {typeof headerInfo === "object" && headerInfo.hasChapterNumber ? (
+                      {typeof headerInfo === "object" &&
+                      headerInfo.hasChapterNumber ? (
                         <div>
                           <div className="text-xl font-semibold text-blue-300 break-words hyphens-auto">
                             {headerInfo.chapterNumber}
@@ -518,17 +628,25 @@ export function QuizSession({
                         </div>
                       ) : (
                         <h1 className="text-3xl font-bold text-white leading-tight break-words hyphens-auto">
-                          {typeof headerInfo === "string" ? headerInfo : chapter.name}
+                          {typeof headerInfo === "string"
+                            ? headerInfo
+                            : chapter.name}
                         </h1>
                       )}
                     </div>
                   )}
                 </div>
               </div>
-              <p className="text-gray-400 break-words text-base">{getProgressInfo()}</p>
-              {isReviewSession && displayQuestion.srsLevel !== undefined && displayQuestion.srsLevel > 0 && (
-                <p className="text-sm text-blue-400 mt-2">SRS Level: {displayQuestion.srsLevel}</p>
-              )}
+              <p className="text-gray-400 break-words text-base">
+                {getProgressInfo()}
+              </p>
+              {isReviewSession &&
+                displayQuestion.srsLevel !== undefined &&
+                displayQuestion.srsLevel > 0 && (
+                  <p className="text-sm text-blue-400 mt-2">
+                    SRS Level: {displayQuestion.srsLevel}
+                  </p>
+                )}
             </div>
 
             <TooltipProvider>
@@ -605,7 +723,9 @@ export function QuizSession({
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-medium text-red-300 flex items-center gap-1 min-w-0 flex-1">
                         <Clock className="w-4 h-4 flex-shrink-0" />
-                        <span className="break-words">New/Lapsing (Due Now)</span>
+                        <span className="break-words">
+                          New/Lapsing (Due Now)
+                        </span>
                       </span>
                       <span className="text-sm text-red-200 tabular-nums flex-shrink-0">
                         {srsProgressCounts.newOrLapsingDue}
@@ -644,8 +764,10 @@ export function QuizSession({
 
                 <div className="text-center pt-4 border-t border-indigo-800">
                   <span className="text-sm text-indigo-200 break-words">
-                    Active Workload: {srsProgressCounts.newOrLapsingDue + srsProgressCounts.learningReviewDue} of{" "}
-                    {srsProgressCounts.totalNonMastered} non-mastered
+                    Active Workload:{" "}
+                    {srsProgressCounts.newOrLapsingDue +
+                      srsProgressCounts.learningReviewDue}{" "}
+                    of {srsProgressCounts.totalNonMastered} non-mastered
                   </span>
                 </div>
               </CardContent>
@@ -666,12 +788,14 @@ export function QuizSession({
           <Card className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 backdrop-blur-sm shadow-lg">
             <CardHeader>
               <CardTitle className="text-white text-lg break-words">
-                {isReviewSession ? `Review Question` : `Question ${currentQuestionIndex + 1}`}
+                {isReviewSession
+                  ? `Review Question`
+                  : `Question ${currentQuestionIndex + 1}`}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="prose prose-invert max-w-none">
-                <TextRenderer
+                <SecureTextRenderer
                   content={displayQuestion.questionText}
                   className="text-white text-lg leading-relaxed break-words"
                 />
@@ -681,10 +805,12 @@ export function QuizSession({
 
           {/* Options - Clean layout */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white break-words">Choose your answer:</h3>
+            <h3 className="text-lg font-semibold text-white break-words">
+              Choose your answer:
+            </h3>
             <div className="space-y-3">
               {displayDisplayedOptions.map((option) => {
-                const displayState = getOptionDisplayState(option)
+                const displayState = getOptionDisplayState(option);
                 return (
                   <OptionCard
                     key={option.optionId}
@@ -696,7 +822,7 @@ export function QuizSession({
                     onSelect={() => onSelectOption(option.optionId)}
                     disabled={displayIsSubmitted || isViewingHistoricalEntry}
                   />
-                )
+                );
               })}
             </div>
           </div>
@@ -705,13 +831,17 @@ export function QuizSession({
           {displayIsSubmitted && (
             <Card className="bg-gradient-to-r from-slate-900 to-slate-950 border-slate-700 backdrop-blur-sm shadow-lg">
               <CardHeader>
-                <CardTitle className="text-slate-200 text-lg">Explanation</CardTitle>
+                <CardTitle className="text-slate-200 text-lg">
+                  Explanation
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="prose prose-invert max-w-none">
-                  <TextRenderer
+                  <SecureTextRenderer
                     key={`explanation-${displayQuestion.questionId}-${displayIsSubmitted}`}
-                    content={processExplanationText(displayQuestion.explanationText)}
+                    content={processExplanationText(
+                      displayQuestion.explanationText,
+                    )}
                     className="text-white leading-relaxed text-base break-words"
                   />
                 </div>
@@ -788,7 +918,8 @@ export function QuizSession({
                             <Button
                               onClick={() => {
                                 if (generateUniqueQuestionId) {
-                                  const newQuestionId = generateUniqueQuestionId(chapter.id)
+                                  const newQuestionId =
+                                    generateUniqueQuestionId(chapter.id);
                                   const newQuestion: QuizQuestion = {
                                     questionId: newQuestionId,
                                     questionText: "",
@@ -802,8 +933,8 @@ export function QuizSession({
                                     srsLevel: 0,
                                     nextReviewAt: null,
                                     shownIncorrectOptionIds: [],
-                                  }
-                                  onSetEditMode(newQuestion)
+                                  };
+                                  onSetEditMode(newQuestion);
                                 }
                               }}
                               variant="outline"
@@ -828,7 +959,9 @@ export function QuizSession({
               {canViewPrevious && onViewPrevious && (
                 <Button
                   onClick={onViewPrevious}
-                  disabled={isViewingHistoricalEntry && currentHistoryViewIndex === 0}
+                  disabled={
+                    isViewingHistoricalEntry && currentHistoryViewIndex === 0
+                  }
                   variant="outline"
                   className="border-gray-700 bg-gray-900/40 text-gray-200 hover:bg-gray-800/50 hover:text-white hover:border-gray-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -881,19 +1014,23 @@ export function QuizSession({
           </div>
 
           {/* Question Editor Modal - Phase 2 */}
-          {isEditModeActive && editingQuestionData && onSetEditMode && onSaveQuestion && onDeleteQuestion && (
-            <QuestionEditor
-              isOpen={isEditModeActive}
-              question={editingQuestionData}
-              chapterId={chapter.id}
-              onSave={onSaveQuestion}
-              onCancel={() => onSetEditMode(null)}
-              onDelete={onDeleteQuestion}
-              generateUniqueOptionId={generateUniqueOptionId}
-            />
-          )}
+          {isEditModeActive &&
+            editingQuestionData &&
+            onSetEditMode &&
+            onSaveQuestion &&
+            onDeleteQuestion && (
+              <QuestionEditor
+                isOpen={isEditModeActive}
+                question={editingQuestionData}
+                chapterId={chapter.id}
+                onSave={onSaveQuestion}
+                onCancel={() => onSetEditMode(null)}
+                onDelete={onDeleteQuestion}
+                generateUniqueOptionId={generateUniqueOptionId}
+              />
+            )}
         </div>
       </div>
     </div>
-  )
+  );
 }
