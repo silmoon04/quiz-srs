@@ -1,21 +1,21 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import type React from "react"
+"use client";
+import { Button } from "@/components/ui/button";
+import type React from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { TextRenderer } from "./text-renderer"
-import { AlertTriangle, Info, X, AlertCircle } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SecureTextRenderer } from "./secure-text-renderer";
+import { AlertTriangle, Info, X, AlertCircle } from "lucide-react";
 
 interface ConfirmationModalProps {
-  isOpen: boolean
-  title: string
-  message: string
-  questionPreview?: string
-  confirmText?: string
-  cancelText?: string
-  variant?: "danger" | "warning" | "info"
-  onConfirm: () => void
-  onCancel: () => void
+  isOpen: boolean;
+  title: string;
+  message: string;
+  questionPreview?: string;
+  confirmText?: string;
+  cancelText?: string;
+  variant?: "danger" | "warning" | "info";
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 export function ConfirmationModal({
@@ -29,7 +29,7 @@ export function ConfirmationModal({
   onConfirm,
   onCancel,
 }: ConfirmationModalProps) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -40,7 +40,7 @@ export function ConfirmationModal({
           borderColor: "border-red-700",
           confirmBg: "bg-red-700 hover:bg-red-800 active:bg-red-900",
           confirmRing: "focus-visible:ring-red-500",
-        }
+        };
       case "warning":
         return {
           icon: <AlertTriangle className="w-6 h-6 text-yellow-400" />,
@@ -48,7 +48,7 @@ export function ConfirmationModal({
           borderColor: "border-yellow-700",
           confirmBg: "bg-yellow-700 hover:bg-yellow-800 active:bg-yellow-900",
           confirmRing: "focus-visible:ring-yellow-500",
-        }
+        };
       case "info":
       default:
         return {
@@ -57,19 +57,19 @@ export function ConfirmationModal({
           borderColor: "border-blue-700",
           confirmBg: "bg-blue-700 hover:bg-blue-800 active:bg-blue-900",
           confirmRing: "focus-visible:ring-blue-500",
-        }
+        };
     }
-  }
+  };
 
-  const styles = getVariantStyles()
+  const styles = getVariantStyles();
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
-      onCancel()
+      onCancel();
     } else if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-      onConfirm()
+      onConfirm();
     }
-  }
+  };
 
   return (
     <div
@@ -86,7 +86,9 @@ export function ConfirmationModal({
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-3 min-w-0 flex-1">
               <div className="flex-shrink-0 mt-1">{styles.icon}</div>
-              <CardTitle className="text-white text-xl leading-tight break-words">{title}</CardTitle>
+              <CardTitle className="text-white text-xl leading-tight break-words">
+                {title}
+              </CardTitle>
             </div>
             <Button
               onClick={onCancel}
@@ -103,15 +105,23 @@ export function ConfirmationModal({
         <CardContent className="space-y-6">
           {/* Main message */}
           <div className="prose prose-invert max-w-none">
-            <TextRenderer content={message} className="text-white leading-relaxed break-words" />
+            <SecureTextRenderer
+              content={message}
+              className="text-white leading-relaxed break-words"
+            />
           </div>
 
           {/* Optional question preview */}
           {questionPreview && (
             <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
-              <h4 className="text-sm font-medium text-gray-300 mb-2">Preview:</h4>
+              <h4 className="text-sm font-medium text-gray-300 mb-2">
+                Preview:
+              </h4>
               <div className="prose prose-invert max-w-none">
-                <TextRenderer content={questionPreview} className="text-gray-200 text-sm leading-relaxed break-words" />
+                <SecureTextRenderer
+                  content={questionPreview}
+                  className="text-gray-200 text-sm leading-relaxed break-words"
+                />
               </div>
             </div>
           )}
@@ -135,5 +145,5 @@ export function ConfirmationModal({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

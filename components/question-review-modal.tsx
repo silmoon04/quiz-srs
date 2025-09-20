@@ -1,73 +1,96 @@
-"use client"
-import { useState } from "react"
-import type React from "react"
+"use client";
+import { useState } from "react";
+import type React from "react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { TextRenderer } from "./text-renderer"
-import { ChevronLeft, ChevronRight, X, Plus, Minus, Save, FileText } from "lucide-react"
-import type { QuizQuestion } from "@/types/quiz-types"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SecureTextRenderer } from "./secure-text-renderer";
+import {
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Plus,
+  Minus,
+  Save,
+  FileText,
+} from "lucide-react";
+import type { QuizQuestion } from "@/types/quiz-types";
 
 interface QuestionReviewModalProps {
-  isOpen: boolean
-  questionsToReview: QuizQuestion[]
-  onSaveSelected: (selectedQuestions: QuizQuestion[]) => void
-  onCancel: () => void
+  isOpen: boolean;
+  questionsToReview: QuizQuestion[];
+  onSaveSelected: (selectedQuestions: QuizQuestion[]) => void;
+  onCancel: () => void;
 }
 
-export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected, onCancel }: QuestionReviewModalProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [questionsMarkedForAddition, setQuestionsMarkedForAddition] = useState<QuizQuestion[]>([])
+export function QuestionReviewModal({
+  isOpen,
+  questionsToReview,
+  onSaveSelected,
+  onCancel,
+}: QuestionReviewModalProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [questionsMarkedForAddition, setQuestionsMarkedForAddition] = useState<
+    QuizQuestion[]
+  >([]);
 
-  if (!isOpen || questionsToReview.length === 0) return null
+  if (!isOpen || questionsToReview.length === 0) return null;
 
-  const currentQuestion = questionsToReview[currentIndex]
-  const isCurrentQuestionMarked = questionsMarkedForAddition.some((q) => q.questionId === currentQuestion.questionId)
+  const currentQuestion = questionsToReview[currentIndex];
+  const isCurrentQuestionMarked = questionsMarkedForAddition.some(
+    (q) => q.questionId === currentQuestion.questionId,
+  );
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : questionsToReview.length - 1))
-  }
+    setCurrentIndex((prev) =>
+      prev > 0 ? prev - 1 : questionsToReview.length - 1,
+    );
+  };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < questionsToReview.length - 1 ? prev + 1 : 0))
-  }
+    setCurrentIndex((prev) =>
+      prev < questionsToReview.length - 1 ? prev + 1 : 0,
+    );
+  };
 
   const handleToggleQuestion = () => {
     if (isCurrentQuestionMarked) {
       // Remove from marked list
-      setQuestionsMarkedForAddition((prev) => prev.filter((q) => q.questionId !== currentQuestion.questionId))
+      setQuestionsMarkedForAddition((prev) =>
+        prev.filter((q) => q.questionId !== currentQuestion.questionId),
+      );
     } else {
       // Add to marked list
-      setQuestionsMarkedForAddition((prev) => [...prev, currentQuestion])
+      setQuestionsMarkedForAddition((prev) => [...prev, currentQuestion]);
     }
-  }
+  };
 
   const handleSaveSelected = () => {
-    onSaveSelected(questionsMarkedForAddition)
-  }
+    onSaveSelected(questionsMarkedForAddition);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
-      onCancel()
+      onCancel();
     } else if (e.key === "ArrowLeft") {
-      e.preventDefault()
-      handlePrevious()
+      e.preventDefault();
+      handlePrevious();
     } else if (e.key === "ArrowRight") {
-      e.preventDefault()
-      handleNext()
+      e.preventDefault();
+      handleNext();
     } else if (e.key === " ") {
-      e.preventDefault()
-      handleToggleQuestion()
+      e.preventDefault();
+      handleToggleQuestion();
     }
-  }
+  };
 
   // Get correct options for display
   const correctOptions = currentQuestion.options.filter((opt) =>
     currentQuestion.correctOptionIds.includes(opt.optionId),
-  )
+  );
   const incorrectOptions = currentQuestion.options.filter(
     (opt) => !currentQuestion.correctOptionIds.includes(opt.optionId),
-  )
+  );
 
   return (
     <div
@@ -90,7 +113,9 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
                 <CardTitle className="text-white text-xl leading-tight break-words">
                   Review Questions for Addition
                 </CardTitle>
-                <p className="text-gray-400 text-sm mt-1">Review and select questions to add to the current chapter</p>
+                <p className="text-gray-400 text-sm mt-1">
+                  Review and select questions to add to the current chapter
+                </p>
               </div>
             </div>
             <Button
@@ -134,7 +159,9 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-400">{questionsMarkedForAddition.length} selected for addition</span>
+                <span className="text-sm text-gray-400">
+                  {questionsMarkedForAddition.length} selected for addition
+                </span>
                 <Button
                   onClick={handleToggleQuestion}
                   variant={isCurrentQuestionMarked ? "destructive" : "default"}
@@ -166,21 +193,33 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
               <div className="bg-slate-800/30 rounded-lg p-3">
                 <div className="flex flex-wrap gap-4 text-sm">
                   <span className="text-gray-400">
-                    ID: <span className="text-blue-400 font-mono">{currentQuestion.questionId}</span>
+                    ID:{" "}
+                    <span className="text-blue-400 font-mono">
+                      {currentQuestion.questionId}
+                    </span>
                   </span>
                   {currentQuestion.srsLevel !== undefined && (
                     <span className="text-gray-400">
-                      SRS Level: <span className="text-yellow-400">{currentQuestion.srsLevel}</span>
+                      SRS Level:{" "}
+                      <span className="text-yellow-400">
+                        {currentQuestion.srsLevel}
+                      </span>
                     </span>
                   )}
                   {currentQuestion.timesAnsweredCorrectly !== undefined && (
                     <span className="text-gray-400">
-                      Correct: <span className="text-green-400">{currentQuestion.timesAnsweredCorrectly}</span>
+                      Correct:{" "}
+                      <span className="text-green-400">
+                        {currentQuestion.timesAnsweredCorrectly}
+                      </span>
                     </span>
                   )}
                   {currentQuestion.timesAnsweredIncorrectly !== undefined && (
                     <span className="text-gray-400">
-                      Incorrect: <span className="text-red-400">{currentQuestion.timesAnsweredIncorrectly}</span>
+                      Incorrect:{" "}
+                      <span className="text-red-400">
+                        {currentQuestion.timesAnsweredIncorrectly}
+                      </span>
                     </span>
                   )}
                 </div>
@@ -189,11 +228,13 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
               {/* Question text */}
               <Card className="bg-slate-800/50 border-slate-700">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-white text-lg">Question Text</CardTitle>
+                  <CardTitle className="text-white text-lg">
+                    Question Text
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="prose prose-invert max-w-none">
-                    <TextRenderer
+                    <SecureTextRenderer
                       content={currentQuestion.questionText}
                       className="text-white leading-relaxed break-words"
                     />
@@ -204,13 +245,17 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
               {/* Options */}
               <Card className="bg-slate-800/50 border-slate-700">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-white text-lg">Answer Options</CardTitle>
+                  <CardTitle className="text-white text-lg">
+                    Answer Options
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {/* Correct options */}
                   {correctOptions.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-medium text-green-400 mb-2">Correct Answer(s):</h4>
+                      <h4 className="text-sm font-medium text-green-400 mb-2">
+                        Correct Answer(s):
+                      </h4>
                       <div className="space-y-2">
                         {correctOptions.map((option) => (
                           <div
@@ -218,7 +263,7 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
                             className="bg-green-950/30 border border-green-700/50 rounded-lg p-3"
                           >
                             <div className="prose prose-invert max-w-none">
-                              <TextRenderer
+                              <SecureTextRenderer
                                 content={option.optionText}
                                 className="text-green-200 text-sm leading-relaxed break-words"
                               />
@@ -242,7 +287,7 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
                             className="bg-slate-800/30 border border-slate-700/50 rounded-lg p-3"
                           >
                             <div className="prose prose-invert max-w-none">
-                              <TextRenderer
+                              <SecureTextRenderer
                                 content={option.optionText}
                                 className="text-gray-300 text-sm leading-relaxed break-words"
                               />
@@ -263,11 +308,13 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
               {/* Explanation */}
               <Card className="bg-slate-800/50 border-slate-700">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-white text-lg">Explanation</CardTitle>
+                  <CardTitle className="text-white text-lg">
+                    Explanation
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="prose prose-invert max-w-none">
-                    <TextRenderer
+                    <SecureTextRenderer
                       content={currentQuestion.explanationText}
                       className="text-gray-200 leading-relaxed break-words"
                     />
@@ -281,7 +328,9 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
         {/* Footer with action buttons */}
         <div className="border-t border-gray-800 p-6">
           <div className="flex justify-between items-center gap-4">
-            <div className="text-sm text-gray-400">Use arrow keys to navigate, spacebar to toggle selection</div>
+            <div className="text-sm text-gray-400">
+              Use arrow keys to navigate, spacebar to toggle selection
+            </div>
             <div className="flex gap-3">
               <Button
                 onClick={onCancel}
@@ -304,5 +353,5 @@ export function QuestionReviewModal({ isOpen, questionsToReview, onSaveSelected,
         </div>
       </Card>
     </div>
-  )
+  );
 }

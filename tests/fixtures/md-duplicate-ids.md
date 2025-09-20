@@ -1,72 +1,100 @@
 # Duplicate IDs Test
 
+---
+
 ## Chapter 1: Duplicate question IDs
 
-### Question 1: First question
+---
+
+### Q: First question <!-- ID:duplicate_q -->
+
 What is 2 + 2?
 
 **Options:**
-- A) 3
-- B) 4
-- C) 5
-- D) 6
 
-**Correct:** B
+- **A1:** 3
+- **A2:** 4
+- **A3:** 5
+- **A4:** 6
 
-**Explanation:** 2 + 2 equals 4.
+**Correct:** A2
 
-### Question 1: Duplicate question ID
+**Exp:** 2 + 2 equals 4.
+
+---
+
+### Q: Duplicate question ID <!-- ID:duplicate_q -->
+
 What is 3 + 3?
 
 **Options:**
-- A) 5
-- B) 6
-- C) 7
-- D) 8
 
-**Correct:** B
+- **A1:** 5
+- **A2:** 6
+- **A3:** 7
+- **A4:** 8
 
-**Explanation:** 3 + 3 equals 6.
+**Correct:** A2
+
+**Exp:** 3 + 3 equals 6.
+
+---
 
 ## Chapter 2: Duplicate option IDs
 
-### Question 2: Duplicate option IDs
+---
+
+### Q: Duplicate option IDs
+
 What is 4 + 4?
 
 **Options:**
-- A) 6
-- B) 7
-- C) 8
-- D) A
 
-**Correct:** C
+- **A1:** 6
+- **A2:** 7
+- **A3:** 8
+- **A4:** A
 
-**Explanation:** 4 + 4 equals 8.
+**Correct:** A3
 
-### Question 3: Mixed duplicates
+**Exp:** 4 + 4 equals 8.
+
+---
+
+### Q: Mixed duplicates
+
 What is 5 + 5?
 
 **Options:**
-- A) 8
-- B) 9
-- C) 10
-- D) 10
 
-**Correct:** C
+- **A1:** 8
+- **A2:** 9
+- **A3:** 10
+- **A4:** 10
 
-**Explanation:** 5 + 5 equals 10.
+**Correct:** A3
+
+**Exp:** 5 + 5 equals 10.
+
+---
 
 ## Chapter 3: Cross-chapter duplicates
 
-### Question 1: Same ID as Chapter 1
+---
+
+### Q: Same ID as Chapter 1 <!-- ID:duplicate_q -->
+
 What is 6 + 6?
 
 **Options:**
-- A) 10
-- B) 11
-- C) 12
-- D) 13
 
-**Correct:** C
+- **A1:** 10
+- **A2:** 11
+- **A3:** 12
+- **A4:** 13
 
-**Explanation:** 6 + 6 equals 12.
+**Correct:** A3
+
+**Exp:** 6 + 6 equals 12.
+
+---

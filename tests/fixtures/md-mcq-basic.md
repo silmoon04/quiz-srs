@@ -1,70 +1,96 @@
 # Basic Mathematics Quiz
 
+---
+
 ## Chapter 1: Arithmetic Fundamentals
 
-### Question 1: Basic Addition
+---
+
+### Q: Basic Addition
+
 What is 2 + 2?
 
 **Options:**
-- A) 3
-- B) 4
-- C) 5
-- D) 6
 
-**Correct:** B
+- **A1:** 3
+- **A2:** 4
+- **A3:** 5
+- **A4:** 6
 
-**Explanation:** 2 + 2 equals 4. This is a fundamental arithmetic operation.
+**Correct:** A2
 
-### Question 2: Subtraction
+**Exp:** 2 + 2 equals 4. This is a fundamental arithmetic operation.
+
+---
+
+### Q: Subtraction
+
 What is 10 - 3?
 
 **Options:**
-- A) 6
-- B) 7
-- C) 8
-- D) 9
 
-**Correct:** B
+- **A1:** 6
+- **A2:** 7
+- **A3:** 8
+- **A4:** 9
 
-**Explanation:** 10 - 3 equals 7. Subtraction is the inverse operation of addition.
+**Correct:** A2
 
-### Question 3: Multiplication
+**Exp:** 10 - 3 equals 7. Subtraction is the inverse operation of addition.
+
+---
+
+### Q: Multiplication
+
 What is 3 × 4?
 
 **Options:**
-- A) 10
-- B) 11
-- C) 12
-- D) 13
 
-**Correct:** C
+- **A1:** 10
+- **A2:** 11
+- **A3:** 12
+- **A4:** 13
 
-**Explanation:** 3 × 4 equals 12. Multiplication is repeated addition.
+**Correct:** A3
+
+**Exp:** 3 × 4 equals 12. Multiplication is repeated addition.
+
+---
 
 ## Chapter 2: Basic Algebra
 
-### Question 4: Simple Equation
+---
+
+### Q: Simple Equation
+
 Solve for x: x + 5 = 10
 
 **Options:**
-- A) x = 3
-- B) x = 4
-- C) x = 5
-- D) x = 6
 
-**Correct:** C
+- **A1:** x = 3
+- **A2:** x = 4
+- **A3:** x = 5
+- **A4:** x = 6
 
-**Explanation:** x + 5 = 10, so x = 10 - 5 = 5.
+**Correct:** A3
 
-### Question 5: Two-step Equation
+**Exp:** x + 5 = 10, so x = 10 - 5 = 5.
+
+---
+
+### Q: Two-step Equation
+
 Solve for y: 2y + 3 = 11
 
 **Options:**
-- A) y = 3
-- B) y = 4
-- C) y = 5
-- D) y = 6
 
-**Correct:** B
+- **A1:** y = 3
+- **A2:** y = 4
+- **A3:** y = 5
+- **A4:** y = 6
 
-**Explanation:** 2y + 3 = 11, so 2y = 8, therefore y = 4.
+**Correct:** A2
+
+**Exp:** 2y + 3 = 11, so 2y = 8, therefore y = 4.
+
+---
