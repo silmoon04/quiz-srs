@@ -8,6 +8,8 @@ import { SecureTextRenderer } from './secure-text-renderer';
 import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { useAnnouncer } from './a11y/ScreenReaderAnnouncer';
 import { OptionCard } from './option-card';
+import { AccessibleOptionList } from './a11y/AccessibleOptionList';
+import { AccessibleQuestionGrid } from './a11y/AccessibleQuestionGrid';
 import { QuestionNavigationMenu } from './question-navigation-menu';
 import {
   ArrowLeft,
@@ -696,15 +698,47 @@ export function QuizSession({
             </Card>
           )}
 
-          {/* Question Navigation Menu - Replaces the old progress bar for regular quizzes */}
-          <QuestionNavigationMenu
-            questions={chapter.questions}
-            currentQuestionIndex={currentQuestionIndex}
-            sessionHistory={sessionHistory}
-            currentHistoryViewIndex={currentHistoryViewIndex}
-            onNavigateToQuestion={onNavigateToQuestion}
-            isReviewSession={isReviewSession}
-          />
+          {/* Question Navigation Grid - Accessible keyboard navigation */}
+          <Card className="mb-6 border-slate-700 bg-slate-900/50 shadow-sm backdrop-blur-sm">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium text-white">Question Navigation</h3>
+                <div className="text-sm font-medium tabular-nums text-gray-300">
+                  {Math.round((sessionHistory.length / chapter.questions.length) * 100)}% Complete
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <AccessibleQuestionGrid
+                questions={chapter.questions}
+                currentQuestionIndex={currentQuestionIndex}
+                sessionHistory={sessionHistory}
+                currentHistoryViewIndex={currentHistoryViewIndex}
+                onNavigateToQuestion={onNavigateToQuestion}
+                isReviewSession={isReviewSession}
+              />
+
+              {/* Status Legend */}
+              <div className="flex flex-wrap gap-4 border-t border-slate-700 pt-2 text-xs text-gray-400">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-3 w-3 rounded border border-blue-600 bg-gradient-to-r from-blue-900 to-blue-800"></div>
+                  <span>Current</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-3 w-3 rounded border border-green-700 bg-gradient-to-r from-green-950 to-green-900"></div>
+                  <span>Correct</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-3 w-3 rounded border border-red-700 bg-gradient-to-r from-red-950 to-red-900"></div>
+                  <span>Incorrect</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-3 w-3 rounded border border-gray-600 bg-gradient-to-r from-slate-800 to-gray-800"></div>
+                  <span>Unanswered</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Question Card - Enhanced styling */}
           <Card className="border-slate-700 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-lg backdrop-blur-sm">
@@ -723,26 +757,16 @@ export function QuizSession({
             </CardContent>
           </Card>
 
-          {/* Options - Clean layout */}
+          {/* Options - Accessible layout */}
           <div className="space-y-4">
             <h3 className="break-words text-lg font-semibold text-white">Choose your answer:</h3>
-            <div className="space-y-3">
-              {displayDisplayedOptions.map((option) => {
-                const displayState = getOptionDisplayState(option);
-                return (
-                  <OptionCard
-                    key={option.optionId}
-                    option={option}
-                    isSelected={displayState.isSelected}
-                    showAsCorrect={displayState.showAsCorrect}
-                    showAsIncorrect={displayState.showAsIncorrect}
-                    isSubmitted={displayIsSubmitted}
-                    onSelect={() => onSelectOption(option.optionId)}
-                    disabled={displayIsSubmitted || isViewingHistoricalEntry}
-                  />
-                );
-              })}
-            </div>
+            <AccessibleOptionList
+              options={displayDisplayedOptions}
+              selectedOptionId={displaySelectedOptionId}
+              onSelectOption={onSelectOption}
+              isSubmitted={displayIsSubmitted}
+              disabled={displayIsSubmitted || isViewingHistoricalEntry}
+            />
           </div>
 
           {/* Explanation - Enhanced styling */}
