@@ -5,6 +5,7 @@ import type React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SecureTextRenderer } from './secure-text-renderer';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { OptionCard } from './option-card';
 import { QuestionNavigationMenu } from './question-navigation-menu';
 import {
@@ -704,8 +705,8 @@ export function QuizSession({
             </CardHeader>
             <CardContent>
               <div className="prose prose-invert max-w-none">
-                <SecureTextRenderer
-                  content={displayQuestion.questionText}
+                <MarkdownRenderer
+                  markdown={displayQuestion.questionText}
                   className="break-words text-lg leading-relaxed text-white"
                 />
               </div>
