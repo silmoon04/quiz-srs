@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest';
 import {
   QuizOptionSchema,
   QuizQuestionSchema,
@@ -8,7 +8,7 @@ import {
   assertQuizModule,
   validateQuizModule,
   safeParseQuizModule,
-} from '@/lib/schema/quiz'
+} from '@/lib/schema/quiz';
 
 describe('Quiz Schema Validation', () => {
   describe('QuizOptionSchema', () => {
@@ -16,26 +16,26 @@ describe('Quiz Schema Validation', () => {
       const validOption = {
         optionId: 'opt1',
         optionText: 'Option 1',
-      }
-      expect(() => QuizOptionSchema.parse(validOption)).not.toThrow()
-    })
+      };
+      expect(() => QuizOptionSchema.parse(validOption)).not.toThrow();
+    });
 
     it('should reject option with empty optionId', () => {
       const invalidOption = {
         optionId: '',
         optionText: 'Option 1',
-      }
-      expect(() => QuizOptionSchema.parse(invalidOption)).toThrow()
-    })
+      };
+      expect(() => QuizOptionSchema.parse(invalidOption)).toThrow();
+    });
 
     it('should reject option with empty optionText', () => {
       const invalidOption = {
         optionId: 'opt1',
         optionText: '',
-      }
-      expect(() => QuizOptionSchema.parse(invalidOption)).toThrow()
-    })
-  })
+      };
+      expect(() => QuizOptionSchema.parse(invalidOption)).toThrow();
+    });
+  });
 
   describe('QuizQuestionSchema', () => {
     it('should validate a valid MCQ question', () => {
@@ -50,9 +50,9 @@ describe('Quiz Schema Validation', () => {
         correctOptionIds: ['opt2'],
         explanationText: '2+2 equals 4',
         type: 'mcq' as const,
-      }
-      expect(() => QuizQuestionSchema.parse(validQuestion)).not.toThrow()
-    })
+      };
+      expect(() => QuizQuestionSchema.parse(validQuestion)).not.toThrow();
+    });
 
     it('should validate a true/false question', () => {
       const validQuestion = {
@@ -65,9 +65,9 @@ describe('Quiz Schema Validation', () => {
         correctOptionIds: ['opt1'],
         explanationText: 'The sky appears blue due to Rayleigh scattering.',
         type: 'true_false' as const,
-      }
-      expect(() => QuizQuestionSchema.parse(validQuestion)).not.toThrow()
-    })
+      };
+      expect(() => QuizQuestionSchema.parse(validQuestion)).not.toThrow();
+    });
 
     it('should reject question with less than 2 options', () => {
       const invalidQuestion = {
@@ -76,9 +76,9 @@ describe('Quiz Schema Validation', () => {
         options: [{ optionId: 'opt1', optionText: '3' }],
         correctOptionIds: ['opt1'],
         explanationText: 'Only one option',
-      }
-      expect(() => QuizQuestionSchema.parse(invalidQuestion)).toThrow()
-    })
+      };
+      expect(() => QuizQuestionSchema.parse(invalidQuestion)).toThrow();
+    });
 
     it('should reject question with no correct options', () => {
       const invalidQuestion = {
@@ -90,10 +90,10 @@ describe('Quiz Schema Validation', () => {
         ],
         correctOptionIds: [],
         explanationText: 'No correct options',
-      }
-      expect(() => QuizQuestionSchema.parse(invalidQuestion)).toThrow()
-    })
-  })
+      };
+      expect(() => QuizQuestionSchema.parse(invalidQuestion)).toThrow();
+    });
+  });
 
   describe('QuizChapterSchema', () => {
     it('should validate a valid chapter', () => {
@@ -117,9 +117,9 @@ describe('Quiz Schema Validation', () => {
         answeredQuestions: 0,
         correctAnswers: 0,
         isCompleted: false,
-      }
-      expect(() => QuizChapterSchema.parse(validChapter)).not.toThrow()
-    })
+      };
+      expect(() => QuizChapterSchema.parse(validChapter)).not.toThrow();
+    });
 
     it('should reject chapter with no questions', () => {
       const invalidChapter = {
@@ -130,10 +130,10 @@ describe('Quiz Schema Validation', () => {
         answeredQuestions: 0,
         correctAnswers: 0,
         isCompleted: false,
-      }
-      expect(() => QuizChapterSchema.parse(invalidChapter)).toThrow()
-    })
-  })
+      };
+      expect(() => QuizChapterSchema.parse(invalidChapter)).toThrow();
+    });
+  });
 
   describe('QuizModuleSchema', () => {
     it('should validate a valid module', () => {
@@ -162,18 +162,18 @@ describe('Quiz Schema Validation', () => {
             isCompleted: false,
           },
         ],
-      }
-      expect(() => QuizModuleSchema.parse(validModule)).not.toThrow()
-    })
+      };
+      expect(() => QuizModuleSchema.parse(validModule)).not.toThrow();
+    });
 
     it('should reject module with no chapters', () => {
       const invalidModule = {
         name: 'Empty Module',
         chapters: [],
-      }
-      expect(() => QuizModuleSchema.parse(invalidModule)).toThrow()
-    })
-  })
+      };
+      expect(() => QuizModuleSchema.parse(invalidModule)).toThrow();
+    });
+  });
 
   describe('Parser Functions', () => {
     const validModule = {
@@ -200,39 +200,39 @@ describe('Quiz Schema Validation', () => {
           isCompleted: false,
         },
       ],
-    }
+    };
 
     it('should parse valid module with parseQuizModule', () => {
-      expect(() => parseQuizModule(validModule)).not.toThrow()
-    })
+      expect(() => parseQuizModule(validModule)).not.toThrow();
+    });
 
     it('should assert valid module with assertQuizModule', () => {
-      expect(() => assertQuizModule(validModule)).not.toThrow()
-    })
+      expect(() => assertQuizModule(validModule)).not.toThrow();
+    });
 
     it('should validate module with validateQuizModule', () => {
-      const result = validateQuizModule(validModule)
-      expect(result.success).toBe(true)
+      const result = validateQuizModule(validModule);
+      expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.name).toBe('Test Module')
+        expect(result.data.name).toBe('Test Module');
       }
-    })
+    });
 
     it('should safely parse module with safeParseQuizModule', () => {
-      const result = safeParseQuizModule(validModule)
-      expect(result.success).toBe(true)
+      const result = safeParseQuizModule(validModule);
+      expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.name).toBe('Test Module')
+        expect(result.data.name).toBe('Test Module');
       }
-    })
+    });
 
     it('should handle invalid data gracefully', () => {
-      const invalidData = { name: '', chapters: [] }
-      const result = safeParseQuizModule(invalidData)
-      expect(result.success).toBe(false)
+      const invalidData = { name: '', chapters: [] };
+      const result = safeParseQuizModule(invalidData);
+      expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues).toHaveLength(2) // name and chapters errors
+        expect(result.error.issues).toHaveLength(2); // name and chapters errors
       }
-    })
-  })
-})
+    });
+  });
+});

@@ -1,80 +1,80 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { SecureTextRenderer } from "@/components/secure-text-renderer";
-import React from "react";
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import React from 'react';
 
-describe("TextRenderer Markdown Tests (TM-RN-02)", () => {
-  describe("Rich Markdown Support", () => {
-    it("should render unordered lists correctly", () => {
+describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
+  describe('Rich Markdown Support', () => {
+    it('should render unordered lists correctly', () => {
       const content = `- Item 1
 - Item 2
 - Item 3`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const list = container.querySelector("ul");
+      const list = container.querySelector('ul');
       expect(list).toBeInTheDocument();
-      expect(screen.getByText("Item 1")).toBeInTheDocument();
-      expect(screen.getByText("Item 2")).toBeInTheDocument();
-      expect(screen.getByText("Item 3")).toBeInTheDocument();
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+      expect(screen.getByText('Item 2')).toBeInTheDocument();
+      expect(screen.getByText('Item 3')).toBeInTheDocument();
     });
 
-    it("should render ordered lists correctly", () => {
+    it('should render ordered lists correctly', () => {
       const content = `1. First item
 2. Second item
 3. Third item`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const list = container.querySelector("ol");
+      const list = container.querySelector('ol');
       expect(list).toBeInTheDocument();
-      expect(screen.getByText("First item")).toBeInTheDocument();
-      expect(screen.getByText("Second item")).toBeInTheDocument();
-      expect(screen.getByText("Third item")).toBeInTheDocument();
+      expect(screen.getByText('First item')).toBeInTheDocument();
+      expect(screen.getByText('Second item')).toBeInTheDocument();
+      expect(screen.getByText('Third item')).toBeInTheDocument();
     });
 
-    it("should render nested lists correctly", () => {
+    it('should render nested lists correctly', () => {
       const content = `- Main item
   - Sub item 1
   - Sub item 2
 - Another main item`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const lists = container.querySelectorAll("ul");
+      const lists = container.querySelectorAll('ul');
       expect(lists.length).toBeGreaterThan(1); // Should have nested lists
-      expect(screen.getByText("Main item")).toBeInTheDocument();
-      expect(screen.getByText("Sub item 1")).toBeInTheDocument();
-      expect(screen.getByText("Sub item 2")).toBeInTheDocument();
+      expect(screen.getByText('Main item')).toBeInTheDocument();
+      expect(screen.getByText('Sub item 1')).toBeInTheDocument();
+      expect(screen.getByText('Sub item 2')).toBeInTheDocument();
     });
 
-    it("should render tables correctly", () => {
+    it('should render tables correctly', () => {
       const content = `| Header 1 | Header 2 |
 |----------|----------|
 | Cell 1   | Cell 2   |
 | Cell 3   | Cell 4   |`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const table = container.querySelector("table");
+      const table = container.querySelector('table');
       expect(table).toBeInTheDocument();
 
-      const thead = container.querySelector("thead");
+      const thead = container.querySelector('thead');
       expect(thead).toBeInTheDocument();
 
-      const tbody = container.querySelector("tbody");
+      const tbody = container.querySelector('tbody');
       expect(tbody).toBeInTheDocument();
 
-      expect(screen.getByText("Header 1")).toBeInTheDocument();
-      expect(screen.getByText("Cell 1")).toBeInTheDocument();
+      expect(screen.getByText('Header 1')).toBeInTheDocument();
+      expect(screen.getByText('Cell 1')).toBeInTheDocument();
     });
 
-    it("should render inline code correctly", () => {
-      const content = "This is `inline code` in a sentence.";
+    it('should render inline code correctly', () => {
+      const content = 'This is `inline code` in a sentence.';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const code = container.querySelector("code");
+      const code = container.querySelector('code');
       expect(code).toBeInTheDocument();
-      expect(code?.textContent).toBe("inline code");
+      expect(code?.textContent).toBe('inline code');
     });
 
-    it("should render code blocks correctly", () => {
+    it('should render code blocks correctly', () => {
       const content = `\`\`\`javascript
 function hello() {
   console.log("Hello, world!");
@@ -82,65 +82,65 @@ function hello() {
 \`\`\``;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const pre = container.querySelector("pre");
+      const pre = container.querySelector('pre');
       expect(pre).toBeInTheDocument();
 
-      const code = container.querySelector("code");
+      const code = container.querySelector('code');
       expect(code).toBeInTheDocument();
-      expect(code?.textContent).toContain("function hello()");
+      expect(code?.textContent).toContain('function hello()');
     });
 
-    it("should render bold text correctly", () => {
-      const content = "This is **bold text** and __also bold__.";
+    it('should render bold text correctly', () => {
+      const content = 'This is **bold text** and __also bold__.';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const strongElements = container.querySelectorAll("strong");
+      const strongElements = container.querySelectorAll('strong');
       expect(strongElements.length).toBe(2);
-      expect(strongElements[0].textContent).toBe("bold text");
-      expect(strongElements[1].textContent).toBe("also bold");
+      expect(strongElements[0].textContent).toBe('bold text');
+      expect(strongElements[1].textContent).toBe('also bold');
     });
 
-    it("should render italic text correctly", () => {
-      const content = "This is *italic text* and _also italic_.";
+    it('should render italic text correctly', () => {
+      const content = 'This is *italic text* and _also italic_.';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const emElements = container.querySelectorAll("em");
+      const emElements = container.querySelectorAll('em');
       expect(emElements.length).toBe(2);
-      expect(emElements[0].textContent).toBe("italic text");
-      expect(emElements[1].textContent).toBe("also italic");
+      expect(emElements[0].textContent).toBe('italic text');
+      expect(emElements[1].textContent).toBe('also italic');
     });
 
-    it("should render links correctly", () => {
-      const content = "[Link text](https://example.com)";
+    it('should render links correctly', () => {
+      const content = '[Link text](https://example.com)';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const link = container.querySelector("a");
+      const link = container.querySelector('a');
       expect(link).toBeInTheDocument();
-      expect(link?.getAttribute("href")).toBe("https://example.com");
-      expect(link?.textContent).toBe("Link text");
+      expect(link?.getAttribute('href')).toBe('https://example.com');
+      expect(link?.textContent).toBe('Link text');
     });
 
-    it("should render images correctly", () => {
-      const content = "![Alt text](https://example.com/image.jpg)";
+    it('should render images correctly', () => {
+      const content = '![Alt text](https://example.com/image.jpg)';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const img = container.querySelector("img");
+      const img = container.querySelector('img');
       expect(img).toBeInTheDocument();
-      expect(img?.getAttribute("src")).toBe("https://example.com/image.jpg");
-      expect(img?.getAttribute("alt")).toBe("Alt text");
+      expect(img?.getAttribute('src')).toBe('https://example.com/image.jpg');
+      expect(img?.getAttribute('alt')).toBe('Alt text');
     });
 
-    it("should render blockquotes correctly", () => {
+    it('should render blockquotes correctly', () => {
       const content = `> This is a blockquote
 > with multiple lines`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const blockquote = container.querySelector("blockquote");
+      const blockquote = container.querySelector('blockquote');
       expect(blockquote).toBeInTheDocument();
-      expect(blockquote?.textContent).toContain("This is a blockquote");
+      expect(blockquote?.textContent).toContain('This is a blockquote');
     });
 
-    it("should render horizontal rules correctly", () => {
+    it('should render horizontal rules correctly', () => {
       const content = `Line above
 
 ---
@@ -148,20 +148,20 @@ function hello() {
 Line below`;
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const hr = container.querySelector("hr");
+      const hr = container.querySelector('hr');
       expect(hr).toBeInTheDocument();
     });
 
-    it("should render strikethrough text correctly", () => {
-      const content = "This is ~~strikethrough~~ text.";
+    it('should render strikethrough text correctly', () => {
+      const content = 'This is ~~strikethrough~~ text.';
       const { container } = render(<SecureTextRenderer content={content} />);
 
-      const del = container.querySelector("del");
+      const del = container.querySelector('del');
       expect(del).toBeInTheDocument();
-      expect(del?.textContent).toBe("strikethrough");
+      expect(del?.textContent).toBe('strikethrough');
     });
 
-    it("should render task lists correctly", () => {
+    it('should render task lists correctly', () => {
       const content = `- [x] Completed task
 - [ ] Incomplete task
 - [x] Another completed task`;
@@ -170,15 +170,13 @@ Line below`;
       const checkboxes = container.querySelectorAll('input[type="checkbox"]');
       expect(checkboxes.length).toBe(3);
 
-      const checkedBoxes = container.querySelectorAll(
-        'input[type="checkbox"]:checked',
-      );
+      const checkedBoxes = container.querySelectorAll('input[type="checkbox"]:checked');
       expect(checkedBoxes.length).toBe(2);
     });
   });
 
-  describe("Complex Markdown Combinations", () => {
-    it("should handle mixed content with lists, code, and formatting", () => {
+  describe('Complex Markdown Combinations', () => {
+    it('should handle mixed content with lists, code, and formatting', () => {
       const content = `Here's a **complex** example:
 
 1. First item with \`inline code\`
@@ -198,13 +196,13 @@ function example() {
       const { container } = render(<SecureTextRenderer content={content} />);
 
       // Check for various elements
-      expect(container.querySelector("ol")).toBeInTheDocument();
-      expect(container.querySelector("ul")).toBeInTheDocument();
-      expect(container.querySelector("pre")).toBeInTheDocument();
-      expect(container.querySelector("blockquote")).toBeInTheDocument();
-      expect(container.querySelector("strong")).toBeInTheDocument();
-      expect(container.querySelector("em")).toBeInTheDocument();
-      expect(container.querySelector("code")).toBeInTheDocument();
+      expect(container.querySelector('ol')).toBeInTheDocument();
+      expect(container.querySelector('ul')).toBeInTheDocument();
+      expect(container.querySelector('pre')).toBeInTheDocument();
+      expect(container.querySelector('blockquote')).toBeInTheDocument();
+      expect(container.querySelector('strong')).toBeInTheDocument();
+      expect(container.querySelector('em')).toBeInTheDocument();
+      expect(container.querySelector('code')).toBeInTheDocument();
     });
   });
 });

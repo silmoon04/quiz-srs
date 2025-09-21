@@ -1,10 +1,10 @@
-"use client";
-import { useState, useEffect, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { SecureTextRenderer } from "./secure-text-renderer";
-import { OptionCard } from "./option-card";
-import { ProgressBar } from "./progress-bar";
+'use client';
+import { useState, useEffect, useMemo } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { SecureTextRenderer } from './secure-text-renderer';
+import { OptionCard } from './option-card';
+import { ProgressBar } from './progress-bar';
 import {
   ArrowLeft,
   CheckCircle,
@@ -15,19 +15,10 @@ import {
   RotateCcw,
   Home,
   Brain,
-} from "lucide-react";
-import type {
-  QuizChapter,
-  QuizQuestion,
-  DisplayedOption,
-} from "@/types/quiz-types";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { CircularProgress } from "@/components/ui/circular-progress";
+} from 'lucide-react';
+import type { QuizChapter, QuizQuestion, DisplayedOption } from '@/types/quiz-types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { CircularProgress } from '@/components/ui/circular-progress';
 
 interface AllQuestionsViewProps {
   chapter: QuizChapter;
@@ -52,9 +43,7 @@ export function AllQuestionsView({
   isReviewSession = false,
 }: AllQuestionsViewProps) {
   // State for each question's answers and submission status
-  const [questionStates, setQuestionStates] = useState<
-    Record<string, QuestionState>
-  >({});
+  const [questionStates, setQuestionStates] = useState<Record<string, QuestionState>>({});
 
   // Toggle for showing/hiding answers
   const [showAnswers, setShowAnswers] = useState(false);
@@ -79,9 +68,7 @@ export function AllQuestionsView({
   }, [chapter.questions]);
 
   // Generate displayed options for a question (simplified version of quiz logic)
-  const generateDisplayedOptionsForQuestion = (
-    question: QuizQuestion,
-  ): DisplayedOption[] => {
+  const generateDisplayedOptionsForQuestion = (question: QuizQuestion): DisplayedOption[] => {
     const maxDisplayOptions = 5;
     const correctOptions = question.options.filter((opt) =>
       question.correctOptionIds.includes(opt.optionId),
@@ -94,11 +81,8 @@ export function AllQuestionsView({
 
     // Add at least one correct option
     if (correctOptions.length > 0) {
-      const correctIndex = question.srsLevel
-        ? question.srsLevel % correctOptions.length
-        : 0;
-      const selectedCorrectOption =
-        correctOptions[correctIndex] || correctOptions[0];
+      const correctIndex = question.srsLevel ? question.srsLevel % correctOptions.length : 0;
+      const selectedCorrectOption = correctOptions[correctIndex] || correctOptions[0];
       selectedOptions.push({
         ...selectedCorrectOption,
         isCorrect: true,
@@ -107,15 +91,9 @@ export function AllQuestionsView({
 
     // Fill remaining slots with incorrect options
     const remainingSlots = maxDisplayOptions - selectedOptions.length;
-    const shuffledIncorrect = [...incorrectOptions].sort(
-      () => Math.random() - 0.5,
-    );
+    const shuffledIncorrect = [...incorrectOptions].sort(() => Math.random() - 0.5);
 
-    for (
-      let i = 0;
-      i < Math.min(remainingSlots, shuffledIncorrect.length);
-      i++
-    ) {
+    for (let i = 0; i < Math.min(remainingSlots, shuffledIncorrect.length); i++) {
       selectedOptions.push({
         ...shuffledIncorrect[i],
         isCorrect: false,
@@ -123,18 +101,12 @@ export function AllQuestionsView({
     }
 
     // Add more correct options if we have space
-    const remainingSlotsAfterIncorrect =
-      maxDisplayOptions - selectedOptions.length;
+    const remainingSlotsAfterIncorrect = maxDisplayOptions - selectedOptions.length;
     const remainingCorrect = correctOptions.filter(
-      (opt) =>
-        !selectedOptions.some((selected) => selected.optionId === opt.optionId),
+      (opt) => !selectedOptions.some((selected) => selected.optionId === opt.optionId),
     );
 
-    for (
-      let i = 0;
-      i < Math.min(remainingSlotsAfterIncorrect, remainingCorrect.length);
-      i++
-    ) {
+    for (let i = 0; i < Math.min(remainingSlotsAfterIncorrect, remainingCorrect.length); i++) {
       selectedOptions.push({
         ...remainingCorrect[i],
         isCorrect: true,
@@ -147,23 +119,15 @@ export function AllQuestionsView({
 
   // Calculate real-time score percentage
   const scoreData = useMemo(() => {
-    const submittedQuestions = Object.values(questionStates).filter(
-      (state) => state.isSubmitted,
-    );
-    const correctAnswers = submittedQuestions.filter(
-      (state) => state.isCorrect,
-    ).length;
+    const submittedQuestions = Object.values(questionStates).filter((state) => state.isSubmitted);
+    const correctAnswers = submittedQuestions.filter((state) => state.isCorrect).length;
     const totalQuestions = chapter.questions.length;
     const answeredQuestions = submittedQuestions.length;
 
     const scorePercentage =
-      totalQuestions > 0
-        ? Math.round((correctAnswers / totalQuestions) * 100)
-        : 0;
+      totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
     const progressPercentage =
-      totalQuestions > 0
-        ? Math.round((answeredQuestions / totalQuestions) * 100)
-        : 0;
+      totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
 
     return {
       correctAnswers,
@@ -193,9 +157,7 @@ export function AllQuestionsView({
     const question = chapter.questions.find((q) => q.questionId === questionId);
     if (!question) return;
 
-    const isCorrect = question.correctOptionIds.includes(
-      questionState.selectedOptionId,
-    );
+    const isCorrect = question.correctOptionIds.includes(questionState.selectedOptionId);
 
     setQuestionStates((prev) => ({
       ...prev,
@@ -208,10 +170,7 @@ export function AllQuestionsView({
   };
 
   // Get option display state for feedback
-  const getOptionDisplayState = (
-    questionId: string,
-    option: DisplayedOption,
-  ) => {
+  const getOptionDisplayState = (questionId: string, option: DisplayedOption) => {
     const questionState = questionStates[questionId];
     const question = chapter.questions.find((q) => q.questionId === questionId);
 
@@ -262,37 +221,28 @@ export function AllQuestionsView({
   };
 
   // Process explanation text to replace option IDs with option text
-  const processExplanationText = (
-    question: QuizQuestion,
-    questionId: string,
-  ): string => {
+  const processExplanationText = (question: QuizQuestion, questionId: string): string => {
     let processedText = question.explanationText;
     const questionState = questionStates[questionId];
 
     // Replace option IDs in <code> tags
-    processedText = processedText.replace(
-      /<code>(.*?)<\/code>/g,
-      (match, optionId) => {
-        const option = question.options.find(
-          (opt) => opt.optionId === optionId,
-        );
-        if (option) {
-          return `<code>${option.optionText}</code>`;
-        }
-        return match;
-      },
-    );
+    processedText = processedText.replace(/<code>(.*?)<\/code>/g, (match, optionId) => {
+      const option = question.options.find((opt) => opt.optionId === optionId);
+      if (option) {
+        return `<code>${option.optionText}</code>`;
+      }
+      return match;
+    });
 
     // Replace bare option IDs with option text
     question.options.forEach((option) => {
       const optionIdPattern = new RegExp(
-        `\\b${option.optionId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
-        "g",
+        `\\b${option.optionId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`,
+        'g',
       );
 
       processedText = processedText.replace(optionIdPattern, (match) => {
-        const isSelectedOption =
-          questionState?.selectedOptionId === option.optionId;
+        const isSelectedOption = questionState?.selectedOptionId === option.optionId;
 
         if (isSelectedOption) {
           return `<strong class="text-blue-300">"${option.optionText}"</strong>`;
@@ -314,8 +264,7 @@ export function AllQuestionsView({
         selectedOptionId: null,
         isSubmitted: false,
         isCorrect: null,
-        displayedOptions:
-          questionStates[question.questionId]?.displayedOptions || [],
+        displayedOptions: questionStates[question.questionId]?.displayedOptions || [],
       };
     });
 
@@ -336,7 +285,7 @@ export function AllQuestionsView({
     }
 
     return {
-      chapterNumber: "",
+      chapterNumber: '',
       chapterTitle: name,
       hasChapterNumber: false,
     };
@@ -347,13 +296,13 @@ export function AllQuestionsView({
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950">
       {/* Fixed Progress and Score Bar */}
-      <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-900/95 to-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-lg">
-        <div className="max-w-6xl mx-auto px-4 py-3">
+      <div className="sticky top-0 z-50 border-b border-slate-700 bg-gradient-to-r from-slate-900/95 to-slate-800/95 shadow-lg backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-4 py-3">
           <div className="flex items-center gap-4">
             {/* Progress Section */}
-            <div className="flex items-center gap-3 flex-1">
-              <Clock className="w-5 h-5 text-blue-300 flex-shrink-0" />
-              <span className="text-sm font-medium text-blue-300 whitespace-nowrap min-w-[3rem] text-right">
+            <div className="flex flex-1 items-center gap-3">
+              <Clock className="h-5 w-5 flex-shrink-0 text-blue-300" />
+              <span className="min-w-[3rem] whitespace-nowrap text-right text-sm font-medium text-blue-300">
                 {scoreData.progressPercentage}%
               </span>
               <ProgressBar
@@ -362,16 +311,14 @@ export function AllQuestionsView({
                 variant="default"
                 showText={false}
                 showPercentage={false}
-                className="flex-1 h-2"
+                className="h-2 flex-1"
               />
             </div>
 
             {/* Score Section */}
             <div className="flex items-center gap-3">
-              <Brain className="w-5 h-5 text-green-300 flex-shrink-0" />
-              <span className="text-sm font-medium text-green-300 whitespace-nowrap">
-                Score:
-              </span>
+              <Brain className="h-5 w-5 flex-shrink-0 text-green-300" />
+              <span className="whitespace-nowrap text-sm font-medium text-green-300">Score:</span>
               <CircularProgress
                 value={scoreData.scorePercentage}
                 size={32}
@@ -383,29 +330,29 @@ export function AllQuestionsView({
       </div>
 
       <div className="p-4 pt-8 sm:pt-12">
-        <div className="max-w-6xl mx-auto space-y-6">
+        <div className="mx-auto max-w-6xl space-y-6">
           {/* Header */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-8">
+          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div className="min-w-0 flex-1">
-              <div className="flex items-start gap-3 mb-2">
+              <div className="mb-2 flex items-start gap-3">
                 <div className="min-w-0 flex-1">
                   {isReviewSession ? (
                     <div>
-                      <h1 className="text-3xl font-bold text-white leading-tight break-words hyphens-auto">
+                      <h1 className="hyphens-auto break-words text-3xl font-bold leading-tight text-white">
                         Review Session - All Questions
                       </h1>
                       <div className="mt-2">
                         {headerInfo.hasChapterNumber ? (
                           <div>
-                            <div className="text-lg text-orange-300 font-medium break-words">
+                            <div className="break-words text-lg font-medium text-orange-300">
                               {headerInfo.chapterNumber}
                             </div>
-                            <div className="text-xl text-orange-200 mt-1 break-words font-medium leading-tight">
+                            <div className="mt-1 break-words text-xl font-medium leading-tight text-orange-200">
                               {headerInfo.chapterTitle}
                             </div>
                           </div>
                         ) : (
-                          <p className="text-lg text-orange-300 mt-1 break-words font-medium">
+                          <p className="mt-1 break-words text-lg font-medium text-orange-300">
                             {headerInfo.chapterTitle}
                           </p>
                         )}
@@ -415,15 +362,15 @@ export function AllQuestionsView({
                     <div>
                       {headerInfo.hasChapterNumber ? (
                         <div>
-                          <div className="text-xl font-semibold text-blue-300 break-words hyphens-auto">
+                          <div className="hyphens-auto break-words text-xl font-semibold text-blue-300">
                             {headerInfo.chapterNumber} - All Questions
                           </div>
-                          <h1 className="text-3xl font-bold text-white mt-1 leading-tight break-words hyphens-auto">
+                          <h1 className="mt-1 hyphens-auto break-words text-3xl font-bold leading-tight text-white">
                             {headerInfo.chapterTitle}
                           </h1>
                         </div>
                       ) : (
-                        <h1 className="text-3xl font-bold text-white leading-tight break-words hyphens-auto">
+                        <h1 className="hyphens-auto break-words text-3xl font-bold leading-tight text-white">
                           {chapter.name} - All Questions
                         </h1>
                       )}
@@ -431,7 +378,7 @@ export function AllQuestionsView({
                   )}
                 </div>
               </div>
-              <p className="text-gray-400 break-words text-base">
+              <p className="break-words text-base text-gray-400">
                 Complete overview of all {chapter.questions.length} questions
               </p>
             </div>
@@ -444,9 +391,9 @@ export function AllQuestionsView({
                       onClick={handleResetAllAnswers}
                       variant="outline"
                       size="sm"
-                      className="border-orange-700 bg-orange-900/40 text-orange-200 hover:bg-orange-800/50 hover:text-white hover:border-orange-600 transition-all duration-200 w-10 h-10 p-0"
+                      className="h-10 w-10 border-orange-700 bg-orange-900/40 p-0 text-orange-200 transition-all duration-200 hover:border-orange-600 hover:bg-orange-800/50 hover:text-white"
                     >
-                      <RotateCcw className="w-4 h-4" />
+                      <RotateCcw className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -460,9 +407,9 @@ export function AllQuestionsView({
                       onClick={onBackToDashboard}
                       variant="outline"
                       size="sm"
-                      className="border-gray-700 bg-gray-900/70 text-gray-200 hover:bg-gray-800 hover:text-white hover:border-gray-600 transition-all duration-200 w-10 h-10 p-0"
+                      className="h-10 w-10 border-gray-700 bg-gray-900/70 p-0 text-gray-200 transition-all duration-200 hover:border-gray-600 hover:bg-gray-800 hover:text-white"
                     >
-                      <Home className="w-4 h-4" />
+                      <Home className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -474,13 +421,13 @@ export function AllQuestionsView({
           </div>
 
           {/* Controls */}
-          <div className="flex flex-col sm:flex-row sm:justify-between items-stretch sm:items-center gap-4">
+          <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Button
               onClick={onBackToQuiz}
               variant="outline"
-              className="border-gray-700 bg-gray-900/40 text-gray-200 hover:bg-gray-800/50 hover:text-white hover:border-gray-600 transition-all duration-200"
+              className="border-gray-700 bg-gray-900/40 text-gray-200 transition-all duration-200 hover:border-gray-600 hover:bg-gray-800/50 hover:text-white"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Quiz Navigation
             </Button>
 
@@ -490,18 +437,18 @@ export function AllQuestionsView({
                 variant="outline"
                 className={`transition-all duration-200 ${
                   showAnswers
-                    ? "border-yellow-600 bg-yellow-900/50 text-yellow-200 hover:bg-yellow-800/60"
-                    : "border-gray-700 bg-gray-900/40 text-gray-200 hover:bg-gray-800/50"
+                    ? 'border-yellow-600 bg-yellow-900/50 text-yellow-200 hover:bg-yellow-800/60'
+                    : 'border-gray-700 bg-gray-900/40 text-gray-200 hover:bg-gray-800/50'
                 }`}
               >
                 {showAnswers ? (
                   <>
-                    <EyeOff className="w-4 h-4 mr-2" />
+                    <EyeOff className="mr-2 h-4 w-4" />
                     Hide Answers
                   </>
                 ) : (
                   <>
-                    <Eye className="w-4 h-4 mr-2" />
+                    <Eye className="mr-2 h-4 w-4" />
                     Show All Answers
                   </>
                 )}
@@ -518,28 +465,24 @@ export function AllQuestionsView({
               return (
                 <Card
                   key={question.questionId}
-                  className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 backdrop-blur-sm shadow-lg"
+                  className="border-slate-700 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-lg backdrop-blur-sm"
                 >
                   <CardHeader>
-                    <CardTitle className="text-white text-lg break-words flex items-center gap-3">
-                      <span className="text-blue-400 font-mono text-base">
-                        Q{index + 1}
-                      </span>
+                    <CardTitle className="flex items-center gap-3 break-words text-lg text-white">
+                      <span className="font-mono text-base text-blue-400">Q{index + 1}</span>
                       {questionState?.isSubmitted && (
                         <div className="flex items-center gap-1">
                           {questionState.isCorrect ? (
-                            <CheckCircle className="w-5 h-5 text-green-400" />
+                            <CheckCircle className="h-5 w-5 text-green-400" />
                           ) : (
-                            <XCircle className="w-5 h-5 text-red-400" />
+                            <XCircle className="h-5 w-5 text-red-400" />
                           )}
                           <span
                             className={`text-sm font-medium ${
-                              questionState.isCorrect
-                                ? "text-green-400"
-                                : "text-red-400"
+                              questionState.isCorrect ? 'text-green-400' : 'text-red-400'
                             }`}
                           >
-                            {questionState.isCorrect ? "Correct" : "Incorrect"}
+                            {questionState.isCorrect ? 'Correct' : 'Incorrect'}
                           </span>
                         </div>
                       )}
@@ -550,21 +493,18 @@ export function AllQuestionsView({
                     <div className="prose prose-invert max-w-none">
                       <SecureTextRenderer
                         content={question.questionText}
-                        className="text-white text-lg leading-relaxed break-words"
+                        className="break-words text-lg leading-relaxed text-white"
                       />
                     </div>
 
                     {/* Options */}
                     <div className="space-y-3">
-                      <h4 className="text-base font-semibold text-white break-words">
+                      <h4 className="break-words text-base font-semibold text-white">
                         Choose your answer:
                       </h4>
                       <div className="space-y-2">
                         {questionState?.displayedOptions.map((option) => {
-                          const displayState = getOptionDisplayState(
-                            question.questionId,
-                            option,
-                          );
+                          const displayState = getOptionDisplayState(question.questionId, option);
                           return (
                             <OptionCard
                               key={option.optionId}
@@ -574,10 +514,7 @@ export function AllQuestionsView({
                               showAsIncorrect={displayState.showAsIncorrect}
                               isSubmitted={isSubmitted}
                               onSelect={() =>
-                                handleSelectOption(
-                                  question.questionId,
-                                  option.optionId,
-                                )
+                                handleSelectOption(question.questionId, option.optionId)
                               }
                               disabled={isSubmitted}
                             />
@@ -590,11 +527,9 @@ export function AllQuestionsView({
                     {!isSubmitted && !showAnswers && (
                       <div className="flex justify-end">
                         <Button
-                          onClick={() =>
-                            handleSubmitAnswer(question.questionId)
-                          }
+                          onClick={() => handleSubmitAnswer(question.questionId)}
                           disabled={!questionState?.selectedOptionId}
-                          className="bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white px-6 shadow-sm transition-all duration-200"
+                          className="bg-blue-700 px-6 text-white shadow-sm transition-all duration-200 hover:bg-blue-800 active:bg-blue-900"
                         >
                           Submit Answer
                         </Button>
@@ -603,20 +538,15 @@ export function AllQuestionsView({
 
                     {/* Explanation */}
                     {isSubmitted && (
-                      <Card className="bg-gradient-to-r from-slate-900 to-slate-950 border-slate-700 backdrop-blur-sm">
+                      <Card className="border-slate-700 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-sm">
                         <CardHeader>
-                          <CardTitle className="text-slate-200 text-base">
-                            Explanation
-                          </CardTitle>
+                          <CardTitle className="text-base text-slate-200">Explanation</CardTitle>
                         </CardHeader>
                         <CardContent>
                           <div className="prose prose-invert max-w-none">
                             <SecureTextRenderer
-                              content={processExplanationText(
-                                question,
-                                question.questionId,
-                              )}
-                              className="text-white leading-relaxed text-sm break-words"
+                              content={processExplanationText(question, question.questionId)}
+                              className="break-words text-sm leading-relaxed text-white"
                             />
                           </div>
                         </CardContent>
@@ -629,13 +559,13 @@ export function AllQuestionsView({
           </div>
 
           {/* Bottom Actions */}
-          <div className="flex flex-col sm:flex-row sm:justify-between items-stretch sm:items-center gap-4 pt-8 border-t border-slate-700">
+          <div className="flex flex-col items-stretch gap-4 border-t border-slate-700 pt-8 sm:flex-row sm:items-center sm:justify-between">
             <Button
               onClick={onBackToQuiz}
               variant="outline"
-              className="border-gray-700 bg-gray-900/40 text-gray-200 hover:bg-gray-800/50 hover:text-white hover:border-gray-600 transition-all duration-200"
+              className="border-gray-700 bg-gray-900/40 text-gray-200 transition-all duration-200 hover:border-gray-600 hover:bg-gray-800/50 hover:text-white"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Quiz Navigation
             </Button>
 
@@ -644,18 +574,18 @@ export function AllQuestionsView({
                 <Button
                   onClick={onRetryChapter}
                   variant="outline"
-                  className="border-orange-700 bg-orange-900/40 text-orange-200 hover:bg-orange-800/50 hover:text-white hover:border-orange-600 transition-all duration-200"
+                  className="border-orange-700 bg-orange-900/40 text-orange-200 transition-all duration-200 hover:border-orange-600 hover:bg-orange-800/50 hover:text-white"
                 >
-                  <RotateCcw className="w-4 h-4 mr-2" />
+                  <RotateCcw className="mr-2 h-4 w-4" />
                   Retry Chapter
                 </Button>
               )}
 
               <Button
                 onClick={onBackToDashboard}
-                className="bg-green-700 hover:bg-green-800 active:bg-green-900 text-white px-6 shadow-sm transition-all duration-200"
+                className="bg-green-700 px-6 text-white shadow-sm transition-all duration-200 hover:bg-green-800 active:bg-green-900"
               >
-                <Home className="w-4 h-4 mr-2" />
+                <Home className="mr-2 h-4 w-4" />
                 Back to Dashboard
               </Button>
             </div>

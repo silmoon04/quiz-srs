@@ -1,9 +1,4 @@
-import type {
-  QuizModule,
-  QuizQuestion,
-  QuizChapter,
-  QuizOption,
-} from "@/types/quiz-types";
+import type { QuizModule, QuizQuestion, QuizChapter, QuizOption } from '@/types/quiz-types';
 
 export interface ValidationResult {
   isValid: boolean;
@@ -21,10 +16,8 @@ interface LaTeXCorrectionResult {
  * Automatically detects and corrects common LaTeX formatting errors in JSON content
  * Specifically handles single backslash issues and other common problems
  */
-export function correctLatexInJsonContent(
-  jsonContent: string,
-): LaTeXCorrectionResult {
-  console.log("=== Starting LaTeX Correction Process ===");
+export function correctLatexInJsonContent(jsonContent: string): LaTeXCorrectionResult {
+  console.log('=== Starting LaTeX Correction Process ===');
 
   let correctedContent = jsonContent;
   let correctionsMade = 0;
@@ -32,88 +25,87 @@ export function correctLatexInJsonContent(
 
   // Common LaTeX commands that should have double backslashes
   const latexCommands = [
-    "frac",
-    "sqrt",
-    "sum",
-    "int",
-    "lim",
-    "log",
-    "ln",
-    "sin",
-    "cos",
-    "tan",
-    "alpha",
-    "beta",
-    "gamma",
-    "delta",
-    "epsilon",
-    "theta",
-    "lambda",
-    "mu",
-    "pi",
-    "sigma",
-    "phi",
-    "psi",
-    "omega",
-    "infty",
-    "partial",
-    "nabla",
-    "times",
-    "cdot",
-    "div",
-    "pm",
-    "mp",
-    "neq",
-    "leq",
-    "geq",
-    "approx",
-    "equiv",
-    "propto",
-    "subset",
-    "supset",
-    "in",
-    "notin",
-    "cap",
-    "cup",
-    "land",
-    "lor",
-    "neg",
-    "rightarrow",
-    "leftarrow",
-    "leftrightarrow",
-    "Rightarrow",
-    "Leftarrow",
-    "Leftrightarrow",
-    "uparrow",
-    "downarrow",
-    "lceil",
-    "rceil",
-    "lfloor",
-    "rfloor",
-    "left",
-    "right",
-    "big",
-    "Big",
-    "bigg",
-    "Bigg",
-    "mathbb",
-    "mathcal",
-    "mathfrak",
-    "mathbf",
-    "mathrm",
-    "text",
-    "textbf",
-    "textit",
-    "emph",
-    "boldsymbol",
-    "overline",
-    "underline",
+    'frac',
+    'sqrt',
+    'sum',
+    'int',
+    'lim',
+    'log',
+    'ln',
+    'sin',
+    'cos',
+    'tan',
+    'alpha',
+    'beta',
+    'gamma',
+    'delta',
+    'epsilon',
+    'theta',
+    'lambda',
+    'mu',
+    'pi',
+    'sigma',
+    'phi',
+    'psi',
+    'omega',
+    'infty',
+    'partial',
+    'nabla',
+    'times',
+    'cdot',
+    'div',
+    'pm',
+    'mp',
+    'neq',
+    'leq',
+    'geq',
+    'approx',
+    'equiv',
+    'propto',
+    'subset',
+    'supset',
+    'in',
+    'notin',
+    'cap',
+    'cup',
+    'land',
+    'lor',
+    'neg',
+    'rightarrow',
+    'leftarrow',
+    'leftrightarrow',
+    'Rightarrow',
+    'Leftarrow',
+    'Leftrightarrow',
+    'uparrow',
+    'downarrow',
+    'lceil',
+    'rceil',
+    'lfloor',
+    'rfloor',
+    'left',
+    'right',
+    'big',
+    'Big',
+    'bigg',
+    'Bigg',
+    'mathbb',
+    'mathcal',
+    'mathfrak',
+    'mathbf',
+    'mathrm',
+    'text',
+    'textbf',
+    'textit',
+    'emph',
+    'boldsymbol',
+    'overline',
+    'underline',
   ];
 
   // Pattern to find LaTeX expressions within JSON strings
   // This looks for content that appears to be LaTeX (contains backslashes and math symbols)
-  const latexContextPattern =
-    /("(?:[^"\\]|\\.)*\\[^"\\]*(?:\\[^"\\]*)*[^"\\]*")/g;
+  const latexContextPattern = /("(?:[^"\\]|\\.)*\\[^"\\]*(?:\\[^"\\]*)*[^"\\]*")/g;
 
   // Find all potential LaTeX contexts in the JSON
   const latexMatches = correctedContent.match(latexContextPattern) || [];
@@ -130,10 +122,7 @@ export function correctLatexInJsonContent(
 
     // 1. Fix single backslashes before known LaTeX commands
     latexCommands.forEach((command) => {
-      const singleBackslashPattern = new RegExp(
-        `(?<!\\\\)\\\\${command}\\b`,
-        "g",
-      );
+      const singleBackslashPattern = new RegExp(`(?<!\\\\)\\\\${command}\\b`, 'g');
       const beforeReplace = content;
       content = content.replace(singleBackslashPattern, `\\\\${command}`);
 
@@ -149,59 +138,59 @@ export function correctLatexInJsonContent(
       // Fix \{ and \} (should be \\{ and \\})
       {
         pattern: /(?<!\\)\\{/g,
-        replacement: "\\\\{",
-        description: "\\{ → \\\\{",
+        replacement: '\\\\{',
+        description: '\\{ → \\\\{',
       },
       {
         pattern: /(?<!\\)\\}/g,
-        replacement: "\\\\}",
-        description: "\\} → \\\\}",
+        replacement: '\\\\}',
+        description: '\\} → \\\\}',
       },
 
       // Fix single backslash before common symbols
       {
         pattern: /(?<!\\)\\([&%$#_^~])/g,
-        replacement: "\\\\$1",
-        description: "Fixed escaped symbols",
+        replacement: '\\\\$1',
+        description: 'Fixed escaped symbols',
       },
 
       // Fix display math delimiters if they appear escaped incorrectly
       {
         pattern: /(?<!\\)\\\[/g,
-        replacement: "\\\\[",
-        description: "\\[ → \\\\[",
+        replacement: '\\\\[',
+        description: '\\[ → \\\\[',
       },
       {
         pattern: /(?<!\\)\\\]/g,
-        replacement: "\\\\]",
-        description: "\\] → \\\\]",
+        replacement: '\\\\]',
+        description: '\\] → \\\\]',
       },
 
       // Fix common spacing commands
       {
         pattern: /(?<!\\)\\quad\b/g,
-        replacement: "\\\\quad",
-        description: "\\quad → \\\\quad",
+        replacement: '\\\\quad',
+        description: '\\quad → \\\\quad',
       },
       {
         pattern: /(?<!\\)\\qquad\b/g,
-        replacement: "\\\\qquad",
-        description: "\\qquad → \\\\qquad",
+        replacement: '\\\\qquad',
+        description: '\\qquad → \\\\qquad',
       },
       {
         pattern: /(?<!\\)\\,/g,
-        replacement: "\\\\,",
-        description: "\\, → \\\\,",
+        replacement: '\\\\,',
+        description: '\\, → \\\\,',
       },
       {
         pattern: /(?<!\\)\\;/g,
-        replacement: "\\\\;",
-        description: "\\; → \\\\;",
+        replacement: '\\\\;',
+        description: '\\; → \\\\;',
       },
       {
         pattern: /(?<!\\)\\!/g,
-        replacement: "\\\\!",
-        description: "\\! → \\\\!",
+        replacement: '\\\\!',
+        description: '\\! → \\\\!',
       },
     ];
 
@@ -221,9 +210,7 @@ export function correctLatexInJsonContent(
     const environmentPattern = /(?<!\\)\\(begin|end){([^}]+)}/g;
     content = content.replace(environmentPattern, (match, command, env) => {
       correctionsMade++;
-      correctionDetails.push(
-        `Fixed \\${command}{${env}} → \\\\${command}{${env}}`,
-      );
+      correctionDetails.push(`Fixed \\${command}{${env}} → \\\\${command}{${env}}`);
       return `\\\\${command}{${env}}`;
     });
 
@@ -245,10 +232,7 @@ export function correctLatexInJsonContent(
 
     // Replace the original match with the corrected version
     if (correctedMatch !== originalMatch) {
-      correctedContent = correctedContent.replace(
-        originalMatch,
-        correctedMatch,
-      );
+      correctedContent = correctedContent.replace(originalMatch, correctedMatch);
     }
   });
 
@@ -260,14 +244,14 @@ export function correctLatexInJsonContent(
       pattern:
         /"([^"]*?)(?<!\\)\\(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)([^"]*?)"/g,
       replacement: '"$1\\\\$2$3"',
-      description: "Fixed Greek letters",
+      description: 'Fixed Greek letters',
     },
 
     // Fix \cdot, \times, etc. that might be missed
     {
       pattern: /"([^"]*?)(?<!\\)\\(cdot|times|div|pm|mp)([^"]*?)"/g,
       replacement: '"$1\\\\$2$3"',
-      description: "Fixed operators",
+      description: 'Fixed operators',
     },
   ];
 
@@ -302,10 +286,9 @@ export function validateAndCorrectQuizModule(data: any): {
   normalizedModule?: QuizModule;
 } {
   let jsonString: string;
-  let correctionResult: LaTeXCorrectionResult | undefined;
 
   // Convert data to JSON string if it's not already
-  if (typeof data === "string") {
+  if (typeof data === 'string') {
     jsonString = data;
   } else {
     jsonString = JSON.stringify(data, null, 2);
@@ -323,7 +306,7 @@ export function validateAndCorrectQuizModule(data: any): {
       validationResult: {
         isValid: false,
         errors: [
-          `Failed to parse corrected JSON: ${parseError instanceof Error ? parseError.message : "Unknown parse error"}`,
+          `Failed to parse corrected JSON: ${parseError instanceof Error ? parseError.message : 'Unknown parse error'}`,
         ],
       },
       correctionResult,
@@ -350,17 +333,17 @@ export function validateQuizModule(data: any): ValidationResult {
   const errors: string[] = [];
 
   // Check if data is an object
-  if (!data || typeof data !== "object") {
-    return { isValid: false, errors: ["Invalid JSON: Expected an object"] };
+  if (!data || typeof data !== 'object') {
+    return { isValid: false, errors: ['Invalid JSON: Expected an object'] };
   }
 
   // Check required top-level properties
-  if (typeof data.name !== "string") {
+  if (typeof data.name !== 'string') {
     errors.push("Missing or invalid 'name' property (must be string)");
   }
 
   // Description is optional, but if present must be string
-  if (data.description !== undefined && typeof data.description !== "string") {
+  if (data.description !== undefined && typeof data.description !== 'string') {
     errors.push("Invalid 'description' property (must be string if provided)");
   }
 
@@ -389,37 +372,28 @@ function validateChapter(chapter: any, index: number): string[] {
   const prefix = `Chapter ${index + 1}`;
 
   // Check if chapter is an object
-  if (!chapter || typeof chapter !== "object") {
+  if (!chapter || typeof chapter !== 'object') {
     errors.push(`${prefix}: Expected an object`);
     return errors;
   }
 
   // Validate required properties
-  if (typeof chapter.id !== "string") {
+  if (typeof chapter.id !== 'string') {
     errors.push(`${prefix}: Missing or invalid 'id' property (must be string)`);
   }
 
-  if (typeof chapter.name !== "string") {
-    errors.push(
-      `${prefix}: Missing or invalid 'name' property (must be string)`,
-    );
+  if (typeof chapter.name !== 'string') {
+    errors.push(`${prefix}: Missing or invalid 'name' property (must be string)`);
   }
 
   // Description is optional, but if present must be string
-  if (
-    chapter.description !== undefined &&
-    typeof chapter.description !== "string"
-  ) {
-    errors.push(
-      `${prefix}: Invalid 'description' property (must be string if provided)`,
-    );
+  if (chapter.description !== undefined && typeof chapter.description !== 'string') {
+    errors.push(`${prefix}: Invalid 'description' property (must be string if provided)`);
   }
 
   // Validate questions array
   if (!Array.isArray(chapter.questions)) {
-    errors.push(
-      `${prefix}: Missing or invalid 'questions' property (must be array)`,
-    );
+    errors.push(`${prefix}: Missing or invalid 'questions' property (must be array)`);
   } else {
     if (chapter.questions.length === 0) {
       errors.push(`${prefix}: 'questions' array cannot be empty`);
@@ -438,44 +412,32 @@ function validateChapter(chapter: any, index: number): string[] {
   return errors;
 }
 
-function validateQuestion(
-  question: any,
-  chapterIndex: number,
-  questionIndex: number,
-): string[] {
+function validateQuestion(question: any, chapterIndex: number, questionIndex: number): string[] {
   const errors: string[] = [];
   const prefix = `Chapter ${chapterIndex + 1}, Question ${questionIndex + 1}`;
 
   // Check if question is an object
-  if (!question || typeof question !== "object") {
+  if (!question || typeof question !== 'object') {
     errors.push(`${prefix}: Expected an object`);
     return errors;
   }
 
   // Validate required properties
-  if (typeof question.questionId !== "string") {
-    errors.push(
-      `${prefix}: Missing or invalid 'questionId' property (must be string)`,
-    );
+  if (typeof question.questionId !== 'string') {
+    errors.push(`${prefix}: Missing or invalid 'questionId' property (must be string)`);
   }
 
-  if (typeof question.questionText !== "string") {
-    errors.push(
-      `${prefix}: Missing or invalid 'questionText' property (must be string)`,
-    );
+  if (typeof question.questionText !== 'string') {
+    errors.push(`${prefix}: Missing or invalid 'questionText' property (must be string)`);
   }
 
-  if (typeof question.explanationText !== "string") {
-    errors.push(
-      `${prefix}: Missing or invalid 'explanationText' property (must be string)`,
-    );
+  if (typeof question.explanationText !== 'string') {
+    errors.push(`${prefix}: Missing or invalid 'explanationText' property (must be string)`);
   }
 
   // Validate options array
   if (!Array.isArray(question.options)) {
-    errors.push(
-      `${prefix}: Missing or invalid 'options' property (must be array)`,
-    );
+    errors.push(`${prefix}: Missing or invalid 'options' property (must be array)`);
   } else {
     if (question.options.length === 0) {
       errors.push(`${prefix}: 'options' array cannot be empty`);
@@ -483,17 +445,17 @@ function validateQuestion(
 
     // Validate each option
     question.options.forEach((option: any, optionIndex: number) => {
-      if (!option || typeof option !== "object") {
+      if (!option || typeof option !== 'object') {
         errors.push(`${prefix}, Option ${optionIndex + 1}: Expected an object`);
         return;
       }
 
-      if (typeof option.optionId !== "string") {
+      if (typeof option.optionId !== 'string') {
         errors.push(
           `${prefix}, Option ${optionIndex + 1}: Missing or invalid 'optionId' property (must be string)`,
         );
       }
-      if (typeof option.optionText !== "string") {
+      if (typeof option.optionText !== 'string') {
         errors.push(
           `${prefix}, Option ${optionIndex + 1}: Missing or invalid 'optionText' property (must be string)`,
         );
@@ -503,9 +465,7 @@ function validateQuestion(
 
   // Validate correctOptionIds array
   if (!Array.isArray(question.correctOptionIds)) {
-    errors.push(
-      `${prefix}: Missing or invalid 'correctOptionIds' property (must be array)`,
-    );
+    errors.push(`${prefix}: Missing or invalid 'correctOptionIds' property (must be array)`);
   } else {
     if (question.correctOptionIds.length === 0) {
       errors.push(`${prefix}: 'correctOptionIds' array cannot be empty`);
@@ -514,22 +474,18 @@ function validateQuestion(
     // Check that all correctOptionIds exist in options (only if options is valid)
     if (Array.isArray(question.options) && question.options.length > 0) {
       const optionIds = question.options
-        .filter((opt: any) => opt && typeof opt.optionId === "string")
+        .filter((opt: any) => opt && typeof opt.optionId === 'string')
         .map((opt: any) => opt.optionId);
 
-      question.correctOptionIds.forEach(
-        (correctId: any, correctIndex: number) => {
-          if (typeof correctId !== "string") {
-            errors.push(
-              `${prefix}: correctOptionIds[${correctIndex}] must be a string, got: ${typeof correctId}`,
-            );
-          } else if (optionIds.length > 0 && !optionIds.includes(correctId)) {
-            errors.push(
-              `${prefix}: correctOptionId '${correctId}' not found in options`,
-            );
-          }
-        },
-      );
+      question.correctOptionIds.forEach((correctId: any, correctIndex: number) => {
+        if (typeof correctId !== 'string') {
+          errors.push(
+            `${prefix}: correctOptionIds[${correctIndex}] must be a string, got: ${typeof correctId}`,
+          );
+        } else if (optionIds.length > 0 && !optionIds.includes(correctId)) {
+          errors.push(`${prefix}: correctOptionId '${correctId}' not found in options`);
+        }
+      });
     }
   }
 
@@ -544,23 +500,21 @@ export function validateSingleQuestion(data: any): ValidationResult {
   const errors: string[] = [];
 
   // Check if question is an object
-  if (!data || typeof data !== "object") {
-    return { isValid: false, errors: ["Expected a question object"] };
+  if (!data || typeof data !== 'object') {
+    return { isValid: false, errors: ['Expected a question object'] };
   }
 
   // Validate required properties
-  if (typeof data.questionId !== "string") {
+  if (typeof data.questionId !== 'string') {
     errors.push("Missing or invalid 'questionId' property (must be string)");
   }
 
-  if (typeof data.questionText !== "string") {
+  if (typeof data.questionText !== 'string') {
     errors.push("Missing or invalid 'questionText' property (must be string)");
   }
 
-  if (typeof data.explanationText !== "string") {
-    errors.push(
-      "Missing or invalid 'explanationText' property (must be string)",
-    );
+  if (typeof data.explanationText !== 'string') {
+    errors.push("Missing or invalid 'explanationText' property (must be string)");
   }
 
   // Validate options array
@@ -573,17 +527,17 @@ export function validateSingleQuestion(data: any): ValidationResult {
 
     // Validate each option
     data.options.forEach((option: any, optionIndex: number) => {
-      if (!option || typeof option !== "object") {
+      if (!option || typeof option !== 'object') {
         errors.push(`Option ${optionIndex + 1}: Expected an object`);
         return;
       }
 
-      if (typeof option.optionId !== "string") {
+      if (typeof option.optionId !== 'string') {
         errors.push(
           `Option ${optionIndex + 1}: Missing or invalid 'optionId' property (must be string)`,
         );
       }
-      if (typeof option.optionText !== "string") {
+      if (typeof option.optionText !== 'string') {
         errors.push(
           `Option ${optionIndex + 1}: Missing or invalid 'optionText' property (must be string)`,
         );
@@ -593,9 +547,7 @@ export function validateSingleQuestion(data: any): ValidationResult {
 
   // Validate correctOptionIds array
   if (!Array.isArray(data.correctOptionIds)) {
-    errors.push(
-      "Missing or invalid 'correctOptionIds' property (must be array)",
-    );
+    errors.push("Missing or invalid 'correctOptionIds' property (must be array)");
   } else {
     if (data.correctOptionIds.length === 0) {
       errors.push("'correctOptionIds' array cannot be empty");
@@ -604,11 +556,11 @@ export function validateSingleQuestion(data: any): ValidationResult {
     // Check that all correctOptionIds exist in options (only if options is valid)
     if (Array.isArray(data.options) && data.options.length > 0) {
       const optionIds = data.options
-        .filter((opt: any) => opt && typeof opt.optionId === "string")
+        .filter((opt: any) => opt && typeof opt.optionId === 'string')
         .map((opt: any) => opt.optionId);
 
       data.correctOptionIds.forEach((correctId: any, correctIndex: number) => {
-        if (typeof correctId !== "string") {
+        if (typeof correctId !== 'string') {
           errors.push(
             `correctOptionIds[${correctIndex}] must be a string, got: ${typeof correctId}`,
           );
@@ -630,7 +582,7 @@ export function normalizeSingleQuestion(data: QuizQuestion): QuizQuestion {
   return {
     ...data,
     // Initialize performance tracking fields if not present
-    status: data.status || "not_attempted",
+    status: data.status || 'not_attempted',
     timesAnsweredCorrectly: data.timesAnsweredCorrectly || 0,
     timesAnsweredIncorrectly: data.timesAnsweredIncorrectly || 0,
     historyOfIncorrectSelections: data.historyOfIncorrectSelections || [],
@@ -650,7 +602,7 @@ export function normalizeQuizModule(data: any): QuizModule {
     const normalizedQuestions = chapter.questions.map((question: any) => ({
       ...question,
       // Initialize performance tracking fields if not present
-      status: question.status || "not_attempted",
+      status: question.status || 'not_attempted',
       timesAnsweredCorrectly: question.timesAnsweredCorrectly || 0,
       timesAnsweredIncorrectly: question.timesAnsweredIncorrectly || 0,
       historyOfIncorrectSelections: question.historyOfIncorrectSelections || [],
@@ -665,7 +617,7 @@ export function normalizeQuizModule(data: any): QuizModule {
     // Calculate chapter-level statistics based on questions
     const totalQuestions = normalizedQuestions.length;
     const answeredQuestions = normalizedQuestions.filter(
-      (q: any) => q.status !== "not_attempted",
+      (q: any) => q.status !== 'not_attempted',
     ).length;
     const correctAnswers = normalizedQuestions.filter(
       (q: any) => (q.timesAnsweredCorrectly || 0) > 0,
@@ -693,7 +645,7 @@ export function normalizeQuizModule(data: any): QuizModule {
 export function recalculateChapterStats(chapter: any) {
   const totalQuestions = chapter.questions.length;
   const answeredQuestions = chapter.questions.filter(
-    (q: any) => q.status !== "not_attempted",
+    (q: any) => q.status !== 'not_attempted',
   ).length;
   const correctAnswers = chapter.questions.filter(
     (q: any) => (q.timesAnsweredCorrectly || 0) > 0,
@@ -717,16 +669,12 @@ interface MarkdownParseResult {
  * Parses a Markdown file formatted according to the MCQ Quiz specification
  * and converts it to a QuizModule structure
  */
-export function parseMarkdownToQuizModule(
-  markdownContent: string,
-): MarkdownParseResult {
-  console.log("=== Starting Enhanced Markdown Quiz Parsing ===");
+export function parseMarkdownToQuizModule(markdownContent: string): MarkdownParseResult {
+  console.log('=== Starting Enhanced Markdown Quiz Parsing ===');
 
   // Normalize line endings - handle both \r\n and \n
-  const normalizedContent = markdownContent
-    .replace(/\r\n/g, "\n")
-    .replace(/\r/g, "\n");
-  const lines = normalizedContent.split("\n");
+  const normalizedContent = markdownContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const lines = normalizedContent.split('\n');
   const errors: string[] = [];
   let currentLineIndex = 0;
 
@@ -748,32 +696,32 @@ export function parseMarkdownToQuizModule(
   const skipEmptyLines = () => {
     while (
       currentLineIndex < lines.length &&
-      (!lines[currentLineIndex] || lines[currentLineIndex].trim() === "")
+      (!lines[currentLineIndex] || lines[currentLineIndex].trim() === '')
     ) {
       currentLineIndex++;
     }
   };
 
   const cleanText = (text: string): string => {
-    return text.replace(/\r/g, "").trim();
+    return text.replace(/\r/g, '').trim();
   };
 
   try {
     // Parse module header
     let line = consumeLine();
-    if (!line || !line.startsWith("# ")) {
+    if (!line || !line.startsWith('# ')) {
       errors.push("Expected module title starting with '# '");
       return { success: false, errors };
     }
 
     const moduleName = cleanText(line.substring(2));
-    let moduleDescription = "";
+    let moduleDescription = '';
 
     // Check for description line - handle both formats
     line = peekLine();
-    if (line && line.startsWith("Description:")) {
+    if (line && line.startsWith('Description:')) {
       moduleDescription = cleanText(consumeLine()!.substring(12));
-    } else if (line && line.startsWith("_") && line.endsWith("_")) {
+    } else if (line && line.startsWith('_') && line.endsWith('_')) {
       // Handle _description_ format
       moduleDescription = cleanText(consumeLine()!.slice(1, -1));
     }
@@ -781,10 +729,8 @@ export function parseMarkdownToQuizModule(
     // Skip empty lines and find the separator
     skipEmptyLines();
     line = consumeLine();
-    if (line !== "---") {
-      console.log(
-        `Warning: Expected '---' after module header, found: "${line}"`,
-      );
+    if (line !== '---') {
+      console.log(`Warning: Expected '---' after module header, found: "${line}"`);
     }
 
     const chapters: QuizChapter[] = [];
@@ -795,7 +741,7 @@ export function parseMarkdownToQuizModule(
       line = peekLine();
       if (!line) break;
 
-      if (!line.startsWith("## ")) {
+      if (!line.startsWith('## ')) {
         consumeLine();
         continue;
       }
@@ -805,9 +751,7 @@ export function parseMarkdownToQuizModule(
       console.log(`Parsing chapter line: ${line}`);
 
       // Extract chapter name (remove any inline comments)
-      const chapterName = cleanText(
-        line.substring(3).replace(/<!--.*?-->/, ""),
-      );
+      const chapterName = cleanText(line.substring(3).replace(/<!--.*?-->/, ''));
 
       // Check if there's an ID comment on the same line
       let chapterId = extractIdFromComment(line);
@@ -815,7 +759,7 @@ export function parseMarkdownToQuizModule(
       // If no ID on same line, check next line for ID comment
       if (!chapterId) {
         const nextLine = peekLine();
-        if (nextLine && nextLine.trim().startsWith("<!--")) {
+        if (nextLine && nextLine.trim().startsWith('<!--')) {
           chapterId = extractIdFromComment(nextLine);
           if (chapterId) {
             consumeLine(); // consume the ID comment line
@@ -828,21 +772,19 @@ export function parseMarkdownToQuizModule(
         chapterId = `chapter_${chapters.length + 1}`;
       }
 
-      let chapterDescription = "";
+      let chapterDescription = '';
 
       // Check for chapter description
       line = peekLine();
-      if (line && line.startsWith("Description:")) {
+      if (line && line.startsWith('Description:')) {
         chapterDescription = cleanText(consumeLine()!.substring(12));
       }
 
       // Skip empty lines and separator
       skipEmptyLines();
       line = consumeLine();
-      if (line !== "---") {
-        console.log(
-          `Warning: Expected '---' after chapter header, found: "${line}"`,
-        );
+      if (line !== '---') {
+        console.log(`Warning: Expected '---' after chapter header, found: "${line}"`);
       }
 
       const questions: QuizQuestion[] = [];
@@ -853,11 +795,11 @@ export function parseMarkdownToQuizModule(
         line = peekLine();
         if (!line) break;
 
-        if (line.startsWith("## ")) {
+        if (line.startsWith('## ')) {
           break; // Next chapter
         }
 
-        if (!line.startsWith("### Q: ")) {
+        if (!line.startsWith('### Q: ')) {
           consumeLine();
           continue;
         }
@@ -867,15 +809,13 @@ export function parseMarkdownToQuizModule(
         console.log(`Parsing question line: ${line}`);
 
         // Extract question text and ID
-        let questionText = cleanText(
-          line.substring(7).replace(/<!--.*?-->/, ""),
-        );
+        let questionText = cleanText(line.substring(7).replace(/<!--.*?-->/, ''));
         let questionId = extractIdFromComment(line);
 
         // If no ID on same line, check next line for ID comment
         if (!questionId) {
           const nextLine = peekLine();
-          if (nextLine && nextLine.trim().startsWith("<!--")) {
+          if (nextLine && nextLine.trim().startsWith('<!--')) {
             questionId = extractIdFromComment(nextLine);
             if (questionId) {
               consumeLine(); // consume the ID comment line
@@ -893,13 +833,13 @@ export function parseMarkdownToQuizModule(
           line = peekLine();
           if (
             !line ||
-            line.trim() === "" ||
-            line.startsWith("**Options:**") ||
-            line.startsWith("**Opt:**")
+            line.trim() === '' ||
+            line.startsWith('**Options:**') ||
+            line.startsWith('**Opt:**')
           ) {
             break;
           }
-          questionText += "\n" + cleanText(consumeLine()!);
+          questionText += '\n' + cleanText(consumeLine()!);
         }
 
         // Skip empty lines before options
@@ -908,8 +848,7 @@ export function parseMarkdownToQuizModule(
         // Parse options - handle both formats
         line = consumeLine();
         const isOptionsFormat =
-          line &&
-          (line.trim() === "**Options:**" || line.trim() === "**Opt:**");
+          line && (line.trim() === '**Options:**' || line.trim() === '**Opt:**');
 
         if (!isOptionsFormat) {
           errors.push(
@@ -938,10 +877,10 @@ export function parseMarkdownToQuizModule(
           if (!optionMatch) {
             // Check if we've hit the next section
             if (
-              line.startsWith("**Correct:**") ||
-              line.startsWith("**Ans:**") ||
-              line.startsWith("**Exp:**") ||
-              line.trim() === ""
+              line.startsWith('**Correct:**') ||
+              line.startsWith('**Ans:**') ||
+              line.startsWith('**Exp:**') ||
+              line.trim() === ''
             ) {
               break;
             }
@@ -959,16 +898,16 @@ export function parseMarkdownToQuizModule(
             const nextLine = peekLine();
             if (
               !nextLine ||
-              nextLine.startsWith("**A") ||
-              nextLine.startsWith("- **A") ||
-              nextLine.startsWith("**Correct:**") ||
-              nextLine.startsWith("**Ans:**") ||
-              nextLine.startsWith("**Exp:**") ||
-              nextLine.trim() === ""
+              nextLine.startsWith('**A') ||
+              nextLine.startsWith('- **A') ||
+              nextLine.startsWith('**Correct:**') ||
+              nextLine.startsWith('**Ans:**') ||
+              nextLine.startsWith('**Exp:**') ||
+              nextLine.trim() === ''
             ) {
               break;
             }
-            optionText += "\n" + cleanText(consumeLine()!);
+            optionText += '\n' + cleanText(consumeLine()!);
           }
 
           options.push({ optionId, optionText });
@@ -986,8 +925,7 @@ export function parseMarkdownToQuizModule(
         // Parse correct answers - handle both formats
         line = consumeLine();
         const isCorrectFormat =
-          line &&
-          (line.startsWith("**Correct:**") || line.startsWith("**Ans:**"));
+          line && (line.startsWith('**Correct:**') || line.startsWith('**Ans:**'));
 
         if (!isCorrectFormat) {
           errors.push(
@@ -996,12 +934,12 @@ export function parseMarkdownToQuizModule(
           continue;
         }
 
-        const correctSection = line.startsWith("**Correct:**")
+        const correctSection = line.startsWith('**Correct:**')
           ? line.substring(12)
           : line.substring(8);
         const correctLabels = correctSection
           .trim()
-          .split(",")
+          .split(',')
           .map((l) => l.trim())
           .filter((l) => l.length > 0);
 
@@ -1011,7 +949,7 @@ export function parseMarkdownToQuizModule(
 
         if (correctOptionIds.length === 0) {
           errors.push(
-            `No valid correct answers found for question ${questionId}. Labels: ${correctLabels.join(", ")}, Available: ${Object.keys(optionLabelToIdMap).join(", ")}`,
+            `No valid correct answers found for question ${questionId}. Labels: ${correctLabels.join(', ')}, Available: ${Object.keys(optionLabelToIdMap).join(', ')}`,
           );
           continue;
         }
@@ -1021,33 +959,26 @@ export function parseMarkdownToQuizModule(
 
         // Parse explanation
         line = consumeLine();
-        if (!line || line.trim() !== "**Exp:**") {
-          errors.push(
-            `Expected '**Exp:**' for question ${questionId}, found: "${line}"`,
-          );
+        if (!line || line.trim() !== '**Exp:**') {
+          errors.push(`Expected '**Exp:**' for question ${questionId}, found: "${line}"`);
           continue;
         }
 
-        let explanationText = "";
+        let explanationText = '';
         while (currentLineIndex < lines.length) {
           line = peekLine();
-          if (
-            !line ||
-            line === "---" ||
-            line.startsWith("### Q: ") ||
-            line.startsWith("## ")
-          ) {
+          if (!line || line === '---' || line.startsWith('### Q: ') || line.startsWith('## ')) {
             break;
           }
 
-          if (explanationText) explanationText += "\n";
+          if (explanationText) explanationText += '\n';
           explanationText += cleanText(consumeLine()!);
         }
 
         // Skip separator if present
         skipEmptyLines();
         line = peekLine();
-        if (line === "---") {
+        if (line === '---') {
           consumeLine();
         }
 
@@ -1058,7 +989,7 @@ export function parseMarkdownToQuizModule(
           options,
           correctOptionIds,
           explanationText: explanationText.trim(),
-          status: "not_attempted",
+          status: 'not_attempted',
           timesAnsweredCorrectly: 0,
           timesAnsweredIncorrectly: 0,
           historyOfIncorrectSelections: [],
@@ -1070,9 +1001,7 @@ export function parseMarkdownToQuizModule(
         };
 
         questions.push(question);
-        console.log(
-          `Successfully parsed question: ${questionId} with ${options.length} options`,
-        );
+        console.log(`Successfully parsed question: ${questionId} with ${options.length} options`);
       }
 
       // Create chapter object and calculate stats
@@ -1088,13 +1017,11 @@ export function parseMarkdownToQuizModule(
       };
 
       chapters.push(chapter);
-      console.log(
-        `Successfully parsed chapter: ${chapterName} with ${questions.length} questions`,
-      );
+      console.log(`Successfully parsed chapter: ${chapterName} with ${questions.length} questions`);
     }
 
     if (chapters.length === 0) {
-      errors.push("No chapters found in the Markdown file");
+      errors.push('No chapters found in the Markdown file');
       return { success: false, errors };
     }
 
@@ -1104,15 +1031,11 @@ export function parseMarkdownToQuizModule(
       chapters,
     };
 
-    console.log(
-      `Successfully parsed Markdown: ${moduleName} with ${chapters.length} chapters`,
-    );
+    console.log(`Successfully parsed Markdown: ${moduleName} with ${chapters.length} chapters`);
     return { success: true, quizModule, errors };
   } catch (error) {
-    console.error("Error parsing Markdown:", error);
-    errors.push(
-      `Parse error: ${error instanceof Error ? error.message : "Unknown error"}`,
-    );
+    console.error('Error parsing Markdown:', error);
+    errors.push(`Parse error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     return { success: false, errors };
   }
 }
@@ -1121,7 +1044,7 @@ export function parseMarkdownToQuizModule(
  * Test function for the markdown parser
  */
 export function testMarkdownParser() {
-  console.log("=== Running Markdown Parser Tests ===");
+  console.log('=== Running Markdown Parser Tests ===');
 
   // Test 1: Your original format
   const test1Content = `# Module: Algorithms and Data Structures - Comprehensive MCQ Review
@@ -1165,13 +1088,13 @@ _Optional description_
 **Exp:** 2+2 equals 4.
 ---`;
 
-  console.log("Testing format 1 (your original)...");
+  console.log('Testing format 1 (your original)...');
   const result1 = parseMarkdownToQuizModule(test1Content);
-  console.log("Result 1:", result1);
+  console.log('Result 1:', result1);
 
-  console.log("Testing format 2 (simple)...");
+  console.log('Testing format 2 (simple)...');
   const result2 = parseMarkdownToQuizModule(test2Content);
-  console.log("Result 2:", result2);
+  console.log('Result 2:', result2);
 
   return { result1, result2 };
 }

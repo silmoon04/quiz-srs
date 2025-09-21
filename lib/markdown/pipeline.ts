@@ -5,90 +5,87 @@
  * with comprehensive XSS sanitization while preserving LaTeX rendering.
  */
 
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeRaw from "rehype-raw";
-import rehypeKatex from "rehype-katex";
-import rehypeSanitize from "rehype-sanitize";
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeRaw from 'rehype-raw';
+import rehypeKatex from 'rehype-katex';
+import rehypeSanitize from 'rehype-sanitize';
 
 // Custom sanitization schema for safe HTML
 const sanitizeSchema = {
   tagNames: [
     // Text formatting
-    "b",
-    "i",
-    "em",
-    "strong",
-    "code",
-    "pre",
-    "br",
+    'b',
+    'i',
+    'em',
+    'strong',
+    'code',
+    'pre',
+    'br',
     // Lists
-    "ul",
-    "ol",
-    "li",
+    'ul',
+    'ol',
+    'li',
     // Tables
-    "table",
-    "thead",
-    "tbody",
-    "tr",
-    "th",
-    "td",
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'th',
+    'td',
     // Structure
-    "p",
-    "div",
-    "span",
-    "blockquote",
+    'p',
+    'div',
+    'span',
+    'blockquote',
     // Links and images (with restrictions)
-    "a",
-    "img",
+    'a',
+    'img',
     // Headings
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
     // Horizontal rule
-    "hr",
+    'hr',
     // Strikethrough
-    "del",
-    "s",
+    'del',
+    's',
     // Task lists
-    "input",
+    'input',
   ],
   attributes: {
     // Allow href on links but sanitize URLs
-    a: ["href", "title", "target", "rel"],
+    a: ['href', 'title', 'target', 'rel'],
     // Allow src and alt on images
-    img: ["src", "alt", "title", "width", "height"],
+    img: ['src', 'alt', 'title', 'width', 'height'],
     // Allow class for styling
-    "*": ["class"],
+    '*': ['class'],
     // Allow data attributes for KaTeX
-    span: ["data-katex", "data-katex-display"],
-    div: ["data-katex", "data-katex-display"],
+    span: ['data-katex', 'data-katex-display'],
+    div: ['data-katex', 'data-katex-display'],
     // Allow type and checked for task lists
-    input: ["type", "checked", "disabled"],
+    input: ['type', 'checked', 'disabled'],
     // Allow code language classes
-    code: ["class"],
-    pre: ["class"],
+    code: ['class'],
+    pre: ['class'],
   },
   protocols: {
-    href: ["http", "https", "mailto"],
-    src: ["http", "https", "data"],
+    href: ['http', 'https', 'mailto'],
+    src: ['http', 'https', 'data'],
   },
   // Custom URL sanitization
   urlFilter: (url: string) => {
     // Block javascript: URLs
-    if (url.toLowerCase().startsWith("javascript:")) {
+    if (url.toLowerCase().startsWith('javascript:')) {
       return false;
     }
     // Block data: URLs except for images
-    if (
-      url.toLowerCase().startsWith("data:") &&
-      !url.toLowerCase().startsWith("data:image/")
-    ) {
+    if (url.toLowerCase().startsWith('data:') && !url.toLowerCase().startsWith('data:image/')) {
       return false;
     }
     return true;
@@ -111,7 +108,7 @@ export async function processMarkdown(content: string): Promise<string> {
     const result = await processor.process(content);
     return String(result);
   } catch (error) {
-    console.error("Markdown processing error:", error);
+    console.error('Markdown processing error:', error);
     // Return sanitized fallback
     return sanitizeFallback(content);
   }
@@ -123,14 +120,14 @@ export async function processMarkdown(content: string): Promise<string> {
 function sanitizeFallback(content: string): string {
   // Basic HTML escaping
   const escaped = content
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
   // Convert line breaks to <br>
-  return escaped.replace(/\n/g, "<br>");
+  return escaped.replace(/\n/g, '<br>');
 }
 
 /**

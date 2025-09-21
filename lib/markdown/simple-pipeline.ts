@@ -4,63 +4,63 @@
  * This module provides a basic markdown processing pipeline with XSS sanitization.
  */
 
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeRaw from "rehype-raw";
-import rehypeKatex from "rehype-katex";
-import rehypeSanitize from "rehype-sanitize";
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeRaw from 'rehype-raw';
+import rehypeKatex from 'rehype-katex';
+import rehypeSanitize from 'rehype-sanitize';
 
 // Basic sanitization schema
 const sanitizeSchema = {
   tagNames: [
-    "b",
-    "i",
-    "em",
-    "strong",
-    "code",
-    "pre",
-    "br",
-    "ul",
-    "ol",
-    "li",
-    "table",
-    "thead",
-    "tbody",
-    "tr",
-    "th",
-    "td",
-    "p",
-    "div",
-    "span",
-    "blockquote",
-    "a",
-    "img",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "hr",
-    "del",
-    "s",
-    "input",
+    'b',
+    'i',
+    'em',
+    'strong',
+    'code',
+    'pre',
+    'br',
+    'ul',
+    'ol',
+    'li',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'th',
+    'td',
+    'p',
+    'div',
+    'span',
+    'blockquote',
+    'a',
+    'img',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'hr',
+    'del',
+    's',
+    'input',
   ],
   attributes: {
-    a: ["href", "title", "target", "rel"],
-    img: ["src", "alt", "title", "width", "height"],
-    "*": ["class"],
-    span: ["data-katex", "data-katex-display"],
-    div: ["data-katex", "data-katex-display"],
-    input: ["type", "checked", "disabled"],
-    code: ["class"],
-    pre: ["class"],
+    a: ['href', 'title', 'target', 'rel'],
+    img: ['src', 'alt', 'title', 'width', 'height'],
+    '*': ['class'],
+    span: ['data-katex', 'data-katex-display'],
+    div: ['data-katex', 'data-katex-display'],
+    input: ['type', 'checked', 'disabled'],
+    code: ['class'],
+    pre: ['class'],
   },
   protocols: {
-    href: ["http", "https", "mailto"],
-    src: ["http", "https", "data"],
+    href: ['http', 'https', 'mailto'],
+    src: ['http', 'https', 'data'],
   },
 };
 
@@ -69,7 +69,7 @@ const sanitizeSchema = {
  */
 export async function processMarkdown(content: string): Promise<string> {
   try {
-    console.log("Processing markdown:", content.substring(0, 100) + "...");
+    console.log('Processing markdown:', content.substring(0, 100) + '...');
 
     const processor = unified()
       .use(remarkParse)
@@ -82,18 +82,18 @@ export async function processMarkdown(content: string): Promise<string> {
     const result = await processor.process(content);
     const html = String(result);
 
-    console.log("Processed HTML:", html.substring(0, 200) + "...");
+    console.log('Processed HTML:', html.substring(0, 200) + '...');
     return html;
   } catch (error) {
-    console.error("Markdown processing error:", error);
+    console.error('Markdown processing error:', error);
     // Return basic HTML escaping as fallback
     return content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;")
-      .replace(/\n/g, "<br>");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\n/g, '<br>');
   }
 }
 

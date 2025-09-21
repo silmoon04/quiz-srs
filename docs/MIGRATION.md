@@ -31,13 +31,13 @@ This guide helps you migrate from the legacy `TextRenderer` component to the new
 #### Before (Legacy)
 
 ```tsx
-import { TextRenderer } from "@/components/text-renderer";
+import { TextRenderer } from '@/components/text-renderer';
 ```
 
 #### After (New)
 
 ```tsx
-import { SecureTextRenderer } from "@/components/secure-text-renderer";
+import { SecureTextRenderer } from '@/components/secure-text-renderer';
 ```
 
 ### Step 2: Update Component Usage
@@ -70,22 +70,22 @@ interface SecureTextRendererProps {
 #### Before (Legacy)
 
 ```tsx
-import { TextRenderer } from "@/components/text-renderer";
+import { TextRenderer } from '@/components/text-renderer';
 
-test("renders text correctly", () => {
+test('renders text correctly', () => {
   render(<TextRenderer content="Hello World" />);
-  expect(screen.getByText("Hello World")).toBeInTheDocument();
+  expect(screen.getByText('Hello World')).toBeInTheDocument();
 });
 ```
 
 #### After (New)
 
 ```tsx
-import { SecureTextRenderer } from "@/components/secure-text-renderer";
+import { SecureTextRenderer } from '@/components/secure-text-renderer';
 
-test("renders text correctly", () => {
+test('renders text correctly', () => {
   render(<SecureTextRenderer content="Hello World" />);
-  expect(screen.getByText("Hello World")).toBeInTheDocument();
+  expect(screen.getByText('Hello World')).toBeInTheDocument();
 });
 ```
 
@@ -150,19 +150,19 @@ test("renders text correctly", () => {
 ### 1. **Basic Functionality Test**
 
 ```tsx
-test("migrates from TextRenderer to SecureTextRenderer", () => {
-  const content = "Hello World";
+test('migrates from TextRenderer to SecureTextRenderer', () => {
+  const content = 'Hello World';
 
   // Test that basic text still works
   render(<SecureTextRenderer content={content} />);
-  expect(screen.getByText("Hello World")).toBeInTheDocument();
+  expect(screen.getByText('Hello World')).toBeInTheDocument();
 });
 ```
 
 ### 2. **Security Test**
 
 ```tsx
-test("provides XSS protection", () => {
+test('provides XSS protection', () => {
   const dangerousContent = '<script>alert("XSS")</script>';
 
   render(<SecureTextRenderer content={dangerousContent} />);
@@ -173,23 +173,23 @@ test("provides XSS protection", () => {
 ### 3. **Markdown Test**
 
 ```tsx
-test("renders markdown correctly", () => {
-  const markdownContent = "**Bold** and *italic*";
+test('renders markdown correctly', () => {
+  const markdownContent = '**Bold** and *italic*';
 
   render(<SecureTextRenderer content={markdownContent} />);
-  expect(screen.getByText("Bold")).toBeInTheDocument();
-  expect(screen.getByText("italic")).toBeInTheDocument();
+  expect(screen.getByText('Bold')).toBeInTheDocument();
+  expect(screen.getByText('italic')).toBeInTheDocument();
 });
 ```
 
 ### 4. **LaTeX Test**
 
 ```tsx
-test("renders LaTeX math", () => {
-  const mathContent = "$E = mc^2$";
+test('renders LaTeX math', () => {
+  const mathContent = '$E = mc^2$';
 
   render(<SecureTextRenderer content={mathContent} />);
-  expect(document.querySelector(".katex")).toBeInTheDocument();
+  expect(document.querySelector('.katex')).toBeInTheDocument();
 });
 ```
 
@@ -216,7 +216,7 @@ test("renders LaTeX math", () => {
 
 ```tsx
 // Add KaTeX CSS to your app
-import "katex/dist/katex.min.css";
+import 'katex/dist/katex.min.css';
 ```
 
 #### 3. **Content Sanitization**
@@ -226,8 +226,8 @@ import "katex/dist/katex.min.css";
 
 ```tsx
 // Check what content is being sanitized
-console.log("Original content:", content);
-console.log("Rendered content:", container.innerHTML);
+console.log('Original content:', content);
+console.log('Rendered content:', container.innerHTML);
 ```
 
 ### Debug Mode
@@ -236,9 +236,9 @@ Enable debug logging to see what's happening:
 
 ```tsx
 // Add to SecureTextRenderer component
-console.log("Processing content:", text);
-console.log("Has raw HTML:", hasRawHtml);
-console.log("Processed HTML:", html);
+console.log('Processing content:', text);
+console.log('Has raw HTML:', hasRawHtml);
+console.log('Processed HTML:', html);
 ```
 
 ## 📊 **Performance Comparison**

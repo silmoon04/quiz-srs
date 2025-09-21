@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { memo } from "react";
-import { processLatex, hasLatex } from "@/lib/markdown/latex-processor";
+import { memo } from 'react';
+import { processLatex, hasLatex } from '@/lib/markdown/latex-processor';
 
 interface SecureTextRendererProps {
   content: string;
@@ -16,15 +16,15 @@ interface SecureTextRendererProps {
  */
 export const SecureTextRenderer = memo(function SecureTextRenderer({
   content,
-  className = "",
+  className = '',
 }: SecureTextRendererProps) {
   /**
    * Process markdown and sanitize HTML content to prevent XSS attacks
    */
   function processContent(text: string): string {
     // Handle null/undefined content
-    if (!text || typeof text !== "string") {
-      return "";
+    if (!text || typeof text !== 'string') {
+      return '';
     }
 
     try {
@@ -48,32 +48,23 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
         let cleaned = text;
 
         // Remove dangerous event handlers (handle both quote types)
-        cleaned = cleaned.replace(/\s*on\w+\s*=\s*"[^"]*"/gi, ""); // double quotes
-        cleaned = cleaned.replace(/\s*on\w+\s*=\s*'[^']*'/gi, ""); // single quotes
+        cleaned = cleaned.replace(/\s*on\w+\s*=\s*"[^"]*"/gi, ''); // double quotes
+        cleaned = cleaned.replace(/\s*on\w+\s*=\s*'[^']*'/gi, ''); // single quotes
 
         // Remove dangerous protocols
-        cleaned = cleaned.replace(/javascript:/gi, "");
+        cleaned = cleaned.replace(/javascript:/gi, '');
 
         // Remove dangerous tags completely
-        cleaned = cleaned.replace(
-          /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-          "",
-        );
-        cleaned = cleaned.replace(
-          /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
-          "",
-        );
-        cleaned = cleaned.replace(
-          /<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi,
-          "",
-        );
-        cleaned = cleaned.replace(/<input\b[^<]*>/gi, "");
-        cleaned = cleaned.replace(/<button\b[^<]*>/gi, "");
+        cleaned = cleaned.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        cleaned = cleaned.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+        cleaned = cleaned.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, '');
+        cleaned = cleaned.replace(/<input\b[^<]*>/gi, '');
+        cleaned = cleaned.replace(/<button\b[^<]*>/gi, '');
 
         return cleaned;
       }
     } catch (error) {
-      console.error("Error in XSS detection:", error);
+      console.error('Error in XSS detection:', error);
       // If XSS detection fails, treat as markdown and continue processing
     }
 
@@ -83,7 +74,7 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
         text = processLatex(text);
       }
     } catch (error) {
-      console.error("Error processing LaTeX:", error);
+      console.error('Error processing LaTeX:', error);
       // Continue with markdown processing even if LaTeX fails
     }
 
@@ -91,10 +82,10 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
     let html = text;
 
     // Code blocks: ```code``` -> <pre><code>code</code></pre>
-    html = html.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
+    html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
 
     // Tables: Process table rows and headers
-    const lines = html.split("\n");
+    const lines = html.split('\n');
     let inTable = false;
     let tableRows: string[] = [];
     const result: string[] = [];
@@ -110,12 +101,10 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
         }
 
         const content = line.slice(1, -1); // Remove leading and trailing |
-        const cells = content.split("|").map((cell) => cell.trim());
+        const cells = content.split('|').map((cell) => cell.trim());
 
         // Check if this is a header separator row (contains only dashes, equals, or pipes)
-        const isHeaderSeparator = cells.every((cell) =>
-          /^[-=|\s]+$/.test(cell),
-        );
+        const isHeaderSeparator = cells.every((cell) => /^[-=|\s]+$/.test(cell));
 
         if (isHeaderSeparator) {
           // Skip header separator rows
@@ -124,28 +113,26 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
         // Check if this should be a header row (first row or previous row was header separator)
         const isHeader = tableRows.length === 0;
-        const tag = isHeader ? "th" : "td";
+        const tag = isHeader ? 'th' : 'td';
 
-        const rowContent = cells
-          .map((cell) => `<${tag}>${cell}</${tag}>`)
-          .join("");
+        const rowContent = cells.map((cell) => `<${tag}>${cell}</${tag}>`).join('');
         tableRows.push(`<tr>${rowContent}</tr>`);
       } else {
         if (inTable) {
           // Close the table
           if (tableRows.length > 0) {
             // Separate header and body rows
-            const headerRows = tableRows.filter((row) => row.includes("<th>"));
-            const bodyRows = tableRows.filter((row) => row.includes("<td>"));
+            const headerRows = tableRows.filter((row) => row.includes('<th>'));
+            const bodyRows = tableRows.filter((row) => row.includes('<td>'));
 
-            let tableHtml = "<table>";
+            let tableHtml = '<table>';
             if (headerRows.length > 0) {
-              tableHtml += `<thead>${headerRows.join("")}</thead>`;
+              tableHtml += `<thead>${headerRows.join('')}</thead>`;
             }
             if (bodyRows.length > 0) {
-              tableHtml += `<tbody>${bodyRows.join("")}</tbody>`;
+              tableHtml += `<tbody>${bodyRows.join('')}</tbody>`;
             }
-            tableHtml += "</table>";
+            tableHtml += '</table>';
 
             result.push(tableHtml);
           }
@@ -159,22 +146,22 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
     // Handle case where table is at the end
     if (inTable && tableRows.length > 0) {
       // Separate header and body rows
-      const headerRows = tableRows.filter((row) => row.includes("<th>"));
-      const bodyRows = tableRows.filter((row) => row.includes("<td>"));
+      const headerRows = tableRows.filter((row) => row.includes('<th>'));
+      const bodyRows = tableRows.filter((row) => row.includes('<td>'));
 
-      let tableHtml = "<table>";
+      let tableHtml = '<table>';
       if (headerRows.length > 0) {
-        tableHtml += `<thead>${headerRows.join("")}</thead>`;
+        tableHtml += `<thead>${headerRows.join('')}</thead>`;
       }
       if (bodyRows.length > 0) {
-        tableHtml += `<tbody>${bodyRows.join("")}</tbody>`;
+        tableHtml += `<tbody>${bodyRows.join('')}</tbody>`;
       }
-      tableHtml += "</table>";
+      tableHtml += '</table>';
 
       result.push(tableHtml);
     }
 
-    html = result.join("\n");
+    html = result.join('\n');
 
     // Images: ![alt](url) -> <img src="url" alt="alt">
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
@@ -184,17 +171,17 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
       // Only allow safe URLs - reject javascript: and other dangerous protocols
       if (
-        cleanUrl.startsWith("javascript:") ||
-        cleanUrl.startsWith("data:") ||
-        cleanUrl.startsWith("vbscript:")
+        cleanUrl.startsWith('javascript:') ||
+        cleanUrl.startsWith('data:') ||
+        cleanUrl.startsWith('vbscript:')
       ) {
         return alt; // If URL is dangerous, just return the alt text
       }
       if (
-        cleanUrl.startsWith("http://") ||
-        cleanUrl.startsWith("https://") ||
-        cleanUrl.startsWith("/") ||
-        cleanUrl.startsWith("#")
+        cleanUrl.startsWith('http://') ||
+        cleanUrl.startsWith('https://') ||
+        cleanUrl.startsWith('/') ||
+        cleanUrl.startsWith('#')
       ) {
         return `<img src="${cleanUrl}" alt="${alt}">`;
       }
@@ -203,7 +190,7 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
     // Blockquotes: > text -> <blockquote>text</blockquote>
     // Process blockquotes line by line to handle multiple blockquotes
-    const blockquoteLines = html.split("\n");
+    const blockquoteLines = html.split('\n');
     let inBlockquote = false;
     let blockquoteContent: string[] = [];
     const blockquoteResult: string[] = [];
@@ -217,14 +204,12 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
           inBlockquote = true;
           blockquoteContent = [];
         }
-        blockquoteContent.push(line.replace(/^> /, ""));
+        blockquoteContent.push(line.replace(/^> /, ''));
       } else {
         if (inBlockquote) {
           // Close the blockquote
           if (blockquoteContent.length > 0) {
-            blockquoteResult.push(
-              `<blockquote>${blockquoteContent.join("<br>")}</blockquote>`,
-            );
+            blockquoteResult.push(`<blockquote>${blockquoteContent.join('<br>')}</blockquote>`);
           }
           inBlockquote = false;
           blockquoteContent = [];
@@ -235,37 +220,35 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
     // Handle case where blockquote is at the end
     if (inBlockquote && blockquoteContent.length > 0) {
-      blockquoteResult.push(
-        `<blockquote>${blockquoteContent.join("<br>")}</blockquote>`,
-      );
+      blockquoteResult.push(`<blockquote>${blockquoteContent.join('<br>')}</blockquote>`);
     }
 
-    html = blockquoteResult.join("\n");
+    html = blockquoteResult.join('\n');
 
     // Horizontal rules: --- or *** or ___ -> <hr>
-    html = html.replace(/^[-*_]{3,}$/gm, "<hr>");
+    html = html.replace(/^[-*_]{3,}$/gm, '<hr>');
 
     // Strikethrough: ~~text~~ -> <del>text</del>
-    html = html.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+    html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
     // Bold text: **text** and __text__ -> <strong>text</strong>
-    html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    html = html.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
 
     // Italic text: *text* and _text_ -> <em>text</em>
-    html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<em>$1</em>");
-    html = html.replace(/(?<!_)_([^_]+)_(?!_)/g, "<em>$1</em>");
+    html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+    html = html.replace(/(?<!_)_([^_]+)_(?!_)/g, '<em>$1</em>');
 
     // Inline code: `code` -> <code>code</code>
-    html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
     // Headers
-    html = html.replace(/^###### (.*$)/gm, "<h6>$1</h6>");
-    html = html.replace(/^##### (.*$)/gm, "<h5>$1</h5>");
-    html = html.replace(/^#### (.*$)/gm, "<h4>$1</h4>");
-    html = html.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-    html = html.replace(/^## (.*$)/gm, "<h2>$1</h2>");
-    html = html.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+    html = html.replace(/^###### (.*$)/gm, '<h6>$1</h6>');
+    html = html.replace(/^##### (.*$)/gm, '<h5>$1</h5>');
+    html = html.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+    html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
 
     // Links: [text](url) -> <a href="url">text</a> (with URL validation)
     // Use a more robust regex that handles URLs with parentheses and titles
@@ -276,17 +259,17 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
       // Only allow safe URLs - reject javascript: and other dangerous protocols
       if (
-        cleanUrl.startsWith("javascript:") ||
-        cleanUrl.startsWith("data:") ||
-        cleanUrl.startsWith("vbscript:")
+        cleanUrl.startsWith('javascript:') ||
+        cleanUrl.startsWith('data:') ||
+        cleanUrl.startsWith('vbscript:')
       ) {
         return text; // If URL is dangerous, just return the text
       }
       if (
-        cleanUrl.startsWith("http://") ||
-        cleanUrl.startsWith("https://") ||
-        cleanUrl.startsWith("/") ||
-        cleanUrl.startsWith("#")
+        cleanUrl.startsWith('http://') ||
+        cleanUrl.startsWith('https://') ||
+        cleanUrl.startsWith('/') ||
+        cleanUrl.startsWith('#')
       ) {
         return `<a href="${cleanUrl}">${text}</a>`;
       }
@@ -295,23 +278,20 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
     // Process lists after table processing
     // Task lists: - [ ] and - [x] -> <li><input type="checkbox">...</li>
-    html = html.replace(
-      /^[\s]*[\*\-] \[ \] (.*$)/gm,
-      '<li><input type="checkbox"> $1</li>',
-    );
+    html = html.replace(/^[\s]*[\*\-] \[ \] (.*$)/gm, '<li><input type="checkbox"> $1</li>');
     html = html.replace(
       /^[\s]*[\*\-] \[x\] (.*$)/gm,
       '<li><input type="checkbox" checked> $1</li>',
     );
 
     // Unordered lists (but not task lists) - handle indented items
-    html = html.replace(/^[\s]*[\*\-] (?!\[[ x]\])(.*$)/gm, "<li>$1</li>");
+    html = html.replace(/^[\s]*[\*\-] (?!\[[ x]\])(.*$)/gm, '<li>$1</li>');
 
     // Ordered lists
-    html = html.replace(/^\d+\. (.*$)/gm, "<li>$1</li>");
+    html = html.replace(/^\d+\. (.*$)/gm, '<li>$1</li>');
 
     // Wrap consecutive list items in <ul> or <ol>
-    const listLines = html.split("\n");
+    const listLines = html.split('\n');
     let inList = false;
     let isOrdered = false;
     let listItems: string[] = [];
@@ -324,21 +304,21 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
       if (isListItem) {
         if (!inList) {
           // Check if this is an ordered list by looking at the original line
-          const originalLine = text.split("\n")[i];
+          const originalLine = text.split('\n')[i];
           isOrdered = /^\d+\./.test(originalLine);
           inList = true;
           listItems = [];
         }
 
         // Check if this item has a different list type than the current list
-        const originalLine = text.split("\n")[i];
+        const originalLine = text.split('\n')[i];
         const currentItemIsOrdered = /^\d+\./.test(originalLine);
 
         if (currentItemIsOrdered !== isOrdered) {
           // Close the current list and start a new one
           if (listItems.length > 0) {
-            const listTag = isOrdered ? "ol" : "ul";
-            listResult.push(`<${listTag}>${listItems.join("")}</${listTag}>`);
+            const listTag = isOrdered ? 'ol' : 'ul';
+            listResult.push(`<${listTag}>${listItems.join('')}</${listTag}>`);
           }
           isOrdered = currentItemIsOrdered;
           listItems = [];
@@ -348,8 +328,8 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
       } else {
         if (inList) {
           // Close the list
-          const listTag = isOrdered ? "ol" : "ul";
-          listResult.push(`<${listTag}>${listItems.join("")}</${listTag}>`);
+          const listTag = isOrdered ? 'ol' : 'ul';
+          listResult.push(`<${listTag}>${listItems.join('')}</${listTag}>`);
           inList = false;
           listItems = [];
         }
@@ -359,49 +339,40 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
 
     // Handle case where list is at the end
     if (inList) {
-      const listTag = isOrdered ? "ol" : "ul";
-      listResult.push(`<${listTag}>${listItems.join("")}</${listTag}>`);
+      const listTag = isOrdered ? 'ol' : 'ul';
+      listResult.push(`<${listTag}>${listItems.join('')}</${listTag}>`);
     }
 
-    html = listResult.join("\n");
+    html = listResult.join('\n');
 
     // Line breaks - only convert single line breaks to <br>, not double line breaks
-    html = html.replace(/(?<!\n)\n(?!\n)/g, "<br>");
+    html = html.replace(/(?<!\n)\n(?!\n)/g, '<br>');
 
     // Step 2: Sanitize the HTML to prevent XSS
     // Remove dangerous attributes and content
-    html = html.replace(/on\w+\s*=\s*["'][^"']*["']/gi, ""); // Remove event handlers
-    html = html.replace(/javascript:/gi, ""); // Remove javascript: URLs
-    html = html.replace(
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      "",
-    ); // Remove script tags
-    html = html.replace(
-      /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
-      "",
-    ); // Remove iframe tags
-    html = html.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, ""); // Remove form tags
+    html = html.replace(/on\w+\s*=\s*["'][^"']*["']/gi, ''); // Remove event handlers
+    html = html.replace(/javascript:/gi, ''); // Remove javascript: URLs
+    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''); // Remove script tags
+    html = html.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, ''); // Remove iframe tags
+    html = html.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, ''); // Remove form tags
     // Remove dangerous input tags but allow safe ones like checkboxes
-    html = html.replace(/<input(?![^>]*type=["']checkbox["'])[^>]*>/gi, ""); // Remove input tags except checkboxes
-    html = html.replace(/<button\b[^<]*>/gi, ""); // Remove button tags
+    html = html.replace(/<input(?![^>]*type=["']checkbox["'])[^>]*>/gi, ''); // Remove input tags except checkboxes
+    html = html.replace(/<button\b[^<]*>/gi, ''); // Remove button tags
 
     // Also remove escaped dangerous attributes
-    html = html.replace(
-      /&lt;script\b[^&]*(?:(?!&lt;\/script&gt;)[^&])*&lt;\/script&gt;/gi,
-      "",
-    ); // Remove escaped script tags
-    html = html.replace(/on\w+\s*=\s*&quot;[^&]*&quot;/gi, ""); // Remove escaped event handlers
-    html = html.replace(/on\w+\s*=\s*&#39;[^&]*&#39;/gi, ""); // Remove escaped event handlers with single quotes
-    html = html.replace(/javascript:/gi, ""); // Remove any remaining javascript: URLs
+    html = html.replace(/&lt;script\b[^&]*(?:(?!&lt;\/script&gt;)[^&])*&lt;\/script&gt;/gi, ''); // Remove escaped script tags
+    html = html.replace(/on\w+\s*=\s*&quot;[^&]*&quot;/gi, ''); // Remove escaped event handlers
+    html = html.replace(/on\w+\s*=\s*&#39;[^&]*&#39;/gi, ''); // Remove escaped event handlers with single quotes
+    html = html.replace(/javascript:/gi, ''); // Remove any remaining javascript: URLs
 
     // Remove any remaining dangerous attributes that might have been escaped
-    html = html.replace(/on\w+\s*=\s*["'][^"']*["']/gi, ""); // Remove any remaining event handlers
-    html = html.replace(/on\w+\s*=\s*&quot;[^&]*&quot;/gi, ""); // Remove any remaining escaped event handlers
-    html = html.replace(/on\w+\s*=\s*&#39;[^&]*&#39;/gi, ""); // Remove any remaining escaped event handlers
+    html = html.replace(/on\w+\s*=\s*["'][^"']*["']/gi, ''); // Remove any remaining event handlers
+    html = html.replace(/on\w+\s*=\s*&quot;[^&]*&quot;/gi, ''); // Remove any remaining escaped event handlers
+    html = html.replace(/on\w+\s*=\s*&#39;[^&]*&#39;/gi, ''); // Remove any remaining escaped event handlers
 
     // Final cleanup: remove any remaining dangerous content
-    html = html.replace(/on\w+\s*=\s*[^\s>]+/gi, ""); // Remove any remaining event handlers
-    html = html.replace(/javascript:/gi, ""); // Remove any remaining javascript: URLs
+    html = html.replace(/on\w+\s*=\s*[^\s>]+/gi, ''); // Remove any remaining event handlers
+    html = html.replace(/javascript:/gi, ''); // Remove any remaining javascript: URLs
 
     return html;
   }
@@ -410,9 +381,9 @@ export const SecureTextRenderer = memo(function SecureTextRenderer({
   try {
     processedContent = processContent(content);
   } catch (error) {
-    console.error("Error processing content in SecureTextRenderer:", error);
+    console.error('Error processing content in SecureTextRenderer:', error);
     // Fallback: return the original content as plain text
-    processedContent = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    processedContent = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   return (

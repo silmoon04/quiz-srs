@@ -22,15 +22,10 @@ The `QuizComplete` component was being called without the required `results` pro
    const results = {
      totalQuestions: completedChapter.totalQuestions,
      correctAnswers: completedChapter.correctAnswers,
-     incorrectAnswers:
-       completedChapter.totalQuestions - completedChapter.correctAnswers,
+     incorrectAnswers: completedChapter.totalQuestions - completedChapter.correctAnswers,
      accuracy:
        completedChapter.totalQuestions > 0
-         ? Math.round(
-             (completedChapter.correctAnswers /
-               completedChapter.totalQuestions) *
-               100,
-           )
+         ? Math.round((completedChapter.correctAnswers / completedChapter.totalQuestions) * 100)
          : 0,
    };
    ```

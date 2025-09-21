@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState, memo } from "react";
-import "katex/dist/katex.min.css";
+import { useEffect, useRef, useState, memo } from 'react';
+import 'katex/dist/katex.min.css';
 import {
   processContentWithMermaid,
   hasMermaidContent,
   processMarkdownSync,
-} from "@/lib/markdown/sync-pipeline";
+} from '@/lib/markdown/sync-pipeline';
 
 interface SafeTextRendererProps {
   content: string;
@@ -18,14 +18,14 @@ let mermaidPromise: Promise<any> | null = null;
 
 const loadMermaid = async () => {
   if (!mermaidPromise) {
-    mermaidPromise = import("mermaid").then((mermaid) => {
+    mermaidPromise = import('mermaid').then((mermaid) => {
       // Initialize mermaid with safe defaults
       (mermaid as any).initialize({
         startOnLoad: false,
-        securityLevel: "strict",
-        fontFamily: "inherit",
+        securityLevel: 'strict',
+        fontFamily: 'inherit',
         fontSize: 14,
-        theme: "default",
+        theme: 'default',
         themeVariables: {},
       });
       return mermaid;
@@ -36,37 +36,37 @@ const loadMermaid = async () => {
 
 export const SafeTextRenderer = memo(function SafeTextRenderer({
   content,
-  className = "",
+  className = '',
 }: SafeTextRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [processedContent, setProcessedContent] = useState("");
+  const [processedContent, setProcessedContent] = useState('');
   const [mermaidRendered, setMermaidRendered] = useState(false);
 
   // Process content with the safe pipeline
   useEffect(() => {
     try {
-      console.log("SafeTextRenderer: Starting content processing");
-      console.log("Original content:", content.substring(0, 200) + "...");
+      console.log('SafeTextRenderer: Starting content processing');
+      console.log('Original content:', content.substring(0, 200) + '...');
 
       // Process synchronously first to ensure immediate rendering
       const html = processMarkdownSync(content);
 
-      console.log("Processed HTML:", html.substring(0, 200) + "...");
+      console.log('Processed HTML:', html.substring(0, 200) + '...');
       setProcessedContent(html);
       setMermaidRendered(false); // Reset mermaid state
 
-      console.log("SafeTextRenderer: Content processed successfully");
+      console.log('SafeTextRenderer: Content processed successfully');
     } catch (error) {
-      console.error("SafeTextRenderer: Content processing error:", error);
+      console.error('SafeTextRenderer: Content processing error:', error);
       // Fallback to basic HTML escaping
       setProcessedContent(
         content
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;")
-          .replace(/\n/g, "<br>"),
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;')
+          .replace(/\n/g, '<br>'),
       );
     }
   }, [content]);
@@ -79,16 +79,15 @@ export const SafeTextRenderer = memo(function SafeTextRenderer({
           const mermaid = await loadMermaid();
 
           if (containerRef.current) {
-            const mermaidElements =
-              containerRef.current.querySelectorAll<HTMLElement>(".mermaid");
+            const mermaidElements = containerRef.current.querySelectorAll<HTMLElement>('.mermaid');
 
             if (mermaidElements.length > 0) {
               // Update theme if needed
               (mermaid as any).initialize({
                 startOnLoad: false,
-                theme: "default",
-                securityLevel: "strict",
-                fontFamily: "inherit",
+                theme: 'default',
+                securityLevel: 'strict',
+                fontFamily: 'inherit',
                 fontSize: 14,
                 darkMode: false,
                 themeVariables: {},
@@ -104,14 +103,12 @@ export const SafeTextRenderer = memo(function SafeTextRenderer({
                 nodes: Array.from(mermaidElements),
               });
 
-              console.log(
-                `Mermaid rendered ${mermaidElements.length} diagrams`,
-              );
+              console.log(`Mermaid rendered ${mermaidElements.length} diagrams`);
               setMermaidRendered(true);
             }
           }
         } catch (error) {
-          console.error("Mermaid rendering error:", error);
+          console.error('Mermaid rendering error:', error);
           setMermaidRendered(true); // Prevent infinite loops
         }
       };
@@ -125,7 +122,7 @@ export const SafeTextRenderer = memo(function SafeTextRenderer({
   return (
     <div
       ref={containerRef}
-      className={`${className} text-white prose prose-invert max-w-none`}
+      className={`${className} prose prose-invert max-w-none text-white`}
       dangerouslySetInnerHTML={{ __html: processedContent }}
     />
   );

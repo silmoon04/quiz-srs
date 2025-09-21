@@ -1,25 +1,21 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { SecureTextRenderer } from "@/components/secure-text-renderer";
-import React from "react";
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import React from 'react';
 
-describe("TextRenderer Explanation Mapping Tests (TM-RN-03)", () => {
-  describe("Explanation Content Stability", () => {
-    it("should preserve explanation text exactly", () => {
-      const explanation =
-        "This is a detailed explanation with **bold text** and `code`.";
+describe('TextRenderer Explanation Mapping Tests (TM-RN-03)', () => {
+  describe('Explanation Content Stability', () => {
+    it('should preserve explanation text exactly', () => {
+      const explanation = 'This is a detailed explanation with **bold text** and `code`.';
       render(<SecureTextRenderer content={explanation} />);
 
-      expect(
-        screen.getByText(/This is a detailed explanation with/),
-      ).toBeInTheDocument();
-      expect(screen.getByText("bold text")).toBeInTheDocument();
-      expect(screen.getByText("code")).toBeInTheDocument();
+      expect(screen.getByText(/This is a detailed explanation with/)).toBeInTheDocument();
+      expect(screen.getByText('bold text')).toBeInTheDocument();
+      expect(screen.getByText('code')).toBeInTheDocument();
     });
 
-    it("should preserve explanation with LaTeX", () => {
-      const explanation =
-        "The formula is $x = y + z$ and the result is $\\alpha$.";
+    it('should preserve explanation with LaTeX', () => {
+      const explanation = 'The formula is $x = y + z$ and the result is $\\alpha$.';
       render(<SecureTextRenderer content={explanation} />);
 
       // Should contain the text parts
@@ -27,11 +23,11 @@ describe("TextRenderer Explanation Mapping Tests (TM-RN-03)", () => {
       expect(screen.getByText(/and the result is/)).toBeInTheDocument();
 
       // Should contain LaTeX elements
-      const katexElements = container.querySelectorAll(".katex-inline");
+      const katexElements = container.querySelectorAll('.katex-inline');
       expect(katexElements.length).toBe(2);
     });
 
-    it("should preserve explanation with code blocks", () => {
+    it('should preserve explanation with code blocks', () => {
       const explanation = `Here's the algorithm:
 
 \`\`\`javascript
@@ -44,16 +40,14 @@ This explains the calculation.`;
       render(<SecureTextRenderer content={explanation} />);
 
       expect(screen.getByText(/Here's the algorithm:/)).toBeInTheDocument();
-      expect(
-        screen.getByText(/This explains the calculation./),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/This explains the calculation./)).toBeInTheDocument();
 
-      const codeBlock = container.querySelector("pre code");
+      const codeBlock = container.querySelector('pre code');
       expect(codeBlock).toBeInTheDocument();
-      expect(codeBlock?.textContent).toContain("function calculate(x)");
+      expect(codeBlock?.textContent).toContain('function calculate(x)');
     });
 
-    it("should preserve explanation with lists", () => {
+    it('should preserve explanation with lists', () => {
       const explanation = `The steps are:
 
 1. First step
@@ -64,18 +58,16 @@ This completes the process.`;
       render(<SecureTextRenderer content={explanation} />);
 
       expect(screen.getByText(/The steps are:/)).toBeInTheDocument();
-      expect(
-        screen.getByText(/This completes the process./),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/This completes the process./)).toBeInTheDocument();
 
-      const orderedList = container.querySelector("ol");
+      const orderedList = container.querySelector('ol');
       expect(orderedList).toBeInTheDocument();
-      expect(screen.getByText("First step")).toBeInTheDocument();
-      expect(screen.getByText("Second step")).toBeInTheDocument();
-      expect(screen.getByText("Third step")).toBeInTheDocument();
+      expect(screen.getByText('First step')).toBeInTheDocument();
+      expect(screen.getByText('Second step')).toBeInTheDocument();
+      expect(screen.getByText('Third step')).toBeInTheDocument();
     });
 
-    it("should preserve explanation with tables", () => {
+    it('should preserve explanation with tables', () => {
       const explanation = `Here's the comparison:
 
 | Feature | Value |
@@ -87,21 +79,19 @@ This table shows the results.`;
       render(<SecureTextRenderer content={explanation} />);
 
       expect(screen.getByText(/Here's the comparison:/)).toBeInTheDocument();
-      expect(
-        screen.getByText(/This table shows the results./),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/This table shows the results./)).toBeInTheDocument();
 
-      const table = container.querySelector("table");
+      const table = container.querySelector('table');
       expect(table).toBeInTheDocument();
-      expect(screen.getByText("Feature")).toBeInTheDocument();
-      expect(screen.getByText("Value")).toBeInTheDocument();
-      expect(screen.getByText("Speed")).toBeInTheDocument();
-      expect(screen.getByText("Fast")).toBeInTheDocument();
+      expect(screen.getByText('Feature')).toBeInTheDocument();
+      expect(screen.getByText('Value')).toBeInTheDocument();
+      expect(screen.getByText('Speed')).toBeInTheDocument();
+      expect(screen.getByText('Fast')).toBeInTheDocument();
     });
   });
 
-  describe("Complex Explanation Scenarios", () => {
-    it("should handle mixed content in explanations", () => {
+  describe('Complex Explanation Scenarios', () => {
+    it('should handle mixed content in explanations', () => {
       const explanation = `**Algorithm Explanation:**
 
 The algorithm works as follows:
@@ -123,10 +113,8 @@ The complexity is $O(1)$.`;
       render(<SecureTextRenderer content={explanation} />);
 
       // Check for various elements
-      expect(screen.getByText("Algorithm Explanation:")).toBeInTheDocument();
-      expect(
-        screen.getByText(/The algorithm works as follows:/),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Algorithm Explanation:')).toBeInTheDocument();
+      expect(screen.getByText(/The algorithm works as follows:/)).toBeInTheDocument();
       expect(screen.getByText(/Input/)).toBeInTheDocument();
       expect(screen.getByText(/Process/)).toBeInTheDocument();
       expect(screen.getByText(/Output/)).toBeInTheDocument();
@@ -134,12 +122,12 @@ The complexity is $O(1)$.`;
       expect(screen.getByText(/The complexity is/)).toBeInTheDocument();
 
       // Check for structured elements
-      expect(container.querySelector("ol")).toBeInTheDocument();
-      expect(container.querySelector("pre")).toBeInTheDocument();
-      expect(container.querySelector("blockquote")).toBeInTheDocument();
+      expect(container.querySelector('ol')).toBeInTheDocument();
+      expect(container.querySelector('pre')).toBeInTheDocument();
+      expect(container.querySelector('blockquote')).toBeInTheDocument();
     });
 
-    it("should handle explanation with mermaid diagrams", () => {
+    it('should handle explanation with mermaid diagrams', () => {
       const explanation = `Here's the flow:
 
 \`\`\`mermaid
@@ -153,33 +141,31 @@ This diagram shows the process flow.`;
       render(<SecureTextRenderer content={explanation} />);
 
       expect(screen.getByText(/Here's the flow:/)).toBeInTheDocument();
-      expect(
-        screen.getByText(/This diagram shows the process flow./),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/This diagram shows the process flow./)).toBeInTheDocument();
 
-      const mermaidElement = container.querySelector(".mermaid");
+      const mermaidElement = container.querySelector('.mermaid');
       expect(mermaidElement).toBeInTheDocument();
     });
   });
 
-  describe("Edge Cases", () => {
-    it("should handle empty explanations", () => {
-      const explanation = "";
+  describe('Edge Cases', () => {
+    it('should handle empty explanations', () => {
+      const explanation = '';
       render(<SecureTextRenderer content={explanation} />);
 
       expect(container).toBeInTheDocument();
-      expect(container.textContent).toBe("");
+      expect(container.textContent).toBe('');
     });
 
-    it("should handle explanations with only whitespace", () => {
-      const explanation = "   \n\n  \t  \n  ";
+    it('should handle explanations with only whitespace', () => {
+      const explanation = '   \n\n  \t  \n  ';
       render(<SecureTextRenderer content={explanation} />);
 
       expect(container).toBeInTheDocument();
     });
 
-    it("should handle explanations with special characters", () => {
-      const explanation = "Special chars: <>&\"' and unicode: αβγδε";
+    it('should handle explanations with special characters', () => {
+      const explanation = 'Special chars: <>&"\' and unicode: αβγδε';
       render(<SecureTextRenderer content={explanation} />);
 
       expect(screen.getByText(/Special chars:/)).toBeInTheDocument();
@@ -187,54 +173,44 @@ This diagram shows the process flow.`;
       expect(screen.getByText(/αβγδε/)).toBeInTheDocument();
     });
 
-    it("should handle very long explanations", () => {
-      const longExplanation = "A".repeat(10000) + " with some **bold** text.";
-      const { container } = render(
-        <SecureTextRenderer content={longExplanation} />,
-      );
+    it('should handle very long explanations', () => {
+      const longExplanation = 'A'.repeat(10000) + ' with some **bold** text.';
+      const { container } = render(<SecureTextRenderer content={longExplanation} />);
 
       expect(container).toBeInTheDocument();
-      expect(screen.getByText("bold")).toBeInTheDocument();
+      expect(screen.getByText('bold')).toBeInTheDocument();
     });
   });
 
-  describe("Consistency Tests", () => {
-    it("should render the same content consistently", () => {
-      const explanation = "This is a **test** with $x = y$ and `code`.";
+  describe('Consistency Tests', () => {
+    it('should render the same content consistently', () => {
+      const explanation = 'This is a **test** with $x = y$ and `code`.';
 
-      const { container: container1 } = render(
-        <SecureTextRenderer content={explanation} />,
-      );
-      const { container: container2 } = render(
-        <SecureTextRenderer content={explanation} />,
-      );
+      const { container: container1 } = render(<SecureTextRenderer content={explanation} />);
+      const { container: container2 } = render(<SecureTextRenderer content={explanation} />);
 
       // Both should have the same structure
-      expect(container1.querySelectorAll("strong").length).toBe(
-        container2.querySelectorAll("strong").length,
+      expect(container1.querySelectorAll('strong').length).toBe(
+        container2.querySelectorAll('strong').length,
       );
-      expect(container1.querySelectorAll(".katex-inline").length).toBe(
-        container2.querySelectorAll(".katex-inline").length,
+      expect(container1.querySelectorAll('.katex-inline').length).toBe(
+        container2.querySelectorAll('.katex-inline').length,
       );
-      expect(container1.querySelectorAll("code").length).toBe(
-        container2.querySelectorAll("code").length,
+      expect(container1.querySelectorAll('code').length).toBe(
+        container2.querySelectorAll('code').length,
       );
     });
 
-    it("should handle the same content with different whitespace", () => {
-      const explanation1 = "Text with   multiple   spaces.";
-      const explanation2 = "Text with multiple spaces.";
+    it('should handle the same content with different whitespace', () => {
+      const explanation1 = 'Text with   multiple   spaces.';
+      const explanation2 = 'Text with multiple spaces.';
 
-      const { container: container1 } = render(
-        <SecureTextRenderer content={explanation1} />,
-      );
-      const { container: container2 } = render(
-        <SecureTextRenderer content={explanation2} />,
-      );
+      const { container: container1 } = render(<SecureTextRenderer content={explanation1} />);
+      const { container: container2 } = render(<SecureTextRenderer content={explanation2} />);
 
       // Both should render similarly (whitespace may be preserved differently)
-      expect(container1.textContent?.replace(/\s+/g, " ").trim()).toBe(
-        container2.textContent?.replace(/\s+/g, " ").trim(),
+      expect(container1.textContent?.replace(/\s+/g, ' ').trim()).toBe(
+        container2.textContent?.replace(/\s+/g, ' ').trim(),
       );
     });
   });

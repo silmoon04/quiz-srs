@@ -1,9 +1,9 @@
-"use client";
-import { Card } from "@/components/ui/card";
-import { SecureTextRenderer } from "./secure-text-renderer";
-import { Check, X } from "lucide-react";
-import type { QuizOption } from "@/types/quiz-types";
-import { memo } from "react";
+'use client';
+import { Card } from '@/components/ui/card';
+import { SecureTextRenderer } from './secure-text-renderer';
+import { Check, X } from 'lucide-react';
+import type { QuizOption } from '@/types/quiz-types';
+import { memo } from 'react';
 
 interface OptionCardProps {
   option: QuizOption;
@@ -27,30 +27,28 @@ export const OptionCard = memo(function OptionCard({
 }: OptionCardProps) {
   const getCardClasses = () => {
     let baseClasses =
-      "cursor-pointer transition-all duration-200 border-2 backdrop-blur-sm shadow-sm ";
+      'cursor-pointer transition-all duration-200 border-2 backdrop-blur-sm shadow-sm ';
 
     if (disabled) {
-      baseClasses += "cursor-not-allowed opacity-70 ";
+      baseClasses += 'cursor-not-allowed opacity-70 ';
     }
 
     if (isSubmitted) {
       if (showAsCorrect) {
         baseClasses +=
-          "bg-gradient-to-r from-green-950 to-green-900 border-green-700 shadow-green-900/20 ";
+          'bg-gradient-to-r from-green-950 to-green-900 border-green-700 shadow-green-900/20 ';
       } else if (showAsIncorrect) {
-        baseClasses +=
-          "bg-gradient-to-r from-red-950 to-red-900 border-red-700 shadow-red-900/20 ";
+        baseClasses += 'bg-gradient-to-r from-red-950 to-red-900 border-red-700 shadow-red-900/20 ';
       } else {
-        baseClasses +=
-          "bg-gradient-to-r from-slate-950 to-gray-950 border-gray-800 ";
+        baseClasses += 'bg-gradient-to-r from-slate-950 to-gray-950 border-gray-800 ';
       }
     } else {
       if (isSelected) {
         baseClasses +=
-          "bg-gradient-to-r from-blue-950 to-blue-900 border-blue-700 shadow-blue-900/20 ";
+          'bg-gradient-to-r from-blue-950 to-blue-900 border-blue-700 shadow-blue-900/20 ';
       } else {
         baseClasses +=
-          "bg-gradient-to-r from-slate-950 to-gray-950 border-gray-800 hover:from-slate-900 hover:to-gray-900 hover:border-gray-700 hover:shadow-md active:scale-[0.99] ";
+          'bg-gradient-to-r from-slate-950 to-gray-950 border-gray-800 hover:from-slate-900 hover:to-gray-900 hover:border-gray-700 hover:shadow-md active:scale-[0.99] ';
       }
     }
 
@@ -59,13 +57,9 @@ export const OptionCard = memo(function OptionCard({
 
   const getIcon = () => {
     return (
-      <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center">
-        {isSubmitted && showAsCorrect && (
-          <Check className="w-5 h-5 text-green-400" />
-        )}
-        {isSubmitted && showAsIncorrect && (
-          <X className="w-5 h-5 text-red-400" />
-        )}
+      <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center">
+        {isSubmitted && showAsCorrect && <Check className="h-5 w-5 text-green-400" />}
+        {isSubmitted && showAsIncorrect && <X className="h-5 w-5 text-red-400" />}
       </div>
     );
   };
@@ -78,18 +72,18 @@ export const OptionCard = memo(function OptionCard({
       tabIndex={disabled ? -1 : 0}
       aria-pressed={isSelected}
       onKeyDown={(e) => {
-        if (!disabled && (e.key === "Enter" || e.key === " ")) {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
           onSelect();
         }
       }}
     >
-      <div className="p-4 flex items-start gap-3">
+      <div className="flex items-start gap-3 p-4">
         <div className="flex-1">
           <SecureTextRenderer
             key={`option-${option.optionId}-${isSelected}-${isSubmitted}`}
             content={option.optionText}
-            className="text-white leading-relaxed"
+            className="leading-relaxed text-white"
           />
         </div>
         {getIcon()}

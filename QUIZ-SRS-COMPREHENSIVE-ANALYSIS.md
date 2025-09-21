@@ -291,7 +291,7 @@ The `public/xss-test-quiz.md` contains 20 different XSS attack vectors that woul
 **Current Import**: `app/page.tsx` lines 12-18
 
 ```typescript
-import { parseMarkdownToQuizModule } from "@/utils/quiz-validation"; // LEGACY!
+import { parseMarkdownToQuizModule } from '@/utils/quiz-validation'; // LEGACY!
 ```
 
 **Missing Features in Legacy Parser**:
@@ -469,7 +469,7 @@ mv utils/quiz-validation-refactored.ts utils/quiz-validation.ts
 
 ```typescript
 // lib/schema/quiz.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 export const QuizModuleSchema = z.object({
   name: z.string().min(1),

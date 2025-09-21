@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
-import { parseMarkdownToQuizModule } from "@/utils/quiz-validation";
+import { describe, it, expect } from 'vitest';
+import { parseMarkdownToQuizModule } from '@/utils/quiz-validation';
 
-describe("Global ID Uniqueness Validation", () => {
-  it("should detect duplicate chapter IDs across the entire module", () => {
+describe('Global ID Uniqueness Validation', () => {
+  it('should detect duplicate chapter IDs across the entire module', () => {
     const markdown = `# Test Module
 ## Chapter 1: First Chapter <!-- ID:duplicate_id -->
 ### Q: Question 1
@@ -26,15 +26,13 @@ What is 3+3?
 
     // Should still parse but with warnings
     expect(result.success).toBe(true);
-    expect(result.errors.some((e) => e.includes("Duplicate Chapter ID"))).toBe(
-      true,
-    );
+    expect(result.errors.some((e) => e.includes('Duplicate Chapter ID'))).toBe(true);
 
     // Both chapters should exist but with warnings
     expect(result.quizModule?.chapters).toHaveLength(2);
   });
 
-  it("should detect duplicate question IDs across all chapters", () => {
+  it('should detect duplicate question IDs across all chapters', () => {
     const markdown = `# Test Module
 ## Chapter 1: First Chapter
 ### Q: Question 1 <!-- ID:duplicate_q -->
@@ -58,17 +56,14 @@ What is 3+3?
 
     // Should still parse but with warnings
     expect(result.success).toBe(true);
-    expect(result.errors.some((e) => e.includes("Duplicate Question ID"))).toBe(
-      true,
-    );
+    expect(result.errors.some((e) => e.includes('Duplicate Question ID'))).toBe(true);
 
     // Both questions should exist but with warnings
-    const allQuestions =
-      result.quizModule?.chapters.flatMap((c) => c.questions) || [];
+    const allQuestions = result.quizModule?.chapters.flatMap((c) => c.questions) || [];
     expect(allQuestions).toHaveLength(2);
   });
 
-  it("should generate unique IDs when duplicates are detected", () => {
+  it('should generate unique IDs when duplicates are detected', () => {
     const markdown = `# Test Module
 ## Chapter 1: First Chapter
 ### Q: Question 1 <!-- ID:duplicate_id -->
@@ -94,9 +89,7 @@ What is 3+3?
 
     // All question IDs should be unique
     const allQuestionIds =
-      result.quizModule?.chapters
-        .flatMap((c) => c.questions)
-        .map((q) => q.questionId) || [];
+      result.quizModule?.chapters.flatMap((c) => c.questions).map((q) => q.questionId) || [];
     const uniqueQuestionIds = new Set(allQuestionIds);
     expect(uniqueQuestionIds.size).toBe(allQuestionIds.length);
 
@@ -106,7 +99,7 @@ What is 3+3?
     expect(uniqueChapterIds.size).toBe(allChapterIds.length);
   });
 
-  it("should validate option ID uniqueness within each question", () => {
+  it('should validate option ID uniqueness within each question', () => {
     const markdown = `# Test Module
 ## Chapter 1: Test Chapter
 ### Q: Question with duplicate option IDs
@@ -132,7 +125,7 @@ What is 2+2?
     expect(uniqueOptionIds.size).toBe(optionIds.length);
   });
 
-  it("should handle mixed ID scenarios (some explicit, some generated)", () => {
+  it('should handle mixed ID scenarios (some explicit, some generated)', () => {
     const markdown = `# Test Module
 ## Chapter 1: First Chapter <!-- ID:explicit_ch1 -->
 ### Q: Question with explicit ID <!-- ID:explicit_q1 -->
@@ -166,18 +159,14 @@ What is 4+4?
     expect(result.quizModule?.chapters).toHaveLength(2);
 
     // First chapter should have explicit ID
-    expect(result.quizModule?.chapters[0].id).toBe("explicit_ch1");
+    expect(result.quizModule?.chapters[0].id).toBe('explicit_ch1');
 
     // First question should have explicit ID
-    expect(result.quizModule?.chapters[0].questions[0].questionId).toBe(
-      "explicit_q1",
-    );
+    expect(result.quizModule?.chapters[0].questions[0].questionId).toBe('explicit_q1');
 
     // Other questions should have generated IDs
     const allQuestionIds =
-      result.quizModule?.chapters
-        .flatMap((c) => c.questions)
-        .map((q) => q.questionId) || [];
+      result.quizModule?.chapters.flatMap((c) => c.questions).map((q) => q.questionId) || [];
     const uniqueQuestionIds = new Set(allQuestionIds);
     expect(uniqueQuestionIds.size).toBe(allQuestionIds.length);
   });
