@@ -3,6 +3,7 @@
 Overall, MCQ Quiz Forge is feature-rich with clear UI flows and type models, but there are several high-risk issues concentrated in the Markdown parsing and text rendering pipeline. The live code imports the older parser (`utils/quiz-validation.ts`) that lacks the robust multi-line/code-fence handling and T/F support described in the README; the newer, more resilient implementation exists in `utils/quiz-validation-refactored.ts` but is not wired in. The `TextRenderer` manually transforms Markdown/HTML via regex and renders with `dangerouslySetInnerHTML` without a sanitizer, creating XSS risk and “markdown not working” symptoms in certain views. SRS logic is present but lightly tested and could be made more deterministic. Import/export paths mix LaTeX correction and validation, but the conservative LaTeX fixer is also present only in the refactored file. There is probable dead code and bundle bloat from client-only heavy components.
 
 Top 5 fixes (Impact/Effort):
+
 - Switch to refactored parser and LaTeX correction (Critical/Medium): Wire `utils/quiz-validation-refactored.ts` in all import paths; add tests for code fences/T-F/IDs.
 - Centralize Markdown→HTML with sanitization (Critical/High): Replace custom `TextRenderer` regex rules with remark/rehype + `rehype-katex` and `rehype-sanitize`/DOMPurify; unify all text rendering.
 - Enforce runtime schemas (Major/Medium): Introduce zod schemas for modules/questions/options at import/parse boundaries with strict checks for IDs and cross-references.
@@ -52,10 +53,12 @@ File (JSON/MD) -> app/page.tsx handlers
 ```
 
 Client vs Server Components:
+
 - Almost all page and feature components are Client Components (`"use client"`), including `app/page.tsx`, `dashboard.tsx`, `quiz-session.tsx`, `text-renderer.tsx`. Heavy libraries (KaTeX, mermaid) run client-side and are mostly dynamically imported except KaTeX CSS.
 - Opportunity: keep data validation/parsing server-side (or in edge functions) for security and perf; currently parsing occurs on the client.
 
 Data contracts (types vs runtime):
+
 - TypeScript models: `types/quiz-types.ts` define `QuizModule`, `QuizChapter`, `QuizQuestion`, `QuizOption`.
 - Runtime validation: custom imperative checks in `utils/quiz-validation.ts` and `…-refactored.ts`. No zod schemas in code yet despite `zod` in deps.
 
@@ -268,20 +271,24 @@ Each item includes code pointers and test references. Routes: main app `/` via `
   - Actionable: Lazy-load `mermaid`; keep KaTeX as dynamic import; only import icons used (already tree-shaken); consider removing `recharts` if not used.
 
 Actionable deletions/splits:
+
 - Merge `quiz-validation-refactored.ts` into `quiz-validation.ts` and delete the refactored file after migration.
 - Replace `TextRenderer` custom markdown with remark/rehype pipeline modules; split KaTeX/Mermaid plugins into separate dynamic modules.
 
 Measured impact (target):
+
 - Reduce initial bundle by 20-30% by deferring mermaid and SSR-rendering KaTeX where possible; exact numbers to be recorded after analyzer.
 
 ## 5. Test Strategy (Full-stack)
 
 Coverage goals:
+
 - ≥90% statements/branches for parser/validators.
 - ≥80% for routes/components.
 - Mutation score target ≥60% on parser normalization (stryker or equivalent).
 
 Test types & tools:
+
 - Unit: Vitest + @testing-library/react.
 - Property-based: fast-check for parser normalization rules.
 - Contract: zod schemas for module/question/option; assert parse/normalize.
@@ -291,41 +298,43 @@ Test types & tools:
 - Snapshot: only for stable render fragments after sanitizer pipeline.
 
 Fixtures:
+
 - Minimal, realistic JSON/MD covering MCQ, T/F, multi-line, fenced code with stopper strings, LaTeX heavy, duplicate/missing IDs, invalid answers.
 
 ## 6. Test Matrix (Traceability)
 
-| ID | Feature/Rule | Input Fixture | Steps | Expected DOM/State | Type (Unit/Int/E2E) |
-|---|---|---|---|---|---|
-| TM-PR-01 | MD: MCQ basic Options/Correct/Exp | md-mcq-basic.md | Import MD → Dashboard | Module with 1 chapter, 1+ questions; no errors | Unit/Int |
-| TM-PR-02 | MD: “Opt/Ans” aliases | md-mcq-aliases.md | Import → Dashboard | Options parsed; correct IDs mapped | Unit/Int |
-| TM-PR-03 | MD: Fenced code with stopper inside | md-code-stoppers.md | Import → Dashboard | Full code block preserved; no premature stop | Unit |
-| TM-PR-04 | MD: True/False without Options | md-tf.md | Import → Dashboard | T/F options auto-generated; Correct requires True/False | Unit/Int |
-| TM-PR-05 | ID: Missing IDs generate unique, warnings | md-missing-ids.md | Import → Console/Toasts | Warnings emitted; unique IDs generated | Unit/Int |
-| TM-PR-06 | ID: Duplicate detection | md-duplicate-ids.md | Import → Console/Toasts | Duplicate warnings; parse continues | Unit/Int |
-| TM-LX-01 | KaTeX: inline vs display | json-katex.json | Render question/explanation | Correct KaTeX DOM; no throw | Int |
-| TM-LX-02 | LaTeX correction conservative | json-bad-latex.json | Import JSON | Corrections applied only inside $…$; valid JSON | Unit |
-| TM-VL-01 | Schema validation required fields | json-missing-fields.json | Import → Error | Clear validation errors | Unit |
-| TM-VL-02 | Cross-refs: correctOptionIds exist | json-bad-refs.json | Import → Error | Error referencing missing option IDs | Unit |
-| TM-VL-03 | Global uniqueness of IDs | json-dup-ids.json | Import → Warning/Error | Uniqueness enforced across chapters | Unit |
-| TM-RN-01 | XSS sanitize HTML | json-xss.html | Render | No script execution; sanitized attributes | Int/E2E |
-| TM-RN-02 | Markdown lists/tables/inline code | md-markdown-rich.md | Render | Correct DOM structure | Int |
-| TM-RN-03 | Explanation ID replacement | json-expl-optids.json | Submit answer → render | Explanation replaces IDs w/ texts | Int |
-| TM-NV-01 | Dashboard → Chapter → Quiz | default-quiz.json | Click flows | Correct question index and progress | E2E |
-| TM-NV-02 | History navigation correctness | run quiz 3 Qs | Submit wrong/correct; navigate grid | Stable highlights per snapshot | E2E |
-| TM-SRS-01 | Level transitions | simulate correct twice | Submit answers | 0→1→2; mastered at 2 | Unit/Int |
-| TM-SRS-02 | Due scheduling | incorrect then 30s | Check due count | Included in queue after 30s | Unit/Int |
-| TM-SRS-03 | Queue ordering priority | mixed due set | Fetch next review | Recent failures prioritized | Unit/Int |
-| TM-IE-01 | JSON→Export→Import round-trip | default-quiz.json | Export, re-import | State preserved | E2E |
-| TM-IE-02 | LaTeX correction utility idempotence | json-bad-latex.json (run twice) | Import twice | Same normalized output | Unit |
-| TM-PF-01 | Bundle size budget | prod build | Analyze | <= budget per page | CI |
-| TM-PF-02 | Mermaid lazy loading | render with/without mermaid | Inspect network | Mermaid loaded only when needed | Int |
-| TM-AC-01 | Axe checks on quiz routes | default module | Run axe | No serious violations | E2E |
-| TM-AC-02 | Keyboard navigation | quiz session | Tab/Enter flow | Operable via keyboard | E2E |
+| ID        | Feature/Rule                              | Input Fixture                   | Steps                               | Expected DOM/State                                      | Type (Unit/Int/E2E) |
+| --------- | ----------------------------------------- | ------------------------------- | ----------------------------------- | ------------------------------------------------------- | ------------------- |
+| TM-PR-01  | MD: MCQ basic Options/Correct/Exp         | md-mcq-basic.md                 | Import MD → Dashboard               | Module with 1 chapter, 1+ questions; no errors          | Unit/Int            |
+| TM-PR-02  | MD: “Opt/Ans” aliases                     | md-mcq-aliases.md               | Import → Dashboard                  | Options parsed; correct IDs mapped                      | Unit/Int            |
+| TM-PR-03  | MD: Fenced code with stopper inside       | md-code-stoppers.md             | Import → Dashboard                  | Full code block preserved; no premature stop            | Unit                |
+| TM-PR-04  | MD: True/False without Options            | md-tf.md                        | Import → Dashboard                  | T/F options auto-generated; Correct requires True/False | Unit/Int            |
+| TM-PR-05  | ID: Missing IDs generate unique, warnings | md-missing-ids.md               | Import → Console/Toasts             | Warnings emitted; unique IDs generated                  | Unit/Int            |
+| TM-PR-06  | ID: Duplicate detection                   | md-duplicate-ids.md             | Import → Console/Toasts             | Duplicate warnings; parse continues                     | Unit/Int            |
+| TM-LX-01  | KaTeX: inline vs display                  | json-katex.json                 | Render question/explanation         | Correct KaTeX DOM; no throw                             | Int                 |
+| TM-LX-02  | LaTeX correction conservative             | json-bad-latex.json             | Import JSON                         | Corrections applied only inside $…$; valid JSON         | Unit                |
+| TM-VL-01  | Schema validation required fields         | json-missing-fields.json        | Import → Error                      | Clear validation errors                                 | Unit                |
+| TM-VL-02  | Cross-refs: correctOptionIds exist        | json-bad-refs.json              | Import → Error                      | Error referencing missing option IDs                    | Unit                |
+| TM-VL-03  | Global uniqueness of IDs                  | json-dup-ids.json               | Import → Warning/Error              | Uniqueness enforced across chapters                     | Unit                |
+| TM-RN-01  | XSS sanitize HTML                         | json-xss.html                   | Render                              | No script execution; sanitized attributes               | Int/E2E             |
+| TM-RN-02  | Markdown lists/tables/inline code         | md-markdown-rich.md             | Render                              | Correct DOM structure                                   | Int                 |
+| TM-RN-03  | Explanation ID replacement                | json-expl-optids.json           | Submit answer → render              | Explanation replaces IDs w/ texts                       | Int                 |
+| TM-NV-01  | Dashboard → Chapter → Quiz                | default-quiz.json               | Click flows                         | Correct question index and progress                     | E2E                 |
+| TM-NV-02  | History navigation correctness            | run quiz 3 Qs                   | Submit wrong/correct; navigate grid | Stable highlights per snapshot                          | E2E                 |
+| TM-SRS-01 | Level transitions                         | simulate correct twice          | Submit answers                      | 0→1→2; mastered at 2                                    | Unit/Int            |
+| TM-SRS-02 | Due scheduling                            | incorrect then 30s              | Check due count                     | Included in queue after 30s                             | Unit/Int            |
+| TM-SRS-03 | Queue ordering priority                   | mixed due set                   | Fetch next review                   | Recent failures prioritized                             | Unit/Int            |
+| TM-IE-01  | JSON→Export→Import round-trip             | default-quiz.json               | Export, re-import                   | State preserved                                         | E2E                 |
+| TM-IE-02  | LaTeX correction utility idempotence      | json-bad-latex.json (run twice) | Import twice                        | Same normalized output                                  | Unit                |
+| TM-PF-01  | Bundle size budget                        | prod build                      | Analyze                             | <= budget per page                                      | CI                  |
+| TM-PF-02  | Mermaid lazy loading                      | render with/without mermaid     | Inspect network                     | Mermaid loaded only when needed                         | Int                 |
+| TM-AC-01  | Axe checks on quiz routes                 | default module                  | Run axe                             | No serious violations                                   | E2E                 |
+| TM-AC-02  | Keyboard navigation                       | quiz session                    | Tab/Enter flow                      | Operable via keyboard                                   | E2E                 |
 
 ## 7. TDD Refactor Plan (Phased)
 
 ### Phase 0: Harness & Safety Net
+
 - Entry: Repo builds; install test tooling.
 - Tasks:
   - Add ESLint (strict), Prettier, TypeScript strict mode.
@@ -335,6 +344,7 @@ Fixtures:
 - Exit: Lint/typecheck clean; base tests pass on current behavior.
 
 ### Phase 1: Parser Hardening First
+
 - Entry: Golden fixtures established from current behavior.
 - Tasks:
   - Port/wire `utils/quiz-validation-refactored.ts` as the canonical module (or merge into `quiz-validation.ts`).
@@ -343,6 +353,7 @@ Fixtures:
 - Exit: TM-PR-01..06, TM-LX-02 green; ≥90% coverage in parser.
 
 ### Phase 2: Rendering & Sanitization
+
 - Entry: Parser green.
 - Tasks:
   - Swap `TextRenderer` to unified pipeline (remark/rehype with sanitize + katex). Keep `trust: false`.
@@ -350,6 +361,7 @@ Fixtures:
 - Exit: TM-RN-01..03, TM-LX-01 green; no XSS; snapshot tests updated.
 
 ### Phase 3: Navigation & Session Logic
+
 - Entry: Rendering stable.
 - Tasks:
   - Add integration tests for question navigation grid, historical vs live view state.
@@ -357,12 +369,14 @@ Fixtures:
 - Exit: TM-NV-01..02 green.
 
 ### Phase 4: Import/Export & LaTeX Correction Utility
+
 - Entry: Core flows stable.
 - Tasks:
   - Add dry-run preview for imports (overwrite/skip/rename), idempotent LaTeX corrections; persist progress.
 - Exit: TM-IE-01..02 green.
 
 ### Phase 5: Performance & Bloat
+
 - Entry: Functional tests green.
 - Tasks:
   - Code split renderer; lazy-load mermaid; SSR KaTeX where viable.
@@ -370,6 +384,7 @@ Fixtures:
 - Exit: TM-PF-01..02 green; bundle budgets enforced.
 
 ### Phase 6: Accessibility polish
+
 - Entry: Budgets enforced.
 - Tasks:
   - Axe pass across quiz routes; fix issues; ensure keyboard flows and focus order.
@@ -410,10 +425,13 @@ Example minimal fixtures (inline):
 
 ```markdown
 # Module Title
-_Optional description_
----
+
+## _Optional description_
+
 ## Algorithms <!-- CH_ID: algos -->
+
 ---
+
 ### Q: What is 2+2? <!-- Q_ID: q1 -->
 
 **Options:**
@@ -422,21 +440,20 @@ _Optional description_
 
 **Correct:** A2
 
-**Exp:** `q1_opt2` is “4”.
----
+## **Exp:** `q1_opt2` is “4”.
+
 ### T/F: The earth is flat. <!-- Q_ID: tf1 -->
 
 **Correct:** False
 
-**Exp:** It is an oblate spheroid.
----
+## **Exp:** It is an oblate spheroid.
 ```
 
 ```markdown
 ### Q: Code fence should not stop sections
 
 **Options:**
-**A1:** ```python\nprint("**Correct:** shouldn't stop")\n```
+**A1:** `python\nprint("**Correct:** shouldn't stop")\n`
 **A2:** another
 
 **Correct:** A2
@@ -445,11 +462,13 @@ _Optional description_
 ```
 
 Risk register & rollback notes:
+
 - Parser swap may alter edge parsing; mitigate by golden fixtures and feature flag.
 - Sanitizer may strip previously allowed HTML; provide allowlist and migration guidance.
 - Performance changes may affect layout timing; use visual regression where needed.
 
 Proposed file moves/renames map:
+
 - Merge `utils/quiz-validation-refactored.ts` → `utils/quiz-validation.ts` (keep exports stable).
 - Create `lib/markdown/` with `pipeline.ts` (remark/rehype config) and `TextRenderer.tsx` using it.
 
@@ -491,4 +510,3 @@ export interface QuizQuestion { /* includes optional type: 'mcq' | 'true_false' 
 ```1:90:components/text-renderer.tsx
 // No sanitizer; uses dangerouslySetInnerHTML
 ```
-

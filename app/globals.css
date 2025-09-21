@@ -117,11 +117,13 @@ pre {
   margin: 1rem 0;
   overflow-x: auto;
   white-space: pre;
-  font-family: "Fira Code", "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", monospace;
+  font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
   font-size: 0.875rem;
   line-height: 1.5;
   color: #f9fafb;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.12),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
@@ -146,7 +148,8 @@ pre code {
   padding: 0.125rem 0.375rem !important;
   border-radius: 0.25rem !important;
   font-size: 0.875rem !important;
-  font-family: "Fira Code", "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", monospace !important;
+  font-family:
+    'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace !important;
   border: 1px solid #4b5563 !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -332,7 +335,7 @@ pre::-webkit-scrollbar-thumb:hover {
 
 /* Enhanced focus styles for accessibility */
 button:focus-visible,
-[role="button"]:focus-visible {
+[role='button']:focus-visible {
   @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-900;
 }
 
@@ -348,19 +351,27 @@ button:disabled {
 
 /* Card and container shadows - enhanced for depth */
 .shadow-xl {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
 .shadow-lg {
-  box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.25), 0 3px 5px -3px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 8px 12px -2px rgba(0, 0, 0, 0.25),
+    0 3px 5px -3px rgba(0, 0, 0, 0.15);
 }
 
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -1px rgba(0, 0, 0, 0.12);
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.12),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* Improved responsive grid for chapters */
@@ -380,11 +391,11 @@ button:disabled {
 }
 
 .prose code {
-  @apply bg-gray-800 text-gray-100 px-1.5 py-0.5 rounded text-sm font-mono border border-gray-700/50;
+  @apply rounded border border-gray-700/50 bg-gray-800 px-1.5 py-0.5 font-mono text-sm text-gray-100;
 }
 
 .prose pre {
-  @apply bg-gray-800 text-gray-100 p-4 rounded border border-gray-700/50 overflow-x-auto;
+  @apply overflow-x-auto rounded border border-gray-700/50 bg-gray-800 p-4 text-gray-100;
 }
 
 /* Ensure proper text wrapping in all contexts */
@@ -477,20 +488,28 @@ button {
 
 /* Enhanced hover effects for interactive elements */
 .hover\:shadow-md:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -1px rgba(0, 0, 0, 0.12);
 }
 
 /* Color-specific shadow effects */
 .shadow-green-900\/20 {
-  box-shadow: 0 1px 3px 0 rgba(20, 83, 45, 0.2), 0 1px 2px -1px rgba(20, 83, 45, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(20, 83, 45, 0.2),
+    0 1px 2px -1px rgba(20, 83, 45, 0.1);
 }
 
 .shadow-red-900\/20 {
-  box-shadow: 0 1px 3px 0 rgba(127, 29, 29, 0.2), 0 1px 2px -1px rgba(127, 29, 29, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(127, 29, 29, 0.2),
+    0 1px 2px -1px rgba(127, 29, 29, 0.1);
 }
 
 .shadow-blue-900\/20 {
-  box-shadow: 0 1px 3px 0 rgba(30, 58, 138, 0.2), 0 1px 2px -1px rgba(30, 58, 138, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(30, 58, 138, 0.2),
+    0 1px 2px -1px rgba(30, 58, 138, 0.1);
 }
 
 /* Focus ring colors for different button variants */
@@ -560,11 +579,11 @@ button {
   border-bottom: 1px solid #4b5563;
   background-color: #1f2937;
   font-weight: 600;
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', monospace;
 }
 
 .array-item-value {
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', monospace;
   font-weight: 700;
   color: #f9fafb;
   padding: 8px 6px;

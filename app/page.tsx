@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState, useMemo } from "react";
-import { WelcomeScreen } from "@/components/welcome-screen";
-import { Dashboard } from "@/components/dashboard";
-import { QuizSession } from "@/components/quiz-session";
-import { QuizComplete } from "@/components/quiz-complete";
-import { AllQuestionsView } from "@/components/all-questions-view";
-import { ToastContainer } from "@/components/toast-notification";
-import { useToast } from "@/hooks/use-toast";
+import { useState, useMemo } from 'react';
+import { WelcomeScreen } from '@/components/welcome-screen';
+import { Dashboard } from '@/components/dashboard';
+import { QuizSession } from '@/components/quiz-session';
+import { QuizComplete } from '@/components/quiz-complete';
+import { AllQuestionsView } from '@/components/all-questions-view';
+import { ToastContainer } from '@/components/toast-notification';
+import { useToast } from '@/hooks/use-toast';
 import {
   validateQuizModule,
   normalizeQuizModule,
@@ -15,7 +15,7 @@ import {
   normalizeSingleQuestion,
   recalculateChapterStats,
   validateAndCorrectQuizModule,
-} from "@/utils/quiz-validation";
+} from '@/utils/quiz-validation';
 import type {
   QuizModule,
   QuizChapter,
@@ -24,149 +24,147 @@ import type {
   SrsProgressCounts,
   IncorrectAnswersExport,
   SessionHistoryEntry,
-} from "@/types/quiz-types";
-import { ConfirmationModal } from "@/components/confirmation-modal";
-import { QuestionReviewModal } from "@/components/question-review-modal";
+} from '@/types/quiz-types';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { QuestionReviewModal } from '@/components/question-review-modal';
 
 // Enhanced mock data with new schema (kept as fallback/example)
 const mockQuizModule: QuizModule = {
-  name: "Advanced Computer Science Concepts",
-  description:
-    "Master key concepts in algorithms, data structures, and mathematical foundations",
+  name: 'Advanced Computer Science Concepts',
+  description: 'Master key concepts in algorithms, data structures, and mathematical foundations',
   chapters: [
     {
-      id: "algorithms",
-      name: "Algorithm Analysis",
-      description:
-        "Big O notation, complexity analysis, and optimization techniques",
+      id: 'algorithms',
+      name: 'Algorithm Analysis',
+      description: 'Big O notation, complexity analysis, and optimization techniques',
       totalQuestions: 3,
       answeredQuestions: 2,
       correctAnswers: 1,
       isCompleted: false,
       questions: [
         {
-          questionId: "q1_complexity",
+          questionId: 'q1_complexity',
           questionText:
-            "What is the time complexity of the following code snippet? <code>for(int i=0; i<n; i++) { for(int j=0; j<n; j++) { print(i*j); } }</code> Express your answer using Big O notation: $$O(f(n))$$",
+            'What is the time complexity of the following code snippet? <code>for(int i=0; i<n; i++) { for(int j=0; j<n; j++) { print(i*j); } }</code> Express your answer using Big O notation: $$O(f(n))$$',
           options: [
             {
-              optionId: "q1_opt1",
-              optionText: "$O(n)$ - Linear time complexity",
+              optionId: 'q1_opt1',
+              optionText: '$O(n)$ - Linear time complexity',
             },
             {
-              optionId: "q1_opt2",
-              optionText: "$O(n^2)$ - <b>Quadratic</b> time complexity",
+              optionId: 'q1_opt2',
+              optionText: '$O(n^2)$ - <b>Quadratic</b> time complexity',
             },
             {
-              optionId: "q1_opt3",
-              optionText: "$O(\\log n)$ - Logarithmic time complexity",
+              optionId: 'q1_opt3',
+              optionText: '$O(\\log n)$ - Logarithmic time complexity',
             },
             {
-              optionId: "q1_opt4",
-              optionText: "$O(2^n)$ - Exponential time complexity",
+              optionId: 'q1_opt4',
+              optionText: '$O(2^n)$ - Exponential time complexity',
             },
             {
-              optionId: "q1_opt5",
-              optionText: "$O(n \\log n)$ - Linearithmic time complexity",
+              optionId: 'q1_opt5',
+              optionText: '$O(n \\log n)$ - Linearithmic time complexity',
             },
             {
-              optionId: "q1_opt6",
-              optionText: "$O(n^3)$ - Cubic time complexity",
+              optionId: 'q1_opt6',
+              optionText: '$O(n^3)$ - Cubic time complexity',
             },
             {
-              optionId: "q1_opt7",
-              optionText: "$O(1)$ - Constant time complexity",
+              optionId: 'q1_opt7',
+              optionText: '$O(1)$ - Constant time complexity',
             },
             {
-              optionId: "q1_opt8",
-              optionText: "$O(n!)$ - Factorial time complexity",
+              optionId: 'q1_opt8',
+              optionText: '$O(n!)$ - Factorial time complexity',
             },
           ],
-          correctOptionIds: ["q1_opt2"],
+          correctOptionIds: ['q1_opt2'],
           explanationText:
-            "The nested loops iterate <code>n</code> times each, resulting in $n \\times n = n^2$ operations. Therefore, the time complexity is $$O(n^2)$$",
-          status: "attempted",
+            'The nested loops iterate <code>n</code> times each, resulting in $n \\times n = n^2$ operations. Therefore, the time complexity is $$O(n^2)$$',
+          status: 'attempted',
           timesAnsweredCorrectly: 0,
           timesAnsweredIncorrectly: 1,
-          lastSelectedOptionId: "q1_opt1",
-          historyOfIncorrectSelections: ["q1_opt1"],
+          lastSelectedOptionId: 'q1_opt1',
+          historyOfIncorrectSelections: ['q1_opt1'],
           srsLevel: 0,
           nextReviewAt: new Date(Date.now() + 30 * 1000).toISOString(), // 30 seconds for quick retry
-          shownIncorrectOptionIds: ["q1_opt1", "q1_opt3", "q1_opt4"],
+          shownIncorrectOptionIds: ['q1_opt1', 'q1_opt3', 'q1_opt4'],
         },
         {
-          questionId: "q2_sorting",
+          questionId: 'q2_sorting',
           questionText:
-            "Which sorting algorithms have an average-case time complexity of $O(n \\log n)$? Select <b>all</b> that apply:",
+            'Which sorting algorithms have an average-case time complexity of $O(n \\log n)$? Select <b>all</b> that apply:',
           options: [
             {
-              optionId: "q2_opt1",
-              optionText: "<b>Bubble Sort</b> - $O(n^2)$ average case",
+              optionId: 'q2_opt1',
+              optionText: '<b>Bubble Sort</b> - $O(n^2)$ average case',
             },
             {
-              optionId: "q2_opt2",
-              optionText: "<b>Quick Sort</b> - $O(n \\log n)$ average case",
+              optionId: 'q2_opt2',
+              optionText: '<b>Quick Sort</b> - $O(n \\log n)$ average case',
             },
             {
-              optionId: "q2_opt3",
-              optionText: "<b>Selection Sort</b> - $O(n^2)$ average case",
+              optionId: 'q2_opt3',
+              optionText: '<b>Selection Sort</b> - $O(n^2)$ average case',
             },
             {
-              optionId: "q2_opt4",
-              optionText: "<b>Merge Sort</b> - $O(n \\log n)$ average case",
+              optionId: 'q2_opt4',
+              optionText: '<b>Merge Sort</b> - $O(n \\log n)$ average case',
             },
             {
-              optionId: "q2_opt5",
-              optionText: "<b>Insertion Sort</b> - $O(n^2)$ average case",
+              optionId: 'q2_opt5',
+              optionText: '<b>Insertion Sort</b> - $O(n^2)$ average case',
             },
             {
-              optionId: "q2_opt6",
-              optionText: "<b>Heap Sort</b> - $O(n \\log n)$ average case",
+              optionId: 'q2_opt6',
+              optionText: '<b>Heap Sort</b> - $O(n \\log n)$ average case',
             },
             {
-              optionId: "q2_opt7",
-              optionText: "<b>Radix Sort</b> - $O(d \\cdot n)$ average case",
+              optionId: 'q2_opt7',
+              optionText: '<b>Radix Sort</b> - $O(d \\cdot n)$ average case',
             },
             {
-              optionId: "q2_opt8",
-              optionText: "<b>Counting Sort</b> - $O(n + k)$ average case",
+              optionId: 'q2_opt8',
+              optionText: '<b>Counting Sort</b> - $O(n + k)$ average case',
             },
             {
-              optionId: "q2_opt9",
-              optionText: "<b>Shell Sort</b> - varies by gap sequence",
+              optionId: 'q2_opt9',
+              optionText: '<b>Shell Sort</b> - varies by gap sequence',
             },
             {
-              optionId: "q2_opt10",
-              optionText: "<b>Tim Sort</b> - $O(n \\log n)$ average case",
+              optionId: 'q2_opt10',
+              optionText: '<b>Tim Sort</b> - $O(n \\log n)$ average case',
             },
           ],
-          correctOptionIds: ["q2_opt2", "q2_opt4", "q2_opt6", "q2_opt10"],
+          correctOptionIds: ['q2_opt2', 'q2_opt4', 'q2_opt6', 'q2_opt10'],
           explanationText:
-            "The algorithms with $O(n \\log n)$ average-case complexity are: <b>Quick Sort</b>, <b>Merge Sort</b>, <b>Heap Sort</b>, and <b>Tim Sort</b>. While Quick Sort can degrade to $O(n^2)$ in worst case, its average case is $O(n \\log n)$.",
-          status: "passed_once",
+            'The algorithms with $O(n \\log n)$ average-case complexity are: <b>Quick Sort</b>, <b>Merge Sort</b>, <b>Heap Sort</b>, and <b>Tim Sort</b>. While Quick Sort can degrade to $O(n^2)$ in worst case, its average case is $O(n \\log n)$.',
+          status: 'passed_once',
           timesAnsweredCorrectly: 1,
           timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: "q2_opt2",
+          lastSelectedOptionId: 'q2_opt2',
           srsLevel: 1,
           nextReviewAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-          shownIncorrectOptionIds: ["q2_opt1", "q2_opt3", "q2_opt5"],
+          shownIncorrectOptionIds: ['q2_opt1', 'q2_opt3', 'q2_opt5'],
         },
         {
-          questionId: "q3_bst",
+          questionId: 'q3_bst',
           questionText:
-            "In a binary search tree, what is the maximum number of comparisons needed to find an element in a <i>balanced</i> tree with $n$ nodes?",
+            'In a binary search tree, what is the maximum number of comparisons needed to find an element in a <i>balanced</i> tree with $n$ nodes?',
           options: [
-            { optionId: "q3_opt1", optionText: "$O(n)$ comparisons" },
-            { optionId: "q3_opt2", optionText: "$O(\\log_2 n)$ comparisons" },
-            { optionId: "q3_opt3", optionText: "$O(n^2)$ comparisons" },
-            { optionId: "q3_opt4", optionText: "$O(1)$ comparisons" },
-            { optionId: "q3_opt5", optionText: "$O(n \\log n)$ comparisons" },
-            { optionId: "q3_opt6", optionText: "$O(\\sqrt{n})$ comparisons" },
+            { optionId: 'q3_opt1', optionText: '$O(n)$ comparisons' },
+            { optionId: 'q3_opt2', optionText: '$O(\\log_2 n)$ comparisons' },
+            { optionId: 'q3_opt3', optionText: '$O(n^2)$ comparisons' },
+            { optionId: 'q3_opt4', optionText: '$O(1)$ comparisons' },
+            { optionId: 'q3_opt5', optionText: '$O(n \\log n)$ comparisons' },
+            { optionId: 'q3_opt6', optionText: '$O(\\sqrt{n})$ comparisons' },
           ],
-          correctOptionIds: ["q3_opt2"],
+          correctOptionIds: ['q3_opt2'],
           explanationText:
-            "In a balanced binary search tree, the height is $\\log_2 n$. Since we eliminate half the remaining nodes with each comparison, the maximum number of comparisons is $$\\lceil \\log_2 n \\rceil$$",
-          status: "not_attempted",
+            'In a balanced binary search tree, the height is $\\log_2 n$. Since we eliminate half the remaining nodes with each comparison, the maximum number of comparisons is $$\\lceil \\log_2 n \\rceil$$',
+          status: 'not_attempted',
           timesAnsweredCorrectly: 0,
           timesAnsweredIncorrectly: 0,
           srsLevel: 0,
@@ -176,29 +174,29 @@ const mockQuizModule: QuizModule = {
       ],
     },
     {
-      id: "data-structures",
-      name: "Data Structures",
-      description: "Arrays, linked lists, trees, graphs, and hash tables",
+      id: 'data-structures',
+      name: 'Data Structures',
+      description: 'Arrays, linked lists, trees, graphs, and hash tables',
       totalQuestions: 2,
       answeredQuestions: 0,
       correctAnswers: 0,
       isCompleted: false,
       questions: [
         {
-          questionId: "q4_hashtable",
+          questionId: 'q4_hashtable',
           questionText:
-            "What is the space complexity of a hash table with <code>n</code> elements and a load factor of $\\alpha$?",
+            'What is the space complexity of a hash table with <code>n</code> elements and a load factor of $\\alpha$?',
           options: [
-            { optionId: "q4_opt1", optionText: "$O(n)$ space" },
-            { optionId: "q4_opt2", optionText: "$O(n^2)$ space" },
-            { optionId: "q4_opt3", optionText: "$O(\\log n)$ space" },
-            { optionId: "q4_opt4", optionText: "$O(n/\\alpha)$ space" },
-            { optionId: "q4_opt5", optionText: "$O(\\alpha \\cdot n)$ space" },
+            { optionId: 'q4_opt1', optionText: '$O(n)$ space' },
+            { optionId: 'q4_opt2', optionText: '$O(n^2)$ space' },
+            { optionId: 'q4_opt3', optionText: '$O(\\log n)$ space' },
+            { optionId: 'q4_opt4', optionText: '$O(n/\\alpha)$ space' },
+            { optionId: 'q4_opt5', optionText: '$O(\\alpha \\cdot n)$ space' },
           ],
-          correctOptionIds: ["q4_opt1"],
+          correctOptionIds: ['q4_opt1'],
           explanationText:
-            "A hash table stores <code>n</code> elements regardless of the load factor $\\alpha$. The load factor affects performance but not the fundamental space requirement of $$O(n)$$",
-          status: "not_attempted",
+            'A hash table stores <code>n</code> elements regardless of the load factor $\\alpha$. The load factor affects performance but not the fundamental space requirement of $$O(n)$$',
+          status: 'not_attempted',
           timesAnsweredCorrectly: 0,
           timesAnsweredIncorrectly: 0,
           srsLevel: 0,
@@ -206,47 +204,47 @@ const mockQuizModule: QuizModule = {
           shownIncorrectOptionIds: [],
         },
         {
-          questionId: "q5_priority_queue",
+          questionId: 'q5_priority_queue',
           questionText:
-            "Which data structures are efficient for implementing a <b>priority queue</b>? Select all that apply:",
+            'Which data structures are efficient for implementing a <b>priority queue</b>? Select all that apply:',
           options: [
             {
-              optionId: "q5_opt1",
-              optionText: "<i>Array</i> - $O(n)$ insertion",
+              optionId: 'q5_opt1',
+              optionText: '<i>Array</i> - $O(n)$ insertion',
             },
             {
-              optionId: "q5_opt2",
-              optionText: "<i>Linked List</i> - $O(n)$ insertion",
+              optionId: 'q5_opt2',
+              optionText: '<i>Linked List</i> - $O(n)$ insertion',
             },
             {
-              optionId: "q5_opt3",
-              optionText: "<b>Binary Heap</b> - $O(\\log n)$ insertion",
+              optionId: 'q5_opt3',
+              optionText: '<b>Binary Heap</b> - $O(\\log n)$ insertion',
             },
             {
-              optionId: "q5_opt4",
-              optionText: "<i>Stack</i> - $O(1)$ insertion",
+              optionId: 'q5_opt4',
+              optionText: '<i>Stack</i> - $O(1)$ insertion',
             },
             {
-              optionId: "q5_opt5",
-              optionText: "<b>Fibonacci Heap</b> - $O(1)$ amortized insertion",
+              optionId: 'q5_opt5',
+              optionText: '<b>Fibonacci Heap</b> - $O(1)$ amortized insertion',
             },
             {
-              optionId: "q5_opt6",
-              optionText: "<b>Balanced BST</b> - $O(\\log n)$ insertion",
+              optionId: 'q5_opt6',
+              optionText: '<b>Balanced BST</b> - $O(\\log n)$ insertion',
             },
             {
-              optionId: "q5_opt7",
+              optionId: 'q5_opt7',
               optionText: "<i>Hash Table</i> - doesn't maintain order",
             },
             {
-              optionId: "q5_opt8",
-              optionText: "<b>Binomial Heap</b> - $O(\\log n)$ insertion",
+              optionId: 'q5_opt8',
+              optionText: '<b>Binomial Heap</b> - $O(\\log n)$ insertion',
             },
           ],
-          correctOptionIds: ["q5_opt3", "q5_opt5", "q5_opt6", "q5_opt8"],
+          correctOptionIds: ['q5_opt3', 'q5_opt5', 'q5_opt6', 'q5_opt8'],
           explanationText:
-            "Efficient priority queue implementations include <b>Binary Heap</b>, <b>Fibonacci Heap</b>, <b>Balanced BST</b>, and <b>Binomial Heap</b>. These provide logarithmic or better insertion and extraction operations while maintaining priority order.",
-          status: "not_attempted",
+            'Efficient priority queue implementations include <b>Binary Heap</b>, <b>Fibonacci Heap</b>, <b>Balanced BST</b>, and <b>Binomial Heap</b>. These provide logarithmic or better insertion and extraction operations while maintaining priority order.',
+          status: 'not_attempted',
           timesAnsweredCorrectly: 0,
           timesAnsweredIncorrectly: 0,
           srsLevel: 0,
@@ -256,55 +254,54 @@ const mockQuizModule: QuizModule = {
       ],
     },
     {
-      id: "mathematics",
-      name: "Mathematical Foundations",
-      description:
-        "Discrete mathematics, probability, and computational theory",
+      id: 'mathematics',
+      name: 'Mathematical Foundations',
+      description: 'Discrete mathematics, probability, and computational theory',
       totalQuestions: 2,
       answeredQuestions: 2,
       correctAnswers: 2,
       isCompleted: true,
       questions: [
         {
-          questionId: "q6_sum_squares",
-          questionText: "What is the value of the sum: $$\\sum_{i=1}^{n} i^2$$",
+          questionId: 'q6_sum_squares',
+          questionText: 'What is the value of the sum: $$\\sum_{i=1}^{n} i^2$$',
           options: [
-            { optionId: "q6_opt1", optionText: "$\\frac{n(n+1)}{2}$" },
-            { optionId: "q6_opt2", optionText: "$\\frac{n(n+1)(2n+1)}{6}$" },
-            { optionId: "q6_opt3", optionText: "$n^2$" },
-            { optionId: "q6_opt4", optionText: "$\\frac{n^2(n+1)^2}{4}$" },
-            { optionId: "q6_opt5", optionText: "$2^n - 1$" },
+            { optionId: 'q6_opt1', optionText: '$\\frac{n(n+1)}{2}$' },
+            { optionId: 'q6_opt2', optionText: '$\\frac{n(n+1)(2n+1)}{6}$' },
+            { optionId: 'q6_opt3', optionText: '$n^2$' },
+            { optionId: 'q6_opt4', optionText: '$\\frac{n^2(n+1)^2}{4}$' },
+            { optionId: 'q6_opt5', optionText: '$2^n - 1$' },
           ],
-          correctOptionIds: ["q6_opt2"],
+          correctOptionIds: ['q6_opt2'],
           explanationText:
-            "The sum of squares formula is: $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$ This can be proven by mathematical induction.",
-          status: "mastered",
+            'The sum of squares formula is: $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$ This can be proven by mathematical induction.',
+          status: 'mastered',
           timesAnsweredCorrectly: 2,
           timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: "q6_opt2",
+          lastSelectedOptionId: 'q6_opt2',
           srsLevel: 2,
           nextReviewAt: null,
           shownIncorrectOptionIds: [],
         },
         {
-          questionId: "q7_probability",
+          questionId: 'q7_probability',
           questionText:
-            "In probability theory, if events $A$ and $B$ are <b>independent</b>, what is $P(A \\cap B)$?",
+            'In probability theory, if events $A$ and $B$ are <b>independent</b>, what is $P(A \\cap B)$?',
           options: [
-            { optionId: "q7_opt1", optionText: "$P(A) + P(B)$" },
-            { optionId: "q7_opt2", optionText: "$P(A) \\times P(B)$" },
-            { optionId: "q7_opt3", optionText: "$P(A) - P(B)$" },
-            { optionId: "q7_opt4", optionText: "$\\frac{P(A)}{P(B)}$" },
-            { optionId: "q7_opt5", optionText: "$\\max(P(A), P(B))$" },
-            { optionId: "q7_opt6", optionText: "$\\min(P(A), P(B))$" },
+            { optionId: 'q7_opt1', optionText: '$P(A) + P(B)$' },
+            { optionId: 'q7_opt2', optionText: '$P(A) \\times P(B)$' },
+            { optionId: 'q7_opt3', optionText: '$P(A) - P(B)$' },
+            { optionId: 'q7_opt4', optionText: '$\\frac{P(A)}{P(B)}$' },
+            { optionId: 'q7_opt5', optionText: '$\\max(P(A), P(B))$' },
+            { optionId: 'q7_opt6', optionText: '$\\min(P(A), P(B))$' },
           ],
-          correctOptionIds: ["q7_opt2"],
+          correctOptionIds: ['q7_opt2'],
           explanationText:
-            "For independent events, the probability of both occurring is: $$P(A \\cap B) = P(A) \\times P(B)$$ This is the fundamental definition of statistical independence.",
-          status: "mastered",
+            'For independent events, the probability of both occurring is: $$P(A \\cap B) = P(A) \\times P(B)$$ This is the fundamental definition of statistical independence.',
+          status: 'mastered',
           timesAnsweredCorrectly: 2,
           timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: "q7_opt2",
+          lastSelectedOptionId: 'q7_opt2',
           srsLevel: 2,
           nextReviewAt: null,
           shownIncorrectOptionIds: [],
@@ -314,7 +311,7 @@ const mockQuizModule: QuizModule = {
   ],
 };
 
-type AppState = "welcome" | "dashboard" | "quiz" | "complete" | "all-questions";
+type AppState = 'welcome' | 'dashboard' | 'quiz' | 'complete' | 'all-questions';
 
 // Interface for the result of getNextReviewQuestion
 interface NextReviewQuestion {
@@ -342,111 +339,90 @@ interface IncorrectAnswerLogEntry {
 }
 
 export default function MCQQuizForge() {
-  const [appState, setAppState] = useState<AppState>("welcome");
+  const [appState, setAppState] = useState<AppState>('welcome');
   const [currentModule, setCurrentModule] = useState<QuizModule | null>(null);
-  const [currentChapterId, setCurrentChapterId] = useState<string>("");
+  const [currentChapterId, setCurrentChapterId] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>('');
 
   // For managing the "delete current question" confirmation
-  const [
-    showDeleteCurrentQuestionConfirmation,
-    setShowDeleteCurrentQuestionConfirmation,
-  ] = useState(false);
-  const [questionToDelete, setQuestionToDelete] = useState<QuizQuestion | null>(
-    null,
-  );
+  const [showDeleteCurrentQuestionConfirmation, setShowDeleteCurrentQuestionConfirmation] =
+    useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<QuizQuestion | null>(null);
 
   // For managing the "overwrite current question" confirmation
-  const [
-    showOverwriteCurrentQuestionConfirmation,
-    setShowOverwriteCurrentQuestionConfirmation,
-  ] = useState(false);
-  const [pendingOverwriteData, setPendingOverwriteData] =
-    useState<QuizQuestion | null>(null);
+  const [showOverwriteCurrentQuestionConfirmation, setShowOverwriteCurrentQuestionConfirmation] =
+    useState(false);
+  const [pendingOverwriteData, setPendingOverwriteData] = useState<QuizQuestion | null>(null);
 
   // For managing the "review and append new questions" modal
   const [showAppendReviewModal, setShowAppendReviewModal] = useState(false);
-  const [questionsToReviewForAppend, setQuestionsToReviewForAppend] = useState<
-    QuizQuestion[]
-  >([]);
+  const [questionsToReviewForAppend, setQuestionsToReviewForAppend] = useState<QuizQuestion[]>([]);
 
   // Toast notifications
-  const { toasts, removeToast, showSuccess, showError, showInfo, showWarning } =
-    useToast();
+  const { toasts, removeToast, showSuccess, showError, showInfo, showWarning } = useToast();
 
   // SRS state - SIMPLIFIED: Remove static reviewQueue, use dynamic approach
   const [isReviewSessionActive, setIsReviewSessionActive] = useState(false);
   // For review mode, we'll store the current review question directly
-  const [currentReviewQuestion, setCurrentReviewQuestion] =
-    useState<NextReviewQuestion | null>(null);
+  const [currentReviewQuestion, setCurrentReviewQuestion] = useState<NextReviewQuestion | null>(
+    null,
+  );
 
   // Session History Navigation State
-  const [sessionHistory, setSessionHistory] = useState<SessionHistoryEntry[]>(
-    [],
-  );
-  const [currentHistoryViewIndex, setCurrentHistoryViewIndex] = useState<
-    number | null
-  >(null);
+  const [sessionHistory, setSessionHistory] = useState<SessionHistoryEntry[]>([]);
+  const [currentHistoryViewIndex, setCurrentHistoryViewIndex] = useState<number | null>(null);
 
   // Edit Mode State - Phase 1
   const [isEditModeActive, setIsEditModeActive] = useState(false);
-  const [editingQuestionData, setEditingQuestionData] =
-    useState<QuizQuestion | null>(null);
+  const [editingQuestionData, setEditingQuestionData] = useState<QuizQuestion | null>(null);
 
   // Edit Mode Handler - Phase 1
   const handleSetEditMode = (question: QuizQuestion | null) => {
-    console.log("=== Setting Edit Mode ===");
-    console.log(
-      "Question:",
-      question ? question.questionId : "null (new question)",
-    );
+    console.log('=== Setting Edit Mode ===');
+    console.log('Question:', question ? question.questionId : 'null (new question)');
 
     setEditingQuestionData(question);
     setIsEditModeActive(question !== null);
 
     if (question) {
-      console.log("Entering edit mode for existing question");
+      console.log('Entering edit mode for existing question');
     } else {
-      console.log("Exiting edit mode");
+      console.log('Exiting edit mode');
     }
   };
 
   // Phase 3: Save/Update Logic
   const handleSaveQuestion = async (questionData: QuizQuestion) => {
     if (!currentModule || !currentChapterId) {
-      showError("Save Failed", "No current module or chapter context found");
+      showError('Save Failed', 'No current module or chapter context found');
       return;
     }
 
     try {
-      console.log("=== Saving Question ===");
-      console.log("Question ID:", questionData.questionId);
-      console.log("Is new question:", !editingQuestionData);
+      console.log('=== Saving Question ===');
+      console.log('Question ID:', questionData.questionId);
+      console.log('Is new question:', !editingQuestionData);
 
       // Validate question data
       const validation = validateSingleQuestion(questionData);
       if (!validation.isValid) {
         showError(
-          "Validation Failed",
-          `Question validation failed:\n${validation.errors.slice(0, 3).join("\n")}`,
+          'Validation Failed',
+          `Question validation failed:\n${validation.errors.slice(0, 3).join('\n')}`,
         );
         return;
       }
 
       // Create deep copy of module
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (!targetChapter) {
-        showError("Save Failed", "Target chapter not found");
+        showError('Save Failed', 'Target chapter not found');
         return;
       }
 
@@ -460,31 +436,27 @@ export default function MCQQuizForge() {
         );
 
         if (questionIndex === -1) {
-          showError("Save Failed", "Original question not found for update");
+          showError('Save Failed', 'Original question not found for update');
           return;
         }
 
         // Preserve performance tracking data from original question
         const originalQuestion = targetChapter.questions[questionIndex];
         normalizedQuestion.status = originalQuestion.status;
-        normalizedQuestion.timesAnsweredCorrectly =
-          originalQuestion.timesAnsweredCorrectly;
-        normalizedQuestion.timesAnsweredIncorrectly =
-          originalQuestion.timesAnsweredIncorrectly;
+        normalizedQuestion.timesAnsweredCorrectly = originalQuestion.timesAnsweredCorrectly;
+        normalizedQuestion.timesAnsweredIncorrectly = originalQuestion.timesAnsweredIncorrectly;
         normalizedQuestion.historyOfIncorrectSelections =
           originalQuestion.historyOfIncorrectSelections;
-        normalizedQuestion.lastSelectedOptionId =
-          originalQuestion.lastSelectedOptionId;
+        normalizedQuestion.lastSelectedOptionId = originalQuestion.lastSelectedOptionId;
         normalizedQuestion.lastAttemptedAt = originalQuestion.lastAttemptedAt;
         normalizedQuestion.srsLevel = originalQuestion.srsLevel;
         normalizedQuestion.nextReviewAt = originalQuestion.nextReviewAt;
-        normalizedQuestion.shownIncorrectOptionIds =
-          originalQuestion.shownIncorrectOptionIds;
+        normalizedQuestion.shownIncorrectOptionIds = originalQuestion.shownIncorrectOptionIds;
 
         targetChapter.questions[questionIndex] = normalizedQuestion;
-        console.log("Updated existing question at index:", questionIndex);
+        console.log('Updated existing question at index:', questionIndex);
 
-        showSuccess("Question Updated", "Question updated successfully");
+        showSuccess('Question Updated', 'Question updated successfully');
       } else {
         // Add new question
         const currentQuestion = getCurrentQuestion();
@@ -501,9 +473,9 @@ export default function MCQQuizForge() {
         }
 
         targetChapter.questions.splice(insertionIndex, 0, normalizedQuestion);
-        console.log("Added new question at index:", insertionIndex);
+        console.log('Added new question at index:', insertionIndex);
 
-        showSuccess("Question Added", "New question added successfully");
+        showSuccess('Question Added', 'New question added successfully');
       }
 
       // Recalculate chapter stats
@@ -515,12 +487,12 @@ export default function MCQQuizForge() {
       // Exit edit mode
       handleSetEditMode(null);
 
-      console.log("Question save completed successfully");
+      console.log('Question save completed successfully');
     } catch (error) {
-      console.error("Error saving question:", error);
+      console.error('Error saving question:', error);
       showError(
-        "Save Failed",
-        `Failed to save question: ${error instanceof Error ? error.message : "Unknown error"}`,
+        'Save Failed',
+        `Failed to save question: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
   };
@@ -528,48 +500,39 @@ export default function MCQQuizForge() {
   // Phase 4: Delete Logic
   const handleDeleteQuestion = async (questionId: string) => {
     if (!currentModule || !currentChapterId) {
-      showError("Delete Failed", "No current module or chapter context found");
+      showError('Delete Failed', 'No current module or chapter context found');
       return;
     }
 
     try {
-      console.log("=== Deleting Question ===");
-      console.log("Question ID:", questionId);
+      console.log('=== Deleting Question ===');
+      console.log('Question ID:', questionId);
 
       // Create deep copy of module
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (!targetChapter) {
-        showError("Delete Failed", "Target chapter not found");
+        showError('Delete Failed', 'Target chapter not found');
         return;
       }
 
-      const questionIndex = targetChapter.questions.findIndex(
-        (q) => q.questionId === questionId,
-      );
+      const questionIndex = targetChapter.questions.findIndex((q) => q.questionId === questionId);
 
       if (questionIndex === -1) {
-        showError("Delete Failed", "Question not found for deletion");
+        showError('Delete Failed', 'Question not found for deletion');
         return;
       }
 
       // Check if this is the only question in the chapter
       if (targetChapter.questions.length === 1) {
-        showWarning(
-          "Cannot Delete",
-          "Cannot delete the last question in a chapter",
-        );
+        showWarning('Cannot Delete', 'Cannot delete the last question in a chapter');
         return;
       }
 
       // Remove the question
       targetChapter.questions.splice(questionIndex, 1);
-      console.log("Deleted question at index:", questionIndex);
+      console.log('Deleted question at index:', questionIndex);
 
       // Recalculate chapter stats
       recalculateChapterStats(targetChapter);
@@ -582,27 +545,22 @@ export default function MCQQuizForge() {
 
       // Adjust current question index if necessary
       if (currentQuestionIndex >= targetChapter.questions.length) {
-        setCurrentQuestionIndex(
-          Math.max(0, targetChapter.questions.length - 1),
-        );
+        setCurrentQuestionIndex(Math.max(0, targetChapter.questions.length - 1));
       }
 
-      showSuccess("Question Deleted", "Question deleted successfully");
-      console.log("Question deletion completed successfully");
+      showSuccess('Question Deleted', 'Question deleted successfully');
+      console.log('Question deletion completed successfully');
     } catch (error) {
-      console.error("Error deleting question:", error);
+      console.error('Error deleting question:', error);
       showError(
-        "Delete Failed",
-        `Failed to delete question: ${error instanceof Error ? error.message : "Unknown error"}`,
+        'Delete Failed',
+        `Failed to delete question: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
   };
 
   // Phase 5: Unique ID Generation
-  const generateUniqueOptionId = (
-    questionId: string,
-    existingOptionIds: string[],
-  ): string => {
+  const generateUniqueOptionId = (questionId: string, existingOptionIds: string[]): string => {
     let counter = 1;
     let newId: string;
 
@@ -635,14 +593,14 @@ export default function MCQQuizForge() {
   // NEW: Load Default Quiz Handler
   const handleLoadDefaultQuiz = async () => {
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
-      console.log("=== Loading Default Quiz ===");
-      console.log("Attempting to fetch default quiz from /default-quiz.json");
+      console.log('=== Loading Default Quiz ===');
+      console.log('Attempting to fetch default quiz from /default-quiz.json');
 
       // Fetch the default quiz file from public folder
-      const response = await fetch("/default-quiz.json");
+      const response = await fetch('/default-quiz.json');
 
       if (!response.ok) {
         throw new Error(`Failed to fetch default quiz: ${response.statusText}`);
@@ -650,55 +608,52 @@ export default function MCQQuizForge() {
 
       // Get file content as text
       const fileContent = await response.text();
-      console.log("Default quiz file content length:", fileContent.length);
+      console.log('Default quiz file content length:', fileContent.length);
 
       // Parse JSON with error handling
       let parsedData: any;
       try {
         parsedData = JSON.parse(fileContent);
-        console.log("Default quiz JSON parsed successfully");
+        console.log('Default quiz JSON parsed successfully');
       } catch (parseError) {
-        console.error("Default quiz JSON parse error:", parseError);
-        throw new Error("Invalid JSON format in default quiz file.");
+        console.error('Default quiz JSON parse error:', parseError);
+        throw new Error('Invalid JSON format in default quiz file.');
       }
 
       // Validate the parsed data
       const validation = validateQuizModule(parsedData);
       if (!validation.isValid) {
-        console.error("Default quiz validation errors:", validation.errors);
+        console.error('Default quiz validation errors:', validation.errors);
         throw new Error(`Invalid default quiz format:
-${validation.errors.slice(0, 3).join("\n")}`);
+${validation.errors.slice(0, 3).join('\n')}`);
       }
 
       // Normalize and set the module
       const normalizedModule = normalizeQuizModule(parsedData);
       setCurrentModule(normalizedModule);
-      setAppState("dashboard");
+      setAppState('dashboard');
 
       // Show success toast
       showSuccess(
-        "Algorithm Quiz Loaded!",
+        'Algorithm Quiz Loaded!',
         `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
         5000,
       );
 
-      console.log(
-        "Successfully loaded default quiz module:",
-        normalizedModule.name,
-      );
+      console.log('Successfully loaded default quiz module:', normalizedModule.name);
     } catch (err) {
-      console.error("Error loading default quiz:", err);
+      console.error('Error loading default quiz:', err);
       const errorMessage =
         err instanceof Error
           ? err.message
-          : "Unknown error occurred while loading the default quiz";
+          : 'Unknown error occurred while loading the default quiz';
       setError(errorMessage);
 
       // Show error toast
-      showError("Failed to Load Algorithm Quiz", errorMessage, 8000);
+      showError('Failed to Load Algorithm Quiz', errorMessage, 8000);
 
       // Keep user on welcome screen if loading fails
-      setAppState("welcome");
+      setAppState('welcome');
     } finally {
       setIsLoading(false);
     }
@@ -711,19 +666,17 @@ ${validation.errors.slice(0, 3).join("\n")}`);
     const now = new Date();
     let count = 0;
 
-    console.log("=== Calculating Review Queue Count (Refined) ===");
-    console.log("Current time:", now.toISOString());
+    console.log('=== Calculating Review Queue Count (Refined) ===');
+    console.log('Current time:', now.toISOString());
 
     currentModule.chapters.forEach((chapter) => {
       chapter.questions.forEach((question) => {
-        const isNotMastered = question.status !== "mastered";
+        const isNotMastered = question.status !== 'mastered';
 
         // REFINED: Align with getNextReviewQuestion's understanding of "due"
-        const isBrandNewAndReady =
-          question.srsLevel === 0 && question.nextReviewAt === null; // Brand new, srsLevel 0
+        const isBrandNewAndReady = question.srsLevel === 0 && question.nextReviewAt === null; // Brand new, srsLevel 0
         const isScheduledAndDue =
-          question.nextReviewAt !== null &&
-          new Date(question.nextReviewAt!) <= now; // Scheduled and time has passed
+          question.nextReviewAt !== null && new Date(question.nextReviewAt!) <= now; // Scheduled and time has passed
         const isDue = isBrandNewAndReady || isScheduledAndDue;
 
         if (isNotMastered && isDue) {
@@ -745,11 +698,11 @@ ${validation.errors.slice(0, 3).join("\n")}`);
     let learningReviewDue = 0;
     let totalNonMastered = 0;
 
-    console.log("=== Calculating SRS Progress Counts (FIXED) ===");
+    console.log('=== Calculating SRS Progress Counts (FIXED) ===');
 
     currentModule.chapters.forEach((chapter) => {
       chapter.questions.forEach((question) => {
-        const isNotMastered = question.status !== "mastered";
+        const isNotMastered = question.status !== 'mastered';
 
         if (isNotMastered) {
           totalNonMastered++;
@@ -758,15 +711,12 @@ ${validation.errors.slice(0, 3).join("\n")}`);
           if (question.srsLevel === 0) {
             const isBrandNewAndReady = question.nextReviewAt === null;
             const isScheduledAndDue =
-              question.nextReviewAt !== null &&
-              new Date(question.nextReviewAt!) <= now;
+              question.nextReviewAt !== null && new Date(question.nextReviewAt!) <= now;
             const isDue = isBrandNewAndReady || isScheduledAndDue;
 
             if (isDue) {
               newOrLapsingDue++;
-              console.log(
-                `  - ${question.questionId}: New/Lapsing (srsLevel 0, due now)`,
-              );
+              console.log(`  - ${question.questionId}: New/Lapsing (srsLevel 0, due now)`);
             }
           }
 
@@ -774,9 +724,7 @@ ${validation.errors.slice(0, 3).join("\n")}`);
           // This represents items "in the learning pipeline" like Anki's green learning count
           if (question.srsLevel === 1) {
             learningReviewDue++;
-            console.log(
-              `  - ${question.questionId}: Learning Review (srsLevel 1, in pipeline)`,
-            );
+            console.log(`  - ${question.questionId}: Learning Review (srsLevel 1, in pipeline)`);
           }
         }
       });
@@ -799,19 +747,17 @@ ${validation.errors.slice(0, 3).join("\n")}`);
       }
     > = [];
 
-    console.log("Current time:", now.toISOString());
+    console.log('Current time:', now.toISOString());
 
     // Collect all due questions from all chapters
     currentModule.chapters.forEach((chapter) => {
       chapter.questions.forEach((question) => {
-        const isNotMastered = question.status !== "mastered";
+        const isNotMastered = question.status !== 'mastered';
 
         // Standard "due" evaluation
-        const isBrandNewAndReady =
-          question.srsLevel === 0 && question.nextReviewAt === null;
+        const isBrandNewAndReady = question.srsLevel === 0 && question.nextReviewAt === null;
         const isScheduledAndDue =
-          question.nextReviewAt !== null &&
-          new Date(question.nextReviewAt!) <= now;
+          question.nextReviewAt !== null && new Date(question.nextReviewAt!) <= now;
         const isDue = isBrandNewAndReady || isScheduledAndDue;
 
         // ENHANCED: Check for "recent failure" - srsLevel 0 items with nextReviewAt in very near future
@@ -822,9 +768,7 @@ ${validation.errors.slice(0, 3).join("\n")}`);
 
         if (isNotMastered && (isDue || isRecentFailure)) {
           const srsLevel = question.srsLevel || 0;
-          const dueTime = question.nextReviewAt
-            ? new Date(question.nextReviewAt).getTime()
-            : 0;
+          const dueTime = question.nextReviewAt ? new Date(question.nextReviewAt).getTime() : 0;
 
           dueQuestions.push({
             chapterId: chapter.id,
@@ -844,7 +788,7 @@ ${validation.errors.slice(0, 3).join("\n")}`);
     });
 
     if (dueQuestions.length === 0) {
-      console.log("No questions due for review");
+      console.log('No questions due for review');
       return null;
     }
 
@@ -876,7 +820,7 @@ ${validation.errors.slice(0, 3).join("\n")}`);
 
   // Load the next review question and set up the UI
   const loadNextReviewQuestion = () => {
-    console.log("=== Loading Next Review Question ===");
+    console.log('=== Loading Next Review Question ===');
 
     const nextReview = getNextReviewQuestion();
 
@@ -889,21 +833,17 @@ ${validation.errors.slice(0, 3).join("\n")}`);
       setCurrentChapterId(nextReview.chapterId);
       setSelectedOptionId(null);
       setIsSubmitted(false);
-      setAppState("quiz");
+      setAppState('quiz');
     } else {
-      console.log("No more questions due - ending review session");
+      console.log('No more questions due - ending review session');
 
       // No more questions due - end review session
       setIsReviewSessionActive(false);
       setCurrentReviewQuestion(null);
-      setAppState("dashboard");
+      setAppState('dashboard');
 
       // REPLACED: alert() with toast notification
-      showSuccess(
-        "Review Session Complete! 🎉",
-        "No more reviews due right now. Great job!",
-        6000,
-      );
+      showSuccess('Review Session Complete! 🎉', 'No more reviews due right now. Great job!', 6000);
     }
   };
 
@@ -912,19 +852,19 @@ ${validation.errors.slice(0, 3).join("\n")}`);
       const reader = new FileReader();
       reader.onload = (event) => {
         const result = event.target?.result;
-        if (typeof result === "string") {
+        if (typeof result === 'string') {
           resolve(result);
         }
       };
       reader.onload = (event) => {
         const result = event.target?.result;
-        if (typeof result === "string") {
+        if (typeof result === 'string') {
           resolve(result);
         } else {
-          reject(new Error("Failed to read file as text"));
+          reject(new Error('Failed to read file as text'));
         }
       };
-      reader.onerror = () => reject(new Error("Error reading file"));
+      reader.onerror = () => reject(new Error('Error reading file'));
       reader.readAsText(file);
     });
   };
@@ -932,83 +872,68 @@ ${validation.errors.slice(0, 3).join("\n")}`);
   // Replace the existing handleLoadQuiz function with this enhanced version
   const handleLoadQuiz = async (file: File) => {
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
-      console.log(
-        "Loading quiz file:",
-        file.name,
-        "Size:",
-        file.size,
-        "Type:",
-        file.type,
-      );
+      console.log('Loading quiz file:', file.name, 'Size:', file.size, 'Type:', file.type);
 
       // Read file content
       const fileContent = await readFileAsText(file);
-      console.log("File content length:", fileContent.length);
+      console.log('File content length:', fileContent.length);
 
       // Determine file type and parse accordingly
       const isMarkdownFile =
-        file.name.toLowerCase().endsWith(".md") ||
-        file.name.toLowerCase().endsWith(".markdown");
+        file.name.toLowerCase().endsWith('.md') || file.name.toLowerCase().endsWith('.markdown');
 
       let normalizedModule: QuizModule;
       let correctionResult: any;
 
       if (isMarkdownFile) {
-        console.log("Processing as Markdown file...");
+        console.log('Processing as Markdown file...');
 
         // Parse Markdown content
-        const { parseMarkdownToQuizModule } = await import(
-          "@/utils/quiz-validation"
-        );
+        const { parseMarkdownToQuizModule } = await import('@/utils/quiz-validation');
         const parseResult = parseMarkdownToQuizModule(fileContent);
 
         if (!parseResult.success || !parseResult.quizModule) {
-          console.error("Markdown parsing errors:", parseResult.errors);
+          console.error('Markdown parsing errors:', parseResult.errors);
           throw new Error(`Failed to parse Markdown file:
-${parseResult.errors.slice(0, 3).join("\n")}`);
+${parseResult.errors.slice(0, 3).join('\n')}`);
         }
 
         normalizedModule = parseResult.quizModule;
 
         // Show any parsing warnings
         if (parseResult.errors.length > 0) {
-          console.warn("Markdown parsing warnings:", parseResult.errors);
+          console.warn('Markdown parsing warnings:', parseResult.errors);
           showWarning(
-            "Parsing Warnings",
+            'Parsing Warnings',
             `${parseResult.errors.length} warnings during parsing. Check console for details.`,
             6000,
           );
         }
 
         setCurrentModule(normalizedModule);
-        setAppState("dashboard");
+        setAppState('dashboard');
 
         showSuccess(
-          "Markdown Quiz Loaded Successfully!",
+          'Markdown Quiz Loaded Successfully!',
           `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters from Markdown`,
           6000,
         );
 
-        console.log(
-          "Successfully loaded Markdown quiz module:",
-          normalizedModule.name,
-        );
+        console.log('Successfully loaded Markdown quiz module:', normalizedModule.name);
       } else {
-        console.log("Processing as JSON file...");
+        console.log('Processing as JSON file...');
 
         // Parse JSON with LaTeX correction (existing logic)
         let parsedData: any;
         try {
           // First attempt: try parsing as-is
           parsedData = JSON.parse(fileContent);
-          console.log("JSON parsed successfully without corrections");
+          console.log('JSON parsed successfully without corrections');
         } catch (parseError) {
-          console.log(
-            "Initial JSON parse failed, applying LaTeX corrections...",
-          );
+          console.log('Initial JSON parse failed, applying LaTeX corrections...');
 
           // Apply LaTeX corrections and re-parse
           const {
@@ -1020,18 +945,15 @@ ${parseResult.errors.slice(0, 3).join("\n")}`);
           correctionResult = latexCorrection;
 
           if (!validation.isValid) {
-            console.error(
-              "Validation errors after LaTeX correction:",
-              validation.errors,
-            );
+            console.error('Validation errors after LaTeX correction:', validation.errors);
             throw new Error(`Invalid quiz module format:
-${validation.errors.slice(0, 3).join("\n")}`);
+${validation.errors.slice(0, 3).join('\n')}`);
           }
 
           if (correctedModule) {
             // Use the pre-normalized module from the correction process
             setCurrentModule(correctedModule);
-            setAppState("dashboard");
+            setAppState('dashboard');
 
             // Show success message with correction details
             let successMessage = `Loaded "${correctedModule.name}" with ${correctedModule.chapters.length} chapters`;
@@ -1039,27 +961,20 @@ ${validation.errors.slice(0, 3).join("\n")}`);
               successMessage += ` (${correctionResult.correctionsMade} LaTeX formatting corrections applied)`;
             }
 
-            showSuccess(
-              "Quiz Module Loaded Successfully!",
-              successMessage,
-              6000,
-            );
+            showSuccess('Quiz Module Loaded Successfully!', successMessage, 6000);
 
             // Show correction details if any were made
             if (correctionResult && correctionResult.correctionsMade > 0) {
-              console.log(
-                "LaTeX corrections applied:",
-                correctionResult.correctionDetails,
-              );
+              console.log('LaTeX corrections applied:', correctionResult.correctionDetails);
               showInfo(
-                "LaTeX Formatting Corrected",
+                'LaTeX Formatting Corrected',
                 `Automatically fixed ${correctionResult.correctionsMade} LaTeX formatting issues. Your quiz is now ready to use!`,
                 8000,
               );
             }
 
             console.log(
-              "Successfully loaded quiz module with LaTeX corrections:",
+              'Successfully loaded quiz module with LaTeX corrections:',
               correctedModule.name,
             );
             return;
@@ -1071,37 +986,32 @@ ${validation.errors.slice(0, 3).join("\n")}`);
           // Standard validation for successfully parsed JSON
           const validation = validateQuizModule(parsedData);
           if (!validation.isValid) {
-            console.error("Validation errors:", validation.errors);
+            console.error('Validation errors:', validation.errors);
             throw new Error(`Invalid quiz module format:
-${validation.errors.slice(0, 3).join("\n")}`);
+${validation.errors.slice(0, 3).join('\n')}`);
           }
 
           // Normalize and set the module
           normalizedModule = normalizeQuizModule(parsedData);
           setCurrentModule(normalizedModule);
-          setAppState("dashboard");
+          setAppState('dashboard');
 
           showSuccess(
-            "Quiz Module Loaded Successfully!",
+            'Quiz Module Loaded Successfully!',
             `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
             4000,
           );
 
-          console.log(
-            "Successfully loaded quiz module:",
-            normalizedModule.name,
-          );
+          console.log('Successfully loaded quiz module:', normalizedModule.name);
         }
       }
     } catch (err) {
-      console.error("Error loading quiz module:", err);
+      console.error('Error loading quiz module:', err);
       const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Unknown error occurred while loading the quiz module";
+        err instanceof Error ? err.message : 'Unknown error occurred while loading the quiz module';
       setError(errorMessage);
 
-      showError("Failed to Load Quiz Module", errorMessage, 8000);
+      showError('Failed to Load Quiz Module', errorMessage, 8000);
     } finally {
       setIsLoading(false);
     }
@@ -1110,18 +1020,11 @@ ${validation.errors.slice(0, 3).join("\n")}`);
   // Replace the existing handleImportState function with this enhanced version
   const handleImportState = async (file: File) => {
     try {
-      console.log(
-        "Importing state file:",
-        file.name,
-        "Size:",
-        file.size,
-        "Type:",
-        file.type,
-      );
+      console.log('Importing state file:', file.name, 'Size:', file.size, 'Type:', file.type);
 
       // Read file content
       const fileContent = await readFileAsText(file);
-      console.log("State file content length:", fileContent.length);
+      console.log('State file content length:', fileContent.length);
 
       // Parse JSON with LaTeX correction support
       let parsedData: any;
@@ -1129,11 +1032,9 @@ ${validation.errors.slice(0, 3).join("\n")}`);
       try {
         // First attempt: try parsing as-is
         parsedData = JSON.parse(fileContent);
-        console.log("State JSON parsed successfully without corrections");
+        console.log('State JSON parsed successfully without corrections');
       } catch (parseError) {
-        console.log(
-          "Initial state JSON parse failed, applying LaTeX corrections...",
-        );
+        console.log('Initial state JSON parse failed, applying LaTeX corrections...');
 
         // Apply LaTeX corrections and re-parse
         const {
@@ -1145,14 +1046,11 @@ ${validation.errors.slice(0, 3).join("\n")}`);
         correctionResult = latexCorrection;
 
         if (!validation.isValid) {
-          console.error(
-            "State validation errors after LaTeX correction:",
-            validation.errors,
-          );
+          console.error('State validation errors after LaTeX correction:', validation.errors);
           showError(
-            "Invalid State File",
+            'Invalid State File',
             `Invalid state file format:
-${validation.errors.slice(0, 3).join("\n")}`,
+${validation.errors.slice(0, 3).join('\n')}`,
             8000,
           );
           return;
@@ -1163,11 +1061,11 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           setCurrentModule(normalizedModule);
 
           // Reset quiz session state
-          setCurrentChapterId("");
+          setCurrentChapterId('');
           setCurrentQuestionIndex(0);
           setSelectedOptionId(null);
           setIsSubmitted(false);
-          setError("");
+          setError('');
           setIsReviewSessionActive(false);
           setCurrentReviewQuestion(null);
 
@@ -1177,25 +1075,22 @@ ${validation.errors.slice(0, 3).join("\n")}`,
             successMessage += ` (${correctionResult.correctionsMade} LaTeX corrections applied)`;
           }
 
-          showSuccess("State Imported Successfully!", successMessage, 6000);
+          showSuccess('State Imported Successfully!', successMessage, 6000);
 
           // Show correction details if any were made
           if (correctionResult && correctionResult.correctionsMade > 0) {
             console.log(
-              "LaTeX corrections applied during import:",
+              'LaTeX corrections applied during import:',
               correctionResult.correctionDetails,
             );
             showInfo(
-              "LaTeX Formatting Corrected",
+              'LaTeX Formatting Corrected',
               `Automatically fixed ${correctionResult.correctionsMade} LaTeX formatting issues during import.`,
               6000,
             );
           }
 
-          console.log(
-            "Successfully imported state with LaTeX corrections:",
-            normalizedModule.name,
-          );
+          console.log('Successfully imported state with LaTeX corrections:', normalizedModule.name);
           return;
         }
       }
@@ -1205,11 +1100,11 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         // Standard validation for successfully parsed JSON
         const validation = validateQuizModule(parsedData);
         if (!validation.isValid) {
-          console.error("State validation errors:", validation.errors);
+          console.error('State validation errors:', validation.errors);
           showError(
-            "Invalid State File",
+            'Invalid State File',
             `Invalid state file format:
-${validation.errors.slice(0, 3).join("\n")}`,
+${validation.errors.slice(0, 3).join('\n')}`,
             8000,
           );
           return;
@@ -1220,26 +1115,26 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         setCurrentModule(normalizedModule);
 
         // Reset quiz session state
-        setCurrentChapterId("");
+        setCurrentChapterId('');
         setCurrentQuestionIndex(0);
         setSelectedOptionId(null);
         setIsSubmitted(false);
-        setError("");
+        setError('');
         setIsReviewSessionActive(false);
         setCurrentReviewQuestion(null);
 
         showSuccess(
-          "State Imported Successfully!",
+          'State Imported Successfully!',
           `Imported progress for "${normalizedModule.name}"`,
           4000,
         );
-        console.log("Successfully imported state:", normalizedModule.name);
+        console.log('Successfully imported state:', normalizedModule.name);
       }
     } catch (err) {
-      console.error("Error importing state:", err);
+      console.error('Error importing state:', err);
       showError(
-        "Import Failed",
-        `Error importing state: ${err instanceof Error ? err.message : "Unknown error"}`,
+        'Import Failed',
+        `Error importing state: ${err instanceof Error ? err.message : 'Unknown error'}`,
         6000,
       );
     }
@@ -1249,7 +1144,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   const handleExportCurrentQuestionState = () => {
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion) {
-      showError("Export Failed", "No current question found to export");
+      showError('Export Failed', 'No current question found to export');
       return;
     }
 
@@ -1257,21 +1152,21 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       // Export as array for consistency with import logic
       const exportData = [currentQuestion];
       const dataStr = JSON.stringify(exportData, null, 2);
-      const dataBlob = new Blob([dataStr], { type: "application/json" });
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
       const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
-      link.download = `qstate-${currentQuestion.questionId}-${new Date().toISOString().split("T")[0]}.json`;
+      link.download = `qstate-${currentQuestion.questionId}-${new Date().toISOString().split('T')[0]}.json`;
       link.click();
       URL.revokeObjectURL(url);
 
       showSuccess(
-        "Question Exported",
+        'Question Exported',
         `Exported question "${currentQuestion.questionId}" successfully`,
       );
     } catch (error) {
-      console.error("Error exporting question:", error);
-      showError("Export Failed", "Failed to export question state");
+      console.error('Error exporting question:', error);
+      showError('Export Failed', 'Failed to export question state');
     }
   };
 
@@ -1279,7 +1174,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   const handleInitiateImportCurrentQuestionState = async (file: File) => {
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion || !currentChapterId) {
-      showError("Import Failed", "No current question context found");
+      showError('Import Failed', 'No current question context found');
       return;
     }
 
@@ -1290,16 +1185,13 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       try {
         parsedData = JSON.parse(fileContent);
       } catch (parseError) {
-        showError("Import Failed", "Invalid JSON format in the imported file");
+        showError('Import Failed', 'Invalid JSON format in the imported file');
         return;
       }
 
       // Expect array of questions
       if (!Array.isArray(parsedData)) {
-        showError(
-          "Import Failed",
-          "Expected an array of questions in the imported file",
-        );
+        showError('Import Failed', 'Expected an array of questions in the imported file');
         return;
       }
 
@@ -1318,31 +1210,25 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
         if (!validation.isValid) {
           showError(
-            "Import Failed",
+            'Import Failed',
             `Question ${i + 1} is invalid:
-${validation.errors.slice(0, 3).join("\n")}`,
+${validation.errors.slice(0, 3).join('\n')}`,
           );
           return;
         }
 
-        const normalizedQuestion = normalizeSingleQuestion(
-          questionData as QuizQuestion,
-        );
+        const normalizedQuestion = normalizeSingleQuestion(questionData as QuizQuestion);
         validNormalizedImportedQuestions.push(normalizedQuestion);
       }
 
       if (validNormalizedImportedQuestions.length === 0) {
-        showError(
-          "Import Failed",
-          "No valid questions found in the imported file",
-        );
+        showError('Import Failed', 'No valid questions found in the imported file');
         return;
       }
 
       // Process the questions
       const firstImportedQuestion = validNormalizedImportedQuestions[0];
-      const additionalQuestionsForAppend =
-        validNormalizedImportedQuestions.slice(1);
+      const additionalQuestionsForAppend = validNormalizedImportedQuestions.slice(1);
 
       // Check for overwrite
       if (firstImportedQuestion.questionId === currentQuestion.questionId) {
@@ -1358,16 +1244,16 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           setShowAppendReviewModal(true);
         } else {
           showInfo(
-            "Nothing to Import",
-            "Imported question ID does not match current. Nothing to overwrite or append.",
+            'Nothing to Import',
+            'Imported question ID does not match current. Nothing to overwrite or append.',
           );
         }
       }
     } catch (error) {
-      console.error("Error importing question state:", error);
+      console.error('Error importing question state:', error);
       showError(
-        "Import Failed",
-        `Error importing question state: ${error instanceof Error ? error.message : "Unknown error"}`,
+        'Import Failed',
+        `Error importing question state: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
   };
@@ -1377,12 +1263,8 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     if (!currentModule || !questionToDelete || !currentChapterId) return;
 
     try {
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (targetChapter) {
         const questionIndex = targetChapter.questions.findIndex(
@@ -1394,7 +1276,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           recalculateChapterStats(targetChapter);
           setCurrentModule(updatedModule);
 
-          showSuccess("Question Deleted", "Question deleted successfully");
+          showSuccess('Question Deleted', 'Question deleted successfully');
 
           // Reset modal states
           setShowDeleteCurrentQuestionConfirmation(false);
@@ -1405,8 +1287,8 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         }
       }
     } catch (error) {
-      console.error("Error deleting question:", error);
-      showError("Delete Failed", "Failed to delete question");
+      console.error('Error deleting question:', error);
+      showError('Delete Failed', 'Failed to delete question');
     }
   };
 
@@ -1421,12 +1303,8 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     if (!currentModule || !pendingOverwriteData || !currentChapterId) return;
 
     try {
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (targetChapter) {
         const questionIndex = targetChapter.questions.findIndex(
@@ -1438,10 +1316,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           recalculateChapterStats(targetChapter);
           setCurrentModule(updatedModule);
 
-          showSuccess(
-            "Question Overwritten",
-            "Question overwritten successfully",
-          );
+          showSuccess('Question Overwritten', 'Question overwritten successfully');
 
           // Reset overwrite modal
           setShowOverwriteCurrentQuestionConfirmation(false);
@@ -1456,8 +1331,8 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         }
       }
     } catch (error) {
-      console.error("Error overwriting question:", error);
-      showError("Overwrite Failed", "Failed to overwrite question");
+      console.error('Error overwriting question:', error);
+      showError('Overwrite Failed', 'Failed to overwrite question');
     }
   };
 
@@ -1469,26 +1344,15 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   };
 
   // NEW: Save appended questions with overwrite capability
-  const handleSaveAppendedQuestions = (
-    questionsToActuallyAppend: QuizQuestion[],
-  ) => {
-    if (
-      !currentModule ||
-      !currentChapterId ||
-      questionsToActuallyAppend.length === 0
-    )
-      return;
+  const handleSaveAppendedQuestions = (questionsToActuallyAppend: QuizQuestion[]) => {
+    if (!currentModule || !currentChapterId || questionsToActuallyAppend.length === 0) return;
 
     try {
       const currentQuestion = getCurrentQuestion();
       if (!currentQuestion) return;
 
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (targetChapter) {
         // Find insertion point
@@ -1514,26 +1378,18 @@ ${validation.errors.slice(0, 3).join("\n")}`,
             // Overwrite existing question
             targetChapter.questions[existingQuestionIndex] = importedQuestion;
             overwrittenCount++;
-            console.log(
-              `Overwritten existing question: ${importedQuestion.questionId}`,
-            );
+            console.log(`Overwritten existing question: ${importedQuestion.questionId}`);
           } else {
             // New question - add to insertion list
             questionsToInsert.push(importedQuestion);
             addedCount++;
-            console.log(
-              `Prepared new question for insertion: ${importedQuestion.questionId}`,
-            );
+            console.log(`Prepared new question for insertion: ${importedQuestion.questionId}`);
           }
         });
 
         // Insert new questions after the current question
         if (questionsToInsert.length > 0) {
-          targetChapter.questions.splice(
-            insertionIndex + 1,
-            0,
-            ...questionsToInsert,
-          );
+          targetChapter.questions.splice(insertionIndex + 1, 0, ...questionsToInsert);
         }
 
         // Recalculate chapter stats
@@ -1551,20 +1407,18 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           message += ` (${addedCount} added)`;
         }
 
-        showSuccess("Questions Imported", message);
+        showSuccess('Questions Imported', message);
 
         // Reset modal states
         setShowAppendReviewModal(false);
         setQuestionsToReviewForAppend([]);
         setPendingOverwriteData(null);
 
-        console.log(
-          `Import complete: ${overwrittenCount} overwritten, ${addedCount} added`,
-        );
+        console.log(`Import complete: ${overwrittenCount} overwritten, ${addedCount} added`);
       }
     } catch (error) {
-      console.error("Error importing questions:", error);
-      showError("Import Failed", "Failed to import questions");
+      console.error('Error importing questions:', error);
+      showError('Import Failed', 'Failed to import questions');
     }
   };
 
@@ -1578,13 +1432,13 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   // VERIFIED: Export incorrect answers history with proper chapter name handling
   const handleLoadNewModule = () => {
     // Placeholder function - not implemented yet
-    console.log("Load new module not implemented yet");
+    console.log('Load new module not implemented yet');
   };
 
   const handleExportIncorrectAnswers = () => {
     if (!currentModule) return;
 
-    console.log("=== Exporting Incorrect Answers History ===");
+    console.log('=== Exporting Incorrect Answers History ===');
 
     const incorrectAnswersLog: IncorrectAnswersExport = [];
 
@@ -1592,36 +1446,30 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       chapter.questions.forEach((question) => {
         // Only include questions that have been answered incorrectly
         if ((question.timesAnsweredIncorrectly || 0) > 0) {
-          console.log(
-            `Processing question with incorrect answers: ${question.questionId}`,
-          );
+          console.log(`Processing question with incorrect answers: ${question.questionId}`);
 
           // Build incorrect selections array
-          const incorrectSelections = (
-            question.historyOfIncorrectSelections || []
-          ).map((selectedOptionId) => {
-            const selectedOption = question.options.find(
-              (opt) => opt.optionId === selectedOptionId,
-            );
-            return {
-              selectedOptionId,
-              selectedOptionText: selectedOption
-                ? selectedOption.optionText
-                : `[Option ${selectedOptionId} not found]`,
-            };
-          });
-
-          // Build correct options array
-          const correctOptionTexts = question.correctOptionIds.map(
-            (correctOptionId) => {
-              const correctOption = question.options.find(
-                (opt) => opt.optionId === correctOptionId,
+          const incorrectSelections = (question.historyOfIncorrectSelections || []).map(
+            (selectedOptionId) => {
+              const selectedOption = question.options.find(
+                (opt) => opt.optionId === selectedOptionId,
               );
-              return correctOption
-                ? correctOption.optionText
-                : `[Option ${correctOptionId} not found]`;
+              return {
+                selectedOptionId,
+                selectedOptionText: selectedOption
+                  ? selectedOption.optionText
+                  : `[Option ${selectedOptionId} not found]`,
+              };
             },
           );
+
+          // Build correct options array
+          const correctOptionTexts = question.correctOptionIds.map((correctOptionId) => {
+            const correctOption = question.options.find((opt) => opt.optionId === correctOptionId);
+            return correctOption
+              ? correctOption.optionText
+              : `[Option ${correctOptionId} not found]`;
+          });
 
           const logEntry: IncorrectAnswerLogEntry = {
             questionId: question.questionId,
@@ -1648,11 +1496,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
     if (incorrectAnswersLog.length === 0) {
       // REPLACED: alert() with toast
-      showInfo(
-        "No Mistakes to Export",
-        "No incorrect answers found to export!",
-        4000,
-      );
+      showInfo('No Mistakes to Export', 'No incorrect answers found to export!', 4000);
       return;
     }
 
@@ -1672,21 +1516,19 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
     // Export as JSON file
     const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `incorrect-answers-log-${new Date().toISOString().split("T")[0]}.json`;
+    link.download = `incorrect-answers-log-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     URL.revokeObjectURL(url);
 
-    console.log(
-      `Exported ${incorrectAnswersLog.length} questions with incorrect answers`,
-    );
+    console.log(`Exported ${incorrectAnswersLog.length} questions with incorrect answers`);
 
     // REPLACED: alert() with toast
     showSuccess(
-      "Mistakes Exported Successfully!",
+      'Mistakes Exported Successfully!',
       `Exported ${incorrectAnswersLog.length} questions with incorrect answers`,
       5000,
     );
@@ -1702,14 +1544,14 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     // Clear session history
     setSessionHistory([]);
     setCurrentHistoryViewIndex(null);
-    setAppState("quiz");
+    setAppState('quiz');
   };
 
   // Start review session using dynamic approach
   const handleStartReviewSession = () => {
     if (!currentModule) return;
 
-    console.log("=== Starting Refined Anki-style Review Session ===");
+    console.log('=== Starting Refined Anki-style Review Session ===');
 
     // Set review mode active
     setIsReviewSessionActive(true);
@@ -1729,9 +1571,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
   // NEW: Navigate to question from menu
   const handleNavigateToQuestionFromMenu = (targetQuestionIndex: number) => {
-    console.log(
-      `=== Navigating to Question ${targetQuestionIndex + 1} from Menu ===`,
-    );
+    console.log(`=== Navigating to Question ${targetQuestionIndex + 1} from Menu ===`);
 
     const currentChapter = getCurrentChapter();
     if (
@@ -1739,7 +1579,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       targetQuestionIndex < 0 ||
       targetQuestionIndex >= currentChapter.questions.length
     ) {
-      console.error("Invalid question index or chapter not found");
+      console.error('Invalid question index or chapter not found');
       return;
     }
 
@@ -1748,8 +1588,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
     // Search for this question in session history
     const historyEntryIndex = sessionHistory.findIndex(
-      (entry) =>
-        entry.questionSnapshot.questionId === targetQuestion.questionId,
+      (entry) => entry.questionSnapshot.questionId === targetQuestion.questionId,
     );
 
     if (historyEntryIndex !== -1) {
@@ -1760,7 +1599,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       setSelectedOptionId(sessionHistory[historyEntryIndex].selectedOptionId);
     } else {
       // Question not in session history - navigate to live question
-      console.log("Not found in session history - navigating to live question");
+      console.log('Not found in session history - navigating to live question');
       setCurrentQuestionIndex(targetQuestionIndex);
       setCurrentHistoryViewIndex(null);
       setSelectedOptionId(null);
@@ -1771,9 +1610,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   // NEW: Retry Chapter Handler
   const handleRetryChapter = () => {
     if (!currentModule || !currentChapterId || isReviewSessionActive) {
-      console.log(
-        "Cannot retry chapter - missing module, chapter ID, or in review session",
-      );
+      console.log('Cannot retry chapter - missing module, chapter ID, or in review session');
       return;
     }
 
@@ -1781,17 +1618,13 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
     try {
       // Create a deep copy of the module
-      const updatedModule = JSON.parse(
-        JSON.stringify(currentModule),
-      ) as QuizModule;
-      const targetChapter = updatedModule.chapters.find(
-        (c) => c.id === currentChapterId,
-      );
+      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
+      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
 
       if (targetChapter) {
         // Reset all questions in the chapter
         targetChapter.questions.forEach((question) => {
-          question.status = "not_attempted";
+          question.status = 'not_attempted';
           question.timesAnsweredCorrectly = 0;
           question.timesAnsweredIncorrectly = 0;
           question.historyOfIncorrectSelections = [];
@@ -1816,39 +1649,37 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         setCurrentHistoryViewIndex(null);
 
         showSuccess(
-          "Chapter Reset",
+          'Chapter Reset',
           `Chapter "${targetChapter.name}" has been reset. Starting fresh!`,
           4000,
         );
 
         console.log(`Successfully reset chapter: ${targetChapter.name}`);
       } else {
-        console.error("Target chapter not found for retry");
-        showError("Retry Failed", "Chapter not found");
+        console.error('Target chapter not found for retry');
+        showError('Retry Failed', 'Chapter not found');
       }
     } catch (error) {
-      console.error("Error retrying chapter:", error);
-      showError("Retry Failed", "Failed to reset chapter");
+      console.error('Error retrying chapter:', error);
+      showError('Retry Failed', 'Failed to reset chapter');
     }
   };
 
   // NEW: View All Questions Handler
   const handleViewAllQuestions = () => {
     if (!currentModule || !currentChapterId) {
-      console.log("Cannot view all questions - missing module or chapter ID");
+      console.log('Cannot view all questions - missing module or chapter ID');
       return;
     }
 
-    console.log(
-      `=== Viewing All Questions for Chapter: ${currentChapterId} ===`,
-    );
-    setAppState("all-questions");
+    console.log(`=== Viewing All Questions for Chapter: ${currentChapterId} ===`);
+    setAppState('all-questions');
   };
 
   // NEW: Back to Quiz from All Questions View
   const handleBackToQuizFromAllQuestions = () => {
-    console.log("=== Returning to Quiz from All Questions View ===");
-    setAppState("quiz");
+    console.log('=== Returning to Quiz from All Questions View ===');
+    setAppState('quiz');
   };
 
   const handleSubmitAnswer = (displayedOptions: DisplayedOption[]) => {
@@ -1857,19 +1688,14 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion || !currentModule) return;
 
-    console.log(
-      `=== Submitting Answer for Question: ${currentQuestion.questionId} ===`,
-    );
+    console.log(`=== Submitting Answer for Question: ${currentQuestion.questionId} ===`);
     console.log(`Selected option: ${selectedOptionId}`);
 
-    const isCorrect =
-      currentQuestion.correctOptionIds.includes(selectedOptionId);
-    console.log(`Answer is ${isCorrect ? "CORRECT" : "INCORRECT"}`);
+    const isCorrect = currentQuestion.correctOptionIds.includes(selectedOptionId);
+    console.log(`Answer is ${isCorrect ? 'CORRECT' : 'INCORRECT'}`);
 
     // Create deep copy of module for updates
-    const updatedModule = JSON.parse(
-      JSON.stringify(currentModule),
-    ) as QuizModule;
+    const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
 
     // Find and update the question
     let targetQuestion: QuizQuestion | null = null;
@@ -1878,9 +1704,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     if (isReviewSessionActive && currentReviewQuestion) {
       // Review session - find question in its original chapter
       targetChapter =
-        updatedModule.chapters.find(
-          (c) => c.id === currentReviewQuestion.chapterId,
-        ) || null;
+        updatedModule.chapters.find((c) => c.id === currentReviewQuestion.chapterId) || null;
       if (targetChapter) {
         const questionIndex = targetChapter.questions.findIndex(
           (q) => q.questionId === currentQuestion.questionId,
@@ -1891,8 +1715,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
       }
     } else {
       // Regular quiz - find question in current chapter
-      targetChapter =
-        updatedModule.chapters.find((c) => c.id === currentChapterId) || null;
+      targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId) || null;
       if (targetChapter) {
         const questionIndex = targetChapter.questions.findIndex(
           (q) => q.questionId === currentQuestion.questionId,
@@ -1904,7 +1727,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     }
 
     if (!targetQuestion || !targetChapter) {
-      console.error("Could not find target question or chapter for update");
+      console.error('Could not find target question or chapter for update');
       return;
     }
 
@@ -1913,19 +1736,18 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     targetQuestion.lastAttemptedAt = new Date().toISOString();
 
     if (isCorrect) {
-      targetQuestion.timesAnsweredCorrectly =
-        (targetQuestion.timesAnsweredCorrectly || 0) + 1;
+      targetQuestion.timesAnsweredCorrectly = (targetQuestion.timesAnsweredCorrectly || 0) + 1;
 
       // Update SRS level and status
       const newSrsLevel = Math.min((targetQuestion.srsLevel || 0) + 1, 2);
       targetQuestion.srsLevel = newSrsLevel;
 
       if (newSrsLevel >= 2) {
-        targetQuestion.status = "mastered";
+        targetQuestion.status = 'mastered';
         targetQuestion.nextReviewAt = null;
         console.log(`Question mastered! SRS Level: ${newSrsLevel}`);
       } else {
-        targetQuestion.status = "passed_once";
+        targetQuestion.status = 'passed_once';
         // Schedule next review (simplified intervals)
         const intervals = [0, 10 * 60 * 1000, 0]; // 0, 10 minutes, mastered
         const nextReviewTime = new Date(Date.now() + intervals[newSrsLevel]);
@@ -1935,8 +1757,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         );
       }
     } else {
-      targetQuestion.timesAnsweredIncorrectly =
-        (targetQuestion.timesAnsweredIncorrectly || 0) + 1;
+      targetQuestion.timesAnsweredIncorrectly = (targetQuestion.timesAnsweredIncorrectly || 0) + 1;
 
       // Track incorrect selection
       if (!targetQuestion.historyOfIncorrectSelections) {
@@ -1959,7 +1780,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
       // Reset SRS progress
       targetQuestion.srsLevel = 0;
-      targetQuestion.status = "attempted";
+      targetQuestion.status = 'attempted';
 
       // Schedule for quick retry (30 seconds)
       const nextReviewTime = new Date(Date.now() + 30 * 1000);
@@ -1989,24 +1810,24 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
       setSessionHistory((prev) => [...prev, historyEntry]);
       console.log(
-        `Added to session history: ${currentQuestion.questionId} (${isCorrect ? "correct" : "incorrect"})`,
+        `Added to session history: ${currentQuestion.questionId} (${isCorrect ? 'correct' : 'incorrect'})`,
       );
     }
 
     // Mark as submitted
     setIsSubmitted(true);
 
-    console.log("Answer submission completed successfully");
+    console.log('Answer submission completed successfully');
   };
 
   const handleNextQuestion = () => {
     if (isReviewSessionActive) {
       // Review session - load next review question
-      console.log("=== Moving to Next Review Question ===");
+      console.log('=== Moving to Next Review Question ===');
       loadNextReviewQuestion();
     } else {
       // Regular quiz - advance to next question in chapter
-      console.log("=== Moving to Next Question in Chapter ===");
+      console.log('=== Moving to Next Question in Chapter ===');
 
       const currentChapter = getCurrentChapter();
       if (!currentChapter) return;
@@ -2020,14 +1841,14 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         setIsSubmitted(false);
       } else {
         // Chapter completed
-        setAppState("complete");
+        setAppState('complete');
       }
     }
   };
 
   // NEW: Session History Navigation Handlers
   const handleViewPreviousAnswer = () => {
-    console.log("=== Viewing Previous Answer ===");
+    console.log('=== Viewing Previous Answer ===');
 
     if (currentHistoryViewIndex !== null) {
       // Currently viewing history - go to previous entry
@@ -2057,12 +1878,9 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   };
 
   const handleViewNextInHistory = () => {
-    console.log("=== Viewing Next in History ===");
+    console.log('=== Viewing Next in History ===');
 
-    if (
-      currentHistoryViewIndex !== null &&
-      currentHistoryViewIndex < sessionHistory.length - 1
-    ) {
+    if (currentHistoryViewIndex !== null && currentHistoryViewIndex < sessionHistory.length - 1) {
       const newIndex = currentHistoryViewIndex + 1;
       console.log(`Moving to history index: ${newIndex}`);
       setCurrentHistoryViewIndex(newIndex);
@@ -2075,8 +1893,8 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   };
 
   const handleBackToDashboard = () => {
-    setAppState("dashboard");
-    setCurrentChapterId("");
+    setAppState('dashboard');
+    setCurrentChapterId('');
     setCurrentQuestionIndex(0);
     setSelectedOptionId(null);
     setIsSubmitted(false);
@@ -2094,18 +1912,18 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     if (!currentModule) return;
 
     const dataStr = JSON.stringify(currentModule, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `quiz-state-${new Date().toISOString().split("T")[0]}.json`;
+    link.download = `quiz-state-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     URL.revokeObjectURL(url);
 
     // REPLACED: alert() with toast
     showSuccess(
-      "State Exported Successfully!",
-      "Your quiz progress has been saved to a file",
+      'State Exported Successfully!',
+      'Your quiz progress has been saved to a file',
       4000,
     );
   };
@@ -2115,16 +1933,10 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     if (!currentModule) return null;
 
     if (isReviewSessionActive && currentReviewQuestion) {
-      return (
-        currentModule.chapters.find(
-          (c) => c.id === currentReviewQuestion.chapterId,
-        ) || null
-      );
+      return currentModule.chapters.find((c) => c.id === currentReviewQuestion.chapterId) || null;
     }
 
-    return (
-      currentModule.chapters.find((c) => c.id === currentChapterId) || null
-    );
+    return currentModule.chapters.find((c) => c.id === currentChapterId) || null;
   };
 
   const getCurrentQuestion = (): QuizQuestion | null => {
@@ -2133,8 +1945,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
     }
 
     const chapter = getCurrentChapter();
-    if (!chapter || currentQuestionIndex >= chapter.questions.length)
-      return null;
+    if (!chapter || currentQuestionIndex >= chapter.questions.length) return null;
 
     return chapter.questions[currentQuestionIndex];
   };
@@ -2142,7 +1953,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
   // Render the appropriate component based on app state
   const renderCurrentView = () => {
     switch (appState) {
-      case "welcome":
+      case 'welcome':
         return (
           <WelcomeScreen
             onLoadQuiz={handleLoadQuiz}
@@ -2152,7 +1963,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           />
         );
 
-      case "dashboard":
+      case 'dashboard':
         return (
           <Dashboard
             module={currentModule!}
@@ -2166,14 +1977,14 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           />
         );
 
-      case "quiz":
+      case 'quiz':
         const currentChapter = getCurrentChapter();
         const currentQuestion = getCurrentQuestion();
 
         if (!currentChapter || !currentQuestion) {
           return (
-            <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950 flex items-center justify-center">
-              <div className="text-white text-xl">Loading question...</div>
+            <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-black via-slate-950 to-gray-950">
+              <div className="text-xl text-white">Loading question...</div>
             </div>
           );
         }
@@ -2204,9 +2015,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
             onNextQuestion={handleNextQuestion}
             onBackToDashboard={handleBackToDashboard}
             onExportCurrentQuestionState={handleExportCurrentQuestionState}
-            onImportQuestionStateFromFile={
-              handleInitiateImportCurrentQuestionState
-            }
+            onImportQuestionStateFromFile={handleInitiateImportCurrentQuestionState}
             onRetryChapter={handleRetryChapter}
             onNavigateToQuestion={handleNavigateToQuestionFromMenu}
             onViewPrevious={handleViewPreviousAnswer}
@@ -2215,7 +2024,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           />
         );
 
-      case "complete":
+      case 'complete':
         const completedChapter = getCurrentChapter();
         if (!completedChapter) return null;
 
@@ -2223,14 +2032,11 @@ ${validation.errors.slice(0, 3).join("\n")}`,
         const results = {
           totalQuestions: completedChapter.totalQuestions,
           correctAnswers: completedChapter.correctAnswers,
-          incorrectAnswers:
-            completedChapter.totalQuestions - completedChapter.correctAnswers,
+          incorrectAnswers: completedChapter.totalQuestions - completedChapter.correctAnswers,
           accuracy:
             completedChapter.totalQuestions > 0
               ? Math.round(
-                  (completedChapter.correctAnswers /
-                    completedChapter.totalQuestions) *
-                    100,
+                  (completedChapter.correctAnswers / completedChapter.totalQuestions) * 100,
                 )
               : 0,
         };
@@ -2240,9 +2046,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
 
         // Find next chapter
         const currentChapterIndex =
-          currentModule?.chapters.findIndex(
-            (c) => c.id === completedChapter.id,
-          ) ?? -1;
+          currentModule?.chapters.findIndex((c) => c.id === completedChapter.id) ?? -1;
         const nextChapter =
           currentModule &&
           currentChapterIndex >= 0 &&
@@ -2257,7 +2061,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
             onRetryQuiz={handleRetryChapter}
             onBackToDashboard={handleBackToDashboard}
             onExportResults={handleExportState}
-            onLoadNewModule={() => setAppState("welcome")}
+            onLoadNewModule={() => setAppState('welcome')}
             onExportIncorrectAnswers={handleExportIncorrectAnswers}
             hasIncorrectAnswers={hasIncorrectAnswers}
             nextChapterId={nextChapter?.id}
@@ -2265,7 +2069,7 @@ ${validation.errors.slice(0, 3).join("\n")}`,
           />
         );
 
-      case "all-questions":
+      case 'all-questions':
         const allQuestionsChapter = getCurrentChapter();
         if (!allQuestionsChapter) return null;
 

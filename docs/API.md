@@ -74,57 +74,51 @@ const hasRawHtml =
 
 ```typescript
 // Regex patterns
-html = html.replace(/^###### (.*$)/gm, "<h6>$1</h6>");
-html = html.replace(/^##### (.*$)/gm, "<h5>$1</h5>");
-html = html.replace(/^#### (.*$)/gm, "<h4>$1</h4>");
-html = html.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-html = html.replace(/^## (.*$)/gm, "<h2>$1</h2>");
-html = html.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+html = html.replace(/^###### (.*$)/gm, '<h6>$1</h6>');
+html = html.replace(/^##### (.*$)/gm, '<h5>$1</h5>');
+html = html.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
 ```
 
 #### Text Formatting
 
 ```typescript
 // Bold text
-html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-html = html.replace(/__(.*?)__/g, "<strong>$1</strong>");
+html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
 
 // Italic text
-html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<em>$1</em>");
-html = html.replace(/(?<!_)_([^_]+)_(?!_)/g, "<em>$1</em>");
+html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+html = html.replace(/(?<!_)_([^_]+)_(?!_)/g, '<em>$1</em>');
 
 // Strikethrough
-html = html.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 ```
 
 #### Code
 
 ````typescript
 // Inline code
-html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
 // Code blocks
-html = html.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
+html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
 ````
 
 #### Lists
 
 ```typescript
 // Task lists
-html = html.replace(
-  /^[\s]*[\*\-] \[ \] (.*$)/gm,
-  '<li><input type="checkbox"> $1</li>',
-);
-html = html.replace(
-  /^[\s]*[\*\-] \[x\] (.*$)/gm,
-  '<li><input type="checkbox" checked> $1</li>',
-);
+html = html.replace(/^[\s]*[\*\-] \[ \] (.*$)/gm, '<li><input type="checkbox"> $1</li>');
+html = html.replace(/^[\s]*[\*\-] \[x\] (.*$)/gm, '<li><input type="checkbox" checked> $1</li>');
 
 // Unordered lists
-html = html.replace(/^[\s]*[\*\-] (?!\[[ x]\])(.*$)/gm, "<li>$1</li>");
+html = html.replace(/^[\s]*[\*\-] (?!\[[ x]\])(.*$)/gm, '<li>$1</li>');
 
 // Ordered lists
-html = html.replace(/^\d+\. (.*$)/gm, "<li>$1</li>");
+html = html.replace(/^\d+\. (.*$)/gm, '<li>$1</li>');
 ```
 
 #### Links and Images
@@ -136,17 +130,17 @@ html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
   const cleanUrl = urlMatch ? urlMatch[1] : url.trim();
 
   if (
-    cleanUrl.startsWith("javascript:") ||
-    cleanUrl.startsWith("data:") ||
-    cleanUrl.startsWith("vbscript:")
+    cleanUrl.startsWith('javascript:') ||
+    cleanUrl.startsWith('data:') ||
+    cleanUrl.startsWith('vbscript:')
   ) {
     return text;
   }
   if (
-    cleanUrl.startsWith("http://") ||
-    cleanUrl.startsWith("https://") ||
-    cleanUrl.startsWith("/") ||
-    cleanUrl.startsWith("#")
+    cleanUrl.startsWith('http://') ||
+    cleanUrl.startsWith('https://') ||
+    cleanUrl.startsWith('/') ||
+    cleanUrl.startsWith('#')
   ) {
     return `<a href="${cleanUrl}">${text}</a>`;
   }
@@ -159,17 +153,17 @@ html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
   const cleanUrl = urlMatch ? urlMatch[1] : url.trim();
 
   if (
-    cleanUrl.startsWith("javascript:") ||
-    cleanUrl.startsWith("data:") ||
-    cleanUrl.startsWith("vbscript:")
+    cleanUrl.startsWith('javascript:') ||
+    cleanUrl.startsWith('data:') ||
+    cleanUrl.startsWith('vbscript:')
   ) {
     return alt;
   }
   if (
-    cleanUrl.startsWith("http://") ||
-    cleanUrl.startsWith("https://") ||
-    cleanUrl.startsWith("/") ||
-    cleanUrl.startsWith("#")
+    cleanUrl.startsWith('http://') ||
+    cleanUrl.startsWith('https://') ||
+    cleanUrl.startsWith('/') ||
+    cleanUrl.startsWith('#')
   ) {
     return `<img src="${cleanUrl}" alt="${alt}">`;
   }
@@ -195,24 +189,18 @@ html = html.replace(tableRegex, (match, headerRow, separatorRow, dataRows) => {
 
 ```typescript
 // Remove dangerous event handlers
-cleaned = cleaned.replace(/\s*on\w+\s*=\s*"[^"]*"/gi, ""); // double quotes
-cleaned = cleaned.replace(/\s*on\w+\s*=\s*'[^']*'/gi, ""); // single quotes
+cleaned = cleaned.replace(/\s*on\w+\s*=\s*"[^"]*"/gi, ''); // double quotes
+cleaned = cleaned.replace(/\s*on\w+\s*=\s*'[^']*'/gi, ''); // single quotes
 
 // Remove dangerous protocols
-cleaned = cleaned.replace(/javascript:/gi, "");
+cleaned = cleaned.replace(/javascript:/gi, '');
 
 // Remove dangerous tags
-cleaned = cleaned.replace(
-  /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-  "",
-);
-cleaned = cleaned.replace(
-  /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
-  "",
-);
-cleaned = cleaned.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, "");
-cleaned = cleaned.replace(/<input\b[^<]*>/gi, "");
-cleaned = cleaned.replace(/<button\b[^<]*>/gi, "");
+cleaned = cleaned.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+cleaned = cleaned.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+cleaned = cleaned.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, '');
+cleaned = cleaned.replace(/<input\b[^<]*>/gi, '');
+cleaned = cleaned.replace(/<button\b[^<]*>/gi, '');
 ```
 
 ### Safe Content Processing
@@ -331,10 +319,10 @@ html = html.replace(/\$\$([^$]+)\$\$/g, (match, math) => {
 
    ```typescript
    // Old
-   import { TextRenderer } from "@/components/text-renderer";
+   import { TextRenderer } from '@/components/text-renderer';
 
    // New
-   import { SecureTextRenderer } from "@/components/secure-text-renderer";
+   import { SecureTextRenderer } from '@/components/secure-text-renderer';
    ```
 
 2. **Update Component Usage**:
@@ -347,7 +335,7 @@ html = html.replace(/\$\$([^$]+)\$\$/g, (match, math) => {
 3. **Update Tests**:
    ```typescript
    // Update test imports and expectations
-   import { SecureTextRenderer } from "@/components/secure-text-renderer";
+   import { SecureTextRenderer } from '@/components/secure-text-renderer';
    ```
 
 ### Breaking Changes
@@ -370,7 +358,7 @@ Enable debug logging:
 
 ```typescript
 // Add to processContent function
-console.log("Processing content:", text);
-console.log("Has raw HTML:", hasRawHtml);
-console.log("Processed HTML:", html);
+console.log('Processing content:', text);
+console.log('Has raw HTML:', hasRawHtml);
+console.log('Processed HTML:', html);
 ```

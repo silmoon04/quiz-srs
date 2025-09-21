@@ -3,18 +3,20 @@
 ## Chapter 1: Code Block Handling
 
 ### Question 1: Code with internal stoppers
+
 What does this JavaScript code output?
 
 ```javascript
 function test() {
-  console.log("Hello");
+  console.log('Hello');
   // This is a comment
-  return "World";
+  return 'World';
 }
 console.log(test());
 ```
 
 **Options:**
+
 - A) Hello
 - B) World
 - C) Hello World
@@ -25,6 +27,7 @@ console.log(test());
 **Explanation:** The function logs "Hello" and returns "World", so the final output is "Hello World".
 
 ### Question 2: Code with multiple lines and comments
+
 What is the result of this Python code?
 
 ```python
@@ -37,6 +40,7 @@ print(calculate(3, 4))
 ```
 
 **Options:**
+
 - A) 7
 - B) 12
 - C) Error
@@ -47,6 +51,7 @@ print(calculate(3, 4))
 **Explanation:** The function adds 3 + 4 = 7 and prints the result.
 
 ### Question 3: Code with special characters
+
 What does this regex match?
 
 ```regex
@@ -54,6 +59,7 @@ What does this regex match?
 ```
 
 **Options:**
+
 - A) Phone numbers
 - B) Email addresses
 - C) URLs

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { memo } from "react";
+import { memo } from 'react';
 
 interface BasicTextRendererProps {
   content: string;
@@ -13,59 +13,49 @@ interface BasicTextRendererProps {
  */
 export const BasicTextRenderer = memo(function BasicTextRenderer({
   content,
-  className = "",
+  className = '',
 }: BasicTextRendererProps) {
   // Basic XSS sanitization - escape dangerous characters
   let sanitizedContent = content
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
   // Basic markdown processing
   // Bold text
-  sanitizedContent = sanitizedContent.replace(
-    /\*\*(.*?)\*\*/g,
-    "<strong>$1</strong>",
-  );
+  sanitizedContent = sanitizedContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
   // Italic text
-  sanitizedContent = sanitizedContent.replace(/\*(.*?)\*/g, "<em>$1</em>");
+  sanitizedContent = sanitizedContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
   // Inline code
-  sanitizedContent = sanitizedContent.replace(/`(.*?)`/g, "<code>$1</code>");
+  sanitizedContent = sanitizedContent.replace(/`(.*?)`/g, '<code>$1</code>');
 
   // Line breaks
-  sanitizedContent = sanitizedContent.replace(/\n/g, "<br>");
+  sanitizedContent = sanitizedContent.replace(/\n/g, '<br>');
 
   // Headers
-  sanitizedContent = sanitizedContent.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-  sanitizedContent = sanitizedContent.replace(/^## (.*$)/gm, "<h2>$1</h2>");
-  sanitizedContent = sanitizedContent.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+  sanitizedContent = sanitizedContent.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+  sanitizedContent = sanitizedContent.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+  sanitizedContent = sanitizedContent.replace(/^# (.*$)/gm, '<h1>$1</h1>');
 
   // Lists
-  sanitizedContent = sanitizedContent.replace(/^\* (.*$)/gm, "<li>$1</li>");
-  sanitizedContent = sanitizedContent.replace(/^- (.*$)/gm, "<li>$1</li>");
+  sanitizedContent = sanitizedContent.replace(/^\* (.*$)/gm, '<li>$1</li>');
+  sanitizedContent = sanitizedContent.replace(/^- (.*$)/gm, '<li>$1</li>');
 
   // Wrap lists
-  sanitizedContent = sanitizedContent.replace(/(<li>.*<\/li>)/g, "<ul>$1</ul>");
+  sanitizedContent = sanitizedContent.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
 
   // Basic links (safe ones only)
-  sanitizedContent = sanitizedContent.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    (match, text, url) => {
-      // Only allow safe URLs
-      if (
-        url.startsWith("http://") ||
-        url.startsWith("https://") ||
-        url.startsWith("/")
-      ) {
-        return `<a href="${url}">${text}</a>`;
-      }
-      return text; // If URL is not safe, just return the text
-    },
-  );
+  sanitizedContent = sanitizedContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+    // Only allow safe URLs
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) {
+      return `<a href="${url}">${text}</a>`;
+    }
+    return text; // If URL is not safe, just return the text
+  });
 
   return (
     <div

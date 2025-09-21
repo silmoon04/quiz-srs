@@ -12,21 +12,16 @@
  */
 
 // Environment flag for rollback capability
-const USE_REFACTORED_PARSER = process.env.USE_REFACTORED_PARSER !== "false";
+const USE_REFACTORED_PARSER = process.env.USE_REFACTORED_PARSER !== 'false';
 
 // Re-export types
-export type { ValidationResult } from "../quiz-validation";
+export type { ValidationResult } from '../quiz-validation';
 
-export type {
-  QuizModule,
-  QuizChapter,
-  QuizQuestion,
-  QuizOption,
-} from "@/types/quiz-types";
+export type { QuizModule, QuizChapter, QuizQuestion, QuizOption } from '@/types/quiz-types';
 
 // Import implementations
-import * as legacyParser from "../quiz-validation";
-import * as refactoredParser from "../quiz-validation-refactored";
+import * as legacyParser from '../quiz-validation';
+import * as refactoredParser from '../quiz-validation-refactored';
 
 // Choose implementation based on environment flag
 const parser = USE_REFACTORED_PARSER ? refactoredParser : legacyParser;
@@ -44,7 +39,7 @@ export const correctLatexInJsonContent = parser.correctLatexInJsonContent;
 // Export the current implementation info for debugging
 export const getCurrentImplementation = () => ({
   isRefactored: USE_REFACTORED_PARSER,
-  implementation: USE_REFACTORED_PARSER ? "refactored" : "legacy",
+  implementation: USE_REFACTORED_PARSER ? 'refactored' : 'legacy',
 });
 
 // Export both implementations for comparison purposes

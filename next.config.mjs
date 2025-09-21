@@ -11,11 +11,11 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (process.env.ANALYZE === 'true') {
-      const { BundleAnalyzerPlugin } = require('@next/bundle-analyzer')()
-      config.plugins.push(new BundleAnalyzerPlugin())
+      const { BundleAnalyzerPlugin } = require('@next/bundle-analyzer')();
+      config.plugins.push(new BundleAnalyzerPlugin());
     }
-    return config
+    return config;
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

@@ -44,11 +44,11 @@ tests/
 #### XSS Protection
 
 ```tsx
-test("should sanitize script tags", () => {
+test('should sanitize script tags', () => {
   const content = 'Normal text <script>alert("XSS")</script> more text';
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  expect(container.querySelector("script")).toBeNull();
+  expect(container.querySelector('script')).toBeNull();
   expect(screen.queryByText('alert("XSS")')).not.toBeInTheDocument();
 });
 ```
@@ -56,28 +56,27 @@ test("should sanitize script tags", () => {
 #### Event Handler Sanitization
 
 ```tsx
-test("should sanitize event handlers", () => {
-  const content =
-    'Normal text <img src="x" onerror="alert(\'XSS\')"> more text';
+test('should sanitize event handlers', () => {
+  const content = 'Normal text <img src="x" onerror="alert(\'XSS\')"> more text';
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const img = container.querySelector("img");
+  const img = container.querySelector('img');
   expect(img).toBeInTheDocument();
-  expect(img?.getAttribute("onerror")).toBeNull();
+  expect(img?.getAttribute('onerror')).toBeNull();
 });
 ```
 
 #### URL Validation
 
 ```tsx
-test("should reject dangerous URLs", () => {
+test('should reject dangerous URLs', () => {
   const content = `[Dangerous](javascript:alert('XSS'))
 [Safe link](https://example.com)`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const linkElements = container.querySelectorAll("a");
+  const linkElements = container.querySelectorAll('a');
   expect(linkElements.length).toBe(1);
-  expect(linkElements[0].getAttribute("href")).toBe("https://example.com");
+  expect(linkElements[0].getAttribute('href')).toBe('https://example.com');
 });
 ```
 
@@ -86,22 +85,22 @@ test("should reject dangerous URLs", () => {
 #### Basic Formatting
 
 ```tsx
-test("should handle bold text with ** and __", () => {
+test('should handle bold text with ** and __', () => {
   const content = `This is **bold text** and this is __also bold__.
 This has **multiple** **bold** **words**.`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const strongElements = container.querySelectorAll("strong");
+  const strongElements = container.querySelectorAll('strong');
   expect(strongElements.length).toBe(4);
-  expect(screen.getByText("bold text")).toBeInTheDocument();
-  expect(screen.getByText("also bold")).toBeInTheDocument();
+  expect(screen.getByText('bold text')).toBeInTheDocument();
+  expect(screen.getByText('also bold')).toBeInTheDocument();
 });
 ```
 
 #### Headers
 
 ```tsx
-test("should render all header levels correctly", () => {
+test('should render all header levels correctly', () => {
   const content = `# Header 1
 ## Header 2
 ### Header 3
@@ -110,19 +109,19 @@ test("should render all header levels correctly", () => {
 ###### Header 6`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  expect(container.querySelector("h1")).toBeInTheDocument();
-  expect(container.querySelector("h2")).toBeInTheDocument();
-  expect(container.querySelector("h3")).toBeInTheDocument();
-  expect(container.querySelector("h4")).toBeInTheDocument();
-  expect(container.querySelector("h5")).toBeInTheDocument();
-  expect(container.querySelector("h6")).toBeInTheDocument();
+  expect(container.querySelector('h1')).toBeInTheDocument();
+  expect(container.querySelector('h2')).toBeInTheDocument();
+  expect(container.querySelector('h3')).toBeInTheDocument();
+  expect(container.querySelector('h4')).toBeInTheDocument();
+  expect(container.querySelector('h5')).toBeInTheDocument();
+  expect(container.querySelector('h6')).toBeInTheDocument();
 });
 ```
 
 #### Lists
 
 ```tsx
-test("should handle unordered lists", () => {
+test('should handle unordered lists', () => {
   const content = `- First item
 - Second item
 - Third item
@@ -131,10 +130,10 @@ test("should handle unordered lists", () => {
 - Fourth item`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const ulElements = container.querySelectorAll("ul");
+  const ulElements = container.querySelectorAll('ul');
   expect(ulElements.length).toBeGreaterThan(0);
 
-  const liElements = container.querySelectorAll("li");
+  const liElements = container.querySelectorAll('li');
   expect(liElements.length).toBeGreaterThan(0);
 });
 ```
@@ -142,20 +141,20 @@ test("should handle unordered lists", () => {
 #### Tables
 
 ```tsx
-test("should handle basic tables", () => {
+test('should handle basic tables', () => {
   const content = `| Header 1 | Header 2 | Header 3 |
 |----------|----------|----------|
 | Cell 1   | Cell 2   | Cell 3   |
 | Cell 4   | Cell 5   | Cell 6   |`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const tableElement = container.querySelector("table");
+  const tableElement = container.querySelector('table');
   expect(tableElement).toBeInTheDocument();
 
-  const theadElement = container.querySelector("thead");
+  const theadElement = container.querySelector('thead');
   expect(theadElement).toBeInTheDocument();
 
-  const tbodyElement = container.querySelector("tbody");
+  const tbodyElement = container.querySelector('tbody');
   expect(tbodyElement).toBeInTheDocument();
 });
 ```
@@ -165,13 +164,13 @@ test("should handle basic tables", () => {
 #### Inline Math
 
 ```tsx
-test("should handle inline math", () => {
+test('should handle inline math', () => {
   const content = `The equation $E = mc^2$ is famous.
 Another equation: $\\alpha + \\beta = \\gamma$.
 Multiple equations: $x = 1$, $y = 2$, $z = 3$.`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const katexElements = container.querySelectorAll(".katex");
+  const katexElements = container.querySelectorAll('.katex');
   expect(katexElements.length).toBe(5);
 });
 ```
@@ -179,7 +178,7 @@ Multiple equations: $x = 1$, $y = 2$, $z = 3$.`;
 #### Display Math
 
 ```tsx
-test("should handle display math", () => {
+test('should handle display math', () => {
   const content = `Here's a display equation:
 
 $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
@@ -189,7 +188,7 @@ And another:
 $$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$`;
   const { container } = render(<SecureTextRenderer content={content} />);
 
-  const katexDisplayElements = container.querySelectorAll(".katex-display");
+  const katexDisplayElements = container.querySelectorAll('.katex-display');
   expect(katexDisplayElements.length).toBe(2);
 });
 ```
@@ -199,8 +198,8 @@ $$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$`;
 #### Empty Content
 
 ```tsx
-test("should handle empty content", () => {
-  const content = "";
+test('should handle empty content', () => {
+  const content = '';
   const { container } = render(<SecureTextRenderer content={content} />);
 
   expect(container).toBeInTheDocument();
@@ -210,7 +209,7 @@ test("should handle empty content", () => {
 #### Malformed Content
 
 ```tsx
-test("should handle malformed markdown gracefully", () => {
+test('should handle malformed markdown gracefully', () => {
   const content = `**Unclosed bold
 *Unclosed italic
 \`Unclosed code
@@ -225,10 +224,10 @@ test("should handle malformed markdown gracefully", () => {
 #### Large Content
 
 ```tsx
-test("should handle very long content", () => {
+test('should handle very long content', () => {
   const content = Array(1000)
-    .fill("This is a very long line of text that should be handled properly. ")
-    .join("");
+    .fill('This is a very long line of text that should be handled properly. ')
+    .join('');
   const { container } = render(<SecureTextRenderer content={content} />);
 
   expect(container).toBeInTheDocument();
@@ -310,11 +309,11 @@ npm run test:ci
 // vitest.config.ts
 export default defineConfig({
   test: {
-    environment: "jsdom",
-    setupFiles: ["./tests/setup.ts"],
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
     coverage: {
-      provider: "v8",
-      reporter: ["text", "json", "html"],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
       thresholds: {
         global: {
           branches: 80,
@@ -332,9 +331,9 @@ export default defineConfig({
 
 ```typescript
 // tests/setup.ts
-import "@testing-library/jest-dom";
-import { expect, afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
+import '@testing-library/jest-dom';
+import { expect, afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
 
 afterEach(() => {
   cleanup();
@@ -379,16 +378,16 @@ afterEach(() => {
 
 ```typescript
 // Enable debug logging
-console.log("Test content:", content);
-console.log("Rendered HTML:", container.innerHTML);
-console.log("Elements found:", container.querySelectorAll("*"));
+console.log('Test content:', content);
+console.log('Rendered HTML:', container.innerHTML);
+console.log('Elements found:', container.querySelectorAll('*'));
 ```
 
 ### Test Isolation
 
 ```typescript
 // Isolate specific tests
-test.only("should render markdown correctly", () => {
+test.only('should render markdown correctly', () => {
   // This test will run in isolation
 });
 ```
@@ -398,9 +397,9 @@ test.only("should render markdown correctly", () => {
 ```typescript
 // Create mock data for testing
 const mockContent = {
-  simple: "Hello World",
-  markdown: "**Bold** and *italic*",
-  latex: "$E = mc^2$",
+  simple: 'Hello World',
+  markdown: '**Bold** and *italic*',
+  latex: '$E = mc^2$',
   dangerous: '<script>alert("XSS")</script>',
 };
 ```
@@ -456,7 +455,7 @@ open coverage/index.html
 ```typescript
 // Wait for async operations
 await waitFor(() => {
-  expect(screen.getByText("Content")).toBeInTheDocument();
+  expect(screen.getByText('Content')).toBeInTheDocument();
 });
 ```
 
@@ -464,9 +463,9 @@ await waitFor(() => {
 
 ```typescript
 // Use appropriate query methods
-screen.getByText("Text"); // Exact text match
-screen.getByRole("button"); // By role
-screen.getByTestId("test-id"); // By test ID
+screen.getByText('Text'); // Exact text match
+screen.getByRole('button'); // By role
+screen.getByTestId('test-id'); // By test ID
 ```
 
 ### 3. **Mock Functions**

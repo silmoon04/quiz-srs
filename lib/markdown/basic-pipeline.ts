@@ -9,30 +9,30 @@
  */
 export async function processMarkdown(content: string): Promise<string> {
   try {
-    console.log("Processing markdown:", content.substring(0, 100) + "...");
+    console.log('Processing markdown:', content.substring(0, 100) + '...');
 
     // For now, just return basic HTML escaping as a working fallback
     // This ensures the component works while we debug the remark/rehype pipeline
     const escaped = content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;")
-      .replace(/\n/g, "<br>");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\n/g, '<br>');
 
-    console.log("Processed HTML (basic):", escaped.substring(0, 200) + "...");
+    console.log('Processed HTML (basic):', escaped.substring(0, 200) + '...');
     return escaped;
   } catch (error) {
-    console.error("Markdown processing error:", error);
+    console.error('Markdown processing error:', error);
     // Return basic HTML escaping as fallback
     return content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;")
-      .replace(/\n/g, "<br>");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\n/g, '<br>');
   }
 }
 

@@ -9,28 +9,28 @@
  */
 export function processMarkdownSync(content: string): string {
   try {
-    console.log("Processing markdown sync:", content.substring(0, 100) + "...");
+    console.log('Processing markdown sync:', content.substring(0, 100) + '...');
 
     // Basic XSS protection - escape HTML
     let html = content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
 
     // Basic markdown processing
     // Headers
-    html = html.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-    html = html.replace(/^## (.*$)/gm, "<h2>$1</h2>");
-    html = html.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+    html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
 
     // Bold and italic
-    html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
     // Inline code
-    html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
     // Code blocks
     html = html.replace(
@@ -39,12 +39,12 @@ export function processMarkdownSync(content: string): string {
     );
 
     // Lists - fix the regex to handle multiple list items
-    html = html.replace(/^[\*\-] (.*)$/gm, "<li>$1</li>");
-    html = html.replace(/(<li>.*<\/li>)/g, "<ul>$1</ul>");
+    html = html.replace(/^[\*\-] (.*)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
 
     // Ordered lists
-    html = html.replace(/^\d+\. (.*)$/gm, "<li>$1</li>");
-    html = html.replace(/(<li>.*<\/li>)/g, "<ol>$1</ol>");
+    html = html.replace(/^\d+\. (.*)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/g, '<ol>$1</ol>');
 
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
@@ -53,20 +53,20 @@ export function processMarkdownSync(content: string): string {
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
 
     // Line breaks
-    html = html.replace(/\n/g, "<br>");
+    html = html.replace(/\n/g, '<br>');
 
-    console.log("Processed HTML sync:", html.substring(0, 200) + "...");
+    console.log('Processed HTML sync:', html.substring(0, 200) + '...');
     return html;
   } catch (error) {
-    console.error("Markdown processing error:", error);
+    console.error('Markdown processing error:', error);
     // Return basic HTML escaping as fallback
     return content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;")
-      .replace(/\n/g, "<br>");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\n/g, '<br>');
   }
 }
 

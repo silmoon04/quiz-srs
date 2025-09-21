@@ -1,13 +1,13 @@
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/react'
-import axe from 'axe-core'
-import { QuizModule } from '@/lib/schema/quiz'
+import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import axe from 'axe-core';
+import { QuizModule } from '@/lib/schema/quiz';
 
 // Helper function to check for accessibility violations
 const checkA11y = async (container: HTMLElement) => {
-  const results = await axe(container)
-  expect(results.violations).toHaveLength(0)
-}
+  const results = await axe(container);
+  expect(results.violations).toHaveLength(0);
+};
 
 // Mock components for accessibility testing
 const MockQuizSession = ({ module }: { module: QuizModule }) => (
@@ -45,7 +45,7 @@ const MockQuizSession = ({ module }: { module: QuizModule }) => (
       </div>
     </div>
   </div>
-)
+);
 
 const MockDashboard = ({ module }: { module: QuizModule }) => (
   <div role="main" aria-label="Quiz Dashboard">
@@ -53,8 +53,12 @@ const MockDashboard = ({ module }: { module: QuizModule }) => (
       <h1>{module.name}</h1>
       <nav aria-label="Main navigation">
         <ul>
-          <li><a href="#chapters">Chapters</a></li>
-          <li><a href="#progress">Progress</a></li>
+          <li>
+            <a href="#chapters">Chapters</a>
+          </li>
+          <li>
+            <a href="#progress">Progress</a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -68,7 +72,7 @@ const MockDashboard = ({ module }: { module: QuizModule }) => (
       </section>
     </main>
   </div>
-)
+);
 
 const MockQuestionEditor = ({ question }: { question: any }) => (
   <form role="form" aria-label="Question Editor">
@@ -97,14 +101,8 @@ const MockQuestionEditor = ({ question }: { question: any }) => (
       <h3>Options</h3>
       {question.options.map((option: any, index: number) => (
         <div key={option.optionId}>
-          <label htmlFor={`option-${option.optionId}`}>
-            Option {index + 1}:
-          </label>
-          <input
-            type="text"
-            id={`option-${option.optionId}`}
-            defaultValue={option.optionText}
-          />
+          <label htmlFor={`option-${option.optionId}`}>Option {index + 1}:</label>
+          <input type="text" id={`option-${option.optionId}`} defaultValue={option.optionText} />
           <input
             type="checkbox"
             id={`correct-${option.optionId}`}
@@ -119,7 +117,7 @@ const MockQuestionEditor = ({ question }: { question: any }) => (
       <button type="button">Cancel</button>
     </div>
   </form>
-)
+);
 
 describe('Accessibility Tests', () => {
   const mockModule: QuizModule = {
@@ -140,7 +138,8 @@ describe('Accessibility Tests', () => {
               { optionId: 'opt3', optionText: 'Making websites fast' },
             ],
             correctOptionIds: ['opt1'],
-            explanationText: 'Accessibility ensures websites are usable by people with disabilities',
+            explanationText:
+              'Accessibility ensures websites are usable by people with disabilities',
             type: 'mcq',
           },
         ],
@@ -150,166 +149,168 @@ describe('Accessibility Tests', () => {
         isCompleted: false,
       },
     ],
-  }
+  };
 
   describe('QuizSession Component Accessibility', () => {
     it('should not have accessibility violations', async () => {
-      const { container } = render(<MockQuizSession module={mockModule} />)
-      await checkA11y(container)
-    })
+      const { container } = render(<MockQuizSession module={mockModule} />);
+      await checkA11y(container);
+    });
 
     it('should have proper heading hierarchy', () => {
-      const { container } = render(<MockQuizSession module={mockModule} />)
-      
-      const h1 = container.querySelector('h1')
-      const h2 = container.querySelector('h2')
-      const h3 = container.querySelector('h3')
-      
-      expect(h1).toBeInTheDocument()
-      expect(h2).toBeInTheDocument()
-      expect(h3).toBeInTheDocument()
-    })
+      const { container } = render(<MockQuizSession module={mockModule} />);
+
+      const h1 = container.querySelector('h1');
+      const h2 = container.querySelector('h2');
+      const h3 = container.querySelector('h3');
+
+      expect(h1).toBeInTheDocument();
+      expect(h2).toBeInTheDocument();
+      expect(h3).toBeInTheDocument();
+    });
 
     it('should have proper form labels and associations', () => {
-      const { container } = render(<MockQuizSession module={mockModule} />)
-      
-      const inputs = container.querySelectorAll('input[type="radio"]')
-      const labels = container.querySelectorAll('label')
-      
-      expect(inputs.length).toBeGreaterThan(0)
-      expect(labels.length).toBeGreaterThan(0)
-      
+      const { container } = render(<MockQuizSession module={mockModule} />);
+
+      const inputs = container.querySelectorAll('input[type="radio"]');
+      const labels = container.querySelectorAll('label');
+
+      expect(inputs.length).toBeGreaterThan(0);
+      expect(labels.length).toBeGreaterThan(0);
+
       // Each input should have a corresponding label
       inputs.forEach((input) => {
-        const id = input.getAttribute('id')
-        const label = container.querySelector(`label[for="${id}"]`)
-        expect(label).toBeInTheDocument()
-      })
-    })
+        const id = input.getAttribute('id');
+        const label = container.querySelector(`label[for="${id}"]`);
+        expect(label).toBeInTheDocument();
+      });
+    });
 
     it('should have proper ARIA landmarks', () => {
-      const { container } = render(<MockQuizSession module={mockModule} />)
-      
-      const main = container.querySelector('[role="main"]')
-      const region = container.querySelector('[role="region"]')
-      const group = container.querySelector('[role="group"]')
-      
-      expect(main).toBeInTheDocument()
-      expect(region).toBeInTheDocument()
-      expect(group).toBeInTheDocument()
-    })
-  })
+      const { container } = render(<MockQuizSession module={mockModule} />);
+
+      const main = container.querySelector('[role="main"]');
+      const region = container.querySelector('[role="region"]');
+      const group = container.querySelector('[role="group"]');
+
+      expect(main).toBeInTheDocument();
+      expect(region).toBeInTheDocument();
+      expect(group).toBeInTheDocument();
+    });
+  });
 
   describe('Dashboard Component Accessibility', () => {
     it('should not have accessibility violations', async () => {
-      const { container } = render(<MockDashboard module={mockModule} />)
-      await checkA11y(container)
-    })
+      const { container } = render(<MockDashboard module={mockModule} />);
+      await checkA11y(container);
+    });
 
     it('should have proper navigation structure', () => {
-      const { container } = render(<MockDashboard module={mockModule} />)
-      
-      const nav = container.querySelector('nav')
-      const navList = container.querySelector('nav ul')
-      const navLinks = container.querySelectorAll('nav a')
-      
-      expect(nav).toBeInTheDocument()
-      expect(navList).toBeInTheDocument()
-      expect(navLinks.length).toBeGreaterThan(0)
-    })
+      const { container } = render(<MockDashboard module={mockModule} />);
+
+      const nav = container.querySelector('nav');
+      const navList = container.querySelector('nav ul');
+      const navLinks = container.querySelectorAll('nav a');
+
+      expect(nav).toBeInTheDocument();
+      expect(navList).toBeInTheDocument();
+      expect(navLinks.length).toBeGreaterThan(0);
+    });
 
     it('should have proper progress indication', () => {
-      const { container } = render(<MockDashboard module={mockModule} />)
-      
-      const progressbar = container.querySelector('[role="progressbar"]')
-      expect(progressbar).toBeInTheDocument()
-      expect(progressbar).toHaveAttribute('aria-valuenow')
-      expect(progressbar).toHaveAttribute('aria-valuemin')
-      expect(progressbar).toHaveAttribute('aria-valuemax')
-    })
-  })
+      const { container } = render(<MockDashboard module={mockModule} />);
+
+      const progressbar = container.querySelector('[role="progressbar"]');
+      expect(progressbar).toBeInTheDocument();
+      expect(progressbar).toHaveAttribute('aria-valuenow');
+      expect(progressbar).toHaveAttribute('aria-valuemin');
+      expect(progressbar).toHaveAttribute('aria-valuemax');
+    });
+  });
 
   describe('QuestionEditor Component Accessibility', () => {
     it('should not have accessibility violations', async () => {
-      const question = mockModule.chapters[0].questions[0]
-      const { container } = render(<MockQuestionEditor question={question} />)
-      await checkA11y(container)
-    })
+      const question = mockModule.chapters[0].questions[0];
+      const { container } = render(<MockQuestionEditor question={question} />);
+      await checkA11y(container);
+    });
 
     it('should have proper form structure', () => {
-      const question = mockModule.chapters[0].questions[0]
-      const { container } = render(<MockQuestionEditor question={question} />)
-      
-      const form = container.querySelector('form')
-      const fieldset = container.querySelector('fieldset')
-      const legend = container.querySelector('legend')
-      
-      expect(form).toBeInTheDocument()
-      expect(fieldset).toBeInTheDocument()
-      expect(legend).toBeInTheDocument()
-    })
+      const question = mockModule.chapters[0].questions[0];
+      const { container } = render(<MockQuestionEditor question={question} />);
+
+      const form = container.querySelector('form');
+      const fieldset = container.querySelector('fieldset');
+      const legend = container.querySelector('legend');
+
+      expect(form).toBeInTheDocument();
+      expect(fieldset).toBeInTheDocument();
+      expect(legend).toBeInTheDocument();
+    });
 
     it('should have proper label associations', () => {
-      const question = mockModule.chapters[0].questions[0]
-      const { container } = render(<MockQuestionEditor question={question} />)
-      
-      const textareas = container.querySelectorAll('textarea')
-      const inputs = container.querySelectorAll('input[type="text"]')
-      
+      const question = mockModule.chapters[0].questions[0];
+      const { container } = render(<MockQuestionEditor question={question} />);
+
+      const textareas = container.querySelectorAll('textarea');
+      const inputs = container.querySelectorAll('input[type="text"]');
+
       textareas.forEach((textarea) => {
-        const id = textarea.getAttribute('id')
-        const label = container.querySelector(`label[for="${id}"]`)
-        expect(label).toBeInTheDocument()
-      })
-      
+        const id = textarea.getAttribute('id');
+        const label = container.querySelector(`label[for="${id}"]`);
+        expect(label).toBeInTheDocument();
+      });
+
       inputs.forEach((input) => {
-        const id = input.getAttribute('id')
-        const label = container.querySelector(`label[for="${id}"]`)
-        expect(label).toBeInTheDocument()
-      })
-    })
+        const id = input.getAttribute('id');
+        const label = container.querySelector(`label[for="${id}"]`);
+        expect(label).toBeInTheDocument();
+      });
+    });
 
     it('should have proper help text associations', () => {
-      const question = mockModule.chapters[0].questions[0]
-      const { container } = render(<MockQuestionEditor question={question} />)
-      
-      const textareas = container.querySelectorAll('textarea[aria-describedby]')
-      
+      const question = mockModule.chapters[0].questions[0];
+      const { container } = render(<MockQuestionEditor question={question} />);
+
+      const textareas = container.querySelectorAll('textarea[aria-describedby]');
+
       textareas.forEach((textarea) => {
-        const describedBy = textarea.getAttribute('aria-describedby')
-        const helpText = container.querySelector(`#${describedBy}`)
-        expect(helpText).toBeInTheDocument()
-      })
-    })
-  })
+        const describedBy = textarea.getAttribute('aria-describedby');
+        const helpText = container.querySelector(`#${describedBy}`);
+        expect(helpText).toBeInTheDocument();
+      });
+    });
+  });
 
   describe('Keyboard Navigation', () => {
     it('should have focusable elements', () => {
-      const { container } = render(<MockQuizSession module={mockModule} />)
-      
+      const { container } = render(<MockQuizSession module={mockModule} />);
+
       const focusableElements = container.querySelectorAll(
-        'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
-      )
-      
-      expect(focusableElements.length).toBeGreaterThan(0)
-    })
+        'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])',
+      );
+
+      expect(focusableElements.length).toBeGreaterThan(0);
+    });
 
     it('should have proper tab order', () => {
-      const { container } = render(<MockQuestionEditor question={mockModule.chapters[0].questions[0]} />)
-      
+      const { container } = render(
+        <MockQuestionEditor question={mockModule.chapters[0].questions[0]} />,
+      );
+
       const focusableElements = Array.from(
         container.querySelectorAll(
-          'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
-        )
-      )
-      
+          'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
       // Check that elements are in logical tab order
-      const tabIndices = focusableElements.map(el => 
-        parseInt(el.getAttribute('tabindex') || '0')
-      )
-      
-      const sortedIndices = [...tabIndices].sort((a, b) => a - b)
-      expect(tabIndices).toEqual(sortedIndices)
-    })
-  })
-})
+      const tabIndices = focusableElements.map((el) =>
+        parseInt(el.getAttribute('tabindex') || '0'),
+      );
+
+      const sortedIndices = [...tabIndices].sort((a, b) => a - b);
+      expect(tabIndices).toEqual(sortedIndices);
+    });
+  });
+});

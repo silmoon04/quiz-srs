@@ -1,5 +1,5 @@
-import katex from "katex";
-import "katex/dist/katex.min.css";
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 /**
  * Process LaTeX math expressions in text

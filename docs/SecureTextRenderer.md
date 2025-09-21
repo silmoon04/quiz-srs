@@ -46,7 +46,7 @@ The `SecureTextRenderer` component is designed to safely render user-generated c
 ### Basic Usage
 
 ```tsx
-import { SecureTextRenderer } from "@/components/secure-text-renderer";
+import { SecureTextRenderer } from '@/components/secure-text-renderer';
 
 function MyComponent() {
   const content = `
@@ -142,7 +142,7 @@ _Italic text_ or _Italic text_
 ````markdown
 ```javascript
 function hello() {
-  console.log("Hello, World!");
+  console.log('Hello, World!');
 }
 ```
 ````
@@ -189,7 +189,6 @@ function hello() {
 
 ```markdown
 ---
-
 ---
 
 ---
@@ -282,8 +281,8 @@ Enable debug logging by adding console.log statements in the component:
 
 ```tsx
 // In processContent function
-console.log("Processing content:", text);
-console.log("Has raw HTML:", hasRawHtml);
+console.log('Processing content:', text);
+console.log('Has raw HTML:', hasRawHtml);
 ```
 
 ## Contributing
