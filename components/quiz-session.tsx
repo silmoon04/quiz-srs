@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SecureTextRenderer } from './secure-text-renderer';
 import { MarkdownRenderer } from './rendering/MarkdownRenderer';
+import { useAnnouncer } from './a11y/ScreenReaderAnnouncer';
 import { OptionCard } from './option-card';
 import { QuestionNavigationMenu } from './question-navigation-menu';
 import {
@@ -109,6 +110,7 @@ export function QuizSession({
   >(null);
 
   const importFileInputRef = useRef<HTMLInputElement>(null);
+  const { announce } = useAnnouncer();
 
   // FIXED: Correctly access props for history state
   const isViewingHistoricalEntry =
@@ -330,6 +332,14 @@ export function QuizSession({
     );
 
     const selectedWasCorrect = question.correctOptionIds.includes(selectedOptionId);
+
+    // Announce the result to screen readers
+    if (selectedWasCorrect) {
+      announce('Answer is correct!');
+    } else {
+      announce('Answer is incorrect. The correct answer is provided below.');
+    }
+
     if (!selectedWasCorrect) {
       const displayedCorrectOptions = displayedOptionsCache.filter((opt) =>
         question.correctOptionIds.includes(opt.optionId),
