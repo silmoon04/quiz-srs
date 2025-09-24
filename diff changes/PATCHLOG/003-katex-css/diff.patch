@@ -1,0 +1,6 @@
+diff --git a/app/globals.css b/app/globals.css
+--- a/app/globals.css
++++ b/app/globals.css
+@@
++/* KaTeX styles for math rendering */
++@import "katex/dist/katex.min.css";

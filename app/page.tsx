@@ -6,8 +6,8 @@ import { Dashboard } from '@/components/dashboard';
 import { QuizSession } from '@/components/quiz-session';
 import { QuizComplete } from '@/components/quiz-complete';
 import { AllQuestionsView } from '@/components/all-questions-view';
-import { ToastContainer } from '@/components/toast-notification';
-import { useToast } from '@/hooks/use-toast';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast, toast } from '@/components/ui/use-toast';
 import {
   validateQuizModule,
   normalizeQuizModule,
@@ -363,7 +363,37 @@ export default function MCQQuizForge() {
   const [questionsToReviewForAppend, setQuestionsToReviewForAppend] = useState<QuizQuestion[]>([]);
 
   // Toast notifications
-  const { toasts, removeToast, showSuccess, showError, showInfo, showWarning } = useToast();
+  useToast();
+
+  // Helper functions for toast notifications
+  const showSuccess = (title: string, message?: string, duration?: number) => {
+    toast({
+      title,
+      description: message,
+    });
+  };
+
+  const showError = (title: string, message?: string, duration?: number) => {
+    toast({
+      title,
+      description: message,
+      variant: 'destructive',
+    });
+  };
+
+  const showInfo = (title: string, message?: string, duration?: number) => {
+    toast({
+      title,
+      description: message,
+    });
+  };
+
+  const showWarning = (title: string, message?: string, duration?: number) => {
+    toast({
+      title,
+      description: message,
+    });
+  };
 
   // SRS state - SIMPLIFIED: Remove static reviewQueue, use dynamic approach
   const [isReviewSessionActive, setIsReviewSessionActive] = useState(false);
@@ -1964,9 +1994,16 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         );
 
       case 'dashboard':
+        if (!currentModule) {
+          return (
+            <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-black via-slate-950 to-gray-950">
+              <div className="text-xl text-white">Loading dashboard...</div>
+            </div>
+          );
+        }
         return (
           <Dashboard
-            module={currentModule!}
+            module={currentModule}
             onStartQuiz={handleStartQuiz}
             onStartReviewSession={handleStartReviewSession}
             onExportState={handleExportState}
@@ -2093,7 +2130,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
       {renderCurrentView()}
 
       {/* Toast Container */}
-      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
+      <Toaster />
 
       {/* Confirmation Modal for Deleting Current Question */}
       <ConfirmationModal

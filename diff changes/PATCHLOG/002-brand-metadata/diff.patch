@@ -1,0 +1,15 @@
+diff --git a/app/layout.tsx b/app/layout.tsx
+--- a/app/layout.tsx
++++ b/app/layout.tsx
+@@
+-export const metadata: Metadata = {
+-  title: 'v0 App',
+-  description: 'Created with v0',
+-  generator: 'v0.app',
+-};
++export const metadata: Metadata = {
++  title: 'Quiz‑SRS',
++  description: 'Secure spaced-repetition quizzes with rich Markdown and math.',
++  applicationName: 'Quiz‑SRS',
++  generator: 'next',
++};

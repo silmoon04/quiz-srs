@@ -765,6 +765,7 @@ export function QuizSession({
               onSelectOption={onSelectOption}
               isSubmitted={displayIsSubmitted}
               disabled={displayIsSubmitted || isViewingHistoricalEntry}
+              correctOptionIds={question.correctOptionIds}
             />
           </div>
 
