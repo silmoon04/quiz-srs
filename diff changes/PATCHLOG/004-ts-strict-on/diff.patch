@@ -1,6 +1,0 @@
-diff --git a/tsconfig.json b/tsconfig.json
---- a/tsconfig.json
-+++ b/tsconfig.json
-@@
--    "strict": false,
-+    "strict": true,
