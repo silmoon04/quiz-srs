@@ -2,6 +2,141 @@
 
 This document provides comprehensive information about the testing strategy, test structure, and testing practices for the MCQ Quiz Forge project.
 
+## 🤖 **AI Agent Testing Instructions**
+
+### For AI Testing Agents
+
+This guide is designed for both human testers and AI agents. AI agents should follow these specific instructions:
+
+#### **AI Agent Testing Protocol**
+
+1. **Automated Testing Capabilities**: Use the built-in test suite commands:
+
+   ```bash
+   npm run test:unit          # Unit tests
+   npm run test:int           # Integration tests
+   npm run test:e2e           # End-to-end tests
+   npm run test:access        # Accessibility tests
+   npm run test               # All test suites
+   npm run coverage           # Coverage reports
+   ```
+
+2. **Browser Automation**: Use Playwright for cross-browser testing:
+
+   ```bash
+   npm run test:e2e:ui        # Interactive E2E testing
+   ```
+
+3. **Code Analysis**: Run these analysis commands:
+
+   ```bash
+   npm run typecheck          # TypeScript validation
+   npm run lint               # Code quality
+   npm run analyze            # Bundle analysis
+   npm run depcheck           # Dependency analysis
+   ```
+
+4. **Test Page Access**: Navigate to `/test` for built-in parser testing and validation
+
+5. **Documentation Requirements**: Create a `TEST_RESULTS_REPORT.md` file documenting all findings
+
+#### **AI Testing Focus Areas**
+
+- **Automated Test Execution**: Run all test suites and document results
+- **Cross-browser Compatibility**: Test on Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
+- **Performance Analysis**: Monitor bundle size, loading times, memory usage
+- **Accessibility Compliance**: Automated WCAG compliance testing
+- **Code Quality**: ESLint, TypeScript, dependency analysis
+- **Error Handling**: Test edge cases and error recovery
+
+#### **AI Agent Testing Checklist**
+
+- [ ] Execute all automated test suites
+- [ ] Run cross-browser E2E tests
+- [ ] Perform accessibility compliance testing
+- [ ] Analyze performance metrics
+- [ ] Test error handling and recovery
+- [ ] Validate security features
+- [ ] Document all findings
+
+## 📊 **Test Results Summary**
+
+### Test Suite Results
+
+| Test Suite              | Status      | Passed | Failed | Total | Success Rate |
+| ----------------------- | ----------- | ------ | ------ | ----- | ------------ |
+| **E2E Tests**           | ⚠️ Partial  | 40     | 15     | 55    | 72.7%        |
+| **Unit Tests**          | ❌ Failed   | 190    | 80     | 270   | 70.4%        |
+| **Accessibility Tests** | ⚠️ Partial  | 12     | 1      | 13    | 92.3%        |
+| **Integration Tests**   | ✅ Passed   | 9      | 0      | 9     | 100%         |
+| **TypeScript Check**    | ✅ Passed   | -      | -      | -     | 100%         |
+| **Linting**             | ⚠️ Warnings | -      | -      | -     | 100%         |
+
+### Critical Issues Found
+
+#### 1. **LaTeX Rendering Completely Broken** (80 unit test failures)
+
+- **Issue**: KaTeX elements not rendering at all
+- **Impact**: Mathematical expressions not displayed
+- **Root Cause**: LaTeX processing pipeline not working
+
+#### 2. **Markdown Rendering Issues** (Multiple failures)
+
+- **Issue**: Markdown not rendering properly
+- **Impact**: Content display problems
+- **Root Cause**: Markdown pipeline issues
+
+#### 3. **Page Title Mismatch**
+
+- **Issue**: App shows "v0 App" instead of "Quiz SRS"
+- **Impact**: Branding inconsistency
+- **Root Cause**: Next.js configuration issue
+
+#### 4. **404 Handling Issues**
+
+- **Issue**: Error states not handled gracefully
+- **Impact**: Poor user experience
+- **Root Cause**: Error boundary implementation
+
+## 🧪 **Testing Infrastructure**
+
+### Tools Added
+
+#### Testing Framework
+
+- **Vitest**: Fast unit testing framework with Vite integration
+- **@testing-library/react**: React component testing utilities
+- **@testing-library/jest-dom**: Custom Jest matchers for DOM testing
+- **@testing-library/user-event**: User interaction simulation
+- **jsdom**: DOM environment for Node.js testing
+
+#### End-to-End Testing
+
+- **Playwright**: Cross-browser E2E testing with built-in browser automation
+- **@playwright/test**: Playwright test runner
+
+#### Accessibility Testing
+
+- **axe-core**: Automated accessibility testing
+- **@axe-core/react**: React integration for axe-core
+
+#### Property-Based Testing
+
+- **fast-check**: Property-based testing for edge case discovery
+
+#### Code Quality & Analysis
+
+- **zod**: Runtime schema validation (already present, now properly utilized)
+- **depcheck**: Dependency analysis and unused dependency detection
+- **ts-prune**: Dead code detection and export analysis
+- **size-limit**: Bundle size monitoring
+- **@next/bundle-analyzer**: Bundle analysis and visualization
+
+#### Git Hooks
+
+- **husky**: Git hooks management
+- **lint-staged**: Pre-commit linting and formatting
+
 ## 🧪 **Test Overview**
 
 ### Test Coverage

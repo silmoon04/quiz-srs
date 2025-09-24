@@ -5,7 +5,7 @@ import { QuizModule } from '@/lib/schema/quiz';
 
 // Helper function to check for accessibility violations
 const checkA11y = async (container: HTMLElement) => {
-  const results = await axe(container);
+  const results = await axe.run(container);
   expect(results.violations).toHaveLength(0);
 };
 

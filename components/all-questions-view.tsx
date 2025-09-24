@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { SecureTextRenderer } from './secure-text-renderer';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { OptionCard } from './option-card';
 import { ProgressBar } from './progress-bar';
 import {
@@ -491,8 +491,8 @@ export function AllQuestionsView({
                   <CardContent className="space-y-6">
                     {/* Question Text */}
                     <div className="prose prose-invert max-w-none">
-                      <SecureTextRenderer
-                        content={question.questionText}
+                      <MarkdownRenderer
+                        markdown={question.questionText}
                         className="break-words text-lg leading-relaxed text-white"
                       />
                     </div>
@@ -544,8 +544,8 @@ export function AllQuestionsView({
                         </CardHeader>
                         <CardContent>
                           <div className="prose prose-invert max-w-none">
-                            <SecureTextRenderer
-                              content={processExplanationText(question, question.questionId)}
+                            <MarkdownRenderer
+                              markdown={processExplanationText(question, question.questionId)}
                               className="break-words text-sm leading-relaxed text-white"
                             />
                           </div>

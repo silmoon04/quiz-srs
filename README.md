@@ -14,6 +14,21 @@ This project implements a robust MCQ (Multiple Choice Question) quiz application
 - **Comprehensive UI:** Includes components for question display, navigation, progress bars, completion screens, and toast notifications.
 - **Validation & Normalization:** Ensures data integrity of quiz modules.
 
+## 📚 Documentation
+
+### Core Documentation
+
+- **[SecureTextRenderer](docs/SecureTextRenderer.md)** - Complete API documentation and migration guide
+- **[Testing Guide](docs/TESTING.md)** - Comprehensive testing documentation and AI agent instructions
+- **[Changelog](CHANGELOG.md)** - Project history and version changes
+
+### Quick Links
+
+- **Getting Started**: Follow the installation and setup instructions below
+- **Quiz Creation**: Use the [Markdown Quiz Format](#markdown-quiz-format-specification) to create quizzes
+- **Import/Export**: Manage quiz data with the [Import/Export System](#importexport-system)
+- **Customization**: Configure the application with [Customization Options](#customization)
+
 ## Refactoring Updates (June 2025)
 
 The Markdown parser and related utilities have undergone a significant refactoring to enhance robustness, resilience, and data integrity for production readiness. Key improvements include:

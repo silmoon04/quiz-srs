@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { SecureTextRenderer } from './secure-text-renderer';
-import { ConfirmationModal } from './confirmation-modal';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
+import { ConfirmationModal } from './confirmation-modal-radix';
 import { X, Plus, Trash2, Save, Eye, EyeOff } from 'lucide-react';
 import type { QuizQuestion, QuizOption } from '@/types/quiz-types';
 
@@ -460,7 +460,7 @@ export function QuestionEditor({
                     <CardContent>
                       {questionText ? (
                         <div className="prose prose-invert max-w-none">
-                          <SecureTextRenderer content={questionText} className="text-white" />
+                          <MarkdownRenderer markdown={questionText} className="text-white" />
                         </div>
                       ) : (
                         <p className="italic text-gray-400">Question text will appear here...</p>
@@ -488,8 +488,8 @@ export function QuestionEditor({
                               <span className="mt-1 text-sm text-gray-400">{index + 1}.</span>
                               {option.optionText ? (
                                 <div className="prose prose-invert max-w-none flex-1">
-                                  <SecureTextRenderer
-                                    content={option.optionText}
+                                  <MarkdownRenderer
+                                    markdown={option.optionText}
                                     className="text-sm text-white"
                                   />
                                 </div>
@@ -520,7 +520,7 @@ export function QuestionEditor({
                     <CardContent>
                       {explanationText ? (
                         <div className="prose prose-invert max-w-none">
-                          <SecureTextRenderer content={explanationText} className="text-white" />
+                          <MarkdownRenderer markdown={explanationText} className="text-white" />
                         </div>
                       ) : (
                         <p className="italic text-gray-400">Explanation will appear here...</p>

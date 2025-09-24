@@ -326,7 +326,7 @@ pre::-webkit-scrollbar-thumb:hover {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Specifically target Tailwind animation classes */
   .animate-bounce,
   .animate-pulse,
@@ -334,40 +334,41 @@ pre::-webkit-scrollbar-thumb:hover {
   .animate-spin {
     animation: none !important;
   }
-  
+
   /* Disable hover scale animations */
   .hover\:scale-105:hover {
     transform: none !important;
   }
-  
+
   .hover\:scale-110:hover {
     transform: none !important;
   }
-  
+
   .active\:scale-95:active {
     transform: none !important;
   }
-  
+
   .active\:scale-\[0\.99\]:active {
     transform: none !important;
   }
-  
+
   /* Disable transform transitions */
   .transition-transform {
     transition: none !important;
   }
-  
+
   /* Keep color transitions for better UX */
   .transition-colors {
     transition-duration: 0.01ms !important;
   }
-  
+
   /* Disable motion-based transitions but keep essential ones */
   .transition-all {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   /* Disable duration-based transitions */
   .duration-75,
   .duration-100,

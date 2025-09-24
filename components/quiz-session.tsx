@@ -4,7 +4,6 @@ import type React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SecureTextRenderer } from './secure-text-renderer';
 import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { useAnnouncer } from './a11y/ScreenReaderAnnouncer';
 import { OptionCard } from './option-card';
@@ -777,9 +776,9 @@ export function QuizSession({
               </CardHeader>
               <CardContent>
                 <div className="prose prose-invert max-w-none">
-                  <SecureTextRenderer
+                  <MarkdownRenderer
                     key={`explanation-${displayQuestion.questionId}-${displayIsSubmitted}`}
-                    content={processExplanationText(displayQuestion.explanationText)}
+                    markdown={processExplanationText(displayQuestion.explanationText)}
                     className="break-words text-base leading-relaxed text-white"
                   />
                 </div>

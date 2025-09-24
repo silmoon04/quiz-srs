@@ -4,7 +4,7 @@ import type React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SecureTextRenderer } from './secure-text-renderer';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { ChevronLeft, ChevronRight, X, Plus, Minus, Save, FileText } from 'lucide-react';
 import type { QuizQuestion } from '@/types/quiz-types';
 
@@ -213,8 +213,8 @@ export function QuestionReviewModal({
                 </CardHeader>
                 <CardContent>
                   <div className="prose prose-invert max-w-none">
-                    <SecureTextRenderer
-                      content={currentQuestion.questionText}
+                    <MarkdownRenderer
+                      markdown={currentQuestion.questionText}
                       className="break-words leading-relaxed text-white"
                     />
                   </div>
@@ -240,8 +240,8 @@ export function QuestionReviewModal({
                             className="rounded-lg border border-green-700/50 bg-green-950/30 p-3"
                           >
                             <div className="prose prose-invert max-w-none">
-                              <SecureTextRenderer
-                                content={option.optionText}
+                              <MarkdownRenderer
+                                markdown={option.optionText}
                                 className="break-words text-sm leading-relaxed text-green-200"
                               />
                             </div>
@@ -264,8 +264,8 @@ export function QuestionReviewModal({
                             className="rounded-lg border border-slate-700/50 bg-slate-800/30 p-3"
                           >
                             <div className="prose prose-invert max-w-none">
-                              <SecureTextRenderer
-                                content={option.optionText}
+                              <MarkdownRenderer
+                                markdown={option.optionText}
                                 className="break-words text-sm leading-relaxed text-gray-300"
                               />
                             </div>
@@ -289,8 +289,8 @@ export function QuestionReviewModal({
                 </CardHeader>
                 <CardContent>
                   <div className="prose prose-invert max-w-none">
-                    <SecureTextRenderer
-                      content={currentQuestion.explanationText}
+                    <MarkdownRenderer
+                      markdown={currentQuestion.explanationText}
                       className="break-words leading-relaxed text-gray-200"
                     />
                   </div>

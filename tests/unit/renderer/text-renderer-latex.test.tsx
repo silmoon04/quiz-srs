@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { render, waitFor } from '@testing-library/react';
-import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
 describe('TextRenderer LaTeX Tests (TM-LX-01)', () => {
   describe('Inline Math Rendering', () => {
     it('should render inline math correctly', async () => {
       const content = 'The formula is $x = y + z$ in the text.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Wait for KaTeX to load and render
       await waitFor(
@@ -21,7 +21,7 @@ describe('TextRenderer LaTeX Tests (TM-LX-01)', () => {
 
     it('should render multiple inline math expressions', async () => {
       const content = 'First: $a^2 + b^2 = c^2$ and second: $E = mc^2$.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -34,7 +34,7 @@ describe('TextRenderer LaTeX Tests (TM-LX-01)', () => {
 
     it('should handle inline math with special characters', async () => {
       const content = 'Greek letters: $\\alpha, \\beta, \\gamma$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -47,7 +47,7 @@ describe('TextRenderer LaTeX Tests (TM-LX-01)', () => {
 
     it('should handle inline math with fractions', async () => {
       const content = 'Fraction: $\\frac{1}{2}$ and $\\frac{a}{b}$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -62,7 +62,7 @@ describe('TextRenderer LaTeX Tests (TM-LX-01)', () => {
   describe('Display Math Rendering', () => {
     it('should render display math correctly', async () => {
       const content = 'The equation is:\n\n$$x^2 + y^2 = z^2$$\n\nEnd of equation.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -79,7 +79,7 @@ $$E = mc^2$$
 
 Second equation:
 $$F = ma$$`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -93,7 +93,7 @@ $$F = ma$$`;
     it('should handle display math with complex expressions', async () => {
       const content = `Complex equation:
 $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -110,7 +110,7 @@ $$\\begin{pmatrix}
 a & b \\\\
 c & d
 \\end{pmatrix}$$`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -129,7 +129,7 @@ c & d
 $$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$
 
 More text with $\\alpha$ symbol.`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -147,7 +147,7 @@ More text with $\\alpha$ symbol.`;
 - Second item with display math:
   $$y = 2x + 3$$
 - Third item with $\\alpha$`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -164,7 +164,7 @@ More text with $\\alpha$ symbol.`;
   describe('Error Handling', () => {
     it('should handle malformed LaTeX gracefully', async () => {
       const content = 'Malformed: $\\invalid{command}$ and $\\frac{1}{2$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -179,7 +179,7 @@ More text with $\\alpha$ symbol.`;
 
     it('should handle empty math expressions', async () => {
       const content = 'Empty: $$ and $ $';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -194,7 +194,7 @@ More text with $\\alpha$ symbol.`;
   describe('KaTeX Configuration', () => {
     it('should use trust: false for security', async () => {
       const content = 'Test: $x = y$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {
@@ -209,7 +209,7 @@ More text with $\\alpha$ symbol.`;
 
     it('should handle custom macros', async () => {
       const content = 'Custom macro: $\\neq$ and $\\ne$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       await waitFor(
         () => {

@@ -9,23 +9,32 @@ const mockQuestion: QuizQuestion = {
   questionId: 'q1',
   questionText: 'What is 2 + 2?',
   options: [
-    { optionId: 'opt1', optionText: '3', isCorrect: false },
-    { optionId: 'opt2', optionText: '4', isCorrect: true },
-    { optionId: 'opt3', optionText: '5', isCorrect: false },
-    { optionId: 'opt4', optionText: '6', isCorrect: false },
+    { optionId: 'opt1', optionText: '3' },
+    { optionId: 'opt2', optionText: '4' },
+    { optionId: 'opt3', optionText: '5' },
+    { optionId: 'opt4', optionText: '6' },
   ],
   correctOptionIds: ['opt2'],
   explanationText: '2 + 2 = 4',
-  difficulty: 'easy',
-  tags: ['math'],
+  type: 'mcq',
 };
 
 const mockChapter: QuizModule = {
-  moduleId: 'ch1',
-  moduleName: 'Basic Math',
-  name: 'Chapter 1: Basic Math',
-  questions: [mockQuestion],
-};
+  name: 'Basic Math',
+  description: 'Basic math questions',
+  chapters: [
+    {
+      id: 'ch1',
+      name: 'Chapter 1: Basic Math',
+      description: 'Basic math questions',
+      questions: [mockQuestion],
+      totalQuestions: 1,
+      answeredQuestions: 0,
+      correctAnswers: 0,
+      isCompleted: false,
+    },
+  ],
+} as QuizModule;
 
 describe('Reduced Motion Support', () => {
   let originalMatchMedia: typeof window.matchMedia;
@@ -57,8 +66,8 @@ describe('Reduced Motion Support', () => {
     }));
 
     const mockProps = {
-      chapter: mockChapter,
-      question: mockQuestion,
+      chapter: mockChapter.chapters[0] as any,
+      question: mockQuestion as any,
       currentQuestionIndex: 0,
       totalQuestions: 1,
       selectedOptionId: null,
@@ -67,6 +76,10 @@ describe('Reduced Motion Support', () => {
       onSubmitAnswer: vi.fn(),
       onNextQuestion: vi.fn(),
       onBackToDashboard: vi.fn(),
+      onExportCurrentQuestionState: vi.fn(),
+      onImportQuestionStateFromFile: vi.fn(),
+      onRetryChapter: vi.fn(),
+      onNavigateToQuestion: vi.fn(),
     };
 
     return render(
