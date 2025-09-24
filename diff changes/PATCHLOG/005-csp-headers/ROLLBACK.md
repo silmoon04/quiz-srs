@@ -1,0 +1,1 @@
+Remove the `headers()` block.

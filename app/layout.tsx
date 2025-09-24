@@ -7,8 +7,9 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Quiz‑SRS',
-  description: 'Secure spaced‑repetition quizzes with safe Markdown + KaTeX.',
-  generator: 'quiz-srs',
+  description: 'Secure spaced-repetition quizzes with rich Markdown and math.',
+  applicationName: 'Quiz‑SRS',
+  generator: 'next',
 };
 
 export default function RootLayout({

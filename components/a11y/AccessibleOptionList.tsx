@@ -10,6 +10,7 @@ interface AccessibleOptionListProps {
   onSelectOption: (optionId: string) => void;
   isSubmitted: boolean;
   disabled?: boolean;
+  correctOptionIds?: string[];
 }
 
 export function AccessibleOptionList({
@@ -18,6 +19,7 @@ export function AccessibleOptionList({
   onSelectOption,
   isSubmitted,
   disabled = false,
+  correctOptionIds = [],
 }: AccessibleOptionListProps) {
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -103,10 +105,12 @@ export function AccessibleOptionList({
       className="space-y-3"
     >
       {options.map((option, index) => {
+        const isCorrect = correctOptionIds.includes(option.optionId);
+        const isSelected = option.optionId === selectedOptionId;
         const displayState = {
-          isSelected: option.optionId === selectedOptionId,
-          showAsCorrect: false,
-          showAsIncorrect: false,
+          isSelected,
+          showAsCorrect: isSubmitted && isCorrect,
+          showAsIncorrect: isSubmitted && isSelected && !isCorrect,
         };
 
         return (
@@ -121,6 +125,13 @@ export function AccessibleOptionList({
             aria-labelledby={`option-text-${option.optionId}`}
             className="rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             onFocus={() => handleFocus(index)}
+            onClick={() => !disabled && onSelectOption(option.optionId)}
+            onKeyDown={(e) => {
+              if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                onSelectOption(option.optionId);
+              }
+            }}
           >
             <OptionCard
               option={option}

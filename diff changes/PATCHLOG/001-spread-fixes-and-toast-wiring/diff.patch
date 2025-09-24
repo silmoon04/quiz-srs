@@ -1,0 +1,182 @@
+diff --git a/lib/utils.ts b/lib/utils.ts
+--- a/lib/utils.ts
++++ b/lib/utils.ts
+@@
+-import { clsx, type ClassValue } from 'clsx';
+-import { twMerge } from 'tailwind-merge';
+-
+-export function cn(.inputs: ClassValue[]) {
+-  return twMerge(clsx(inputs));
+-}
++import { clsx, type ClassValue } from 'clsx';
++import { twMerge } from 'tailwind-merge';
++
++export function cn(...inputs: ClassValue[]) {
++  return twMerge(clsx(inputs));
++}
+ 
+diff --git a/components/ui/textarea.tsx b/components/ui/textarea.tsx
+--- a/components/ui/textarea.tsx
++++ b/components/ui/textarea.tsx
+@@
+-const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
+-  ({ className, .props }, ref) => {
++const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
++  ({ className, ...props }, ref) => {
+     return (
+       <textarea
+@@
+-        ref={ref}
+-        {.props}
++        ref={ref}
++        {...props}
+       />
+     );
+   },
+ );
+ 
+diff --git a/components/ui/tooltip.tsx b/components/ui/tooltip.tsx
+--- a/components/ui/tooltip.tsx
++++ b/components/ui/tooltip.tsx
+@@
+->(({ className, sideOffset = 4, .props }, ref) => (
++>(({ className, sideOffset = 4, ...props }, ref) => (
+   <TooltipPrimitive.Content
+     ref={ref}
+     sideOffset={sideOffset}
+     className={cn(
+       'z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+       className,
+     )}
+-    {.props}
++    {...props}
+   />
+ ));
+ 
+diff --git a/components/ui/toast.tsx b/components/ui/toast.tsx
+--- a/components/ui/toast.tsx
++++ b/components/ui/toast.tsx
+@@
+->(({ className, .props }, ref) => (
++>(({ className, ...props }, ref) => (
+   <ToastPrimitives.Viewport
+     ref={ref}
+     className={cn(
+       'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]',
+       className,
+     )}
+-    {.props}
++    {...props}
+   />
+ ));
+@@
+->(({ className, .props }, ref) => (
+-  <ToastPrimitives.Title ref={ref} className={cn('text-sm font-semibold', className)} {.props} />
++>(({ className, ...props }, ref) => (
++  <ToastPrimitives.Title ref={ref} className={cn('text-sm font-semibold', className)} {...props} />
+ ));
+@@
+->(({ className, .props }, ref) => (
++>(({ className, ...props }, ref) => (
+   <ToastPrimitives.Description
+     ref={ref}
+     className={cn('text-sm opacity-90', className)}
+-    {.props}
++    {...props}
+   />
+ ));
+ 
+diff --git a/components/ui/toaster.tsx b/components/ui/toaster.tsx
+--- a/components/ui/toaster.tsx
++++ b/components/ui/toaster.tsx
+@@
+-'use client';
+-
+-import { useToast } from '@/hooks/use-toast';
++'use client';
++
++// Use the shadcn store to match the Radix UI <Toast> components
++import { useToast } from '@/components/ui/use-toast';
+@@
+-      {toasts.map(function ({ id, title, type, .props }) {
++      {toasts.map(function ({ id, title, type, ...props }) {
+         return (
+-          <Toast key={id} {.props}>
++          <Toast key={id} {...props}>
+             <div className="grid gap-1">{title && <ToastTitle>{title}</ToastTitle>}</div>
+             <ToastClose />
+           </Toast>
+         );
+       })}
+ 
+diff --git a/components/ui/toggle-group.tsx b/components/ui/toggle-group.tsx
+--- a/components/ui/toggle-group.tsx
++++ b/components/ui/toggle-group.tsx
+@@
+->(({ className, variant, size, children, .props }, ref) => (
++>(({ className, variant, size, children, ...props }, ref) => (
+   <ToggleGroupPrimitive.Root
+     ref={ref}
+     className={cn('flex items-center justify-center gap-1', className)}
+-    {.props}
++    {...props}
+   >
+@@
+->(({ className, children, variant, size, .props }, ref) => {
++>(({ className, children, variant, size, ...props }, ref) => {
+   const context = React.useContext(ToggleGroupContext);
+@@
+-      {.props}
++      {...props}
+     >
+       {children}
+     </ToggleGroupPrimitive.Item>
+   );
+ });
+ 
+diff --git a/components/theme-provider.tsx b/components/theme-provider.tsx
+--- a/components/theme-provider.tsx
++++ b/components/theme-provider.tsx
+@@
+-export function ThemeProvider({ children, .props }: ThemeProviderProps) {
+-  return <NextThemesProvider {.props}>{children}</NextThemesProvider>;
++export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
++  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+ }
+ 
+diff --git a/app/page.tsx b/app/page.tsx
+--- a/app/page.tsx
++++ b/app/page.tsx
+@@
+-import { useToast } from '@/hooks/use-toast';
++import { useToast } from '@/components/ui/use-toast';
+ 
+diff --git a/playwright.config.ts b/playwright.config.ts
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@
+-    {
+-      name: 'chromium',
+-      use: { .devices['Desktop Chrome'] },
+-    },
+-    {
+-      name: 'firefox',
+-      use: { .devices['Desktop Firefox'] },
+-    },
+-    {
+-      name: 'webkit',
+-      use: { .devices['Desktop Safari'] },
+-    },
+-    {
+-      name: 'Mobile Chrome',
+-      use: { .devices['Pixel 5'] },
+-    },
+-    {
+-      name: 'Mobile Safari',
+-      use: { .devices['iPhone 12'] },
+-    },
++    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
++    { name: 'firefox',  use: { ...devices['Desktop Firefox'] } },
++    { name: 'webkit',   use: { ...devices['Desktop Safari'] } },
++    { name: 'Mobile Chrome', use: { ...devices['Pixel 5'] } },
++    { name: 'Mobile Safari', use: { ...devices['iPhone 12'] } },

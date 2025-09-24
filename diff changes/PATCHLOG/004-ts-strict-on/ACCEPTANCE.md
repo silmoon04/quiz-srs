@@ -1,0 +1,1 @@
+`typecheck` passes on CI.
