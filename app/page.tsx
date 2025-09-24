@@ -25,7 +25,7 @@ import type {
   IncorrectAnswersExport,
   SessionHistoryEntry,
 } from '@/types/quiz-types';
-import { ConfirmationModal } from '@/components/confirmation-modal';
+import { ConfirmationModal } from '@/components/confirmation-modal-radix';
 import { QuestionReviewModal } from '@/components/question-review-modal';
 
 // Enhanced mock data with new schema (kept as fallback/example)

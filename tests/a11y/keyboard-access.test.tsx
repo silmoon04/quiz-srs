@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { QuizSession } from '@/components/quiz-session';
 import { QuizModule, QuizQuestion, QuizOption } from '@/lib/schema/quiz';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
@@ -17,16 +17,25 @@ const mockQuestion: QuizQuestion = {
   ],
   correctOptionIds: ['opt2'],
   explanationText: '2 + 2 = 4',
-  difficulty: 'easy',
-  tags: ['math'],
+  type: 'mcq',
 };
 
 const mockChapter: QuizModule = {
-  moduleId: 'ch1',
-  moduleName: 'Basic Math',
-  name: 'Chapter 1: Basic Math', // Add the missing name property
-  questions: [mockQuestion],
-};
+  name: 'Basic Math',
+  description: 'Basic math questions',
+  chapters: [
+    {
+      id: 'ch1',
+      name: 'Chapter 1: Basic Math',
+      description: 'Basic math questions',
+      questions: [mockQuestion],
+      totalQuestions: 1,
+      answeredQuestions: 0,
+      correctAnswers: 0,
+      isCompleted: false,
+    },
+  ],
+} as QuizModule;
 
 describe('Keyboardable Options + Roving Grid', () => {
   let userEvent: ReturnType<typeof user.setup>;
@@ -47,8 +56,8 @@ describe('Keyboardable Options + Roving Grid', () => {
   describe('Option List Keyboard Navigation', () => {
     it('should have radiogroup semantics for option list', () => {
       const mockProps = {
-        chapter: mockChapter,
-        question: mockQuestion,
+        chapter: mockChapter.chapters[0] as any,
+        question: mockQuestion as any,
         currentQuestionIndex: 0,
         totalQuestions: 1,
         selectedOptionId: null,
@@ -57,6 +66,10 @@ describe('Keyboardable Options + Roving Grid', () => {
         onSubmitAnswer: vi.fn(),
         onNextQuestion: vi.fn(),
         onBackToDashboard: vi.fn(),
+        onExportCurrentQuestionState: vi.fn(),
+        onImportQuestionStateFromFile: vi.fn(),
+        onRetryChapter: vi.fn(),
+        onNavigateToQuestion: vi.fn(),
       };
 
       renderQuizSession(mockProps);
@@ -73,8 +86,8 @@ describe('Keyboardable Options + Roving Grid', () => {
     it('should handle arrow key navigation between options', async () => {
       const mockOnSelectOption = vi.fn();
       const mockProps = {
-        chapter: mockChapter,
-        question: mockQuestion,
+        chapter: mockChapter.chapters[0] as any,
+        question: mockQuestion as any,
         currentQuestionIndex: 0,
         totalQuestions: 1,
         selectedOptionId: null,
@@ -83,6 +96,10 @@ describe('Keyboardable Options + Roving Grid', () => {
         onSubmitAnswer: vi.fn(),
         onNextQuestion: vi.fn(),
         onBackToDashboard: vi.fn(),
+        onExportCurrentQuestionState: vi.fn(),
+        onImportQuestionStateFromFile: vi.fn(),
+        onRetryChapter: vi.fn(),
+        onNavigateToQuestion: vi.fn(),
       };
 
       renderQuizSession(mockProps);
@@ -120,8 +137,8 @@ describe('Keyboardable Options + Roving Grid', () => {
     it('should handle space and enter key selection', async () => {
       const mockOnSelectOption = vi.fn();
       const mockProps = {
-        chapter: mockChapter,
-        question: mockQuestion,
+        chapter: mockChapter.chapters[0] as any,
+        question: mockQuestion as any,
         currentQuestionIndex: 0,
         totalQuestions: 1,
         selectedOptionId: null,
@@ -130,6 +147,10 @@ describe('Keyboardable Options + Roving Grid', () => {
         onSubmitAnswer: vi.fn(),
         onNextQuestion: vi.fn(),
         onBackToDashboard: vi.fn(),
+        onExportCurrentQuestionState: vi.fn(),
+        onImportQuestionStateFromFile: vi.fn(),
+        onRetryChapter: vi.fn(),
+        onNavigateToQuestion: vi.fn(),
       };
 
       renderQuizSession(mockProps);
@@ -154,8 +175,8 @@ describe('Keyboardable Options + Roving Grid', () => {
 
     it('should maintain roving tabindex behavior', async () => {
       const mockProps = {
-        chapter: mockChapter,
-        question: mockQuestion,
+        chapter: mockChapter.chapters[0] as any,
+        question: mockQuestion as any,
         currentQuestionIndex: 0,
         totalQuestions: 1,
         selectedOptionId: null,
@@ -164,6 +185,10 @@ describe('Keyboardable Options + Roving Grid', () => {
         onSubmitAnswer: vi.fn(),
         onNextQuestion: vi.fn(),
         onBackToDashboard: vi.fn(),
+        onExportCurrentQuestionState: vi.fn(),
+        onImportQuestionStateFromFile: vi.fn(),
+        onRetryChapter: vi.fn(),
+        onNavigateToQuestion: vi.fn(),
       };
 
       renderQuizSession(mockProps);
@@ -185,22 +210,32 @@ describe('Keyboardable Options + Roving Grid', () => {
 
   describe('Question Navigation Grid', () => {
     const mockChapterWithMultipleQuestions: QuizModule = {
-      moduleId: 'ch1',
-      moduleName: 'Multiple Questions',
-      name: 'Chapter 1: Multiple Questions', // Add the missing name property
-      questions: [
-        { ...mockQuestion, questionId: 'q1', questionText: 'Question 1' },
-        { ...mockQuestion, questionId: 'q2', questionText: 'Question 2' },
-        { ...mockQuestion, questionId: 'q3', questionText: 'Question 3' },
-        { ...mockQuestion, questionId: 'q4', questionText: 'Question 4' },
+      name: 'Multiple Questions',
+      description: 'Multiple questions module',
+      chapters: [
+        {
+          id: 'ch1',
+          name: 'Chapter 1: Multiple Questions',
+          description: 'Multiple questions chapter',
+          questions: [
+            { ...mockQuestion, questionId: 'q1', questionText: 'Question 1' },
+            { ...mockQuestion, questionId: 'q2', questionText: 'Question 2' },
+            { ...mockQuestion, questionId: 'q3', questionText: 'Question 3' },
+            { ...mockQuestion, questionId: 'q4', questionText: 'Question 4' },
+          ],
+          totalQuestions: 4,
+          answeredQuestions: 0,
+          correctAnswers: 0,
+          isCompleted: false,
+        },
       ],
-    };
+    } as QuizModule;
 
     it('should handle arrow key navigation in question grid', async () => {
       const mockOnNavigateToQuestion = vi.fn();
       const mockProps = {
-        chapter: mockChapterWithMultipleQuestions,
-        question: mockChapterWithMultipleQuestions.questions[0],
+        chapter: mockChapterWithMultipleQuestions.chapters[0] as any,
+        question: mockChapterWithMultipleQuestions.chapters[0].questions[0] as any,
         currentQuestionIndex: 0,
         totalQuestions: 4,
         selectedOptionId: null,
@@ -239,8 +274,8 @@ describe('Keyboardable Options + Roving Grid', () => {
     it('should handle Home and End keys in question grid', async () => {
       const mockOnNavigateToQuestion = vi.fn();
       const mockProps = {
-        chapter: mockChapterWithMultipleQuestions,
-        question: mockChapterWithMultipleQuestions.questions[1], // Start at question 2
+        chapter: mockChapterWithMultipleQuestions.chapters[0] as any,
+        question: mockChapterWithMultipleQuestions.chapters[0].questions[1] as any, // Start at question 2
         currentQuestionIndex: 1,
         totalQuestions: 4,
         selectedOptionId: null,
@@ -273,8 +308,8 @@ describe('Keyboardable Options + Roving Grid', () => {
     it('should wrap around at grid boundaries', async () => {
       const mockOnNavigateToQuestion = vi.fn();
       const mockProps = {
-        chapter: mockChapterWithMultipleQuestions,
-        question: mockChapterWithMultipleQuestions.questions[0], // First question
+        chapter: mockChapterWithMultipleQuestions.chapters[0] as any,
+        question: mockChapterWithMultipleQuestions.chapters[0].questions[0] as any, // First question
         currentQuestionIndex: 0,
         totalQuestions: 4,
         selectedOptionId: null,
@@ -301,8 +336,11 @@ describe('Keyboardable Options + Roving Grid', () => {
       // Reset to last question
       const lastQuestionProps = {
         ...mockProps,
-        question: mockChapterWithMultipleQuestions.questions[3],
+        question: mockChapterWithMultipleQuestions.chapters[0].questions[3] as any,
         currentQuestionIndex: 3,
+        onExportCurrentQuestionState: vi.fn(),
+        onImportQuestionStateFromFile: vi.fn(),
+        onRetryChapter: vi.fn(),
       };
 
       // Re-render with the new props
@@ -324,8 +362,8 @@ describe('Keyboardable Options + Roving Grid', () => {
     it('should handle space and enter to navigate to questions', async () => {
       const mockOnNavigateToQuestion = vi.fn();
       const mockProps = {
-        chapter: mockChapterWithMultipleQuestions,
-        question: mockChapterWithMultipleQuestions.questions[0],
+        chapter: mockChapterWithMultipleQuestions.chapters[0] as any,
+        question: mockChapterWithMultipleQuestions.chapters[0].questions[0] as any,
         currentQuestionIndex: 0,
         totalQuestions: 4,
         selectedOptionId: null,

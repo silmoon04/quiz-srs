@@ -1,11 +1,13 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
+import React from 'react';
 
 describe('Comprehensive Markdown Import Tests', () => {
   describe('Basic Text Formatting', () => {
     it('should handle plain text without any formatting', () => {
       const content = 'This is plain text with no special formatting.';
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(
         screen.getByText('This is plain text with no special formatting.'),
@@ -18,7 +20,7 @@ describe('Comprehensive Markdown Import Tests', () => {
 Second paragraph with more content.
 
 Third paragraph with even more detailed information.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.textContent).toContain('First paragraph.');
       expect(container.textContent).toContain('Second paragraph with more content.');
@@ -31,7 +33,7 @@ Third paragraph with even more detailed information.`;
       const content = `Line 1
 Line 2
 Line 3`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.textContent).toContain('Line 1');
       expect(container.textContent).toContain('Line 2');
@@ -47,7 +49,7 @@ Line 3`;
 #### Header 4
 ##### Header 5
 ###### Header 6`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.querySelector('h1')).toBeInTheDocument();
       expect(container.querySelector('h2')).toBeInTheDocument();
@@ -65,7 +67,7 @@ Line 3`;
       const content = `# Header with **bold** text
 ## Header with *italic* text
 ### Header with \`code\` text`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.querySelector('h1')).toBeInTheDocument();
       expect(container.querySelector('h2')).toBeInTheDocument();
@@ -77,7 +79,7 @@ Line 3`;
     it('should handle bold text with ** and __', () => {
       const content = `This is **bold text** and this is __also bold__.
 This has **multiple** **bold** **words**.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const strongElements = container.querySelectorAll('strong');
       expect(strongElements.length).toBe(5); // Updated to match actual behavior
@@ -88,7 +90,7 @@ This has **multiple** **bold** **words**.`;
     it('should handle italic text with * and _', () => {
       const content = `This is *italic text* and this is _also italic_.
 This has *multiple* *italic* *words*.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const emElements = container.querySelectorAll('em');
       expect(emElements.length).toBe(5); // Updated to match actual behavior
@@ -99,7 +101,7 @@ This has *multiple* *italic* *words*.`;
     it('should handle strikethrough text', () => {
       const content = `This is ~~strikethrough text~~ and this is ~~also strikethrough~~.
 This has ~~multiple~~ ~~strikethrough~~ ~~words~~.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const delElements = container.querySelectorAll('del');
       expect(delElements.length).toBe(5); // Updated to match actual behavior
@@ -109,7 +111,7 @@ This has ~~multiple~~ ~~strikethrough~~ ~~words~~.`;
 
     it('should handle mixed emphasis', () => {
       const content = `This is **bold and *italic* text** and this is ~~strikethrough with **bold**~~.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.querySelector('strong')).toBeInTheDocument();
       expect(container.querySelector('em')).toBeInTheDocument();
@@ -121,7 +123,7 @@ This has ~~multiple~~ ~~strikethrough~~ ~~words~~.`;
     it('should handle inline code', () => {
       const content = `Use \`console.log()\` to debug and \`const x = 1\` to declare variables.
 Multiple \`code\` \`snippets\` in one line.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const codeElements = container.querySelectorAll('code');
       expect(codeElements.length).toBe(4);
@@ -142,7 +144,7 @@ def hello():
     print("Hello, World!")
     return True
 \`\`\``;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const preElements = container.querySelectorAll('pre');
       expect(preElements.length).toBe(2);
@@ -158,7 +160,7 @@ def hello():
   <p>Content with <strong>bold</strong> text</p>
 </div>
 \`\`\``;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Check if the content is preserved in the code block
       expect(container.textContent).toContain('Title');
@@ -178,7 +180,7 @@ def hello():
   - Nested item 1
   - Nested item 2
 - Fourth item`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const ulElements = container.querySelectorAll('ul');
       expect(ulElements.length).toBeGreaterThan(0);
@@ -194,7 +196,7 @@ def hello():
    1. Nested item 1
    2. Nested item 2
 4. Fourth item`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const olElements = container.querySelectorAll('ol');
       expect(olElements.length).toBeGreaterThan(0);
@@ -209,7 +211,7 @@ def hello():
    - First unordered sub-item
    - Second unordered sub-item
 3. Third ordered item`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const olElements = container.querySelectorAll('ol');
       const ulElements = container.querySelectorAll('ul');
@@ -222,7 +224,7 @@ def hello():
 - [ ] Incomplete task
 - [x] Another completed task
 - [ ] Another incomplete task`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const checkboxes = container.querySelectorAll('input[type="checkbox"]');
       expect(checkboxes.length).toBe(4);
@@ -238,7 +240,7 @@ def hello():
 [Relative link](/path/to/page)
 [Anchor link](#section)
 [Link with title](https://example.com "Example Title")`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const linkElements = container.querySelectorAll('a');
       expect(linkElements.length).toBe(4);
@@ -253,7 +255,7 @@ def hello():
       const content = `![Alt text](https://example.com/image.jpg)
 ![Image with title](https://example.com/image2.jpg "Image Title")
 ![Relative image](/path/to/image.png)`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const imgElements = container.querySelectorAll('img');
       expect(imgElements.length).toBe(3);
@@ -268,7 +270,7 @@ def hello():
       const content = `[Dangerous](javascript:alert('XSS'))
 [Also dangerous](data:text/html,<script>alert('XSS')</script>)
 [Safe link](https://example.com)`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const linkElements = container.querySelectorAll('a');
       console.log('Link elements found:', linkElements.length);
@@ -288,7 +290,7 @@ def hello():
 |----------|----------|----------|
 | Cell 1   | Cell 2   | Cell 3   |
 | Cell 4   | Cell 5   | Cell 6   |`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const tableElement = container.querySelector('table');
       expect(tableElement).toBeInTheDocument();
@@ -311,7 +313,7 @@ def hello():
 |:-----|:------:|------:|
 | L1   |   C1   |    R1 |
 | L2   |   C2   |    R2 |`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const tableElement = container.querySelector('table');
       expect(tableElement).toBeInTheDocument();
@@ -323,7 +325,7 @@ def hello():
 | **Bold** | ✅ | Working |
 | *Italic* | ❌ | Not working |
 | \`Code\` | ⚠️ | Partial |`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const tableElement = container.querySelector('table');
       expect(tableElement).toBeInTheDocument();
@@ -335,7 +337,7 @@ def hello():
       const content = `> This is a blockquote.
 > It can span multiple lines.
 > And contain **bold** text.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const blockquoteElement = container.querySelector('blockquote');
       expect(blockquoteElement).toBeInTheDocument();
@@ -347,7 +349,7 @@ def hello():
 
 > Second blockquote
 > Also with multiple lines`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const blockquoteElements = container.querySelectorAll('blockquote');
       expect(blockquoteElements.length).toBe(2);
@@ -358,7 +360,7 @@ def hello():
 > > Nested blockquote
 > > With more content
 > Back to main blockquote`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const blockquoteElements = container.querySelectorAll('blockquote');
       expect(blockquoteElements.length).toBeGreaterThan(0);
@@ -378,7 +380,7 @@ Second section
 Third section
 
 ___`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const hrElements = container.querySelectorAll('hr');
       expect(hrElements.length).toBe(3);
@@ -390,7 +392,7 @@ ___`;
       const content = `The equation $E = mc^2$ is famous.
 Another equation: $\\alpha + \\beta = \\gamma$.
 Multiple equations: $x = 1$, $y = 2$, $z = 3$.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const katexElements = container.querySelectorAll('.katex');
       expect(katexElements.length).toBe(5); // 3 inline + 2 from display math
@@ -404,7 +406,7 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 And another:
 
 $$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const katexDisplayElements = container.querySelectorAll('.katex-display');
       expect(katexDisplayElements.length).toBe(2);
@@ -416,7 +418,7 @@ $$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$`;
 $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$$
 
 More inline: $\\alpha$ and $\\beta$.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const katexElements = container.querySelectorAll('.katex');
       const katexDisplayElements = container.querySelectorAll('.katex-display');
@@ -464,7 +466,7 @@ function complexFunction() {
 $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 
 [Learn more](https://example.com) about this topic.`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Check for various elements
       expect(container.querySelector('h1')).toBeInTheDocument();
@@ -484,14 +486,14 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
   describe('Edge Cases and Error Handling', () => {
     it('should handle empty content', () => {
       const content = '';
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container).toBeInTheDocument();
     });
 
     it('should handle content with only whitespace', () => {
       const content = '   \n\n   \t   \n   ';
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container).toBeInTheDocument();
     });
@@ -502,7 +504,7 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 \`Unclosed code
 [Unclosed link](https://example.com
 ![Unclosed image](https://example.com/image.jpg`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container).toBeInTheDocument();
     });
@@ -512,7 +514,7 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 Emojis: 🚀 📝 ✅ ❌ ⚠️
 Math symbols: ∑ ∏ ∫ ∂ ∇
 Currency: $ € £ ¥`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.textContent).toContain('Special characters: àáâãäåæçèéêë');
       expect(container.textContent).toContain('Emojis: 🚀 📝 ✅ ❌ ⚠️');
@@ -522,7 +524,7 @@ Currency: $ € £ ¥`;
       const content = Array(1000)
         .fill('This is a very long line of text that should be handled properly. ')
         .join('');
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container).toBeInTheDocument();
     });
@@ -530,7 +532,7 @@ Currency: $ € £ ¥`;
     it('should handle content with HTML entities', () => {
       const content = `HTML entities: &lt; &gt; &amp; &quot; &#39;
 Math with entities: $x &lt; y$ and $z &gt; w$`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container).toBeInTheDocument();
     });
@@ -539,7 +541,7 @@ Math with entities: $x &lt; y$ and $z &gt; w$`;
   describe('Security and XSS Prevention', () => {
     it('should sanitize script tags', () => {
       const content = `Normal text <script>alert('XSS')</script> more text`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.querySelector('script')).toBeNull();
       expect(screen.queryByText("alert('XSS')")).not.toBeInTheDocument();
@@ -547,7 +549,7 @@ Math with entities: $x &lt; y$ and $z &gt; w$`;
 
     it('should sanitize event handlers', () => {
       const content = `Normal text <img src="x" onerror="alert('XSS')"> more text`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const img = container.querySelector('img');
       expect(img).toBeInTheDocument();
@@ -556,7 +558,7 @@ Math with entities: $x &lt; y$ and $z &gt; w$`;
 
     it('should sanitize dangerous URLs', () => {
       const content = `[Dangerous](javascript:alert('XSS')) [Safe](https://example.com)`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const links = container.querySelectorAll('a');
       expect(links.length).toBe(1);
@@ -565,7 +567,7 @@ Math with entities: $x &lt; y$ and $z &gt; w$`;
 
     it('should sanitize dangerous HTML attributes', () => {
       const content = `Normal text <div onclick="alert('XSS')" onload="alert('XSS')">Click me</div> more text`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const div = container.querySelector('div');
       expect(div).toBeInTheDocument();
@@ -575,7 +577,7 @@ Math with entities: $x &lt; y$ and $z &gt; w$`;
 
     it('should sanitize iframe and form elements', () => {
       const content = `Normal text <iframe src="javascript:alert('XSS')"></iframe> <form action="javascript:alert('XSS')"><input></form> more text`;
-      render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(container.querySelector('iframe')).toBeNull();
       expect(container.querySelector('form')).toBeNull();

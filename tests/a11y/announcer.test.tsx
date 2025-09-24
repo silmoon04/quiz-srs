@@ -1,5 +1,5 @@
 import { render, screen, act } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ScreenReaderAnnouncer, useAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import { ReactNode } from 'react';
 

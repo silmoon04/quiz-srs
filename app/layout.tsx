@@ -6,9 +6,9 @@ import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Quiz‑SRS',
+  description: 'Secure spaced‑repetition quizzes with safe Markdown + KaTeX.',
+  generator: 'quiz-srs',
 };
 
 export default function RootLayout({

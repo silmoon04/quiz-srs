@@ -9,9 +9,11 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
+import remarkRehype from 'remark-rehype';
 import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import rehypeSanitize from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
 
 // Custom sanitization schema for safe HTML
 const sanitizeSchema = {
@@ -101,9 +103,11 @@ export async function processMarkdown(content: string): Promise<string> {
       .use(remarkParse) // Parse markdown
       .use(remarkGfm) // GitHub Flavored Markdown (tables, strikethrough, task lists)
       .use(remarkMath) // Math support
-      .use(rehypeRaw, false) // Convert to HTML (safe mode)
-      .use(rehypeKatex, false)
-      .use(rehypeSanitize, sanitizeSchema); // Sanitize HTML
+      .use(remarkRehype) // Convert to HTML AST
+      .use(rehypeRaw) // Allow raw HTML
+      .use(rehypeKatex) // Render math with KaTeX
+      .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
+      .use(rehypeStringify); // Convert to HTML string
 
     const result = await processor.process(content);
     return String(result);

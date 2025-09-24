@@ -1,100 +1,86 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkHtml from 'remark-html';
-import rehypeSanitize from 'rehype-sanitize';
-import { XSS_PAYLOADS } from '@/tests/fixtures/xss/payloads';
+import React, { useEffect, useMemo, useState } from 'react';
+import { processMarkdown } from '@/lib/markdown/pipeline';
 
-interface MarkdownRendererProps {
+type Props = {
   markdown: string;
   className?: string;
-}
+};
 
-interface SanitizationResult {
+// Feature flag (default ON). In Next.js client code, env is compiled in at build time.
+const USE_SECURE_RENDERER: boolean =
+  (process.env.NEXT_PUBLIC_USE_SECURE_RENDERER ?? 'true') !== 'false';
+
+type RenderState = {
   html: string;
-  wasSanitized: boolean;
-  originalContent: string;
-}
+  // When pipeline prunes/rewrites dangerous content (or we detect disallowed patterns).
+  sanitized: boolean;
+  error?: string;
+};
 
 /**
- * Safely renders markdown content with XSS protection
- * This is the single source of truth for dangerouslySetInnerHTML usage
+ * Secure Markdown renderer (single source of dangerouslySetInnerHTML)
+ * - Uses the unified pipeline in lib/markdown/pipeline (remark-parse/gfm/math → rehype-katex → rehype-sanitize).
+ * - Blocks javascript: URLs / inline handlers if anything slipped past.
  */
-export function MarkdownRenderer({ markdown, className }: MarkdownRendererProps) {
-  const [sanitizationResult] = useState<SanitizationResult>(() => {
-    return sanitizeMarkdown(markdown);
-  });
+export function MarkdownRenderer({ markdown, className }: Props) {
+  const [state, setState] = useState<RenderState>({ html: '', sanitized: false });
 
-  const content = useMemo(() => {
-    return sanitizationResult.html;
-  }, [sanitizationResult]);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        if (!USE_SECURE_RENDERER) {
+          // Safety net if the flag is off: render as plaintext paragraph.
+          const escaped = markdown
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+          if (!cancelled) setState({ html: `<p>${escaped}</p>`, sanitized: true });
+          return;
+        }
+        const html = await processMarkdown(markdown);
+
+        // Final belt-and-suspenders gate before HTML insertion.
+        const disallowed = /<script\b|\\son\\w+=|javascript:/i.test(html);
+        if (!cancelled) {
+          setState({
+            html: disallowed ? '<p>Content blocked for security reasons.</p>' : html,
+            sanitized: disallowed,
+          });
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          setState({
+            html: '<p>Error rendering content.</p>',
+            sanitized: true,
+            error: String(e?.message ?? e),
+          });
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [markdown]);
+
+  const note = useMemo(() => {
+    if (!state.sanitized) return null;
+    return (
+      <div
+        role="note"
+        className="mb-2 rounded border-l-4 border-amber-400 bg-amber-50 p-2 text-sm text-amber-600"
+      >
+        <strong>Note:</strong> Some unsafe content was removed for security reasons.
+      </div>
+    );
+  }, [state.sanitized]);
 
   return (
     <div className={className}>
-      {sanitizationResult.wasSanitized && (
-        <div
-          role="note"
-          className="mb-2 rounded border-l-4 border-amber-400 bg-amber-50 p-2 text-sm text-amber-600"
-        >
-          <strong>Note:</strong> Some unsafe content was removed from this content for security
-          reasons.
-        </div>
-      )}
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      {note}
+      <div dangerouslySetInnerHTML={{ __html: state.html }} />
     </div>
   );
-}
-
-/**
- * Sanitizes markdown content using rehype-sanitize
- * This function contains all the logic for HTML sanitization
- */
-function sanitizeMarkdown(markdown: string): SanitizationResult {
-  try {
-    // Check if content contains known XSS patterns
-    const containsXSS = XSS_PAYLOADS.some((payload) => markdown.includes(payload));
-
-    if (containsXSS) {
-      // If we detect XSS, return a safe version
-      return {
-        html: '<p>Content blocked for security reasons.</p>',
-        wasSanitized: true,
-        originalContent: markdown,
-      };
-    }
-
-    // Process markdown to HTML
-    const processor = unified().use(remarkParse).use(remarkHtml, { sanitize: false }); // We'll handle sanitization separately
-
-    const result = processor.processSync(markdown);
-    const html = String(result);
-
-    // Additional security checks
-    const hasScriptTags = /<script/i.test(html);
-    const hasEventHandlers = /\son\w+=/i.test(html);
-    const hasJavaScriptUrls = /javascript:/i.test(html);
-
-    if (hasScriptTags || hasEventHandlers || hasJavaScriptUrls) {
-      return {
-        html: '<p>Content blocked for security reasons.</p>',
-        wasSanitized: true,
-        originalContent: markdown,
-      };
-    }
-
-    return {
-      html,
-      wasSanitized: false,
-      originalContent: markdown,
-    };
-  } catch (error) {
-    console.error('Error sanitizing markdown:', error);
-    return {
-      html: '<p>Error rendering content.</p>',
-      wasSanitized: true,
-      originalContent: markdown,
-    };
-  }
 }

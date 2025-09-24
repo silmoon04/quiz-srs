@@ -35,10 +35,12 @@ describe('Inline Errors with ARIA', () => {
 
   const mockModule: QuizModule = {
     name: 'Test Module',
+    description: 'Test module for inline errors',
     chapters: [
       {
         id: 'ch1',
         name: 'Chapter 1',
+        description: 'Test chapter',
         totalQuestions: 5,
         answeredQuestions: 3,
         correctAnswers: 2,
@@ -46,11 +48,11 @@ describe('Inline Errors with ARIA', () => {
         questions: [],
       },
     ],
-  };
+  } as QuizModule;
 
   const renderDashboard = (props = {}) => {
     const defaultProps = {
-      module: mockModule,
+      module: mockModule as any,
       onStartQuiz: vi.fn(),
       onStartReviewSession: vi.fn(),
       onLoadNewModule: vi.fn(),

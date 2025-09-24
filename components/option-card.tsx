@@ -1,6 +1,6 @@
 'use client';
 import { Card } from '@/components/ui/card';
-import { SecureTextRenderer } from './secure-text-renderer';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { Check, X } from 'lucide-react';
 import type { QuizOption } from '@/types/quiz-types';
 import { memo } from 'react';
@@ -80,9 +80,9 @@ export const OptionCard = memo(function OptionCard({
     >
       <div className="flex items-start gap-3 p-4">
         <div className="flex-1">
-          <SecureTextRenderer
+          <MarkdownRenderer
             key={`option-${option.optionId}-${isSelected}-${isSubmitted}`}
-            content={option.optionText}
+            markdown={option.optionText}
             className="leading-relaxed text-white"
           />
         </div>

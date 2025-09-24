@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { SecureTextRenderer } from './secure-text-renderer';
+import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { AlertTriangle, Info, AlertCircle } from 'lucide-react';
 import {
   Dialog,
@@ -70,8 +70,8 @@ export function ConfirmationModal({
             {title}
           </DialogTitle>
           <DialogDescription className="text-gray-300">
-            <SecureTextRenderer
-              content={message}
+            <MarkdownRenderer
+              markdown={message}
               className="break-words leading-relaxed text-white"
             />
           </DialogDescription>
@@ -80,8 +80,8 @@ export function ConfirmationModal({
         {questionPreview && (
           <div className="rounded-lg border border-gray-700 bg-gray-800/50 p-4">
             <div className="mb-2 text-sm font-medium text-gray-300">Question Preview:</div>
-            <SecureTextRenderer
-              content={questionPreview}
+            <MarkdownRenderer
+              markdown={questionPreview}
               className="break-words text-sm leading-relaxed text-gray-200"
             />
           </div>

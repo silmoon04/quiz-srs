@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
 describe('Current SecureTextRenderer Functionality', () => {
   describe('Basic Text Rendering', () => {
     it('should render plain text', () => {
       const content = 'This is plain text';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText('This is plain text')).toBeInTheDocument();
       expect(container.querySelector('.secure-text-renderer')).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render markdown bold text', () => {
       const content = 'This is **bold text** and normal text';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText(/This is/)).toBeInTheDocument();
       expect(screen.getByText('bold text')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render markdown italic text', () => {
       const content = 'This is *italic text* and normal text';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText(/This is/)).toBeInTheDocument();
       expect(screen.getByText('italic text')).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render inline code', () => {
       const content = 'This is `inline code` and normal text';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText(/This is/)).toBeInTheDocument();
       expect(screen.getByText('inline code')).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render headers', () => {
       const content = '# Header 1\n## Header 2\n### Header 3';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText('Header 1')).toBeInTheDocument();
       expect(screen.getByText('Header 2')).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render lists', () => {
       const content = 'Unordered list:\n- Item 1\n- Item 2\n\nOrdered list:\n1. First\n2. Second';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText(/Unordered list:/)).toBeInTheDocument();
       expect(screen.getByText('Item 1')).toBeInTheDocument();
@@ -89,7 +89,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should render links safely', () => {
       const content = 'Visit [Google](https://google.com) for search';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       expect(screen.getByText(/Visit/)).toBeInTheDocument();
       expect(screen.getByText('Google')).toBeInTheDocument();
@@ -104,7 +104,7 @@ describe('Current SecureTextRenderer Functionality', () => {
   describe('Security Features', () => {
     it('should escape script tags', () => {
       const content = '<script>alert("XSS")</script>';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should not contain executable script
       expect(screen.queryByText('alert("XSS")')).not.toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should reject javascript: URLs', () => {
       const content = '[Click me](javascript:alert("XSS"))';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should not render as a link, just as text
       expect(screen.getByText(/Click me/)).toBeInTheDocument();
@@ -126,7 +126,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should escape event handlers', () => {
       const content = '<img src="x" onerror="alert(\'XSS\')">';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should contain escaped content (the content is detected as raw HTML and escaped)
       expect(container.innerHTML).toContain('&lt;img');
@@ -137,7 +137,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should escape dangerous HTML attributes', () => {
       const content = '<div onclick="alert(\'XSS\')">Click me</div>';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should contain escaped content
       expect(container.innerHTML).toContain('&lt;div');
@@ -150,7 +150,7 @@ describe('Current SecureTextRenderer Functionality', () => {
   describe('Current Limitations', () => {
     it('should render LaTeX correctly', () => {
       const content = 'The formula is $x = y + z$';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should render LaTeX properly
       expect(screen.getByText(/The formula is/)).toBeInTheDocument();
@@ -162,7 +162,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should not render code blocks yet', () => {
       const content = '```javascript\nfunction test() {}\n```';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should render as plain text for now
       expect(screen.getByText(/javascript/)).toBeInTheDocument();
@@ -174,7 +174,7 @@ describe('Current SecureTextRenderer Functionality', () => {
 
     it('should not render tables yet', () => {
       const content = '| Header | Value |\n|--------|-------|\n| Test   | Data  |';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Should render as plain text for now
       expect(screen.getByText(/Header/)).toBeInTheDocument();

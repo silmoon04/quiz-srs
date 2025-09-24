@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
 describe('TextRenderer Explanation Mapping Tests (TM-RN-03)', () => {
   describe('Explanation Content Stability', () => {
     it('should preserve explanation text exactly', () => {
       const explanation = 'This is a detailed explanation with **bold text** and `code`.';
-      render(<SecureTextRenderer content={explanation} />);
+      render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/This is a detailed explanation with/)).toBeInTheDocument();
       expect(screen.getByText('bold text')).toBeInTheDocument();
@@ -16,7 +16,7 @@ describe('TextRenderer Explanation Mapping Tests (TM-RN-03)', () => {
 
     it('should preserve explanation with LaTeX', () => {
       const explanation = 'The formula is $x = y + z$ and the result is $\\alpha$.';
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       // Should contain the text parts
       expect(screen.getByText(/The formula is/)).toBeInTheDocument();
@@ -37,7 +37,7 @@ function calculate(x) {
 \`\`\`
 
 This explains the calculation.`;
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/Here's the algorithm:/)).toBeInTheDocument();
       expect(screen.getByText(/This explains the calculation./)).toBeInTheDocument();
@@ -55,7 +55,7 @@ This explains the calculation.`;
 3. Third step
 
 This completes the process.`;
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/The steps are:/)).toBeInTheDocument();
       expect(screen.getByText(/This completes the process./)).toBeInTheDocument();
@@ -76,7 +76,7 @@ This completes the process.`;
 | Memory  | Low   |
 
 This table shows the results.`;
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/Here's the comparison:/)).toBeInTheDocument();
       expect(screen.getByText(/This table shows the results./)).toBeInTheDocument();
@@ -110,7 +110,7 @@ function algorithm(x) {
 
 The complexity is $O(1)$.`;
 
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       // Check for various elements
       expect(screen.getByText('Algorithm Explanation:')).toBeInTheDocument();
@@ -138,7 +138,7 @@ graph TD
 
 This diagram shows the process flow.`;
 
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/Here's the flow:/)).toBeInTheDocument();
       expect(screen.getByText(/This diagram shows the process flow./)).toBeInTheDocument();
@@ -151,7 +151,7 @@ This diagram shows the process flow.`;
   describe('Edge Cases', () => {
     it('should handle empty explanations', () => {
       const explanation = '';
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(container).toBeInTheDocument();
       expect(container.textContent).toBe('');
@@ -159,14 +159,14 @@ This diagram shows the process flow.`;
 
     it('should handle explanations with only whitespace', () => {
       const explanation = '   \n\n  \t  \n  ';
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(container).toBeInTheDocument();
     });
 
     it('should handle explanations with special characters', () => {
       const explanation = 'Special chars: <>&"\' and unicode: αβγδε';
-      render(<SecureTextRenderer content={explanation} />);
+      const { container } = render(<MarkdownRenderer markdown={explanation} />);
 
       expect(screen.getByText(/Special chars:/)).toBeInTheDocument();
       expect(screen.getByText(/and unicode:/)).toBeInTheDocument();
@@ -175,7 +175,7 @@ This diagram shows the process flow.`;
 
     it('should handle very long explanations', () => {
       const longExplanation = 'A'.repeat(10000) + ' with some **bold** text.';
-      const { container } = render(<SecureTextRenderer content={longExplanation} />);
+      const { container } = render(<MarkdownRenderer markdown={longExplanation} />);
 
       expect(container).toBeInTheDocument();
       expect(screen.getByText('bold')).toBeInTheDocument();
@@ -186,8 +186,8 @@ This diagram shows the process flow.`;
     it('should render the same content consistently', () => {
       const explanation = 'This is a **test** with $x = y$ and `code`.';
 
-      const { container: container1 } = render(<SecureTextRenderer content={explanation} />);
-      const { container: container2 } = render(<SecureTextRenderer content={explanation} />);
+      const { container: container1 } = render(<MarkdownRenderer markdown={explanation} />);
+      const { container: container2 } = render(<MarkdownRenderer markdown={explanation} />);
 
       // Both should have the same structure
       expect(container1.querySelectorAll('strong').length).toBe(
@@ -205,8 +205,8 @@ This diagram shows the process flow.`;
       const explanation1 = 'Text with   multiple   spaces.';
       const explanation2 = 'Text with multiple spaces.';
 
-      const { container: container1 } = render(<SecureTextRenderer content={explanation1} />);
-      const { container: container2 } = render(<SecureTextRenderer content={explanation2} />);
+      const { container: container1 } = render(<MarkdownRenderer markdown={explanation1} />);
+      const { container: container2 } = render(<MarkdownRenderer markdown={explanation2} />);
 
       // Both should render similarly (whitespace may be preserved differently)
       expect(container1.textContent?.replace(/\s+/g, ' ').trim()).toBe(

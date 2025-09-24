@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SecureTextRenderer } from '@/components/secure-text-renderer';
+import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
 describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
@@ -9,7 +9,7 @@ describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
       const content = `- Item 1
 - Item 2
 - Item 3`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const list = container.querySelector('ul');
       expect(list).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
       const content = `1. First item
 2. Second item
 3. Third item`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const list = container.querySelector('ol');
       expect(list).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
   - Sub item 1
   - Sub item 2
 - Another main item`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const lists = container.querySelectorAll('ul');
       expect(lists.length).toBeGreaterThan(1); // Should have nested lists
@@ -50,7 +50,7 @@ describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
 |----------|----------|
 | Cell 1   | Cell 2   |
 | Cell 3   | Cell 4   |`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const table = container.querySelector('table');
       expect(table).toBeInTheDocument();
@@ -67,7 +67,7 @@ describe('TextRenderer Markdown Tests (TM-RN-02)', () => {
 
     it('should render inline code correctly', () => {
       const content = 'This is `inline code` in a sentence.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const code = container.querySelector('code');
       expect(code).toBeInTheDocument();
@@ -80,7 +80,7 @@ function hello() {
   console.log("Hello, world!");
 }
 \`\`\``;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const pre = container.querySelector('pre');
       expect(pre).toBeInTheDocument();
@@ -92,7 +92,7 @@ function hello() {
 
     it('should render bold text correctly', () => {
       const content = 'This is **bold text** and __also bold__.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const strongElements = container.querySelectorAll('strong');
       expect(strongElements.length).toBe(2);
@@ -102,7 +102,7 @@ function hello() {
 
     it('should render italic text correctly', () => {
       const content = 'This is *italic text* and _also italic_.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const emElements = container.querySelectorAll('em');
       expect(emElements.length).toBe(2);
@@ -112,7 +112,7 @@ function hello() {
 
     it('should render links correctly', () => {
       const content = '[Link text](https://example.com)';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const link = container.querySelector('a');
       expect(link).toBeInTheDocument();
@@ -122,7 +122,7 @@ function hello() {
 
     it('should render images correctly', () => {
       const content = '![Alt text](https://example.com/image.jpg)';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const img = container.querySelector('img');
       expect(img).toBeInTheDocument();
@@ -133,7 +133,7 @@ function hello() {
     it('should render blockquotes correctly', () => {
       const content = `> This is a blockquote
 > with multiple lines`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const blockquote = container.querySelector('blockquote');
       expect(blockquote).toBeInTheDocument();
@@ -146,7 +146,7 @@ function hello() {
 ---
 
 Line below`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const hr = container.querySelector('hr');
       expect(hr).toBeInTheDocument();
@@ -154,7 +154,7 @@ Line below`;
 
     it('should render strikethrough text correctly', () => {
       const content = 'This is ~~strikethrough~~ text.';
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const del = container.querySelector('del');
       expect(del).toBeInTheDocument();
@@ -165,7 +165,7 @@ Line below`;
       const content = `- [x] Completed task
 - [ ] Incomplete task
 - [x] Another completed task`;
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       const checkboxes = container.querySelectorAll('input[type="checkbox"]');
       expect(checkboxes.length).toBe(3);
@@ -193,7 +193,7 @@ function example() {
 
 > This is a blockquote with **bold** text.`;
 
-      const { container } = render(<SecureTextRenderer content={content} />);
+      const { container } = render(<MarkdownRenderer markdown={content} />);
 
       // Check for various elements
       expect(container.querySelector('ol')).toBeInTheDocument();
