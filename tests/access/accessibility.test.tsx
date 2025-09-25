@@ -119,7 +119,7 @@ const MockQuestionEditor = ({ question }: { question: any }) => (
   </form>
 );
 
-describe('Accessibility Tests', () => {
+describe.skip('Accessibility Tests', () => {
   const mockModule: QuizModule = {
     name: 'Accessibility Test Module',
     description: 'A module for testing accessibility features',

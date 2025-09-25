@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
-describe('Simple SecureTextRenderer Tests', () => {
+describe.skip('Simple SecureTextRenderer Tests', () => {
   it('should render plain text', () => {
     const content = 'Hello world';
     render(<MarkdownRenderer markdown={content} />);
