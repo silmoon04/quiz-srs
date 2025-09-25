@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { useAnnouncer } from './a11y/ScreenReaderAnnouncer';
-import { OptionCard } from './option-card';
+// import { OptionCard } from './option-card';
 import { AccessibleOptionList } from './a11y/AccessibleOptionList';
 import { AccessibleQuestionGrid } from './a11y/AccessibleQuestionGrid';
-import { QuestionNavigationMenu } from './question-navigation-menu';
+// import { QuestionNavigationMenu } from './question-navigation-menu';
 import {
   ArrowLeft,
   ArrowRight,
@@ -247,7 +247,7 @@ export function QuizSession({
   }, [question.questionId, isViewingHistoricalEntry, historicalEntry]);
 
   // FIXED: Accurate feedback for historical answers
-  const getOptionDisplayState = (option: DisplayedOption) => {
+  const _getOptionDisplayState = (option: DisplayedOption) => {
     if (isViewingHistoricalEntry && historicalEntry) {
       // Historical view logic
       const isSelected = historicalEntry.selectedOptionId === option.optionId;

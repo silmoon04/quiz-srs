@@ -26,290 +26,7 @@ import type {
   SessionHistoryEntry,
 } from '@/types/quiz-types';
 import { ConfirmationModal } from '@/components/confirmation-modal-radix';
-import { QuestionReviewModal } from '@/components/question-review-modal';
-
-// Enhanced mock data with new schema (kept as fallback/example)
-const mockQuizModule: QuizModule = {
-  name: 'Advanced Computer Science Concepts',
-  description: 'Master key concepts in algorithms, data structures, and mathematical foundations',
-  chapters: [
-    {
-      id: 'algorithms',
-      name: 'Algorithm Analysis',
-      description: 'Big O notation, complexity analysis, and optimization techniques',
-      totalQuestions: 3,
-      answeredQuestions: 2,
-      correctAnswers: 1,
-      isCompleted: false,
-      questions: [
-        {
-          questionId: 'q1_complexity',
-          questionText:
-            'What is the time complexity of the following code snippet? <code>for(int i=0; i<n; i++) { for(int j=0; j<n; j++) { print(i*j); } }</code> Express your answer using Big O notation: $$O(f(n))$$',
-          options: [
-            {
-              optionId: 'q1_opt1',
-              optionText: '$O(n)$ - Linear time complexity',
-            },
-            {
-              optionId: 'q1_opt2',
-              optionText: '$O(n^2)$ - <b>Quadratic</b> time complexity',
-            },
-            {
-              optionId: 'q1_opt3',
-              optionText: '$O(\\log n)$ - Logarithmic time complexity',
-            },
-            {
-              optionId: 'q1_opt4',
-              optionText: '$O(2^n)$ - Exponential time complexity',
-            },
-            {
-              optionId: 'q1_opt5',
-              optionText: '$O(n \\log n)$ - Linearithmic time complexity',
-            },
-            {
-              optionId: 'q1_opt6',
-              optionText: '$O(n^3)$ - Cubic time complexity',
-            },
-            {
-              optionId: 'q1_opt7',
-              optionText: '$O(1)$ - Constant time complexity',
-            },
-            {
-              optionId: 'q1_opt8',
-              optionText: '$O(n!)$ - Factorial time complexity',
-            },
-          ],
-          correctOptionIds: ['q1_opt2'],
-          explanationText:
-            'The nested loops iterate <code>n</code> times each, resulting in $n \\times n = n^2$ operations. Therefore, the time complexity is $$O(n^2)$$',
-          status: 'attempted',
-          timesAnsweredCorrectly: 0,
-          timesAnsweredIncorrectly: 1,
-          lastSelectedOptionId: 'q1_opt1',
-          historyOfIncorrectSelections: ['q1_opt1'],
-          srsLevel: 0,
-          nextReviewAt: new Date(Date.now() + 30 * 1000).toISOString(), // 30 seconds for quick retry
-          shownIncorrectOptionIds: ['q1_opt1', 'q1_opt3', 'q1_opt4'],
-        },
-        {
-          questionId: 'q2_sorting',
-          questionText:
-            'Which sorting algorithms have an average-case time complexity of $O(n \\log n)$? Select <b>all</b> that apply:',
-          options: [
-            {
-              optionId: 'q2_opt1',
-              optionText: '<b>Bubble Sort</b> - $O(n^2)$ average case',
-            },
-            {
-              optionId: 'q2_opt2',
-              optionText: '<b>Quick Sort</b> - $O(n \\log n)$ average case',
-            },
-            {
-              optionId: 'q2_opt3',
-              optionText: '<b>Selection Sort</b> - $O(n^2)$ average case',
-            },
-            {
-              optionId: 'q2_opt4',
-              optionText: '<b>Merge Sort</b> - $O(n \\log n)$ average case',
-            },
-            {
-              optionId: 'q2_opt5',
-              optionText: '<b>Insertion Sort</b> - $O(n^2)$ average case',
-            },
-            {
-              optionId: 'q2_opt6',
-              optionText: '<b>Heap Sort</b> - $O(n \\log n)$ average case',
-            },
-            {
-              optionId: 'q2_opt7',
-              optionText: '<b>Radix Sort</b> - $O(d \\cdot n)$ average case',
-            },
-            {
-              optionId: 'q2_opt8',
-              optionText: '<b>Counting Sort</b> - $O(n + k)$ average case',
-            },
-            {
-              optionId: 'q2_opt9',
-              optionText: '<b>Shell Sort</b> - varies by gap sequence',
-            },
-            {
-              optionId: 'q2_opt10',
-              optionText: '<b>Tim Sort</b> - $O(n \\log n)$ average case',
-            },
-          ],
-          correctOptionIds: ['q2_opt2', 'q2_opt4', 'q2_opt6', 'q2_opt10'],
-          explanationText:
-            'The algorithms with $O(n \\log n)$ average-case complexity are: <b>Quick Sort</b>, <b>Merge Sort</b>, <b>Heap Sort</b>, and <b>Tim Sort</b>. While Quick Sort can degrade to $O(n^2)$ in worst case, its average case is $O(n \\log n)$.',
-          status: 'passed_once',
-          timesAnsweredCorrectly: 1,
-          timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: 'q2_opt2',
-          srsLevel: 1,
-          nextReviewAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-          shownIncorrectOptionIds: ['q2_opt1', 'q2_opt3', 'q2_opt5'],
-        },
-        {
-          questionId: 'q3_bst',
-          questionText:
-            'In a binary search tree, what is the maximum number of comparisons needed to find an element in a <i>balanced</i> tree with $n$ nodes?',
-          options: [
-            { optionId: 'q3_opt1', optionText: '$O(n)$ comparisons' },
-            { optionId: 'q3_opt2', optionText: '$O(\\log_2 n)$ comparisons' },
-            { optionId: 'q3_opt3', optionText: '$O(n^2)$ comparisons' },
-            { optionId: 'q3_opt4', optionText: '$O(1)$ comparisons' },
-            { optionId: 'q3_opt5', optionText: '$O(n \\log n)$ comparisons' },
-            { optionId: 'q3_opt6', optionText: '$O(\\sqrt{n})$ comparisons' },
-          ],
-          correctOptionIds: ['q3_opt2'],
-          explanationText:
-            'In a balanced binary search tree, the height is $\\log_2 n$. Since we eliminate half the remaining nodes with each comparison, the maximum number of comparisons is $$\\lceil \\log_2 n \\rceil$$',
-          status: 'not_attempted',
-          timesAnsweredCorrectly: 0,
-          timesAnsweredIncorrectly: 0,
-          srsLevel: 0,
-          nextReviewAt: null, // Brand new question
-          shownIncorrectOptionIds: [],
-        },
-      ],
-    },
-    {
-      id: 'data-structures',
-      name: 'Data Structures',
-      description: 'Arrays, linked lists, trees, graphs, and hash tables',
-      totalQuestions: 2,
-      answeredQuestions: 0,
-      correctAnswers: 0,
-      isCompleted: false,
-      questions: [
-        {
-          questionId: 'q4_hashtable',
-          questionText:
-            'What is the space complexity of a hash table with <code>n</code> elements and a load factor of $\\alpha$?',
-          options: [
-            { optionId: 'q4_opt1', optionText: '$O(n)$ space' },
-            { optionId: 'q4_opt2', optionText: '$O(n^2)$ space' },
-            { optionId: 'q4_opt3', optionText: '$O(\\log n)$ space' },
-            { optionId: 'q4_opt4', optionText: '$O(n/\\alpha)$ space' },
-            { optionId: 'q4_opt5', optionText: '$O(\\alpha \\cdot n)$ space' },
-          ],
-          correctOptionIds: ['q4_opt1'],
-          explanationText:
-            'A hash table stores <code>n</code> elements regardless of the load factor $\\alpha$. The load factor affects performance but not the fundamental space requirement of $$O(n)$$',
-          status: 'not_attempted',
-          timesAnsweredCorrectly: 0,
-          timesAnsweredIncorrectly: 0,
-          srsLevel: 0,
-          nextReviewAt: null,
-          shownIncorrectOptionIds: [],
-        },
-        {
-          questionId: 'q5_priority_queue',
-          questionText:
-            'Which data structures are efficient for implementing a <b>priority queue</b>? Select all that apply:',
-          options: [
-            {
-              optionId: 'q5_opt1',
-              optionText: '<i>Array</i> - $O(n)$ insertion',
-            },
-            {
-              optionId: 'q5_opt2',
-              optionText: '<i>Linked List</i> - $O(n)$ insertion',
-            },
-            {
-              optionId: 'q5_opt3',
-              optionText: '<b>Binary Heap</b> - $O(\\log n)$ insertion',
-            },
-            {
-              optionId: 'q5_opt4',
-              optionText: '<i>Stack</i> - $O(1)$ insertion',
-            },
-            {
-              optionId: 'q5_opt5',
-              optionText: '<b>Fibonacci Heap</b> - $O(1)$ amortized insertion',
-            },
-            {
-              optionId: 'q5_opt6',
-              optionText: '<b>Balanced BST</b> - $O(\\log n)$ insertion',
-            },
-            {
-              optionId: 'q5_opt7',
-              optionText: "<i>Hash Table</i> - doesn't maintain order",
-            },
-            {
-              optionId: 'q5_opt8',
-              optionText: '<b>Binomial Heap</b> - $O(\\log n)$ insertion',
-            },
-          ],
-          correctOptionIds: ['q5_opt3', 'q5_opt5', 'q5_opt6', 'q5_opt8'],
-          explanationText:
-            'Efficient priority queue implementations include <b>Binary Heap</b>, <b>Fibonacci Heap</b>, <b>Balanced BST</b>, and <b>Binomial Heap</b>. These provide logarithmic or better insertion and extraction operations while maintaining priority order.',
-          status: 'not_attempted',
-          timesAnsweredCorrectly: 0,
-          timesAnsweredIncorrectly: 0,
-          srsLevel: 0,
-          nextReviewAt: null,
-          shownIncorrectOptionIds: [],
-        },
-      ],
-    },
-    {
-      id: 'mathematics',
-      name: 'Mathematical Foundations',
-      description: 'Discrete mathematics, probability, and computational theory',
-      totalQuestions: 2,
-      answeredQuestions: 2,
-      correctAnswers: 2,
-      isCompleted: true,
-      questions: [
-        {
-          questionId: 'q6_sum_squares',
-          questionText: 'What is the value of the sum: $$\\sum_{i=1}^{n} i^2$$',
-          options: [
-            { optionId: 'q6_opt1', optionText: '$\\frac{n(n+1)}{2}$' },
-            { optionId: 'q6_opt2', optionText: '$\\frac{n(n+1)(2n+1)}{6}$' },
-            { optionId: 'q6_opt3', optionText: '$n^2$' },
-            { optionId: 'q6_opt4', optionText: '$\\frac{n^2(n+1)^2}{4}$' },
-            { optionId: 'q6_opt5', optionText: '$2^n - 1$' },
-          ],
-          correctOptionIds: ['q6_opt2'],
-          explanationText:
-            'The sum of squares formula is: $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$ This can be proven by mathematical induction.',
-          status: 'mastered',
-          timesAnsweredCorrectly: 2,
-          timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: 'q6_opt2',
-          srsLevel: 2,
-          nextReviewAt: null,
-          shownIncorrectOptionIds: [],
-        },
-        {
-          questionId: 'q7_probability',
-          questionText:
-            'In probability theory, if events $A$ and $B$ are <b>independent</b>, what is $P(A \\cap B)$?',
-          options: [
-            { optionId: 'q7_opt1', optionText: '$P(A) + P(B)$' },
-            { optionId: 'q7_opt2', optionText: '$P(A) \\times P(B)$' },
-            { optionId: 'q7_opt3', optionText: '$P(A) - P(B)$' },
-            { optionId: 'q7_opt4', optionText: '$\\frac{P(A)}{P(B)}$' },
-            { optionId: 'q7_opt5', optionText: '$\\max(P(A), P(B))$' },
-            { optionId: 'q7_opt6', optionText: '$\\min(P(A), P(B))$' },
-          ],
-          correctOptionIds: ['q7_opt2'],
-          explanationText:
-            'For independent events, the probability of both occurring is: $$P(A \\cap B) = P(A) \\times P(B)$$ This is the fundamental definition of statistical independence.',
-          status: 'mastered',
-          timesAnsweredCorrectly: 2,
-          timesAnsweredIncorrectly: 0,
-          lastSelectedOptionId: 'q7_opt2',
-          srsLevel: 2,
-          nextReviewAt: null,
-          shownIncorrectOptionIds: [],
-        },
-      ],
-    },
-  ],
-};
+// import { QuestionReviewModal } from '@/components/question-review-modal';
 
 type AppState = 'welcome' | 'dashboard' | 'quiz' | 'complete' | 'all-questions';
 
@@ -359,21 +76,21 @@ export default function MCQQuizForge() {
   const [pendingOverwriteData, setPendingOverwriteData] = useState<QuizQuestion | null>(null);
 
   // For managing the "review and append new questions" modal
-  const [showAppendReviewModal, setShowAppendReviewModal] = useState(false);
+  // const [showAppendReviewModal, setShowAppendReviewModal] = useState(false);
   const [questionsToReviewForAppend, setQuestionsToReviewForAppend] = useState<QuizQuestion[]>([]);
 
   // Toast notifications
   useToast();
 
   // Helper functions for toast notifications
-  const showSuccess = (title: string, message?: string, duration?: number) => {
+  const showSuccess = (title: string, message?: string) => {
     toast({
       title,
       description: message,
     });
   };
 
-  const showError = (title: string, message?: string, duration?: number) => {
+  const showError = (title: string, message?: string) => {
     toast({
       title,
       description: message,
@@ -381,14 +98,14 @@ export default function MCQQuizForge() {
     });
   };
 
-  const showInfo = (title: string, message?: string, duration?: number) => {
+  const showInfo = (title: string, message?: string) => {
     toast({
       title,
       description: message,
     });
   };
 
-  const showWarning = (title: string, message?: string, duration?: number) => {
+  const showWarning = (title: string, message?: string) => {
     toast({
       title,
       description: message,
@@ -963,7 +680,7 @@ ${parseResult.errors.slice(0, 3).join('\n')}`);
           parsedData = JSON.parse(fileContent);
           console.log('JSON parsed successfully without corrections');
         } catch (parseError) {
-          console.log('Initial JSON parse failed, applying LaTeX corrections...');
+          console.log('Initial JSON parse failed, applying LaTeX corrections...', parseError);
 
           // Apply LaTeX corrections and re-parse
           const {
@@ -1064,7 +781,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
         parsedData = JSON.parse(fileContent);
         console.log('State JSON parsed successfully without corrections');
       } catch (parseError) {
-        console.log('Initial state JSON parse failed, applying LaTeX corrections...');
+        console.log('Initial state JSON parse failed, applying LaTeX corrections...', parseError);
 
         // Apply LaTeX corrections and re-parse
         const {
@@ -1214,7 +931,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
       let parsedData: any;
       try {
         parsedData = JSON.parse(fileContent);
-      } catch (parseError) {
+      } catch {
         showError('Import Failed', 'Invalid JSON format in the imported file');
         return;
       }
@@ -1373,91 +1090,11 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     setQuestionsToReviewForAppend([]);
   };
 
-  // NEW: Save appended questions with overwrite capability
-  const handleSaveAppendedQuestions = (questionsToActuallyAppend: QuizQuestion[]) => {
-    if (!currentModule || !currentChapterId || questionsToActuallyAppend.length === 0) return;
+  // NEW: Save appended questions with overwrite capability (removed - unused)
+  // const _handleSaveAppendedQuestions = (questionsToActuallyAppend: QuizQuestion[]) => { ... };
 
-    try {
-      const currentQuestion = getCurrentQuestion();
-      if (!currentQuestion) return;
-
-      const updatedModule = JSON.parse(JSON.stringify(currentModule)) as QuizModule;
-      const targetChapter = updatedModule.chapters.find((c) => c.id === currentChapterId);
-
-      if (targetChapter) {
-        // Find insertion point
-        let insertionIndex = targetChapter.questions.findIndex(
-          (q) => q.questionId === currentQuestion.questionId,
-        );
-        if (insertionIndex === -1) {
-          insertionIndex = targetChapter.questions.length - 1; // Append at end if not found
-        }
-
-        // Process each imported question
-        let overwrittenCount = 0;
-        let addedCount = 0;
-        const questionsToInsert: QuizQuestion[] = [];
-
-        questionsToActuallyAppend.forEach((importedQuestion) => {
-          // Check if a question with this ID already exists in the chapter
-          const existingQuestionIndex = targetChapter.questions.findIndex(
-            (q) => q.questionId === importedQuestion.questionId,
-          );
-
-          if (existingQuestionIndex !== -1) {
-            // Overwrite existing question
-            targetChapter.questions[existingQuestionIndex] = importedQuestion;
-            overwrittenCount++;
-            console.log(`Overwritten existing question: ${importedQuestion.questionId}`);
-          } else {
-            // New question - add to insertion list
-            questionsToInsert.push(importedQuestion);
-            addedCount++;
-            console.log(`Prepared new question for insertion: ${importedQuestion.questionId}`);
-          }
-        });
-
-        // Insert new questions after the current question
-        if (questionsToInsert.length > 0) {
-          targetChapter.questions.splice(insertionIndex + 1, 0, ...questionsToInsert);
-        }
-
-        // Recalculate chapter stats
-        recalculateChapterStats(targetChapter);
-        setCurrentModule(updatedModule);
-
-        // Show success message with details
-        const totalProcessed = overwrittenCount + addedCount;
-        let message = `${totalProcessed} question(s) processed successfully`;
-        if (overwrittenCount > 0 && addedCount > 0) {
-          message += ` (${overwrittenCount} overwritten, ${addedCount} added)`;
-        } else if (overwrittenCount > 0) {
-          message += ` (${overwrittenCount} overwritten)`;
-        } else {
-          message += ` (${addedCount} added)`;
-        }
-
-        showSuccess('Questions Imported', message);
-
-        // Reset modal states
-        setShowAppendReviewModal(false);
-        setQuestionsToReviewForAppend([]);
-        setPendingOverwriteData(null);
-
-        console.log(`Import complete: ${overwrittenCount} overwritten, ${addedCount} added`);
-      }
-    } catch (error) {
-      console.error('Error importing questions:', error);
-      showError('Import Failed', 'Failed to import questions');
-    }
-  };
-
-  // NEW: Cancel append questions
-  const handleCancelAppendQuestions = () => {
-    setShowAppendReviewModal(false);
-    setQuestionsToReviewForAppend([]);
-    setPendingOverwriteData(null);
-  };
+  // NEW: Cancel append questions (removed - unused)
+  // const _handleCancelAppendQuestions = () => { ... };
 
   // VERIFIED: Export incorrect answers history with proper chapter name handling
   const handleLoadNewModule = () => {
