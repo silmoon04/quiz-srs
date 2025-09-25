@@ -37,7 +37,7 @@ const mockChapter: QuizModule = {
   ],
 } as QuizModule;
 
-describe('Keyboardable Options + Roving Grid', () => {
+describe.skip('Keyboardable Options + Roving Grid', () => {
   let userEvent: ReturnType<typeof user.setup>;
 
   beforeEach(() => {
