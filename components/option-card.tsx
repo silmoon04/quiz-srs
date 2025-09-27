@@ -22,7 +22,7 @@ export const OptionCard = memo(function OptionCard({
   showAsCorrect = false,
   showAsIncorrect = false,
   isSubmitted,
-  onSelect: _onSelect,
+  onSelect,
   disabled = false,
 }: OptionCardProps) {
   const getCardClasses = () => {

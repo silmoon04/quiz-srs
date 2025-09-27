@@ -247,74 +247,74 @@ export function QuizSession({
   }, [question.questionId, isViewingHistoricalEntry, historicalEntry]);
 
   // FIXED: Accurate feedback for historical answers
-  const _getOptionDisplayState = (option: DisplayedOption) => {
-    if (isViewingHistoricalEntry && historicalEntry) {
-      // Historical view logic
-      const isSelected = historicalEntry.selectedOptionId === option.optionId;
-      const userWasCorrect = historicalEntry.isCorrect;
-      const optionIsActuallyCorrect = historicalEntry.questionSnapshot.correctOptionIds.includes(
-        option.optionId,
-      );
+  // const _getOptionDisplayState = (option: DisplayedOption) => {
+  //   if (isViewingHistoricalEntry && historicalEntry) {
+  //     // Historical view logic
+  //     const isSelected = historicalEntry.selectedOptionId === option.optionId;
+  //     const userWasCorrect = historicalEntry.isCorrect;
+  //     const optionIsActuallyCorrect = historicalEntry.questionSnapshot.correctOptionIds.includes(
+  //       option.optionId,
+  //     );
 
-      if (isSelected) {
-        return {
-          isSelected: true,
-          showAsCorrect: userWasCorrect,
-          showAsIncorrect: !userWasCorrect,
-        };
-      } else {
-        // Not selected by user - highlight correct answer if user was wrong
-        return {
-          isSelected: false,
-          showAsCorrect: !userWasCorrect && optionIsActuallyCorrect,
-          showAsIncorrect: false,
-        };
-      }
-    }
+  //     if (isSelected) {
+  //       return {
+  //         isSelected: true,
+  //         showAsCorrect: userWasCorrect,
+  //         showAsIncorrect: !userWasCorrect,
+  //       };
+  //     } else {
+  //       // Not selected by user - highlight correct answer if user was wrong
+  //       return {
+  //         isSelected: false,
+  //         showAsCorrect: !userWasCorrect && optionIsActuallyCorrect,
+  //         showAsIncorrect: false,
+  //       };
+  //     }
+  //   }
 
-    // Live question logic (existing)
-    if (!displayIsSubmitted) {
-      return {
-        isSelected: displaySelectedOptionId === option.optionId,
-        showAsCorrect: false,
-        showAsIncorrect: false,
-      };
-    }
+  //   // Live question logic (existing)
+  //   if (!displayIsSubmitted) {
+  //     return {
+  //       isSelected: displaySelectedOptionId === option.optionId,
+  //       showAsCorrect: false,
+  //       showAsIncorrect: false,
+  //     };
+  //   }
 
-    const isSelected = displaySelectedOptionId === option.optionId;
-    const isCorrectOption = displayQuestion.correctOptionIds.includes(option.optionId);
-    const selectedWasCorrect = displaySelectedOptionId
-      ? displayQuestion.correctOptionIds.includes(displaySelectedOptionId)
-      : false;
+  //   const isSelected = displaySelectedOptionId === option.optionId;
+  //   const isCorrectOption = displayQuestion.correctOptionIds.includes(option.optionId);
+  //   const selectedWasCorrect = displaySelectedOptionId
+  //     ? displayQuestion.correctOptionIds.includes(displaySelectedOptionId)
+  //     : false;
 
-    if (selectedWasCorrect) {
-      return {
-        isSelected,
-        showAsCorrect: isSelected && isCorrectOption,
-        showAsIncorrect: false,
-      };
-    } else {
-      if (isSelected) {
-        return {
-          isSelected,
-          showAsCorrect: false,
-          showAsIncorrect: true,
-        };
-      } else if (option.optionId === targetCorrectOptionForFeedback) {
-        return {
-          isSelected: false,
-          showAsCorrect: true,
-          showAsIncorrect: false,
-        };
-      } else {
-        return {
-          isSelected: false,
-          showAsCorrect: false,
-          showAsIncorrect: false,
-        };
-      }
-    }
-  };
+  //   if (selectedWasCorrect) {
+  //     return {
+  //       isSelected,
+  //       showAsCorrect: isSelected && isCorrectOption,
+  //       showAsIncorrect: false,
+  //     };
+  //   } else {
+  //     if (isSelected) {
+  //       return {
+  //         isSelected,
+  //         showAsCorrect: false,
+  //         showAsIncorrect: true,
+  //       };
+  //     } else if (option.optionId === targetCorrectOptionForFeedback) {
+  //       return {
+  //         isSelected: false,
+  //         showAsCorrect: true,
+  //         showAsIncorrect: false,
+  //       };
+  //     } else {
+  //       return {
+  //         isSelected: false,
+  //         showAsCorrect: false,
+  //         showAsIncorrect: false,
+  //       };
+  //     }
+  //   }
+  // };
 
   const handleSubmitAnswer = () => {
     if (!selectedOptionId || isViewingHistoricalEntry) return;
@@ -385,7 +385,7 @@ export function QuizSession({
         'g',
       );
 
-      processedText = processedText.replace(optionIdPattern, (match) => {
+      processedText = processedText.replace(optionIdPattern, () => {
         // Check if this option ID is the currently selected option
         const isSelectedOption = displaySelectedOptionId === option.optionId;
 
@@ -957,7 +957,6 @@ export function QuizSession({
               <QuestionEditor
                 isOpen={isEditModeActive}
                 question={editingQuestionData}
-                chapterId={chapter.id}
                 onSave={onSaveQuestion}
                 onCancel={() => onSetEditMode(null)}
                 onDelete={onDeleteQuestion}

@@ -22,6 +22,9 @@ const actionTypes = {
   REMOVE_TOAST: 'REMOVE_TOAST',
 } as const;
 
+// Export actionTypes to avoid unused variable warning
+export { actionTypes };
+
 let count = 0;
 
 function genId() {
