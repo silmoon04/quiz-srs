@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import nextConfig from 'eslint-config-next';
 
 export default tseslint.config(
   {
@@ -14,6 +15,8 @@ export default tseslint.config(
       '**/playwright-report/**',
     ],
   },
+  // Include Next.js ESLint configuration
+  ...nextConfig,
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {

@@ -1,4 +1,4 @@
-import { PercentIcon } from 'lucide-react';
+// import { PercentIcon } from 'lucide-react';
 
 interface ProgressBarProps {
   current: number;

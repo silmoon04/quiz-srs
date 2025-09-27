@@ -384,7 +384,6 @@ ${validation.errors.slice(0, 3).join('\n')}`);
       showSuccess(
         'Algorithm Quiz Loaded!',
         `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
-        5000,
       );
 
       console.log('Successfully loaded default quiz module:', normalizedModule.name);
@@ -397,7 +396,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
       setError(errorMessage);
 
       // Show error toast
-      showError('Failed to Load Algorithm Quiz', errorMessage, 8000);
+      showError('Failed to Load Algorithm Quiz', errorMessage);
 
       // Keep user on welcome screen if loading fails
       setAppState('welcome');
@@ -590,7 +589,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
       setAppState('dashboard');
 
       // REPLACED: alert() with toast notification
-      showSuccess('Review Session Complete! 🎉', 'No more reviews due right now. Great job!', 6000);
+      showSuccess('Review Session Complete! 🎉', 'No more reviews due right now. Great job!');
     }
   };
 
@@ -656,7 +655,6 @@ ${parseResult.errors.slice(0, 3).join('\n')}`);
           showWarning(
             'Parsing Warnings',
             `${parseResult.errors.length} warnings during parsing. Check console for details.`,
-            6000,
           );
         }
 
@@ -666,7 +664,6 @@ ${parseResult.errors.slice(0, 3).join('\n')}`);
         showSuccess(
           'Markdown Quiz Loaded Successfully!',
           `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters from Markdown`,
-          6000,
         );
 
         console.log('Successfully loaded Markdown quiz module:', normalizedModule.name);
@@ -708,7 +705,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
               successMessage += ` (${correctionResult.correctionsMade} LaTeX formatting corrections applied)`;
             }
 
-            showSuccess('Quiz Module Loaded Successfully!', successMessage, 6000);
+            showSuccess('Quiz Module Loaded Successfully!', successMessage);
 
             // Show correction details if any were made
             if (correctionResult && correctionResult.correctionsMade > 0) {
@@ -716,7 +713,6 @@ ${validation.errors.slice(0, 3).join('\n')}`);
               showInfo(
                 'LaTeX Formatting Corrected',
                 `Automatically fixed ${correctionResult.correctionsMade} LaTeX formatting issues. Your quiz is now ready to use!`,
-                8000,
               );
             }
 
@@ -746,7 +742,6 @@ ${validation.errors.slice(0, 3).join('\n')}`);
           showSuccess(
             'Quiz Module Loaded Successfully!',
             `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
-            4000,
           );
 
           console.log('Successfully loaded quiz module:', normalizedModule.name);
@@ -758,7 +753,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
         err instanceof Error ? err.message : 'Unknown error occurred while loading the quiz module';
       setError(errorMessage);
 
-      showError('Failed to Load Quiz Module', errorMessage, 8000);
+      showError('Failed to Load Quiz Module', errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -798,7 +793,6 @@ ${validation.errors.slice(0, 3).join('\n')}`);
             'Invalid State File',
             `Invalid state file format:
 ${validation.errors.slice(0, 3).join('\n')}`,
-            8000,
           );
           return;
         }
@@ -822,7 +816,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
             successMessage += ` (${correctionResult.correctionsMade} LaTeX corrections applied)`;
           }
 
-          showSuccess('State Imported Successfully!', successMessage, 6000);
+          showSuccess('State Imported Successfully!', successMessage);
 
           // Show correction details if any were made
           if (correctionResult && correctionResult.correctionsMade > 0) {
@@ -833,7 +827,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
             showInfo(
               'LaTeX Formatting Corrected',
               `Automatically fixed ${correctionResult.correctionsMade} LaTeX formatting issues during import.`,
-              6000,
             );
           }
 
@@ -852,7 +845,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
             'Invalid State File',
             `Invalid state file format:
 ${validation.errors.slice(0, 3).join('\n')}`,
-            8000,
           );
           return;
         }
@@ -873,7 +865,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         showSuccess(
           'State Imported Successfully!',
           `Imported progress for "${normalizedModule.name}"`,
-          4000,
         );
         console.log('Successfully imported state:', normalizedModule.name);
       }
@@ -882,7 +873,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
       showError(
         'Import Failed',
         `Error importing state: ${err instanceof Error ? err.message : 'Unknown error'}`,
-        6000,
       );
     }
   };
@@ -988,7 +978,11 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         setQuestionsToReviewForAppend(validNormalizedImportedQuestions);
 
         if (validNormalizedImportedQuestions.length > 0) {
-          setShowAppendReviewModal(true);
+          // TODO: Implement append review modal
+          showInfo(
+            'Questions Ready for Import',
+            `${validNormalizedImportedQuestions.length} questions ready for import.`,
+          );
         } else {
           showInfo(
             'Nothing to Import',
@@ -1070,7 +1064,11 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
           // Proceed to append if there are additional questions
           if (questionsToReviewForAppend.length > 0) {
-            setShowAppendReviewModal(true);
+            // TODO: Implement append review modal
+            showInfo(
+              'Questions Ready for Import',
+              `${questionsToReviewForAppend.length} additional questions ready for import.`,
+            );
           } else {
             setPendingOverwriteData(null);
             setQuestionsToReviewForAppend([]);
@@ -1163,7 +1161,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
     if (incorrectAnswersLog.length === 0) {
       // REPLACED: alert() with toast
-      showInfo('No Mistakes to Export', 'No incorrect answers found to export!', 4000);
+      showInfo('No Mistakes to Export', 'No incorrect answers found to export!');
       return;
     }
 
@@ -1197,7 +1195,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     showSuccess(
       'Mistakes Exported Successfully!',
       `Exported ${incorrectAnswersLog.length} questions with incorrect answers`,
-      5000,
     );
   };
 
@@ -1318,7 +1315,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         showSuccess(
           'Chapter Reset',
           `Chapter "${targetChapter.name}" has been reset. Starting fresh!`,
-          4000,
         );
 
         console.log(`Successfully reset chapter: ${targetChapter.name}`);
@@ -1591,7 +1587,6 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     showSuccess(
       'State Exported Successfully!',
       'Your quiz progress has been saved to a file',
-      4000,
     );
   };
 

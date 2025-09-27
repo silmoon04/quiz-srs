@@ -25,12 +25,11 @@ interface QuestionEditorProps {
 export function QuestionEditor({
   isOpen,
   question,
-  chapterId,
   onSave,
   onCancel,
   onDelete,
   generateUniqueOptionId,
-}: QuestionEditorProps) {
+}: Omit<QuestionEditorProps, 'chapterId'>) {
   // Form state
   const [questionId, setQuestionId] = useState('');
   const [questionText, setQuestionText] = useState('');

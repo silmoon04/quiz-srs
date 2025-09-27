@@ -241,7 +241,7 @@ export function AllQuestionsView({
         'g',
       );
 
-      processedText = processedText.replace(optionIdPattern, (match) => {
+      processedText = processedText.replace(optionIdPattern, () => {
         const isSelectedOption = questionState?.selectedOptionId === option.optionId;
 
         if (isSelectedOption) {
