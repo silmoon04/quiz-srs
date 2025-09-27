@@ -94,13 +94,13 @@ export default function TestPage() {
       results += `Errors: ${result1.errors.length}\n`;
 
       if (result1.success && result1.quizModule) {
-        const module = result1.quizModule;
-        results += `Module Name: ${module.name}\n`;
-        results += `Description: ${module.description}\n`;
-        results += `Chapters: ${module.chapters.length}\n`;
+        const quizModule = result1.quizModule;
+        results += `Module Name: ${quizModule.name}\n`;
+        results += `Description: ${quizModule.description}\n`;
+        results += `Chapters: ${quizModule.chapters.length}\n`;
 
-        if (module.chapters.length > 0) {
-          const chapter = module.chapters[0];
+        if (quizModule.chapters.length > 0) {
+          const chapter = quizModule.chapters[0];
           results += `Chapter ID: ${chapter.id}\n`;
           results += `Chapter Name: ${chapter.name}\n`;
           results += `Questions: ${chapter.questions.length}\n`;
@@ -127,13 +127,13 @@ export default function TestPage() {
       results += `Errors: ${result2.errors.length}\n`;
 
       if (result2.success && result2.quizModule) {
-        const module = result2.quizModule;
-        results += `Module Name: ${module.name}\n`;
-        results += `Description: ${module.description}\n`;
-        results += `Chapters: ${module.chapters.length}\n`;
+        const quizModule = result2.quizModule;
+        results += `Module Name: ${quizModule.name}\n`;
+        results += `Description: ${quizModule.description}\n`;
+        results += `Chapters: ${quizModule.chapters.length}\n`;
 
-        if (module.chapters.length > 0) {
-          const chapter = module.chapters[0];
+        if (quizModule.chapters.length > 0) {
+          const chapter = quizModule.chapters[0];
           results += `Chapter ID: ${chapter.id}\n`;
           results += `Chapter Name: ${chapter.name}\n`;
           results += `Questions: ${chapter.questions.length}\n`;

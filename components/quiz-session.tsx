@@ -106,7 +106,7 @@ export function QuizSession({
   onViewAllQuestions,
 }: QuizSessionProps) {
   const [displayedOptionsCache, setDisplayedOptionsCache] = useState<DisplayedOption[]>([]);
-  const [targetCorrectOptionForFeedback, setTargetCorrectOptionForFeedback] = useState<
+  const [_targetCorrectOptionForFeedback, setTargetCorrectOptionForFeedback] = useState<
     string | null
   >(null);
 
@@ -244,7 +244,15 @@ export function QuizSession({
     console.log(
       `Options cached for question ${question.questionId} - will remain stable during feedback`,
     );
-  }, [question.questionId, isViewingHistoricalEntry, historicalEntry]);
+  }, [
+    question.questionId,
+    isViewingHistoricalEntry,
+    historicalEntry,
+    question.correctOptionIds,
+    question.options,
+    question.shownIncorrectOptionIds,
+    question.srsLevel,
+  ]);
 
   // FIXED: Accurate feedback for historical answers
   // const _getOptionDisplayState = (option: DisplayedOption) => {

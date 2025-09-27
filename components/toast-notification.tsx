@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
@@ -34,14 +34,14 @@ export function ToastNotification({ toast, onRemove }: ToastNotificationProps) {
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [toast.duration]);
+  }, [toast.duration, handleRemove]);
 
-  const handleRemove = () => {
+  const handleRemove = useCallback(() => {
     setIsExiting(true);
     setTimeout(() => {
       onRemove(toast.id);
     }, 300); // Match exit animation duration
-  };
+  }, [onRemove, toast.id]);
 
   const getIcon = () => {
     switch (toast.type) {

@@ -71,5 +71,5 @@
     - status [ref=e95]
     - button "Open Next.js Dev Tools" [ref=e101] [cursor=pointer]:
         - img [ref=e102] [cursor=pointer]
-    - alert [ref=e105]
+    - alert [ref=e107]
 ```
