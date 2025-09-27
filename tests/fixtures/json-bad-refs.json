@@ -1,0 +1,62 @@
+{
+  "name": "Bad References Test",
+  "description": "Test module with invalid option references",
+  "chapters": [
+    {
+      "id": "ch1",
+      "name": "Invalid References",
+      "description": "Testing invalid option ID references",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is 2 + 2?",
+          "options": [
+            { "optionId": "opt1", "optionText": "3" },
+            { "optionId": "opt2", "optionText": "4" },
+            { "optionId": "opt3", "optionText": "5" }
+          ],
+          "correctOptionIds": ["opt4"],
+          "explanationText": "2 + 2 equals 4",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q2",
+          "questionText": "What is 3 + 3?",
+          "options": [
+            { "optionId": "opt1", "optionText": "5" },
+            { "optionId": "opt2", "optionText": "6" }
+          ],
+          "correctOptionIds": ["opt1", "opt5"],
+          "explanationText": "3 + 3 equals 6",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 2,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    },
+    {
+      "id": "ch2",
+      "name": "Cross-Chapter References",
+      "description": "Testing cross-chapter invalid references",
+      "questions": [
+        {
+          "questionId": "q3",
+          "questionText": "What is 4 + 4?",
+          "options": [
+            { "optionId": "opt1", "optionText": "7" },
+            { "optionId": "opt2", "optionText": "8" }
+          ],
+          "correctOptionIds": ["opt1", "opt2", "opt3"],
+          "explanationText": "4 + 4 equals 8",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 1,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    }
+  ]
+}
