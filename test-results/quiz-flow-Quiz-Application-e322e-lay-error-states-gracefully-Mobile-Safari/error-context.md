@@ -6,4 +6,5 @@
         - heading "404" [level=1] [ref=e4]
         - heading "This page could not be found." [level=2] [ref=e6]
     - status [ref=e7]
+    - alert [ref=e8]
 ```
