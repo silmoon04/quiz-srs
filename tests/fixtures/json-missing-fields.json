@@ -1,0 +1,45 @@
+{
+  "name": "Missing Fields Test",
+  "description": "Test module with missing required fields",
+  "chapters": [
+    {
+      "id": "ch1",
+      "name": "Incomplete Chapter",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is 2 + 2?",
+          "options": [
+            { "optionId": "opt1", "optionText": "3" },
+            { "optionId": "opt2", "optionText": "4" }
+          ],
+          "correctOptionIds": ["opt2"]
+        }
+      ],
+      "totalQuestions": 1,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    },
+    {
+      "id": "ch2",
+      "name": "Another Incomplete Chapter",
+      "questions": [
+        {
+          "questionId": "q2",
+          "questionText": "What is 3 + 3?",
+          "options": [
+            { "optionId": "opt1", "optionText": "5" },
+            { "optionId": "opt2", "optionText": "6" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "3 + 3 equals 6"
+        }
+      ],
+      "totalQuestions": 1,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    }
+  ]
+}

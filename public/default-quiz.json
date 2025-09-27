@@ -52,9 +52,7 @@
               "optionText": "**Correctness**: The algorithm must produce the correct output for all valid inputs."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q1_opt1"],
           "explanationText": "The property that ensures an algorithm must always terminate after a finite number of steps is **Finiteness**. While Definiteness (unambiguous steps) and Effectiveness (basic, executable operations) are also foundational properties, Finiteness specifically addresses the termination requirement. Input and Output define its interface, and Optimality, Clarity, Generality, Determinism, and Correctness are other important characteristics or goals but not the one specifically about termination.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -111,9 +109,7 @@
               "optionText": "It is primarily used for describing hardware designs, not software."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q2_opt1"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q2_opt1"],
           "explanationText": "The primary benefit of pseudocode is that **it abstracts away from specific programming language syntax, allowing the description to focus purely on the algorithm's logic**. This abstraction directly contributes to its other advantages, such as being easier for a wider audience (including those not proficient in a particular programming language) to understand and typically having less syntactic noise. Pseudocode is not directly compilable and does not enforce strict type checking like a programming language.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -170,9 +166,7 @@
               "optionText": "The maximum possible input size the algorithm can handle."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q3_opt2"],
           "explanationText": "Time complexity primarily refers to **how the number of fundamental operations performed by the algorithm grows as the size of the input increases**. This focus on growth relative to input size allows for a machine-independent measure of an algorithm's efficiency (as described by the concept of being a 'machine-independent measure'), abstracting away from specific hardware or exact clock times. It's distinct from space complexity (memory usage) or lines of code.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -229,9 +223,7 @@
               "optionText": "Worst-case complexity is always a polynomial function."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q4_opt1"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q4_opt1"],
           "explanationText": "The primary reason for focusing on worst-case complexity is that **it provides an upper bound on the algorithm's running time, guaranteeing performance will not be worse**. This guarantee is critical for many applications, especially real-time systems or those requiring predictable performance. While it's also true that average-case analysis can be much harder (as mentioned in one of the options) and that for some algorithms the average case is often close to the worst case, the performance guarantee is the most fundamental advantage. The option stating it's 'analyzed as a function of input size, abstracting from specific data values' describes a general aspect of complexity analysis, not unique to worst-case being crucial. Worst-case complexity is not always polynomial (e.g., it can be $O(2^n)$).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -288,9 +280,7 @@
               "optionText": "The final value returned for $a = [6, 9, 3]$ is 18."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q5_opt5"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q5_opt5"],
           "explanationText": "When tracing the algorithm with $a = [6, 9, 3]$: Initially, $total = 0$ and $i = 0$. In the first loop iteration (when $i$ is 0): $total$ becomes $0 + a[0]$ which is $0 + 6 = 6$. Then $i$ becomes $0 + 1 = 1$. Thus, **after the first iteration, $total$ is 6 and $i$ becomes 1**. The loop executes $n$ times in total, and for this specific input, the final returned value is 18.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -347,9 +337,7 @@
               "optionText": "The complexity of the data structures used by the algorithm."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q6_opt3"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q6_opt3"],
           "explanationText": "Space complexity is primarily concerned with **the amount of additional memory (auxiliary space) an algorithm uses, apart from the space occupied by the input itself, as this auxiliary space requirement grows with the input size**. For recursive algorithms, the space used by the call stack (due to recursive calls storing activation records) is a significant component of this auxiliary space. It's distinct from the memory for source code or input data alone.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -467,9 +455,7 @@
               "optionText": "The algorithm must be written in an effective programming language."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q8_opt6"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q8_opt6"],
           "explanationText": "The 'effectiveness' property means each step of an algorithm must be sufficiently basic and feasible to be carried out in practice. The statement that **the operations are so clear they could, in principle, be done by a human with pencil and paper in finite time** best illustrates this. It emphasizes that each operation must be primitive and executable, distinguishing it from correctness (a separate goal), efficiency, or termination time (which is the Finiteness property).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -526,9 +512,7 @@
               "optionText": "**Portability**"
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q9_opt1"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q9_opt1"],
           "explanationText": "Algorithmic efficiency is primarily concerned with two dimensions: time and space. **Time efficiency** specifically refers to how fast the algorithm runs, which is typically characterized by its time complexity (e.g., $O(n)$, $O(n \\log n)$, $O(n^2)$), indicating how the number of operations grows with input size. Space efficiency, the other primary dimension, concerns memory usage.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -585,9 +569,7 @@
               "optionText": "The operation whose time cost is independent of the size of the input $n$."
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q10_opt10"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q10_opt10"],
           "explanationText": "The most defining characteristic of a 'basic operation' for time complexity analysis is that **its time cost is independent of the size of the input $n$**. Such operations (e.g., an integer comparison, an assignment) take a constant amount of time. These operations are also typically chosen because they are **directly related to the problem's core logic** (like comparisons in sorting) and can often be **mapped to a small, constant number of machine instructions**. The key is their constant-time nature relative to $n$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -651,9 +633,7 @@
               "optionText": "**Implementation Problems**"
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q7_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q7_partA_opt1"],
           "explanationText": "**Decision Problems** are a fundamental type of computational problem that specifically require a 'yes' or 'no' answer. For example, 'Does a path exist between two nodes in this graph?' is a decision problem. Search problems aim to find a solution if one exists, and optimization problems aim to find the best solution.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -710,9 +690,7 @@
               "optionText": "**Resource Allocation Problems** (often optimization)"
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q7_partB_opt2"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q7_partB_opt2"],
           "explanationText": "**Search Problems** are primarily concerned with finding a solution that satisfies certain criteria, if one exists. For example, 'Find a path from node A to node B'. This differs from decision problems (yes/no) and optimization problems (find the best solution).",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -769,9 +747,7 @@
               "optionText": "**Game Theory Problems**"
             }
           ],
-          "correctOptionIds": [
-            "ch_fundamentals_1_q7_partC_opt3"
-          ],
+          "correctOptionIds": ["ch_fundamentals_1_q7_partC_opt3"],
           "explanationText": "**Optimization Problems** focus on finding the best solution among all possible solutions, according to some objective function (e.g., finding the shortest path, the maximum flow, or the minimum cost). This distinguishes them from decision problems (yes/no) and search problems (find any valid solution).",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -832,9 +808,7 @@
               "optionText": "$O(n^3 \\log n)$"
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q1_opt1"],
           "explanationText": "In Big O notation, we are interested in the asymptotic upper bound. For the function $f(n) = 5n^3 + 100n^2 + 500n + 2000$, we identify the **dominant term** (the term that grows fastest as $n$ becomes large), which is $5n^3$. Then, we **ignore constant factors** (like the 5) and lower-order terms ($100n^2, 500n, 2000$). Therefore, the Big O complexity is $O(n^3)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -891,9 +865,7 @@
               "optionText": "The algorithm uses constant extra space."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q9_opt3"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q9_opt3"],
           "explanationText": "The most fundamental definition of $O(1)$ (constant time) complexity is that **the algorithm's execution time is constant and does not depend on the input size $n$**. This implies that the number of operations performed by the algorithm is bounded above by some constant $C$, regardless of the value of $n$. While 'The number of operations is primarily characterized by a fixed upper limit, irrespective of $n$.' is a consequence and accurate description, the definition focuses on the execution time's independence from input size. Accessing an array element by its index is a classic example of an $O(1)$ operation.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -950,9 +922,7 @@
               "optionText": "`max` is the smallest element in `a[0...i-1]`."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q3_opt2"],
           "explanationText": "A crucial loop invariant for this algorithm, concerning the variable `max`, is that _**max is the largest element in the subarray `a[0...i-1]`**_. This property is established before the loop (when `i=1`, `max = a[0]`, so it's true for `a[0...0]`). Each iteration maintains this: if `a[i]` (the current element being considered) is larger than `max`, `max` is updated to `a[i]`; otherwise, `max` (which was largest in `a[0...i-1]`) remains the largest. After `a[i]` is processed and `i` is incremented, `max` holds the largest value in `a[0...(new i)-1]`. Another invariant concerns the loop counter `i`, which represents the index of the next element to be considered. Upon termination (when `i=n`), the invariant regarding `max` implies that `max` is the largest element in the entire array `a[0...n-1]`.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1009,9 +979,7 @@
               "optionText": "$O(n^c)$"
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q4_opt3"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q4_opt3"],
           "explanationText": "If a loop iterates $n$ times, and inside each iteration, a constant number of operations, say $c$ (e.g., $3+2=5$ operations), are performed, then the total number of operations is $c \\times n$. In Big O notation, constant factors are ignored. Thus, the time complexity is **$O(n)$**, which is linear time complexity. While $O(5n)$ or $O(c \\cdot n)$ describe the number of operations before simplification, $O(n)$ is the standard Big O representation. Big O describes an asymptotic upper bound, not an exact count.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1068,9 +1036,7 @@
               "optionText": "$O(n!)$"
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q5_opt3"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q5_opt3"],
           "explanationText": "When an algorithm consists of two independent, sequential loops, and each runs $n$ times (performing constant work per iteration), their individual complexities are $O(n)$. For sequential blocks of code, their complexities are added. Thus, the total time is $O(n) + O(n) = O(n+n)$, which is $O(2n)$. In Big O notation, constant factors are ignored, so this simplifies to **$O(n)$**. Therefore, the statement '$O(2n)$ which simplifies to $O(n)$' best describes this calculation and result. The fact that the loops are sequential, not nested, is key to this addition rule.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1127,9 +1093,7 @@
               "optionText": "$O(n^m)$"
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q6_opt2"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q6_opt2"],
           "explanationText": "For nested loops, the number of times the inner loop's body executes is the product of the number of iterations of the outer loop and the number of iterations of the inner loop (per outer iteration). So, if the outer loop runs $n$ times and for each of those iterations, the inner loop runs $m$ times, the total operations performed by the inner loop's body will be proportional to $n \\times m$. Thus, the Big O complexity is **$O(n \\times m)$**. If $n$ and $m$ are the same (i.e., $n=m$), this complexity becomes $O(n \\times n) = O(n^2)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1186,9 +1150,7 @@
               "optionText": "It is only used in `for` loops, not `while` loops."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q7_opt2"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q7_opt2"],
           "explanationText": "While a loop control variable must be initialized before the loop (Initialization) and modified within its body to ensure progress (Modification), its characteristic of being **used in the test condition that determines whether the loop continues or terminates** (Test) is most directly involved in the decision-making process of loop execution at each step. These three aspects (Initialize, Test, Modify) together define its fundamental structural role in controlling the loop.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1245,9 +1207,7 @@
               "optionText": "If $n=10$, the $O(n^2)$ algorithm takes 100 steps and the $O(n^3)$ algorithm takes 1000 steps, ignoring constants."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q8_opt2"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q8_opt2"],
           "explanationText": "The most significant difference for large $n$ is that **the $O(n^2)$ algorithm is asymptotically faster than the $O(n^3)$ algorithm**; its running time grows at a slower rate. This means that as $n$ becomes very large, the $O(n^2)$ algorithm will eventually outperform the $O(n^3)$ algorithm, regardless of constant factors. It's important to note that for small values of $n$, the $O(n^3)$ algorithm could be faster if its constant factors or the cost of its elementary operations are significantly smaller. Both $O(n^2)$ and $O(n^3)$ complexities represent polynomial time, which is generally considered tractable.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1304,9 +1264,7 @@
               "optionText": "The algorithm uses constant extra space."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q9_opt3"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q9_opt3"],
           "explanationText": "The most fundamental definition of $O(1)$ (constant time) complexity is that **the algorithm's execution time is constant and does not depend on the input size $n$**. This implies that the number of operations performed by the algorithm is bounded above by some constant $C$, regardless of the value of $n$. While 'The number of operations is primarily characterized by a fixed upper limit, irrespective of $n$.' is a consequence and accurate description, the definition focuses on the execution time's independence from input size. Accessing an array element by its index is a classic example of an $O(1)$ operation.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1363,9 +1321,7 @@
               "optionText": "Big O notation is only used for time complexity, not space complexity."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q10_opt4"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q10_opt4"],
           "explanationText": "The primary purpose of Big O notation is that it **describes the asymptotic upper bound of an algorithm's growth rate** as the input size $n$ tends towards infinity. This means if an algorithm's resource usage (time or space) is $f(n)$, and we say $f(n) = O(g(n))$, then $g(n)$ serves as an upper bound for $f(n)$ for sufficiently large $n$, implying $g(n)$ grows at least as fast as $f(n)$ (ignoring constant factors and lower-order terms). For example, a function $100n + 500$ is $O(n)$, and $n^2/2 + n/2$ is $O(n^2)$. Big O notation is used for both time and space complexity. An algorithm with $O(n)$ complexity has a _slower_ (more desirable) rate of growth of its complexity function than one with $O(n^2)$ complexity (where $n^2$ grows faster than $n$).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1422,9 +1378,7 @@
               "optionText": "It depends on whether the array is sorted or not."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q11_opt3"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q11_opt3"],
           "explanationText": "For sequential search in the average case (assuming the element is present and equally likely to be at any position), the number of comparisons is approximately **$n/2$**. This is derived by summing the number of comparisons needed if the element is at the first position (1), second (2), ..., up to the $n$-th position ($n$), and then dividing by $n$. This sum is $(1+2+...+n) = n(n+1)/2$. So the average is $(n(n+1)/2)/n = (n+1)/2$, which is close to $n/2$ for large $n$. In Big O notation, this average-case performance is still $O(n)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1481,9 +1435,7 @@
               "optionText": "To allow for early exit from the loop using a `break` statement."
             }
           ],
-          "correctOptionIds": [
-            "ch_iterative_bigo_2_q12_opt2"
-          ],
+          "correctOptionIds": ["ch_iterative_bigo_2_q12_opt2"],
           "explanationText": "The primary purpose of using a loop control variable in conjunction with a loop termination condition is **to ensure the loop eventually terminates and avoids an infinite loop**. This is achieved by systematically modifying the loop control variable within the loop body, thereby making progress towards a state where the termination condition (which is typically checked before each iteration in `WHILE` or `FOR` loops) becomes false, causing the loop to exit. While it often facilitates processing data structures or aids in complexity analysis, its fundamental role is controlling the loop's finite execution.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1551,9 +1503,7 @@
               "optionText": "It requires $O(1)$ auxiliary space (in-place sort)."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q1_opt1"],
           "explanationText": "The core operational mechanic of Selection Sort is that **in each pass, it finds the smallest (or largest, depending on sort order) element in the remaining unsorted portion of the array and swaps it with the element at the beginning of that unsorted portion**. This process is repeated for the subsequent smaller unsorted portions until the entire array is sorted. Its time complexity is consistently $O(n^2)$ in all cases (worst, average, and best) because it always makes roughly $n^2/2$ comparisons. It is not a stable sort due to the long-range swaps, but it is an in-place sort requiring $O(1)$ auxiliary space.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1610,9 +1560,7 @@
               "optionText": "It requires $O(1)$ auxiliary space (in-place sort)."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q2_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q2_opt2"],
           "explanationText": "The fundamental operation of Insertion Sort is that **it builds the sorted array one element at a time by taking the current element from the unsorted part and inserting it into its correct position within the already sorted part** by shifting larger elements to the right. This algorithm is stable (preserves relative order of equal elements), adaptive (performs efficiently on nearly sorted data with $O(n)$ best-case complexity), and in-place (requires $O(1)$ auxiliary space). Its worst-case time complexity is $O(n^2)$ (e.g., for a reverse-sorted array).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1669,9 +1617,7 @@
               "optionText": "`[14, 27, 34, 77]` (fully sorted)"
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q3_opt2"],
           "explanationText": "Original array: `[27, 14, 77, 34]`.<br>**First pass (i=0):**<br>1. Find the smallest element in `a[0...3]`. The smallest is 14, located at index 1.<br>2. Swap `a[0]` (which is 27) with `a[1]` (which is 14).<br>The array becomes **`[14, 27, 77, 34]`**. This is the state after the first pass.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1728,9 +1674,7 @@
               "optionText": "`[27, 14, 34, 77]`"
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q4_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q4_opt2"],
           "explanationText": "Original array: `[27, 14, 77, 34]`. Insertion Sort considers `a[0]=27` as initially sorted. The pass to insert `a[1]=14` (which occurs when the outer loop index, say `i`, is 1) involves taking `14` and comparing it with elements in the sorted portion `[27]`. Since `14 < 27`, `27` is shifted to the right (to index 1), and `14` is placed at index 0. So, after `14` is inserted, **the array becomes `[14, 27, 77, 34]`**.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1787,9 +1731,7 @@
               "optionText": "It is guaranteed to terminate."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q5_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q5_opt2"],
           "explanationText": "The most fundamental meaning of a stable sorting algorithm is that **it maintains the relative order of records with equal sort keys**. This means if two elements have the same value (key) used for sorting, and one appears before the other in the original input array, it will also appear before the other in the sorted output array. The statement 'If two elements x and y have the same key, and x appears before y in the input, then x will appear before y in the output' is a more formal way of expressing this same core concept. Other options describe properties like determinism (always same output), performance consistency, or general algorithm correctness, which are distinct from stability.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1846,9 +1788,7 @@
               "optionText": "Insertion sort is an example of an adaptive algorithm."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q6_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q6_opt2"],
           "explanationText": "An **adaptive** sorting algorithm is one whose **performance (typically run time) improves if the input data is already partially sorted or exhibits some existing order**. A key consequence is that if the input is already sorted, such an algorithm might achieve its best-case time complexity, which is often better than its average or worst-case complexity (e.g., Insertion Sort achieves $O(n)$ on sorted data). Insertion Sort is a well-known example of an adaptive algorithm. Selection Sort is not adaptive as its performance remains $O(n^2)$ regardless of input order.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1905,9 +1845,7 @@
               "optionText": "$O(n!)$"
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q7_opt5"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q7_opt5"],
           "explanationText": "Selection Sort performs **exactly $n(n-1)/2$ comparisons** on an array of $n$ elements. This is because in the first pass it makes $n-1$ comparisons to find the minimum, in the second pass $n-2$ comparisons, and so on, until the last pass makes 1 comparison. The sum $(n-1) + (n-2) + ... + 1$ equals $n(n-1)/2$. Consequently, the number of comparisons is always the same regardless of the input data's initial order (best, average, and worst cases are identical in terms of comparisons), and its time complexity is $O(n^2)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1964,9 +1902,7 @@
               "optionText": "The best case also occurs when all elements are identical."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q8_opt2"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q8_opt2"],
           "explanationText": "The best-case time complexity for Insertion Sort is **$O(n)$, and this occurs when the input array is already sorted** (or nearly sorted, including when all elements are identical). In this scenario, when considering each element to insert, it only needs to be compared with the last element of the already sorted portion to confirm it's in the correct place, and no (or very few) shifts of elements are required. This results in approximately $n-1$ comparisons and no shifts, leading to linear time performance.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2023,9 +1959,7 @@
               "optionText": "Its $O(n^2)$ complexity makes it unstable for large datasets."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q9_opt3"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q9_opt3"],
           "explanationText": "Selection Sort is not stable primarily because **elements with equal keys might be swapped over long distances, potentially changing their original relative order**. When the algorithm finds the minimum element in the unsorted portion, it swaps this minimum with the element at the current first position of that unsorted portion. If the minimum element found was originally positioned after another element with the same key, this swap can move it before that other identical element, thus violating stability. For example, in `[3A, 2, 3B, 1]` (where 3A and 3B are equal but distinct items), if 3A is at index 0 and 3B is at index 2, and 1 is found as the minimum, swapping 1 with 3A changes the order. The next passes might also change the relative order of 3A and 3B.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2082,9 +2016,7 @@
               "optionText": "The loop invariant ensures the last element is sorted by the time `i` reaches `n-2`."
             }
           ],
-          "correctOptionIds": [
-            "ch_simple_sorting_3_q10_opt3"
-          ],
+          "correctOptionIds": ["ch_simple_sorting_3_q10_opt3"],
           "explanationText": "The outer loop of Selection Sort iterates $n-1$ times. If it runs from `i = 0` to `n-2`, this covers $n-1$ iterations. The most direct reason this is sufficient is that **when the first $n-1$ elements have been selected and placed in their correct sorted positions, the $n$-th (and last) element must also be in its correct place**. There's no other position for it to go if the preceding $n-1$ elements are correctly sorted. Iterating the outer loop up to `n-1` would result in a final pass where the inner loop searches for the minimum in a subarray of size 1 (i.e., `a[n-1...n-1]`), which is trivial and unnecessary. This optimization saves one outer loop iteration but does not change the overall $O(n^2)$ complexity.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2152,9 +2084,7 @@
               "optionText": "An algorithm that processes each element of a tree level by level might exhibit logarithmic behavior if the tree is balanced."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q1_opt1"],
           "explanationText": "The characteristic behavior of algorithms with $O(\\log n)$ complexity is that their **runtime increases very slowly as the input size $n$ grows**. This makes them highly efficient for large datasets. This slow growth is typically achieved because such algorithms divide the problem size by a constant factor at each step (e.g., binary search halves the search space). Consequently, doubling the input size only adds a constant amount of work. The base of the logarithm does not affect the Big O classification, as different bases only differ by a constant factor.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2211,9 +2141,7 @@
               "optionText": "$O(2^n)$ is a type of polynomial time complexity."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q2_opt5"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q2_opt5"],
           "explanationText": "Exponential time complexity, such as $O(2^n)$ or $O(k^n)$ for $k>1$, signifies that **problems solvable in such time are generally considered intractable for anything but small input sizes $n$**. This is because the runtime grows extremely rapidly; for instance, with $O(2^n)$, each increment in $n$ can roughly double the runtime. Such complexities often arise from brute-force approaches that explore an exponentially large number of possibilities (e.g., all subsets of a set, all truth assignments for SAT). For large $n$, polynomial algorithms are always significantly faster.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2270,9 +2198,7 @@
               "optionText": "Its space complexity is $O(\\log n)$ due to recursive calls in a naive implementation."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q3_opt2"],
           "explanationText": "The most critical precondition for Binary Search is that **it requires the input array to be sorted**. This sorted property allows the algorithm to, in each step, compare the target key with the middle element of the current search space and then eliminate half of that space based on whether the target is smaller or larger than the middle element. Without a sorted array, this elimination strategy would not be valid, and binary search could not guarantee finding the element or achieve its $O(\\log n)$ efficiency.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2329,9 +2255,7 @@
               "optionText": "Because it is faster than linear search which is $O(n)$."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q4_opt2"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q4_opt2"],
           "explanationText": "The fundamental reason for Binary Search's $O(\\log n)$ time complexity is that **at each step, the size of the problem (the search interval) is reduced by approximately half**. This repeated halving means that the number of steps ($k$) required to reduce the search space from $n$ elements down to 1 (or 0) is such that $n/2^k \\approx 1$, which implies $2^k \\approx n$, or $k \\approx \\log_2 n$. Thus, the number of operations is proportional to the logarithm of the input size. The best case for binary search is $O(1)$ (if the element is found at the very first middle check).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2388,9 +2312,7 @@
               "optionText": "The search never examines A[2]=30."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q5_opt4"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q5_opt4"],
           "explanationText": "Tracing Binary Search for key 35 in `A = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]` (indices 0-9):\n1. $lo=0, hi=9 \\rightarrow mid=(0+9)//2 = 4$. $A[4]=50$. (Since $35 < 50$, set $hi=mid-1=3$)\n2. $lo=0, hi=3 \\rightarrow mid=(0+3)//2 = 1$. $A[1]=20$. (Since $35 > 20$, set $lo=mid+1=2$)\n3. $lo=2, hi=3 \\rightarrow mid=(2+3)//2 = 2$. $A[2]=30$. (Since $35 > 30$, set $lo=mid+1=3$)\n4. $lo=3, hi=3 \\rightarrow mid=(3+3)//2 = 3$. $A[3]=40$. (Since $35 < 40$, set $hi=mid-1=2$)\nNow, $lo=3$ and $hi=2$. Since $lo > hi$, the loop terminates and the key 35 is not found. The last element examined by $A[mid]$ was **$A[3]=40$**.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2447,9 +2369,7 @@
               "optionText": "Calculating $n$-th Fibonacci number using iteration."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q6_opt3"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q6_opt3"],
           "explanationText": "The **Subset Sum Problem** is a classic example where a naive brute-force solution involves checking all $2^n$ possible subsets of $n$ numbers, leading to an $O(2^n)$ time complexity. Other problems like SAT and the 0-1 Knapsack problem also have similar naive exponential solutions due to exploring all combinations. Mergesort, Binary Search, finding max, and standard matrix multiplication have polynomial complexities. Naive TSP is $O(n!)$, and dynamic programming or iterative Fibonacci are more efficient than brute-force exponential approaches for those specific problems.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2506,9 +2426,7 @@
               "optionText": "Both are considered efficient polynomial time algorithms."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q7_opt2"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q7_opt2"],
           "explanationText": "For an input size $n = 1,000,000$:<br>An $O(n)$ algorithm will perform operations proportional to 1,000,000.<br>An $O(\\log n)$ algorithm (assuming base 2 logarithm, common in computer science) will perform operations proportional to $\\log_2(1,000,000)$. Since $2^{10} = 1024 \\approx 10^3$, then $2^{20} = (2^{10})^2 \\approx (10^3)^2 = 10^6 = 1,000,000$. So, $\\log_2(1,000,000)$ is approximately 20. Thus, the $O(\\log n)$ algorithm performs operations proportional to roughly **20**. This highlights the significant efficiency of logarithmic algorithms for large inputs compared to linear ones.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2565,9 +2483,7 @@
               "optionText": "It guarantees that `lo` and `hi` remain valid array indices when accessing `a[mid]`."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q8_opt3"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q8_opt3"],
           "explanationText": "The primary purpose of the invariant part 'if the `key` is in the original array, it must be within the current search interval `a[lo..hi]`' is **to ensure that the target key, if present, is never accidentally discarded as the search space is narrowed**. This invariant, along with the correct narrowing of `lo` and `hi` based on comparisons, underpins the algorithm's correctness. If this invariant holds and the loop terminates (e.g., because `lo > hi` and the key wasn't found at `a[mid]`), it means the key was not in the original array. It's a core component of proving partial correctness and that the search space is correctly reduced.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2624,9 +2540,7 @@
               "optionText": "$1000n^3$ is asymptotically faster growing (less efficient) than $2^{n/100}$."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q9_opt2"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q9_opt2"],
           "explanationText": "For sufficiently large $n$, **any exponential function $O(c^n)$ (where $c > 1$) will always grow faster than any polynomial function $O(n^k)$ (where $k > 0$)**. This is a fundamental result in the analysis of algorithms. This means that algorithms with polynomial complexity are asymptotically much more efficient than those with exponential complexity. Even if $k$ is very large (e.g., $n^{100}$) and $c$ is only slightly greater than 1 (e.g., $1.01^n$), the exponential function will eventually dominate. Logarithmic factors do not alter this essential relationship (e.g., $n^k \\log n$ still grows slower than $c^n$). Because of this, polynomial time is generally considered 'tractable', while exponential time is 'intractable' for large inputs.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2683,9 +2597,7 @@
               "optionText": "It is more complex to implement than the standard binary search."
             }
           ],
-          "correctOptionIds": [
-            "ch_exp_log_search_4_q10_opt3"
-          ],
+          "correctOptionIds": ["ch_exp_log_search_4_q10_opt3"],
           "explanationText": "A primary advantage of the binary search variant that omits the equality test within the loop is that **upon termination, the loop index (often `lo` or `low`) directly indicates the correct insertion point for the key to maintain sorted order**. This is useful whether the key was originally present or not. The loop typically runs for the full $\\approx \\log n$ iterations, narrowing the search interval [lo..hi] until it identifies a single position. After the loop, a separate check can be made at `a[lo]` (if `lo` is a valid index) to see if the key is actually present. This variant is particularly useful for tasks like finding the first/last occurrence of an element or finding the position for insertion, making it more versatile than a simple presence check.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2753,9 +2665,7 @@
               "optionText": "Parameter modification to ensure progress."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q1_opt1"],
           "explanationText": "The essential component of a recursive algorithm that defines the condition for stopping further recursion and solving a subproblem directly is the **base case(s)**. Without a base case, a recursive algorithm would continue calling itself indefinitely (or until a stack overflow). The recursive step, conversely, is where the algorithm calls itself with a modified input that progresses towards a base case.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2812,9 +2722,7 @@
               "optionText": "It ensures that recursive functions are always more space-efficient than iterative ones."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q2_opt3"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q2_opt3"],
           "explanationText": "During a recursive function call, an activation record (or stack frame) is created for that specific call. This record is crucial for managing the execution context of the call. The statement that **the activation record typically stores parameters, local variables, and the return address for that specific call** best describes its contents. This allows each instance of the recursive function to have its own set of variables and to know where to return control once it finishes. While it is true that an activation record is pushed onto the stack for each call (as mentioned in another option) and that stack overflow can occur (another option), the question asks what _best describes what is stored_.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2871,9 +2779,7 @@
               "optionText": "$O(k \\log x)$."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q3_opt2"],
           "explanationText": "The space complexity of this recursive `Power(x, k)` algorithm, due to the call stack, is **$O(k)$__. This is because each call to `Power(x, k-1)` makes a new recursive call, adding an activation record to the call stack. This continues until $k$ is reduced to 0. Thus, in the worst case (for $k > 0$), there will be approximately $k$ activation records on the stack simultaneously. This particular recursive structure is not tail-recursive because the multiplication `x _ ...` occurs _after_ the recursive call returns, meaning the current stack frame cannot be reused. An iterative version would typically have $O(1)$ space complexity.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2930,9 +2836,7 @@
               "optionText": "The result returned from `FP(2,1)` is $1 \\cdot 1 \\cdot 2 = 2$."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q4_opt8"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q4_opt8"],
           "explanationText": "Tracing `FastPower(2, 5)`:<br>1. `FastPower(2,5)` calls `FastPower(2, 5 DIV 2)` which is `FastPower(2,2)`.<br>2. `FastPower(2,2)` calls `FastPower(2, 2 DIV 2)` which is `FastPower(2,1)`.<br>3. `FastPower(2,1)` calls `FastPower(2, 1 DIV 2)` which is `FastPower(2,0)`.<br>4. `FastPower(2,0)` is a base case and returns 1.<br>5. In `FastPower(2,1)`, `y` becomes 1. Since $k=1$ is odd, it returns $y \\cdot y \\cdot x = 1 \\cdot 1 \\cdot 2 = 2$.<br>6. In `FastPower(2,2)`, `y` becomes 2. Since $k=2$ is even, it returns $y \\cdot y = 2 \\cdot 2 = 4$.<br>7. In `FastPower(2,5)`, `y` becomes 4. Since $k=5$ is odd, it returns $y \\cdot y \\cdot x = 4 \\cdot 4 \\cdot 2 = 32$.<br>Thus, the final computed result is **32**.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -2989,9 +2893,7 @@
               "optionText": "The 'conquer' step always involves exactly two recursive calls."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q5_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q5_opt1"],
           "explanationText": "The Divide-and-Conquer strategy consists of three general steps. The 'Divide' step involves **breaking the original problem into several smaller, ideally independent, subproblems of the same type as the original problem**. The 'Conquer' step involves solving these subproblems, usually recursively, until they become simple enough to solve directly (base case). Finally, the 'Combine' step merges the solutions of the subproblems to form the solution to the original problem. Mergesort and Quicksort are classic examples.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3048,9 +2950,7 @@
               "optionText": "It is a recursive call made to the 'tail' or last element of a data structure."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q6_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q6_opt1"],
           "explanationText": "A recursive call is defined as tail-recursive if **it is the very last operation performed in the function, and the result of this recursive call is immediately returned by the calling function without any further computation**. For example, `return helper(n-1, acc_n);` could be a tail call, while `return n _ factorial(n-1);` is not, because the multiplication by `n` happens _after_ `factorial(n-1)` returns. The significance of tail recursion is that compilers supporting Tail Call Optimization (TCO) can transform such calls into iterations, avoiding the creation of new stack frames and thus preventing stack overflow for deep recursions.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3107,9 +3007,7 @@
               "optionText": "It is an efficient way to calculate Fibonacci numbers for large $n$."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q7_opt5"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q7_opt5"],
           "explanationText": "The primary reason for the inefficiency of the naive recursive Fibonacci algorithm is that **it repeatedly recomputes the same Fibonacci numbers multiple times** due to overlapping subproblems in its recursion tree. For example, to compute $F(5)$, it computes $F(4)$ and $F(3)$. Computing $F(4)$ involves computing $F(3)$ and $F(2)$. Thus, $F(3)$ is computed twice. This redundancy leads to an exponential time complexity (approximately $O(\\phi^n)$ or $O(2^n)$). This inefficiency can be overcome by using iteration or memoization (dynamic programming) to store and reuse the results of subproblems, achieving an $O(n)$ time complexity.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3166,9 +3064,7 @@
               "optionText": "The iterative solution avoids the overhead of function calls."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q8_opt4"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q8_opt4"],
           "explanationText": "A key advantage of the iterative solution for factorial is its resource usage: **an iterative solution can compute factorial in $O(n)$ time and $O(1)$ space using a loop__. In contrast, the standard recursive solution `fact(n) = IF n≤1 THEN 1 ELSE n _ fact(n-1)` also has $O(n)$ time complexity but incurs $O(n)$ space complexity due to the call stack frames created for each recursive call (unless tail call optimization is applied, which is not possible for this specific non-tail-recursive form without an accumulator). The iterative solution also avoids the overhead associated with function calls.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3225,9 +3121,7 @@
               "optionText": "Its space complexity is $O(n)$ due to storing sorted lists or recursive calls."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q9_opt3"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q9_opt3"],
           "explanationText": "In the divide-and-conquer algorithm for the Closest Pair of Points problem, the 'Divide' step partitions points. The 'Conquer' step recursively finds distances $d_L$ and $d_R$. The **'Combine' phase is best described by option `ch_recursion_5_q9_opt3`**: it takes $d = \\min(d_L, d_R)$ and then critically checks for any pair of points, one from each half, that are closer than $d$. This check is efficiently performed by considering only points within a narrow 'strip' of width $2d$ around the dividing line. This strip check is the core of the combine step and essential for achieving the algorithm's $O(n \\log n)$ efficiency.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3284,9 +3178,7 @@
               "optionText": "Recursion is only suitable for mathematical functions like factorial or Fibonacci."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q10_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q10_opt1"],
           "explanationText": "The most direct and common disadvantage related to the execution mechanism of recursive functions is the risk of **Stack Overflow**. Each recursive call adds a new frame to the call stack to store its local variables, parameters, and return address. If the recursion depth is too large (e.g., due to a missing or incorrect base case, or processing a very large input in a way that leads to deep recursion), the finite space allocated for the call stack can be exhausted, leading to a stack overflow error and program termination. While performance overhead from function calls and potential for redundant computations are also disadvantages, stack overflow is a hard limit imposed by the execution environment.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3343,9 +3235,7 @@
               "optionText": "The recursion stops when $k=1$."
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q4_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q4_partA_opt1"],
           "explanationText": "Tracing the recursive calls for `FastPower(2, 5)` based on $k \\text{ DIV } 2$: <br>1. Initial call: $k=5$. Recursive call with $k = 5 \\text{ DIV } 2 = 2$.<br>2. Call with $k=2$. Recursive call with $k = 2 \\text{ DIV } 2 = 1$.<br>3. Call with $k=1$. Recursive call with $k = 1 \\text{ DIV } 2 = 0$.<br>4. Call with $k=0$. This is the base case, returns 1.<br>So, the sequence of $k$ values in the calls is $5 \\rightarrow 2 \\rightarrow 1 \\rightarrow 0$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3402,9 +3292,7 @@
               "optionText": "$y=2$ (in frame for $k=1$), then $y=4$ (in frame for $k=2$), then $y=16$ (in frame for $k=5$)"
             }
           ],
-          "correctOptionIds": [
-            "ch_recursion_5_q4_partB_opt1"
-          ],
+          "correctOptionIds": ["ch_recursion_5_q4_partB_opt1"],
           "explanationText": "Let's trace assignments to $y$ as calls return: <br>1. `FastPower(2,0)` returns 1. <br>2. In frame for $k=1$ (which called `FastPower(2,0)`): $y$ gets 1. Returns $y*y*x = 1*1*2 = 2$. <br>3. In frame for $k=2$ (which called `FastPower(2,1)`): $y$ gets 2. Returns $y*y = 2*2 = 4$. <br>4. In frame for $k=5$ (which called `FastPower(2,2)`): $y$ gets 4. Returns $y*y*x = 4*4*2 = 32$. <br>Thus, the sequence of values assigned to $y$ in the call frames for $k=1$, then $k=2$, then $k=5$ is 1, then 2, then 4, respectively.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3472,9 +3360,7 @@
               "optionText": "Algorithms like Radix Sort can beat this lower bound because they are not comparison-based (they use digit/value properties)."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q1_opt4"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q1_opt4"],
           "explanationText": "The theoretical lower bound for the time complexity of any comparison-based sorting algorithm in the worst case is **$\\Omega(n \\log n)$**. This means that, to sort $n$ elements using only comparisons between elements, at least a number of comparisons proportional to $n \\log n$ will be required in the worst case. This bound is derived by considering a decision tree model: there are $n!$ possible permutations (orderings) of $n$ distinct elements, which must be the leaves of the decision tree. Since each comparison has at most two outcomes, the tree is binary. The height of such a tree must be at least $\\log_2(n!)$, and using Stirling's approximation for $n!$, $\\log_2(n!)$ is shown to be $\\Omega(n \\log n)$. Non-comparison-based sorts like Radix Sort can sometimes achieve better complexities (e.g., $O(nk)$) by using properties of the keys themselves rather than just comparisons.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3531,9 +3417,7 @@
               "optionText": "To ensure the stability of the Quicksort algorithm."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q2_opt4"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q2_opt4"],
           "explanationText": "The primary outcome of the partitioning step in Quicksort, with respect to the pivot element, is **to place the chosen pivot element into its final sorted position within the overall sorted array**. During partitioning, elements are rearranged such that all elements smaller than the pivot are moved to its left, and all elements larger than the pivot are moved to its right (elements equal to the pivot can be handled in various ways depending on the partitioning scheme). Once this rearrangement is complete, the pivot itself is in the correct position it will occupy in the fully sorted array, and it will not be moved again. The partitioning step typically runs in linear time ($O(k)$ for a subarray of size $k$). The two subarrays formed (to the left and right of the pivot's final position) are then sorted recursively.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3590,9 +3474,7 @@
               "optionText": "Space complexity in worst case (naive recursion) can be $O(n)$ due to stack depth."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q3_opt2"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q3_opt2"],
           "explanationText": "Quicksort's worst-case time complexity is **$O(n^2)$**. This occurs when the partitioning step consistently produces highly unbalanced partitions – for example, when the pivot chosen is always the smallest or largest element in the current subarray, resulting in one partition being empty and the other containing all remaining $k-1$ elements. A common scenario that triggers this behavior is when Quicksort is applied to an already sorted or reverse-sorted array, and a naive pivot selection strategy is used, such as always picking the first or last element as the pivot. The best-case and average-case complexity of Quicksort is $O(n \\log n)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3649,9 +3531,7 @@
               "optionText": "The merge step takes $O(k^2)$ time."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q4_opt2"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q4_opt2"],
           "explanationText": "The primary role of the merge step in Mergesort is **to combine two already sorted subarrays into a single, larger sorted subarray**. This is the 'combine' phase of its divide-and-conquer strategy. This merge operation is typically performed in $O(k)$ time, where $k$ is the total number of elements in the two subarrays being merged, as each element is examined and copied once. For array-based Mergesort, this step usually requires $O(k)$ auxiliary space for a temporary array to store the merged result.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3708,9 +3588,7 @@
               "optionText": "It is generally preferred over Quicksort when stability is a requirement or worst-case $O(n \\log n)$ guarantee is needed."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q5_opt1"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q5_opt1"],
           "explanationText": "A key performance guarantee of Mergesort, which distinguishes it from standard Quicksort (with its $O(n^2)$ worst case), is that **its time complexity is $O(n \\log n)$ in the worst, average, and best cases**. This consistent and predictable performance makes Mergesort reliable. Additionally, Mergesort is a stable sorting algorithm. However, its typical array-based implementation requires $O(n)$ auxiliary space, which is a disadvantage compared to Quicksort's in-place partitioning (though Quicksort uses $O(\\log n)$ to $O(n)$ stack space for recursion).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3767,9 +3645,7 @@
               "optionText": "Mergesort always performs fewer comparisons than Quicksort."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q6_opt1"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q6_opt1"],
           "explanationText": "Despite Mergesort's guaranteed $O(n \\log n)$ worst-case time complexity, **Quicksort is generally faster on average in practice due to lower constant factors in its operations and better cache locality**. Quicksort's partitioning step is typically performed in-place, leading to more efficient memory access patterns compared to the array-based Mergesort, which usually requires $O(n)$ auxiliary space for merging and involves more data movement. However, Mergesort is preferred when stability or a guaranteed $O(n \\log n)$ worst-case is critical.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3826,9 +3702,7 @@
               "optionText": "The algorithm terminates quickly in $O(n)$ time."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q7_opt2"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q7_opt2"],
           "explanationText": "If Quicksort uses the first element as the pivot and is applied to an already sorted array, the most direct consequence on partitioning is that **the pivot (which will always be the smallest element in the current subarray) leads to a highly unbalanced partition: one partition will be empty (elements smaller than the pivot), and the other will contain all the remaining $k-1$ elements (elements larger than the pivot)**. This consistently poor partitioning leads to a recursion depth of $O(n)$ and an overall worst-case time complexity of $O(n^2)$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3885,9 +3759,7 @@
               "optionText": "Quicksort for linked lists becomes $O(n^2)$ even in the average case."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q8_opt3"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q8_opt3"],
           "explanationText": "A key reason Mergesort is well-suited for linked lists is that **its merge step on linked lists can be performed in-place by rearranging pointers, requiring only $O(1)$ auxiliary data space** (excluding the stack space for recursion, which is $O(\\log n)$). This contrasts sharply with array-based Mergesort, which typically needs an $O(n)$ auxiliary array for merging. Additionally, linked lists naturally support the sequential access pattern of merging, and Quicksort's reliance on random access for efficient partitioning makes it less ideal for linked lists.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -3944,9 +3816,7 @@
               "optionText": "Insertion Sort is stable, which is a primary requirement for small array sorting."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q9_opt5"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q9_opt5"],
           "explanationText": "For very small arrays, algorithms like Insertion Sort can be practically faster than Quicksort or Mergesort primarily **because the constant factors and overhead associated with the recursive calls and more complex logic of Quicksort/Mergesort can outweigh their superior asymptotic ($O(n \\log n)$) behavior**. Insertion Sort has a simple loop structure with low overhead. Its $O(n^2)$ complexity is not detrimental for tiny $n$ (e.g., $n < 20$). This is why many sophisticated hybrid sorting algorithms (as mentioned in `ch_adv_sorting_6_q9_opt6`) switch to Insertion Sort when dealing with small partitions. While simplicity of implementation (`ch_adv_sorting_6_q9_opt8`) can be a factor, performance is the key reason here.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4003,9 +3873,7 @@
               "optionText": "It guarantees $O(n \\log n)$ worst-case performance."
             }
           ],
-          "correctOptionIds": [
-            "ch_adv_sorting_6_q10_opt1"
-          ],
+          "correctOptionIds": ["ch_adv_sorting_6_q10_opt1"],
           "explanationText": "The primary mechanism of three-way partitioning in Quicksort is that **it partitions the array into three distinct parts based on the pivot: elements less than the pivot, elements equal to the pivot, and elements greater than the pivot**. The significant benefit is that elements equal to the pivot are then correctly placed and excluded from subsequent recursive calls, which are made only on the 'less than' and 'greater than' partitions. This can dramatically improve performance on inputs with many duplicate keys, potentially leading to linear time if most elements are identical, by avoiding the $O(n^2)$ behavior that standard two-way partitioning might exhibit with such inputs.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4073,9 +3941,7 @@
               "optionText": "P includes problems solvable in $O(\\log n)$ time."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q1_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q1_opt1"],
           "explanationText": "The formal definition of the complexity class P is: **the set of all decision problems that can be solved by a deterministic Turing machine in polynomial time with respect to the input size**. This means if a problem can be solved by an algorithm whose running time is bounded by $O(n^k)$ for some constant $k$ (where $n$ is the input size), then the problem is in P. Problems in P are generally considered 'tractable' or efficiently solvable. The statement that problems solvable with time complexity $O(n^k)$ are in P is a direct consequence of this definition.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4132,9 +3998,7 @@
               "optionText": "The Traveling Salesperson Problem (decision version) is in NP."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q2_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q2_opt1"],
           "explanationText": "The most common way to define the class NP (Non-deterministic Polynomial time) is as **the set of decision problems for which a 'yes' instance has a certificate (or proof) that can be verified in polynomial time by a deterministic algorithm**. This means if someone gives you a potential solution to a problem in NP, you can check if it's correct quickly (in polynomial time). An equivalent formal definition is the set of decision problems solvable in polynomial time by a non-deterministic Turing machine. It is known that P is a subset of NP ($P \\subseteq NP$).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4191,9 +4055,7 @@
               "optionText": "The problem must not be solvable by a greedy algorithm."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q3_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q3_opt1"],
           "explanationText": "A problem is NP-Complete if it meets two conditions: 1. **The problem must be in the class NP**. This means that if a solution is provided (a 'certificate'), it can be verified in polynomial time. 2. The problem must be NP-hard, meaning every other problem in NP can be reduced to it in polynomial time. The question asks about the condition related to verifiability, which directly corresponds to the problem being in NP.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4250,9 +4112,7 @@
               "optionText": "If problem A is NP-hard and $A \\le_P B$, then B must also be NP-hard."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q4_opt4"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q4_opt4"],
           "explanationText": "A polynomial-time reduction from problem A to problem B ($A \\le_P B$) means there's a polynomial-time algorithm to transform any instance of A into an instance of B such that solving the B instance gives a solution to the A instance. The most significant implication is that **if problem B can be solved in polynomial time, then problem A can also be solved in polynomial time**. This is because the total time to solve A would be the polynomial time for reduction plus the polynomial time for solving B. This effectively means A is 'no harder than' B. Reductions are crucial for proving NP-hardness: if a known NP-hard problem A is reduced to B, then B must also be NP-hard.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4309,9 +4169,7 @@
               "optionText": "If $P=NP$, then problems like factoring large numbers (basis of RSA) could be done efficiently, breaking current cryptographic schemes. (Note: Factoring is in NP, but not known to be NP-Complete)."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q5_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q5_opt1"],
           "explanationText": "The fundamental question of the P versus NP problem is: **whether every problem for which a proposed solution can be quickly verified (this defines the class NP) can also be quickly solved (this defines the class P)**. 'Quickly' here means in polynomial time. More formally, it asks if the complexity class P is equal to the complexity class NP. If P=NP, it would mean that many problems currently considered very hard to solve (like NP-Complete problems such as SAT or the decision version of TSP) could actually be solved efficiently. Most researchers believe $P \\ne NP$, but this remains unproven.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4368,9 +4226,7 @@
               "optionText": "All undecidable problems are decision problems."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q6_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q6_opt1"],
           "explanationText": "The best definition of an undecidable problem is that **it is a problem for which no algorithm can ever be constructed that will always produce a correct yes/no answer for all possible inputs in a finite amount of time**. This means there is no general, universally applicable procedure to solve it. The Halting Problem is a classic example illustrating this concept. Undecidability represents a fundamental limit on what can be computed, distinct from NP-hardness (which concerns problems that are decidable but potentially very time-consuming).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4427,9 +4283,7 @@
               "optionText": "Problem Y is a special case of problem X."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q7_opt2"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q7_opt2"],
           "explanationText": "If an NP-Complete problem $X$ is polynomially reducible to problem $Y$ (denoted $X \\le_P Y$), the most immediate and direct conclusion regarding $Y$'s hardness classification is that **problem $Y$ must be NP-hard**. This is because NP-hardness means that every problem in NP can be reduced to $Y$ in polynomial time. Since $X$ is NP-Complete, all NP problems reduce to $X$, and $X$ reduces to $Y$, then by transitivity, all NP problems reduce to $Y$. If $Y$ were also shown to be in NP (its solutions verifiable in polynomial time), then $Y$ would be NP-Complete. The statement that '$Y$ cannot be solved in polynomial time unless P=NP' (option `ch_limits_pnp_7_q7_opt5`) is a direct consequence of $Y$ being NP-hard, but NP-hardness itself is the primary classification derived from the reduction.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4486,9 +4340,7 @@
               "optionText": "Maximum flow in a flow network."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q8_opt2"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q8_opt2"],
           "explanationText": "The **Graph Coloring problem** (decision version: determining if a graph can be colored with $k$ colors such that no two adjacent vertices share the same color) is a classic NP-Complete problem. Many other problems listed, such as finding Eulerian circuits, checking bipartiteness, Minimum Spanning Tree, shortest path, topological sort, and maximum flow, are solvable in polynomial time (are in P). The Halting Problem is undecidable. Graph Isomorphism is in NP but not known to be NP-Complete or in P.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4545,9 +4397,7 @@
               "optionText": "It was independently proven by Stephen Cook and Leonid Levin around the same time."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q9_opt3"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q9_opt3"],
           "explanationText": "The most groundbreaking achievement of the Cook-Levin theorem was that **it established that the Boolean Satisfiability Problem (SAT) is NP-Complete**. This was a monumental result because SAT became the very first problem for which NP-completeness was proven. This provided the essential 'anchor' or starting point for the entire theory of NP-completeness, allowing researchers to subsequently prove thousands of other problems NP-Complete by reducing SAT (or other already known NP-Complete problems) to them. The theorem itself did not solve the P versus NP question.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4604,9 +4454,7 @@
               "optionText": "It means these problems can be solved in polynomial time, but only on a non-deterministic Turing machine."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q10_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q10_opt1"],
           "explanationText": "If $P \\ne NP$ were proven, the most significant practical consequence for NP-Complete problems would be that **no general polynomial-time algorithm exists for solving these problems exactly for all instances**. This would confirm their inherent computational difficulty, meaning that finding exact, optimal solutions for large instances would likely require super-polynomial (e.g., exponential) time and thus remain computationally infeasible for many practical purposes. As a result, practitioners would continue to focus on approximation algorithms, heuristics, and methods for special cases to find 'good enough' solutions in a reasonable timeframe.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4663,9 +4511,7 @@
               "optionText": "The Halting problem is in $NPC$."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q11_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q11_opt1"],
           "explanationText": "Assuming the widely believed conjecture that $P \\ne NP$, a key conceptual relationship is that **$P$ is a proper subset of $NP$ ($P \\subsetneq NP$)**. This means all problems solvable in polynomial time (P) are also verifiable in polynomial time (NP), but there exist problems in NP that are not solvable in polynomial time. Other true statements under this assumption include: NP-Complete (NPC) problems form a subset of NP; the intersection of P and NPC is empty; and NP might contain NP-intermediate problems (neither in P nor NPC).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4722,9 +4568,7 @@
               "optionText": "Because some programs require exponential time to halt."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q12_opt3"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q12_opt3"],
           "explanationText": "A primary reason for the Halting Problem's undecidability, related to its proof methodology, is that **a common proof technique shows that if such a halting-checker algorithm (H) existed, one could construct a paradoxical program (P) that feeds its own description to H and then does the opposite of what H predicts P will do, leading to a contradiction**. This method, often involving a self-referential argument similar to diagonalization, demonstrates the impossibility of a general halting decider. While the statement that 'no general algorithm can be constructed' is the definition of undecidability, and Alan Turing's proof is historical, the paradoxical construction is central to _how_ this undecidability is proven.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4781,9 +4625,7 @@
               "optionText": "It is a problem that can only be solved by quantum computers."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q6_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q6_partA_opt1"],
           "explanationText": "The most fundamental meaning of undecidability is that **no algorithm can ever be constructed that will always produce a correct yes/no answer for all possible inputs in a finite amount of time**. This is a core definition. Undecidability implies a stronger form of difficulty than NP-hardness; NP-hard problems are decidable (an algorithm exists, possibly exponential), but undecidable problems have no general algorithm at all.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4840,9 +4682,7 @@
               "optionText": "Matrix Multiplication."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q6_partB_opt2"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q6_partB_opt2"],
           "explanationText": "**The Halting Problem** (determining if an arbitrary program will halt or run forever on a given input) is a classic example of an undecidable problem. Other examples include Post's Correspondence Problem and the Program Equivalence problem. Problems like SAT, TSP, and Vertex Cover are NP-Complete (and thus decidable, though hard), while Sorting and Shortest Path are in P (efficiently solvable).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4899,9 +4739,7 @@
               "optionText": "It was proven undecidable using a model of computation weaker than Turing machines."
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q12_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q12_partA_opt1"],
           "explanationText": "A primary reason the Halting Problem is undecidable is that **no general algorithm can be constructed that correctly answers whether any arbitrary program will halt on a given input for all possible program-input pairs in a finite amount of time**. Proofs of this, like Turing's original proof, often use a method of contradiction (related to diagonalization): if such a halting-checker algorithm existed, one could construct a paradoxical program that behaves contrary to the checker's prediction about itself, leading to a logical impossibility. The implication for software verification, while significant, is a consequence of this fundamental undecidability.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -4958,9 +4796,7 @@
               "optionText": "Noam Chomsky"
             }
           ],
-          "correctOptionIds": [
-            "ch_limits_pnp_7_q12_partB_opt3"
-          ],
+          "correctOptionIds": ["ch_limits_pnp_7_q12_partB_opt3"],
           "explanationText": "The undecidability of the Halting Problem was first proven by **Alan Turing** in 1936 in his seminal paper on Turing machines. This was a foundational result in the theory of computation.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5029,9 +4865,7 @@
               "optionText": "A state in a finite automaton."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q1_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q1_partA_opt1"],
           "explanationText": "An <b>alphabet</b> ($\\Sigma$) in formal language theory is defined as a <b>finite, non-empty set of symbols</b> (also called letters or characters). For example, $\\Sigma = \\{0, 1\\}$ is the binary alphabet, and $\\Sigma = \\{a, b, c\\}$ is another common example. Strings are formed from symbols in an alphabet, and languages are sets of these strings.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5089,9 +4923,7 @@
               "optionText": "A single, very long string of symbols."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q1_partC_opt3"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q1_partC_opt3"],
           "explanationText": "A <b>language</b> in formal language theory is defined as a <b>set of finite sequences of symbols (strings), where each symbol in those strings is drawn from a specific alphabet</b>. A language can be finite (containing a limited number of strings, e.g., $\\{'cat', 'dog'\\}$) or infinite (e.g., all binary strings with an even number of 0s). The set of all possible strings $\\Sigma^*$ is one example of a language, as is the empty set $\\emptyset$ (the language containing no strings), and the set containing only the empty string, $\\{\\epsilon\\}$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5148,9 +4980,7 @@
               "optionText": "$\\{a, ab, b, bc, ab, abc, abb, abbc\\}$"
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q2_opt2"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q2_opt2"],
           "explanationText": "The concatenation $L_1 L_2$ is formed by taking every string $s_1$ from $L_1$ and appending every string $s_2$ from $L_2$ to it. <br>Given $L_1 = \\{a, ab\\}$ and $L_2 = \\{b, bc\\}$: <br>- Take 'a' from $L_1$: 'a' + 'b' = 'ab'; 'a' + 'bc' = 'abc'. <br>- Take 'ab' from $L_1$: 'ab' + 'b' = 'abb'; 'ab' + 'bc' = 'abbc'. <br>Thus, $L_1 L_2 = \\{ab, abc, abb, abbc\\}$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5207,9 +5037,7 @@
               "optionText": "It is equivalent to `(a*|b*)abb`."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q3_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q3_opt1"],
           "explanationText": "The regular expression `(a|b)*abb` describes **any string of `a`'s and `b`'s that ends with the fixed sequence `abb`**. The `(a|b)*` part matches zero or more occurrences of either `a` or `b` (any sequence of `a`'s and `b`'s, including the empty string). This is then followed by the literal string `abb`. Examples include `abb`, `aabb`, `babb`, `abababb`. The shortest string is `abb`. It does not describe strings that merely contain `abb` (that would be `(a|b)*abb(a|b)*`).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5329,9 +5157,7 @@
               "optionText": "Acceptance depends on the path taken, not just the final state."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q5_opt3"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q5_opt3"],
           "explanationText": "A Deterministic Finite Automaton (DFA) processes an input string by starting in its designated start state and making a unique transition for each input symbol based on its current state and that symbol. The primary way a DFA determines acceptance is: **if, after processing all symbols in the input string, the DFA is in one of its designated accept (or final) states, the string is accepted; otherwise, it is rejected**. The path taken to reach the final state is determined by the input string and the DFA's transitions, but the acceptance itself is solely based on whether the state reached _after the entire string is read_ is an accept state.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5388,9 +5214,7 @@
               "optionText": "Converting a DFA to a regex can result in an exponentially larger regex."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q6_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q6_opt1"],
           "explanationText": "The most fundamental relationship (established by Kleene's Theorem) is that regular expressions and finite automata (both DFAs and NFAs, as DFAs and NFAs are also equivalent in power) are **equivalent in expressive power**. This means that any language that can be described by a regular expression can also be recognized by some finite automaton, and conversely, any language recognized by a finite automaton can be described by some regular expression. Both formalisms precisely define the class of **regular languages**. Algorithms exist for conversions between these models (regex to NFA, NFA to DFA, DFA to regex).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5447,9 +5271,7 @@
               "optionText": "Minimum three states are required to track parity and the last symbol."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q7_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q7_opt1"],
           "explanationText": "To recognize strings with an odd number of `a`'s, a minimum of **two states** is required. One state, say $q_{even}$, represents having seen an even number of `a`'s so far. This would be the start state (as the empty string has zero, i.e., an even number of `a`'s) and would not be an accept state. The second state, $q_{odd}$, represents having seen an odd number of `a`'s, and this would be the accept state. Reading an `a` causes a transition between $q_{even}$ and $q_{odd}$ (as described in the option stating 'on 'a', $q_{even} \\leftrightarrow q_{odd}$'). Reading a `b` does not change the parity of `a`'s, so it would cause a transition from $q_{even}$ to $q_{even}$ and from $q_{odd}$ to $q_{odd}$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5506,9 +5328,7 @@
               "optionText": "`zero or more occurences of (0|1|2|3|4|5|6|7|8|9)` followed by zero or more of `(0|1|2|3|4|5|6|7|8|9)`."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q8_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q8_opt1"],
           "explanationText": "The regular expression shorthand `[0-9]+` primarily represents **one or more occurrences of any digit from 0 to 9**. The character class `[0-9]` matches any single digit. The `+` (Kleene plus) quantifier means the preceding element (a digit) must appear one or more times. This 'one or more' structure can also be expressed as one instance of the element followed by zero or more instances of the element (e.g., $X^+$ is equivalent to $XX^*$). So, `[0-9]+` is equivalent to `[0-9][0-9]*`. Using a more verbose notation with ORs for each digit, this means one digit (e.g., `(0|1|2|3|4|5|6|7|8|9)`) followed by zero or more occurrences of any digit (e.g., `(0|1|2|3|4|5|6|7|8|9)*`).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5565,9 +5385,7 @@
               "optionText": "The language of correctly matched parentheses (e.g., $(()())$)."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q9_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q9_opt1"],
           "explanationText": "The language $L = \\{a^n b^n \\mid n \\ge 0\\}$ is a classic example of a language that is **NOT regular**. Recognizing this language requires counting the number of 'a's and ensuring an equal number of 'b's follow, which needs unbounded memory that Finite Automata (recognizers for regular languages) do not possess. Languages like balanced parentheses (option `ch_regex_fsm_8_q9_opt10`) are also not regular (they are context-free). The other options list examples of regular languages.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5624,9 +5442,7 @@
               "optionText": "They can be converted to Context-Free Grammars, which can recognize such languages."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q10_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q10_opt1"],
           "explanationText": "The fundamental limitation of Finite State Machines (FSMs) is that **they have a finite number of states, and thus only finite memory**. To recognize languages like $L = \\{a^n b^n \\mid n \\ge 0\\}$, where $n$ can be arbitrarily large, the machine would need to remember the exact count of `a`'s to ensure an equal number of `b`'s follow. This requires an unbounded counting capability, which cannot be achieved with a fixed, finite number of states. FSMs lack auxiliary memory like a stack, which is needed for such languages (these are recognized by Pushdown Automata).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5690,9 +5506,7 @@
               "optionText": "A counter for input symbols."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q4_partA_opt1"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q4_partA_opt1"],
           "explanationText": "In the 5-tuple definition of a Finite Automaton ($M = (Q, \\Sigma, \\delta, q_0, F)$), the component $Q$ represents **a finite set of states**. These states define the different configurations the automaton can be in while processing an input string.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -5749,9 +5563,7 @@
               "optionText": "It is typically represented as a table or a state diagram."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q4_partB_opt3"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q4_partB_opt3"],
           "explanationText": "The transition function $\\delta$ in a Deterministic Finite Automaton (DFA) **maps a pair consisting of the current state and the current input symbol to a uniquely determined next state**. Formally, $\\delta: Q \\times \\Sigma \\rightarrow Q$. This function dictates how the DFA moves from state to state as it processes an input string. Option `ch_regex_fsm_8_q4_partB_opt10` describes its representation, not its role.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -5808,9 +5620,7 @@
               "optionText": "It is always disjoint from the start state $q_0$."
             }
           ],
-          "correctOptionIds": [
-            "ch_regex_fsm_8_q4_partC_opt5"
-          ],
+          "correctOptionIds": ["ch_regex_fsm_8_q4_partC_opt5"],
           "explanationText": "The component $F$ in the 5-tuple definition of a Finite Automaton (`FA`) ($M = (Q, \\Sigma, \\delta, q_0, F)$) represents **the set of accept (or final) states**. These are a subset of $Q$ (i.e., $F \\subseteq Q$). If, after processing an entire input string, the automaton is in one of these accept states (a state $s \\in F$), the string is considered to be part of the language recognized by the `FA`.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -5933,9 +5743,7 @@
               "optionText": "Strings like `aab` or `ba` are not in this language."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q2_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q2_opt1"],
           "explanationText": "The grammar $S \\rightarrow aSb \\mid \\epsilon$ generates **the language $L = \\{a^n b^n \\mid n \\ge 0\\}$**. The rule $S \\rightarrow aSb$ recursively prepends an 'a' and appends a 'b' around a central $S$, ensuring that for every 'a' added at the front, a 'b' is added at the end. The rule $S \\rightarrow \\epsilon$ serves as the base case, allowing the derivation to terminate and producing an equal number of 'a's and 'b's (including $n=0$ for the empty string $\\epsilon$). Examples include $\\epsilon, ab, aabb$. This language is context-free but famously not regular.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -5992,9 +5800,7 @@
               "optionText": "It directly represents the state transitions of a finite automaton."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q3_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q3_opt1"],
           "explanationText": "A parse tree (or derivation tree) is **a graphical representation of how a string in the language can be derived from the start symbol using the production rules of a Context-Free Grammar**. \nThe root of the tree is labeled with the start symbol. Internal nodes are labeled with non-terminals, and their children represent the right-hand side of a production rule applied to that non-terminal. \nLeaf nodes are labeled with terminal symbols or $\\epsilon$. The sequence of leaves, read from left to right, yields the derived string. Parse trees are crucial in syntax analysis (parsing) to understand the structure of a program or sentence according to the grammar.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6051,9 +5857,7 @@
               "optionText": "A grammar is ambiguous if its start symbol can derive $\\epsilon$."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q4_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q4_opt1"],
           "explanationText": "A Context-Free Grammar is **ambiguous if there is at least one string in the language it generates that has more than one distinct parse tree**. Equivalently, an ambiguous grammar allows for more than one distinct leftmost derivation (or more than one distinct rightmost derivation) for at least one string. Ambiguity is problematic for programming language parsers because it means a single piece of code could have multiple valid structural interpretations, leading to undefined behavior unless the ambiguity is resolved (e.g., by rewriting the grammar or using disambiguation rules).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6110,9 +5914,7 @@
               "optionText": "Languages recognized by Deterministic Finite Automata (DFAs)."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q5_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q5_opt1"],
           "explanationText": "Context-Free Grammars (CFGs) can define languages that Regular Expressions (REs) cannot, particularly those requiring unbounded counting or memory for matching nested structures. A prime example is **languages requiring matching pairs of symbols over arbitrary distances, like $L = \\{a^n b^n \\mid n \\ge 0\\}$**. This language needs to 'remember' the count of 'a's to match it with 'b's, which is beyond the capability of REs/FSMs. Other examples include balanced parentheses or the core syntax of most programming languages. The language $a^n b^n c^n$ (option `ch_cfg_9_q5_opt9`) is context-sensitive, not context-free. The other listed languages are typically regular.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6169,9 +5971,7 @@
               "optionText": "A common structure is: `Expression` (handles lowest precedence, e.g., +, -) $\\rightarrow$ `Term` (handles medium precedence, e.g., *, /) $\\rightarrow$ `Factor` (handles highest precedence, e.g., id, number, (`Expression`))."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q6_opt10"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q6_opt10"],
           "explanationText": "Operator precedence in expression grammars is typically enforced by structuring the grammar into layers of non-terminals. **A common such structure is: `Expression` (for lowest precedence, e.g., +, -) derives a `Term`; a `Term` (for medium precedence, e.g., _, /) derives a `Factor`; and a `Factor` (for highest precedence, e.g., identifiers, literals, or a parenthesized `Expression`) serves as the base.** This hierarchy ensures that operations defined by rules for 'deeper' non-terminals (like `Factor`) are effectively grouped before those for 'shallower' non-terminals (like `Expression`). Option `ch_cfg_9_q6_opt2` describes the _effect* of this layering correctly, but `ch_cfg_9_q6_opt10` describes the structure itself.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6228,9 +6028,7 @@
               "optionText": "Extended BNF (EBNF) introduces additional notations for repetition (like `*` or `{...}`) and optionals (like `[...]`)."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q7_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q7_opt1"],
           "explanationText": "**Backus-Naur Form (BNF) is primarily used as a formal notation (a metasyntax) for describing the syntax of context-free languages, particularly for specifying the grammar of programming languages**. It provides a standardized way to write down the production rules of a Context-Free Grammar. Common BNF conventions include using `::=` for production rules (instead of an arrow), `|` to separate alternatives for a non-terminal, and often enclosing non-terminals in angle brackets (e.g., `<statement>`). BNF describes syntax, not semantics (meaning). Extended BNF (EBNF) adds further conciseness.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6287,9 +6085,7 @@
               "optionText": "Different derivations (e.g., choosing different non-terminals to expand when multiple exist) can still lead to the same parse tree if the order of applying independent rules is just permuted."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q8_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q8_opt1"],
           "explanationText": "A single step in any valid derivation within a CFG involves: **in the current sentential form (a string of terminals and/or non-terminals), a non-terminal is chosen and replaced by one of the right-hand sides of a production rule defined for that non-terminal**. A derivation starts with the start symbol and is complete when the sentential form consists only of terminal symbols. Specific strategies like leftmost derivation (always replacing the leftmost non-terminal) or rightmost derivation (always replacing the rightmost) are used to standardize the process and relate derivations to parse trees.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6346,9 +6142,7 @@
               "optionText": "This grammar is equivalent to $S \\rightarrow aS \\mid a$."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q9_opt5"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q9_opt5"],
           "explanationText": "The grammar $S \\rightarrow SS \\mid a$ generates the language of one or more 'a's (i.e., $a^+$). For example, $S \\Rightarrow a$; $S \\Rightarrow  SS \n \\Rightarrow aS \\Rightarrow aa$; $ S \\Rightarrow SS \\Rightarrow SSS \\Rightarrow aSS \\Rightarrow aaS \\Rightarrow aaa$. A primary characteristic of this specific grammar is that **it is ambiguous**. For example, the string 'aaa' can be derived in multiple ways leading to different parse trees: one corresponding to $(S S) S \\Rightarrow (a S) S \\Rightarrow (a a) S \\Rightarrow aaa$ and another corresponding to $S (S S) \\Rightarrow S (a S) \\Rightarrow S (a a) \\Rightarrow aaa$. These group the 'a's differently, showing ambiguity. An unambiguous grammar for $a^+$ would be $S \\rightarrow aS \\mid a$.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6405,9 +6199,7 @@
               "optionText": "The Chomsky Hierarchy places regular languages at Type 3 and context-free languages at Type 2."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q10_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q10_opt1"],
           "explanationText": "**Context-Free Grammars (CFGs) are strictly more expressive than Regular Expressions (REs)**. This means that the set of languages that can be described by REs (the regular languages) is a proper subset of the languages that can be described by CFGs (the context-free languages). While every regular language can be defined by a CFG (specifically, by a right-linear or left-linear grammar), there are context-free languages, such as $L = \\{a^n b^n \\mid n \\ge 0\\}$ or languages with balanced parentheses, that cannot be defined by any RE. CFGs can handle recursive, nested structures that REs cannot. The Chomsky Hierarchy formalizes this, placing regular languages at Type 3 and context-free languages at Type 2.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6464,9 +6256,7 @@
               "optionText": "It represents an error state in the grammar."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q11_opt1"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q11_opt1"],
           "explanationText": "The most fundamental role of an $\\epsilon$-production ($A \\rightarrow \\epsilon$) in a CFG is that **it allows a non-terminal $A$ to be erased from a sentential form, or equivalently, to derive the empty string $\\epsilon$**. This capability is crucial for several reasons: it can serve as a base case to terminate recursive derivations (e.g., in $S \\rightarrow aS \\mid \\epsilon$ to generate $a$), and it allows for the definition of optional syntactic constructs (e.g., an optional 'else' part in an if-statement can be modeled by a non-terminal that can derive 'else block' or $\\epsilon$). While $\\epsilon$-productions can sometimes contribute to ambiguity, they are a standard and essential feature of CFGs.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6523,9 +6313,7 @@
               "optionText": "CFGs are only used for natural language processing, not programming languages."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q12_opt3"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q12_opt3"],
           "explanationText": "The primary reason for this division is that **this separation forms the basis of a typical compiler's two-phase approach: lexical analysis (scanning for tokens using RE/FSM principles) followed by syntax analysis (parsing the token stream using CFG/PDA principles)**. Regular expressions are well-suited for the simpler, non-recursive patterns of individual tokens (like identifiers or numbers), and FSMs (derived from REs) can recognize these tokens efficiently. Context-Free Grammars are then used to define the more complex, potentially recursive and nested grammatical structure of the program (like expressions, statements, blocks) from the sequence of tokens provided by the lexical analyzer. This division simplifies the overall compiler design and makes each phase more manageable and efficient.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -6589,9 +6377,7 @@
               "optionText": "The empty string $\\epsilon$."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q1_partA_opt2"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q1_partA_opt2"],
           "explanationText": "In the formal definition of a Context-Free Grammar $(N, \\Sigma, P, S)$, the component $N$ (also often denoted $V$) represents **a finite set of non-terminal symbols** (or variables). These are syntactic categories that are used in derivations and must eventually be replaced by sequences of terminals according to the production rules.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -6648,9 +6434,7 @@
               "optionText": "They are similar to state transitions in a Finite Automaton."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q1_partB_opt3"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q1_partB_opt3"],
           "explanationText": "Production rules ($P$) in a Context-Free Grammar **specify how non-terminal symbols can be replaced by strings consisting of terminals and/or other non-terminals**. Each rule is typically of the form $A \\rightarrow \\beta$, where $A$ is a single non-terminal symbol, and $\\beta$ is a sequence of zero or more terminals and non-terminals. These rules are applied iteratively to derive strings in the language generated by the grammar.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null
@@ -6707,9 +6491,7 @@
               "optionText": "It is equivalent to the initial state of a Finite Automaton."
             }
           ],
-          "correctOptionIds": [
-            "ch_cfg_9_q1_partC_opt2"
-          ],
+          "correctOptionIds": ["ch_cfg_9_q1_partC_opt2"],
           "explanationText": "The start symbol $S$ in a Context-Free Grammar $(N, \\Sigma, P, S)$ is **a special non-terminal symbol (i.e., $S \\in N$) from which all derivations of strings belonging to the language must begin**. It is the root of any parse tree for a string in the language.",
           "lastSelectedOptionId": null,
           "lastAttemptedAt": null

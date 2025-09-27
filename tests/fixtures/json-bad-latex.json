@@ -1,0 +1,56 @@
+{
+  "name": "Bad LaTeX Test",
+  "description": "Test module for LaTeX correction handling",
+  "chapters": [
+    {
+      "id": "ch1",
+      "name": "LaTeX Correction",
+      "description": "Testing LaTeX correction functionality",
+      "questions": [
+        {
+          "questionId": "q1",
+          "questionText": "What is the value of x in the equation 2x + 3 = 7?",
+          "options": [
+            { "optionId": "opt1", "optionText": "x = 1" },
+            { "optionId": "opt2", "optionText": "x = 2" },
+            { "optionId": "opt3", "optionText": "x = 3" },
+            { "optionId": "opt4", "optionText": "x = 4" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "Solving 2x + 3 = 7: 2x = 4, so x = 2.",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q2",
+          "questionText": "What is the derivative of f(x) = x^2?",
+          "options": [
+            { "optionId": "opt1", "optionText": "f'(x) = x" },
+            { "optionId": "opt2", "optionText": "f'(x) = 2x" },
+            { "optionId": "opt3", "optionText": "f'(x) = x^2" },
+            { "optionId": "opt4", "optionText": "f'(x) = 2x^2" }
+          ],
+          "correctOptionIds": ["opt2"],
+          "explanationText": "Using the power rule: d/dx x^2 = 2x.",
+          "type": "mcq"
+        },
+        {
+          "questionId": "q3",
+          "questionText": "What is the integral of x^2 dx?",
+          "options": [
+            { "optionId": "opt1", "optionText": "x^3/3 + C" },
+            { "optionId": "opt2", "optionText": "x^3/2 + C" },
+            { "optionId": "opt3", "optionText": "x^3 + C" },
+            { "optionId": "opt4", "optionText": "x^2/3 + C" }
+          ],
+          "correctOptionIds": ["opt1"],
+          "explanationText": "Using the power rule for integration: integral x^2 dx = x^3/3 + C",
+          "type": "mcq"
+        }
+      ],
+      "totalQuestions": 3,
+      "answeredQuestions": 0,
+      "correctAnswers": 0,
+      "isCompleted": false
+    }
+  ]
+}
