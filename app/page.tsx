@@ -344,18 +344,48 @@ export default function MCQQuizForge() {
 
     try {
       console.log('=== Loading Default Quiz ===');
+      console.log('Current URL:', window.location.href);
       console.log('Attempting to fetch default quiz from /default-quiz.json');
 
-      // Fetch the default quiz file from public folder
-      const response = await fetch('/default-quiz.json');
+      // Try multiple paths for GitHub Pages compatibility
+      const possiblePaths = ['/default-quiz.json', './default-quiz.json', 'default-quiz.json'];
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch default quiz: ${response.statusText}`);
+      let response: Response | null = null;
+      let lastError: Error | null = null;
+
+      for (const path of possiblePaths) {
+        try {
+          console.log(`Trying path: ${path}`);
+          response = await fetch(path);
+          console.log(`Response status for ${path}:`, response.status);
+
+          if (response.ok) {
+            console.log(`Successfully fetched from: ${path}`);
+            break;
+          } else {
+            console.log(`Failed to fetch from ${path}: ${response.status} ${response.statusText}`);
+          }
+        } catch (error) {
+          console.log(`Error fetching from ${path}:`, error);
+          lastError = error as Error;
+        }
       }
+
+      if (!response || !response.ok) {
+        const errorMessage = `Failed to fetch default quiz from any path. 
+        Tried paths: ${possiblePaths.join(', ')}
+        Last error: ${lastError?.message || 'Unknown error'}
+        Current URL: ${window.location.href}
+        Please check if the file exists in the public directory and is accessible.`;
+        throw new Error(errorMessage);
+      }
+
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
       // Get file content as text
       const fileContent = await response.text();
       console.log('Default quiz file content length:', fileContent.length);
+      console.log('First 200 characters:', fileContent.substring(0, 200));
 
       // Parse JSON with error handling
       let parsedData: any;
@@ -1584,10 +1614,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     URL.revokeObjectURL(url);
 
     // REPLACED: alert() with toast
-    showSuccess(
-      'State Exported Successfully!',
-      'Your quiz progress has been saved to a file',
-    );
+    showSuccess('State Exported Successfully!', 'Your quiz progress has been saved to a file');
   };
 
   // Helper functions
