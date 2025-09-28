@@ -866,6 +866,7 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
   let currentLine = peekLine(lines, lineIndexRef);
   if (currentLine && currentLine.startsWith('# ')) {
     moduleName = cleanText(consumeLine(lines, lineIndexRef)!.substring(2));
+    skipEmptyLines(lines, lineIndexRef);
     currentLine = peekLine(lines, lineIndexRef);
     if (currentLine && currentLine.startsWith('Description:')) {
       moduleDescription = cleanText(consumeLine(lines, lineIndexRef)!.substring(12));
@@ -936,6 +937,7 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
     }
 
     let chapterDescription = '';
+    skipEmptyLines(lines, lineIndexRef);
     currentLine = peekLine(lines, lineIndexRef);
     if (currentLine && currentLine.startsWith('Description:')) {
       chapterDescription = cleanText(consumeLine(lines, lineIndexRef)!.substring(12));
