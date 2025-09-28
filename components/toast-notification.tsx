@@ -20,6 +20,13 @@ export function ToastNotification({ toast, onRemove }: ToastNotificationProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
+  const handleRemove = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      onRemove(toast.id);
+    }, 300); // Match exit animation duration
+  }, [onRemove, toast.id]);
+
   useEffect(() => {
     // Trigger entrance animation
     const timer = setTimeout(() => setIsVisible(true), 50);
@@ -35,13 +42,6 @@ export function ToastNotification({ toast, onRemove }: ToastNotificationProps) {
 
     return () => clearTimeout(timer);
   }, [toast.duration, handleRemove]);
-
-  const handleRemove = useCallback(() => {
-    setIsExiting(true);
-    setTimeout(() => {
-      onRemove(toast.id);
-    }, 300); // Match exit animation duration
-  }, [onRemove, toast.id]);
 
   const getIcon = () => {
     switch (toast.type) {
