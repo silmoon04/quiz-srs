@@ -1,4 +1,4 @@
-# MCQ Quiz Forge - Project README
+# MCQ-SRS - Project README
 
 This project implements a robust MCQ (Multiple Choice Question) quiz application using Next.js and TypeScript. It features a sophisticated Markdown parser for importing quiz content, a LaTeX correction utility, and a user-friendly interface for taking quizzes.
 
