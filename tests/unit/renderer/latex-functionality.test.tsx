@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
 import React from 'react';
 
-describe.skip('LaTeX Functionality Tests', () => {
+describe('LaTeX Functionality Tests', () => {
   describe('Inline Math Rendering', () => {
     it('should render inline math correctly', async () => {
       const content = 'The formula is $x = y + z$ in the text.';

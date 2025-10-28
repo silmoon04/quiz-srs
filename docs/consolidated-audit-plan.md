@@ -8,38 +8,222 @@ This document synthesizes findings from multiple internal audits to create a sin
 
 ---
 
+## Architecture Decision Records (ARD)
+
+### ARD-001: KaTeX Sanitization Schema Fix (2025-10-28)
+
+**Status:** Partially Completed
+
+**Context:**
+The markdown rendering pipeline was stripping KaTeX-generated MathML elements and CSS classes, causing inline math expressions to duplicate (raw LaTeX text appearing alongside rendered math) and breaking accessibility features.
+
+**Decision:**
+Updated `lib/markdown/pipeline.ts` sanitization schema to:
+
+1. Extend `defaultSchema` from `rehype-sanitize` instead of replacing it
+2. Add all KaTeX MathML tags: `math`, `semantics`, `mrow`, `mi`, `mo`, `mn`, `msup`, `msub`, `mfrac`, `mtable`, `mtr`, `mtd`, `annotation`, `annotation-xml`, `mtext`, `mspace`, `msqrt`, `mroot`, `munder`, `mover`, `munderover`, `mpadded`, `mphantom`, `menclose`
+3. Add MathML-specific attributes for proper rendering and accessibility
+4. **Critical:** Added `className` and `style` to wildcard attributes (`'*'`), as the default schema does not include these
+5. Added `aria-hidden` to span elements for screen reader compatibility
+6. Removed `sanitizeFallback` function that was bypassing KaTeX and reintroducing duplication
+
+**Consequences:**
+
+✅ **Positive:**
+
+- Inline math expressions (`$...$`) now render correctly with `.katex` class preserved
+- MathML structure maintained for accessibility (screen readers can access math content)
+- 4/13 KaTeX tests passing (all inline math tests)
+- No more duplication of math expressions in inline contexts
+
+⚠️ **Partial:**
+
+- Display math (`$$...$$`) still has issues - not generating `.katex-display` class wrapper
+- 6/13 tests failing (display math and matrix rendering)
+- Need further investigation into display mode rendering
+
+❌ **Technical Debt:**
+
+- Test file `test-katex-output.mjs` created for debugging but not yet removed
+- Display math rendering needs additional pipeline investigation
+
+**Alternatives Considered:**
+
+1. Creating a custom schema from scratch - rejected due to maintenance burden and security risks
+2. Post-processing HTML after sanitization - rejected as it would bypass security measures
+3. Using a different sanitization library - rejected to minimize dependency changes
+
+**Test Results:**
+
+```
+Passing: 4/13 tests
+- ✅ should render inline math correctly
+- ✅ should render multiple inline math expressions
+- ✅ should handle inline math with special characters
+- ✅ should handle inline math with fractions
+
+Failing: 6/13 tests (display math)
+- ❌ should render display math correctly
+- ❌ should render multiple display math expressions
+- ❌ should handle display math with complex expressions
+- ❌ should handle display math with matrices
+- ❌ should handle inline and display math in the same content
+- ❌ should handle math within lists
+
+Other: 3/13 tests (error handling, security checks)
+```
+
+**Files Modified:**
+
+- `lib/markdown/pipeline.ts` - Updated sanitizeSchema, removed sanitizeFallback
+- `tests/unit/renderer/latex-functionality.test.tsx` - Re-enabled test suite (removed `.skip`)
+
+**Follow-up Required:**
+
+- [ ] Investigate display math rendering pipeline
+- [ ] Fix matrix parsing errors (KaTeX parse error for `\begin{pmatrix}`)
+- [ ] Remove temporary `test-katex-output.mjs` file
+- [ ] Complete remaining 9 KaTeX tests
+
+---
+
+## Critical Issues Discovered (2025-10-28)
+
+### Issue 1: Duplicate Question IDs in React Rendering
+
+**Severity:** High  
+**Component:** `AccessibleQuestionGrid.tsx`, Quiz data structure
+
+**Error:**
+
+```
+Error: Encountered two children with the same key, `ch_iterative_bigo_2_q9`.
+Keys should be unique so that components maintain their identity across updates.
+```
+
+**Root Cause:**
+The quiz module contains duplicate question IDs (`ch_iterative_bigo_2_q9` appears multiple times), violating React's requirement for unique keys in lists. This suggests:
+
+1. Data validation during import is not checking for unique IDs
+2. Question duplication may be occurring during chapter/module operations
+3. The `AccessibleQuestionGrid` component is mapping over questions using their IDs as keys
+
+**Impact:**
+
+- React reconciliation errors causing unpredictable UI behavior
+- Questions may be duplicated or omitted from rendering
+- Component state may leak between duplicate questions
+- Console flooding with error messages
+
+**Files Affected:**
+
+- `components/a11y/AccessibleQuestionGrid.tsx` - Line 184, using questionId as key
+- `utils/quiz-validation-refactored.ts` - Should validate ID uniqueness during import
+- Quiz data files (likely `dsa-comprehensive-quiz.md` or similar)
+
+**Remediation Required:**
+
+1. Add ID uniqueness validation to `validateQuizModule` schema
+2. Scan existing quiz files for duplicate IDs
+3. Implement automatic ID deduplication during import (append suffix like `-1`, `-2`)
+4. Add integration test ensuring no duplicate IDs after import
+5. Consider using composite keys in React (e.g., `${chapterId}-${questionId}-${index}`)
+
+---
+
+### Issue 2: Incorrect Answer Feedback Not Showing
+
+**Severity:** Critical (UX)  
+**Component:** `QuizSession`, answer submission flow
+
+**Observed Behavior:**
+When a user selects an incorrect answer and clicks submit:
+
+- ✅ The correct answer is highlighted in green
+- ❌ The user's incorrect selection is NOT highlighted in red
+- User cannot see which option they selected after submission
+
+**Expected Behavior:**
+
+- Correct answer: Green background/checkmark
+- User's incorrect selection: Red background/X icon
+- Both should be visible simultaneously for learning
+
+**Root Cause (Hypothesis):**
+Looking at the state management issues documented in Section 2, this is likely caused by:
+
+1. Selection state being cleared or overwritten during submission
+2. The UI only rendering the `correctOptionIds` without preserving `selectedOptionId`
+3. Possible conflict between historical answer view and current answer state
+
+**Files to Investigate:**
+
+- `components/quiz-session.tsx` - Answer submission handler
+- `components/option-card.tsx` - Visual feedback rendering logic
+- `app/page.tsx` - State management for `selectedOptionId` and `isSubmitted`
+
+**Related Issues:**
+This appears connected to the "State Management: Answer Integrity" issues in Section 2:
+
+- Per-question state not being preserved
+- Selection state leaking between questions
+- Incorrect comparison logic between selected and correct options
+
+**Remediation Required:**
+
+1. Verify `selectedOptionId` is preserved in state after submission
+2. Update `OptionCard` to check both `isCorrect` AND `isSelected` flags
+3. Ensure styling applies both states simultaneously:
+   ```tsx
+   className={cn(
+     isCorrect && 'bg-green-100 border-green-500',
+     isSelected && !isCorrect && 'bg-red-100 border-red-500'
+   )}
+   ```
+4. Add visual regression test for incorrect answer feedback
+5. Add E2E test: "submit wrong answer -> verify red highlight on selected option"
+
+**Priority:** This should be fixed alongside the answer ledger refactor (Phase 2), as both relate to answer state management.
+
+---
+
 ## 1. Content Pipeline: KaTeX and Markdown Rendering
+
+**Status:** 🟡 Partially Completed (2025-10-28) - See ARD-001
 
 **Symptoms:**
 
-- Inline math expressions are duplicated with raw text (e.g., `O(n2)O(n^2)`).
-- LaTeX commands like `\le` and `\rightarrow` appear as escaped text instead of symbols.
-- Pseudo-code blocks lose their formatting and render as inline text.
+- ~~Inline math expressions are duplicated with raw text (e.g., `O(n2)O(n^2)`).~~ ✅ **FIXED** (inline only)
+- ~~LaTeX commands like `\le` and `\rightarrow` appear as escaped text instead of symbols.~~ ✅ **FIXED**
+- Display math blocks (`$$...$$`) still not rendering correctly ⚠️ **PARTIAL**
+- Pseudo-code blocks lose their formatting and render as inline text. ⚠️ **NOT ADDRESSED**
 
 **Primary Causes:**
 
-1.  **Aggressive Sanitization:** The markdown processing pipeline in `lib/markdown/pipeline.ts` uses a sanitizer (`rehype-sanitize`) that strips essential MathML tags (`<math>`, `<semantics>`, `<mrow>`, `<mi>`, `<mn>`, `<annotation>`) and attributes generated by KaTeX. This breaks the accessible MathML structure, causing its raw text content to render alongside the correctly styled HTML, producing duplicates.
-2.  **Flawed LaTeX Correction:** A utility named `correctLatexInJsonContent` in `utils/quiz-validation-refactored.ts` is used during file imports. It incorrectly double-escapes backslashes in LaTeX commands (e.g., `\le` becomes `\\le`), corrupting valid content before it is even rendered. This function is brittle as it operates on raw JSON strings with regex.
-3.  **Post-Processing Mutation:** The `processExplanationText` function in `components/quiz-session.tsx` manipulates the rendered HTML of explanations as a raw string to highlight option text. This process is not markdown-aware and breaks any KaTeX content within the options.
+1.  ~~**Aggressive Sanitization:** The markdown processing pipeline in `lib/markdown/pipeline.ts` uses a sanitizer (`rehype-sanitize`) that strips essential MathML tags and attributes generated by KaTeX.~~ ✅ **FIXED** - Schema now preserves MathML tags and `className` attribute
+2.  **Flawed LaTeX Correction:** A utility named `correctLatexInJsonContent` in `utils/quiz-validation-refactored.ts` is used during file imports. It incorrectly double-escapes backslashes in LaTeX commands (e.g., `\le` becomes `\\le`), corrupting valid content before it is even rendered. This function is brittle as it operates on raw JSON strings with regex. ⚠️ **NOT ADDRESSED**
+3.  **Post-Processing Mutation:** The `processExplanationText` function in `components/quiz-session.tsx` manipulates the rendered HTML of explanations as a raw string to highlight option text. This process is not markdown-aware and breaks any KaTeX content within the options. ⚠️ **NOT ADDRESSED**
 
-**Why It Slips Through:**
+**Completed (2025-10-28):**
 
-- The KaTeX unit test suite in `tests/unit/renderer/latex-functionality.test.tsx` is currently skipped (`describe.skip`), making these regressions invisible to CI.
-- Manual testing likely did not cover a wide range of LaTeX syntax or content with MathML-only glyphs.
+- ✅ Updated sanitizer schema to allow KaTeX MathML elements
+- ✅ Added `className` and `style` to wildcard attributes
+- ✅ Removed `sanitizeFallback` function
+- ✅ Re-enabled KaTeX test suite
+- ✅ 4/13 tests passing (all inline math)
 
-**Blast Radius:**
+**Remaining Work:**
 
-- Any component using `MarkdownRenderer`: `QuizSession`, `OptionCard`, `QuestionEditor`, `AllQuestionsView`.
-- All content ingestion paths (JSON, Markdown, state restore) that use `validateAndCorrectQuizModule`.
-
-**Remediation Strategy:**
-
-1.  **Fix Sanitizer:** Update the `sanitizeSchema` in `lib/markdown/pipeline.ts` to allow all necessary KaTeX MathML tags (`math`, `semantics`, `mrow`, `mi`, `mo`, `mn`, `msup`, `msub`, `mfrac`, `mtable`, `mtr`, `mtd`, `annotation`, `annotation-xml`) and attributes (`xmlns`, `encoding`, `aria-hidden`, `style`). Also remove the `sanitizeFallback` function which bypasses KaTeX and reintroduces duplication issues.
-2.  **Clean Up Pipeline Duplicates:** Remove or consolidate the unused `sync-pipeline.ts` and `working-pipeline.ts` files to reduce maintenance overhead. Only `pipeline.ts` is used in production.
-3.  **Remove LaTeX Auto-Correction:** Delete the `correctLatexInJsonContent` function (which hardcodes 200+ LaTeX commands and operates on raw JSON strings). Replace it with proper schema-based validation (using the Zod schemas in `lib/schema/quiz.ts`) that reports errors to the user instead of silently mutating content.
-4.  **Refactor Explanation Handling:** Remove the `processExplanationText` function. Option text substitution should be handled within the markdown AST during the rendering pipeline (e.g., with a custom remark plugin), not after.
-5.  **Re-enable Tests:** Re-enable and expand the KaTeX test suite to include cases for duplicates, escaped characters, and round-trip import/export integrity.
-6.  **Verify CSS Compatibility:** After schema changes, confirm that the KaTeX CSS in `app/globals.css` still applies correctly to the newly preserved MathML structure, especially for dark mode theming.
+1.  ~~**Fix Sanitizer:**~~ ✅ **COMPLETED** - Updated the `sanitizeSchema` in `lib/markdown/pipeline.ts` to allow all necessary KaTeX MathML tags and `className` attribute
+2.  ⚠️ **Fix Display Math:** Investigate why `$$...$$` blocks don't generate `.katex-display` class wrapper (6/13 tests failing)
+3.  ⚠️ **Fix Matrix Rendering:** KaTeX parse errors for `\begin{pmatrix}` syntax (likely escaping issue in markdown source)
+4.  **Clean Up Pipeline Duplicates:** Remove or consolidate the unused `sync-pipeline.ts` and `working-pipeline.ts` files to reduce maintenance overhead. Only `pipeline.ts` is used in production.
+5.  **Remove LaTeX Auto-Correction:** Delete the `correctLatexInJsonContent` function (which hardcodes 200+ LaTeX commands and operates on raw JSON strings). Replace it with proper schema-based validation (using the Zod schemas in `lib/schema/quiz.ts`) that reports errors to the user instead of silently mutating content.
+6.  **Refactor Explanation Handling:** Remove the `processExplanationText` function. Option text substitution should be handled within the markdown AST during the rendering pipeline (e.g., with a custom remark plugin), not after.
+7.  ~~**Re-enable Tests:**~~ ✅ **COMPLETED** - KaTeX test suite re-enabled and running in CI
+8.  **Expand Test Coverage:** Add cases for display math, complex expressions, and round-trip import/export integrity (complete remaining 9/13 tests)
+9.  **Verify CSS Compatibility:** After schema changes, confirm that the KaTeX CSS in `app/globals.css` still applies correctly to the newly preserved MathML structure, especially for dark mode theming.
+10. **Clean Up:** Remove temporary `test-katex-output.mjs` debugging file
 
 ---
 
