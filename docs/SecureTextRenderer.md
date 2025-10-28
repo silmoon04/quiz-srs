@@ -38,6 +38,16 @@ Processes the input text to convert markdown to HTML and sanitize dangerous cont
 
 - `text: string` - The raw text content to process
 
+## Authoring Notes
+
+### Sanitization Banner
+
+When potentially dangerous markup (such as inline event handlers or `javascript:` URLs) is removed, the renderer injects a small amber note (`Content blocked for security reasons`) ahead of the rendered output. Authoring teams should treat this as confirmation that the sanitiser protected the reader; no further action is required unless trusted content was unintentionally stripped.
+
+### Markdown Table Styling
+
+Markdown tables automatically adopt the dark-theme table styles defined in `app/globals.css` (striped rows, hover feedback, rounded corners). Authors do not need to add manual HTML to achieve consistent library styling.
+
 ##### Returns
 
 - `string` - The processed HTML content

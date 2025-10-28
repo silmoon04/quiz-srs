@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseMarkdownToQuizModule } from '@/utils/quiz-validation';
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 
 // Test fixtures
@@ -9,6 +9,105 @@ const fixturesDir = join(process.cwd(), 'tests', 'fixtures');
 const loadFixture = (filename: string): string => {
   return readFileSync(join(fixturesDir, filename), 'utf-8');
 };
+
+describe('Markdown Parser Regression: Correct label handling', () => {
+  it('should parse MCQ correct answers without carrying bold markers', () => {
+    const markdown = [
+      '# Regression Quiz',
+      '---',
+      '## Chapter 1: Sample Chapter',
+      '---',
+      '### Q: Example MCQ',
+      '',
+      'Which option is correct?',
+      '',
+      '**Options:**',
+      '',
+      '- **A1:** Choice One',
+      '- **A2:** Choice Two',
+      '',
+      '**Correct:** A2',
+      '',
+      '**Exp:**',
+      'The second option is the right answer.',
+      '',
+      '---',
+    ].join('\n');
+
+    const result = parseMarkdownToQuizModule(markdown);
+
+    expect(result.success).toBe(true);
+    expect(result.quizModule?.chapters).toHaveLength(1);
+    const question = result.quizModule?.chapters[0].questions[0];
+    expect(question).toBeDefined();
+    expect(question?.correctOptionIds).toHaveLength(1);
+    const correctId = question?.correctOptionIds[0];
+    const correctOption = question?.options.find((opt) => opt.optionId === correctId);
+    expect(correctOption?.optionText).toBe('Choice Two');
+  });
+
+  it('should parse T/F correct answers without carrying bold markers', () => {
+    const markdown = [
+      '# Regression Quiz',
+      '---',
+      '## Chapter 1: Sample Chapter',
+      '---',
+      '### T/F: Example Statement',
+      '',
+      'The sky appears blue on clear days.',
+      '',
+      '**Correct:** True',
+      '',
+      '**Exp:**',
+      'Rayleigh scattering causes shorter blue wavelengths to be observed.',
+      '',
+      '---',
+    ].join('\n');
+
+    const result = parseMarkdownToQuizModule(markdown);
+
+    expect(result.success).toBe(true);
+    const question = result.quizModule?.chapters[0].questions[0];
+    expect(question).toBeDefined();
+    expect(question?.correctOptionIds).toEqual(['true']);
+  });
+});
+
+describe('Markdown Fixture QA', () => {
+  it('reports parser status for each public markdown quiz', () => {
+    const publicDir = join(process.cwd(), 'public');
+    const markdownFiles = readdirSync(publicDir).filter((file) => file.endsWith('.md'));
+
+    const summary: Record<
+      string,
+      {
+        success: boolean;
+        errorCount: number;
+        errors: string[];
+      }
+    > = {};
+
+    markdownFiles.forEach((filename) => {
+      const content = readFileSync(join(publicDir, filename), 'utf-8');
+      const originalLog = console.log;
+      try {
+        // Suppress internal parser logging for a cleaner summary
+        console.log = () => undefined;
+        const result = parseMarkdownToQuizModule(content);
+        summary[filename] = {
+          success: result.success,
+          errorCount: result.errors.length,
+          errors: result.errors,
+        };
+      } finally {
+        console.log = originalLog;
+      }
+    });
+
+    console.log('[Markdown QA Summary]', JSON.stringify(summary, null, 2));
+    expect(markdownFiles.length).toBeGreaterThan(0);
+  });
+});
 
 describe.skip('Markdown Parser Tests (TM-PR-01..06)', () => {
   describe('TM-PR-01: Basic MCQ Parsing', () => {
@@ -174,12 +273,12 @@ What does this return?
       expect(result.quizModule).toBeDefined();
 
       // The result should be a valid QuizModule
-      const module = result.quizModule!;
-      expect(module.name).toBeDefined();
-      expect(Array.isArray(module.chapters)).toBe(true);
-      expect(module.chapters.length).toBeGreaterThan(0);
+      const quizModule = result.quizModule!;
+      expect(quizModule.name).toBeDefined();
+      expect(Array.isArray(quizModule.chapters)).toBe(true);
+      expect(quizModule.chapters.length).toBeGreaterThan(0);
 
-      module.chapters.forEach((chapter) => {
+      quizModule.chapters.forEach((chapter) => {
         expect(chapter.id).toBeDefined();
         expect(chapter.name).toBeDefined();
         expect(Array.isArray(chapter.questions)).toBe(true);

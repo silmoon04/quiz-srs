@@ -1,25 +1,28 @@
-# Linked Lists Quiz - Test
+# Linked Lists Quiz - Sample
 
-_Comprehensive test of linked list concepts and operations_
+_Focused test of linked list fundamentals and basic operations_
 
 ---
 
 ## Basic Concepts <!-- CH_ID: basic -->
 
-## Description: Testing fundamental linked list concepts and terminology.
+Description: Tests foundational terminology and structure awareness.
+
+---
 
 ### Q: What are the two main components of a singly linked list node? <!-- Q_ID: basic_node_components -->
 
 **Options:**
-**A1:** data and next pointer
-**A2:** data and prev pointer
-**A3:** next and prev pointers
-**A4:** data, next, and prev pointers
+
+- **A1:** data and next pointer
+- **A2:** data and prev pointer
+- **A3:** next and prev pointers
+- **A4:** data, next, and prev pointers
 
 **Correct:** A1
 
 **Exp:**
-A singly linked list node contains data (the value) and a next pointer (reference to the next node).
+A singly linked list node stores the payload in `data` and a `next` pointer that references the following node.
 
 ---
 
@@ -28,6 +31,37 @@ A singly linked list node contains data (the value) and a next pointer (referenc
 **Correct:** False
 
 **Exp:**
-Singly linked lists only allow forward traversal since each node only has a next pointer, not a prev pointer.
+Singly linked lists only expose a `next` pointer, so traversal proceeds forward one node at a time.
+
+---
+
+## Core Operations <!-- CH_ID: operations -->
+
+Description: Validates understanding of insertion and deletion behaviours.
+
+---
+
+### Q: What is the time complexity of inserting at the head of a singly linked list? <!-- Q_ID: operations_insert_head -->
+
+**Options:**
+
+- **A1:** O(1) - Constant time
+- **A2:** O(n) - Linear time
+- **A3:** O(log n) - Logarithmic time
+- **A4:** O(n log n) - N log N time
+
+**Correct:** A1
+
+**Exp:**
+Updating the head pointer and the new node’s next reference does not require traversing the list, so the operation runs in constant time.
+
+---
+
+### T/F: Removing the tail of a singly linked list can be done in O(1) time without extra pointers. <!-- Q_ID: operations_remove_tail -->
+
+**Correct:** False
+
+**Exp:**
+Without a separate tail pointer or previous references, a singly linked list must be traversed to find the penultimate node before removing the tail, leading to O(n) time.
 
 ---
