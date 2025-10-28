@@ -106,9 +106,8 @@ export function QuizSession({
   onViewAllQuestions,
 }: QuizSessionProps) {
   const [displayedOptionsCache, setDisplayedOptionsCache] = useState<DisplayedOption[]>([]);
-  const [_targetCorrectOptionForFeedback, setTargetCorrectOptionForFeedback] = useState<
-    string | null
-  >(null);
+  const lastGeneratedQuestionIdRef = useRef<string | null>(null);
+  const [, setTargetCorrectOptionForFeedback] = useState<string | null>(null);
 
   const importFileInputRef = useRef<HTMLInputElement>(null);
   const { announce } = useAnnouncer();
@@ -154,17 +153,18 @@ export function QuizSession({
   // FIXED: Stable display options for historical view
   useEffect(() => {
     if (isViewingHistoricalEntry && historicalEntry) {
-      // Use historical displayed options directly
       setDisplayedOptionsCache(historicalEntry.displayedOptions);
-      setTargetCorrectOptionForFeedback(null); // Not relevant for historical views
-      console.log(
-        `Using historical options for question: ${historicalEntry.questionSnapshot.questionId}`,
-      );
+      setTargetCorrectOptionForFeedback(null);
+      lastGeneratedQuestionIdRef.current = historicalEntry.questionSnapshot.questionId;
       return;
     }
 
-    // Generate options only for live questions (not historical)
-    console.log(`=== Generating options for live question: ${question.questionId} ===`);
+    const questionChanged = lastGeneratedQuestionIdRef.current !== question.questionId;
+
+    // Avoid reshuffling while feedback for the current question is visible
+    if (!questionChanged && displayIsSubmitted) {
+      return;
+    }
 
     const generateDisplayedOptions = (): DisplayedOption[] => {
       const maxDisplayOptions = 5;
@@ -227,31 +227,19 @@ export function QuizSession({
         });
       }
 
-      const finalOptions = selectedOptions.sort(() => Math.random() - 0.5);
-
-      console.log(`Generated ${finalOptions.length} options for display:`);
-      finalOptions.forEach((opt, index) => {
-        console.log(`  ${index + 1}. ${opt.optionId} (${opt.isCorrect ? 'CORRECT' : 'incorrect'})`);
-      });
-
-      return finalOptions;
+      return selectedOptions.sort(() => Math.random() - 0.5);
     };
 
     const newDisplayedOptions = generateDisplayedOptions();
     setDisplayedOptionsCache(newDisplayedOptions);
     setTargetCorrectOptionForFeedback(null);
-
-    console.log(
-      `Options cached for question ${question.questionId} - will remain stable during feedback`,
-    );
+    lastGeneratedQuestionIdRef.current = question.questionId;
   }, [
     question.questionId,
     isViewingHistoricalEntry,
     historicalEntry,
-    question.correctOptionIds,
-    question.options,
-    question.shownIncorrectOptionIds,
-    question.srsLevel,
+    displayIsSubmitted,
+    question,
   ]);
 
   // FIXED: Accurate feedback for historical answers
@@ -773,7 +761,7 @@ export function QuizSession({
               onSelectOption={onSelectOption}
               isSubmitted={displayIsSubmitted}
               disabled={displayIsSubmitted || isViewingHistoricalEntry}
-              correctOptionIds={question.correctOptionIds}
+              correctOptionIds={displayQuestion.correctOptionIds}
             />
           </div>
 

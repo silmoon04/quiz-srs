@@ -70,6 +70,17 @@ export const OptionCard = memo(function OptionCard({
       role="button"
       tabIndex={disabled ? -1 : 0}
       aria-pressed={isSelected}
+      onClick={() => {
+        if (!disabled) {
+          _onSelect();
+        }
+      }}
+      onKeyDown={(event) => {
+        if (!disabled && (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          _onSelect();
+        }
+      }}
     >
       <div className="flex items-start gap-3 p-4">
         <div className="flex-1">

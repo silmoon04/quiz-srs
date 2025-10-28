@@ -125,7 +125,6 @@ export function AccessibleOptionList({
             aria-labelledby={`option-text-${option.optionId}`}
             className="rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             onFocus={() => handleFocus(index)}
-            onClick={() => !disabled && onSelectOption(option.optionId)}
             onKeyDown={(e) => {
               if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();

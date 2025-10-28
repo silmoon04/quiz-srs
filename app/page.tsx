@@ -1214,8 +1214,22 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
   // VERIFIED: Export incorrect answers history with proper chapter name handling
   const handleLoadNewModule = () => {
-    // Placeholder function - not implemented yet
-    console.log('Load new module not implemented yet');
+    console.log('=== Resetting state to load a new module ===');
+    setCurrentModule(null);
+    setCurrentChapterId('');
+    setCurrentQuestionIndex(0);
+    setSelectedOptionId(null);
+    setIsSubmitted(false);
+    setIsReviewSessionActive(false);
+    setCurrentReviewQuestion(null);
+    setSessionHistory([]);
+    setCurrentHistoryViewIndex(null);
+    setAnswerRecords({});
+    setQuestionsToReviewForAppend([]);
+    setError('');
+    setIsLoading(false);
+    setAppState('welcome');
+    showInfo('Ready for a new module', 'Choose a JSON or Markdown quiz file to begin.');
   };
 
   const handleExportIncorrectAnswers = () => {
