@@ -1641,6 +1641,6 @@ The `public/dsa` sandbox contained numerous near-duplicate markdown quizzes and 
 **Test Results (2025-10-29):**
 
 - `npm run test:unit -- tests/unit/parser/markdown-parser.test.ts` — `[Markdown QA Summary]` confirms all curated fixtures (including DSA samples) parse cleanly with zero warnings.
-- `npm test` — Unit pass (73/73), integration pass (9/9), accessibility suite skipped (vitest-axe ESM issue), Playwright E2E blocked by `test.describe` guard. No regressions introduced by ARD-007 work.
+- `npm test` — Unit pass (73/73), integration pass (9/9), accessibility suite skipped (vitest-axe ESM issue). Playwright E2E specs are excluded from Vitest; run `npm run test:e2e` when you need the browser suite.
 
 **Owners:** Validation parser maintainers (data hygiene) & Front-end team (UI regressions)
