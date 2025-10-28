@@ -51,6 +51,13 @@ export interface DisplayedOption extends QuizOption {
   isSelected?: boolean; // UI state
 }
 
+export interface AnswerRecord {
+  selectedOptionId: string | null;
+  isCorrect: boolean;
+  displayedOptionIds: string[];
+  timestamp: string;
+}
+
 export interface ReviewQueueItem {
   chapterId: string;
   questionId: string;

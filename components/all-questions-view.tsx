@@ -39,29 +39,29 @@ export function AllQuestionsView({
   const [showAnswers, setShowAnswers] = useState(false);
 
   const questionSummaries = useMemo((): QuestionSummary[] => {
-    return chapter.questions.map((question) => {
+    return chapter.questions.map((question: QuizQuestion) => {
       const record = answerRecords[question.questionId];
       let displayedOptions: DisplayedOption[] = [];
 
       if (record) {
         // If a record exists, reconstruct the displayed options from it
         displayedOptions = record.displayedOptionIds
-          .map((id) => {
-            const option = question.options.find((o) => o.optionId === id);
+          .map((optionId: string) => {
+            const option = question.options.find((quizOption) => quizOption.optionId === optionId);
             if (!option) return null;
             const newOption: DisplayedOption = {
               ...option,
-              isCorrect: question.correctOptionIds.includes(id),
+              isCorrect: question.correctOptionIds.includes(optionId),
             };
             return newOption;
           })
-          .filter((o): o is DisplayedOption => o !== null);
+          .filter((option): option is DisplayedOption => option !== null);
       } else {
         // Fallback for questions without a record (e.g., not yet answered)
         // Display all options, marking the correct ones
-        displayedOptions = question.options.map((o) => ({
-          ...o,
-          isCorrect: question.correctOptionIds.includes(o.optionId),
+        displayedOptions = question.options.map((option) => ({
+          ...option,
+          isCorrect: question.correctOptionIds.includes(option.optionId),
         }));
       }
 
