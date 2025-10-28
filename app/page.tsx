@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { WelcomeScreen } from '@/components/welcome-screen';
 import { Dashboard } from '@/components/dashboard';
 import { QuizSession } from '@/components/quiz-session';
@@ -53,6 +53,13 @@ interface IncorrectAnswerLogEntry {
   totalTimesIncorrect: number;
   currentSrsLevel: number;
   lastAttemptedAt?: string;
+}
+
+interface AnswerRecord {
+  selectedOptionId: string | null;
+  isCorrect: boolean;
+  displayedOptionIds: string[];
+  timestamp: string;
 }
 
 export default function MCQQuizForge() {
@@ -122,6 +129,67 @@ export default function MCQQuizForge() {
   // Session History Navigation State
   const [sessionHistory, setSessionHistory] = useState<SessionHistoryEntry[]>([]);
   const [currentHistoryViewIndex, setCurrentHistoryViewIndex] = useState<number | null>(null);
+
+  const [answerRecords, setAnswerRecords] = useState<Record<string, AnswerRecord>>({});
+
+  const applyAnswerRecordToQuestion = useCallback(
+    (question: QuizQuestion | null | undefined) => {
+      if (!question) {
+        setSelectedOptionId(null);
+        setIsSubmitted(false);
+        return;
+      }
+
+      const record = answerRecords[question.questionId];
+      if (!record) {
+        setSelectedOptionId(null);
+        setIsSubmitted(false);
+        return;
+      }
+
+      setSelectedOptionId(record.selectedOptionId);
+      setIsSubmitted(record.selectedOptionId !== null);
+    },
+    [answerRecords],
+  );
+
+  useEffect(() => {
+    if (appState !== 'quiz') {
+      return;
+    }
+
+    if (currentHistoryViewIndex !== null) {
+      return;
+    }
+
+    if (isReviewSessionActive) {
+      applyAnswerRecordToQuestion(currentReviewQuestion?.question);
+      return;
+    }
+
+    if (!currentModule) {
+      applyAnswerRecordToQuestion(null);
+      return;
+    }
+
+    const chapter = currentModule.chapters.find((c) => c.id === currentChapterId);
+    if (!chapter) {
+      applyAnswerRecordToQuestion(null);
+      return;
+    }
+
+    const question = chapter.questions[currentQuestionIndex];
+    applyAnswerRecordToQuestion(question);
+  }, [
+    appState,
+    currentChapterId,
+    currentQuestionIndex,
+    currentHistoryViewIndex,
+    currentModule,
+    currentReviewQuestion,
+    isReviewSessionActive,
+    applyAnswerRecordToQuestion,
+  ]);
 
   // Edit Mode State - Phase 1
   const [isEditModeActive, setIsEditModeActive] = useState(false);
@@ -408,6 +476,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
       // Normalize and set the module
       const normalizedModule = normalizeQuizModule(parsedData);
       setCurrentModule(normalizedModule);
+      setAnswerRecords({});
       setAppState('dashboard');
 
       // Show success toast
@@ -689,6 +758,7 @@ ${parseResult.errors.slice(0, 3).join('\n')}`);
         }
 
         setCurrentModule(normalizedModule);
+        setAnswerRecords({});
         setAppState('dashboard');
 
         showSuccess(
@@ -727,6 +797,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
           if (correctedModule) {
             // Use the pre-normalized module from the correction process
             setCurrentModule(correctedModule);
+            setAnswerRecords({});
             setAppState('dashboard');
 
             // Show success message with correction details
@@ -767,6 +838,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
           // Normalize and set the module
           normalizedModule = normalizeQuizModule(parsedData);
           setCurrentModule(normalizedModule);
+          setAnswerRecords({});
           setAppState('dashboard');
 
           showSuccess(
@@ -830,6 +902,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         if (normalizedModule) {
           // Use the pre-normalized module from the correction process
           setCurrentModule(normalizedModule);
+          setAnswerRecords({});
 
           // Reset quiz session state
           setCurrentChapterId('');
@@ -882,6 +955,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
         // Normalize and set the module
         const normalizedModule = normalizeQuizModule(parsedData);
         setCurrentModule(normalizedModule);
+        setAnswerRecords({});
 
         // Reset quiz session state
         setCurrentChapterId('');
@@ -1047,6 +1121,13 @@ ${validation.errors.slice(0, 3).join('\n')}`,
           recalculateChapterStats(targetChapter);
           setCurrentModule(updatedModule);
 
+          const questionIdToRemove = questionToDelete.questionId;
+          setAnswerRecords((prev) => {
+            const next = { ...prev };
+            delete next[questionIdToRemove];
+            return next;
+          });
+
           showSuccess('Question Deleted', 'Question deleted successfully');
 
           // Reset modal states
@@ -1086,6 +1167,13 @@ ${validation.errors.slice(0, 3).join('\n')}`,
           targetChapter.questions[questionIndex] = pendingOverwriteData;
           recalculateChapterStats(targetChapter);
           setCurrentModule(updatedModule);
+
+          const overwrittenQuestionId = pendingOverwriteData.questionId;
+          setAnswerRecords((prev) => {
+            const next = { ...prev };
+            delete next[overwrittenQuestionId];
+            return next;
+          });
 
           showSuccess('Question Overwritten', 'Question overwritten successfully');
 
@@ -1233,6 +1321,7 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     setCurrentQuestionIndex(0);
     setSelectedOptionId(null);
     setIsSubmitted(false);
+    setAnswerRecords({});
     setIsReviewSessionActive(false);
     setCurrentReviewQuestion(null);
     // Clear session history
@@ -1334,6 +1423,15 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
         // Update the module
         setCurrentModule(updatedModule);
+
+        const resetQuestionIds = targetChapter.questions.map((question) => question.questionId);
+        setAnswerRecords((prev) => {
+          const next = { ...prev };
+          resetQuestionIds.forEach((questionId) => {
+            delete next[questionId];
+          });
+          return next;
+        });
 
         // Reset quiz session state
         setCurrentQuestionIndex(0);
@@ -1489,6 +1587,16 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
     // Update module state
     setCurrentModule(updatedModule);
+
+    setAnswerRecords((prev) => ({
+      ...prev,
+      [currentQuestion.questionId]: {
+        selectedOptionId,
+        isCorrect,
+        displayedOptionIds: displayedOptions.map((option) => option.optionId),
+        timestamp: new Date().toISOString(),
+      },
+    }));
 
     // Add to session history (for regular quiz only, not review sessions)
     if (!isReviewSessionActive) {
