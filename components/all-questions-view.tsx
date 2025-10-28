@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/button';
 import { MarkdownRenderer } from './rendering/MarkdownRenderer';
 import { OptionCard } from './option-card';
 import { ProgressBar } from './progress-bar';
-import { ArrowLeft, CheckCircle, XCircle, Clock, Eye, EyeOff, Brain } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Eye, EyeOff, Brain, Home, RotateCcw } from 'lucide-react';
 import type { AnswerRecord, QuizChapter, QuizQuestion, DisplayedOption } from '@/types/quiz-types';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { CircularProgress } from '@/components/ui/circular-progress';
 
 interface AllQuestionsViewProps {
   chapter: QuizChapter;
@@ -95,7 +94,6 @@ export function AllQuestionsView({
     option: DisplayedOption,
   ): { isSelected: boolean; showAsCorrect: boolean; showAsIncorrect: boolean } => {
     const isSelected = summary.lastSelectedOptionId === option.optionId;
-    const isSubmitted = summary.lastSelectedOptionId !== null;
 
     return {
       isSelected,
@@ -124,9 +122,28 @@ export function AllQuestionsView({
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="sticky top-0 z-20 bg-slate-950/80 pb-4 pt-6 backdrop-blur-lg">
         <div className="mx-auto max-w-6xl px-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">All Questions</h1>
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-2 text-sm text-slate-400">
+                {headerInfo.hasChapterNumber ? (
+                  <>
+                    <span className="font-medium">{headerInfo.chapterNumber}</span>
+                    <span className="text-slate-600">/</span>
+                    <span>{headerInfo.chapterTitle}</span>
+                  </>
+                ) : (
+                  <span className="font-medium">{headerInfo.chapterTitle}</span>
+                )}
+                {isReviewSession && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-200">
+                    <Brain className="h-3 w-3" />
+                    Review Session
+                  </span>
+                )}
+              </div>
+              <h1 className="text-2xl font-bold">All Questions</h1>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -144,6 +161,14 @@ export function AllQuestionsView({
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+              <Button onClick={onRetryChapter} variant="outline" size="sm">
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Retry Chapter
+              </Button>
+              <Button onClick={onBackToDashboard} variant="outline" size="sm">
+                <Home className="mr-2 h-4 w-4" />
+                Dashboard
+              </Button>
               <Button onClick={onBackToQuiz} size="sm">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Quiz

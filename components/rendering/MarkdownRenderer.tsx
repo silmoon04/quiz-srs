@@ -17,7 +17,30 @@ type RenderState = {
   // When pipeline prunes/rewrites dangerous content (or we detect disallowed patterns).
   sanitized: boolean;
   error?: string;
+  hasMermaid?: boolean;
 };
+
+const MERMAID_BLOCK = /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/gi;
+
+function decodeHtmlEntities(code: string): string {
+  return code
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function transformMermaidBlocks(html: string): { html: string; hasMermaid: boolean } {
+  let hasMermaid = false;
+  const transformed = html.replace(MERMAID_BLOCK, (_, encodedCode) => {
+    hasMermaid = true;
+    const decoded = decodeHtmlEntities(encodedCode.trim());
+    return `<div class="mermaid">${decoded}</div>`;
+  });
+
+  return { html: transformed, hasMermaid };
+}
 
 /**
  * Secure Markdown renderer (single source of dangerouslySetInnerHTML)
@@ -42,12 +65,14 @@ export function MarkdownRenderer({ markdown, className }: Props) {
         }
         const html = await processMarkdown(markdown);
 
+        const { html: normalizedHtml, hasMermaid } = transformMermaidBlocks(html);
         // Final belt-and-suspenders gate before HTML insertion.
-        const disallowed = /<script\b|\\son\\w+=|javascript:/i.test(html);
+        const disallowed = /<script\b|\\son\\w+=|javascript:/i.test(normalizedHtml);
         if (!cancelled) {
           setState({
-            html: disallowed ? '<p>Content blocked for security reasons.</p>' : html,
+            html: disallowed ? '<p>Content blocked for security reasons.</p>' : normalizedHtml,
             sanitized: disallowed,
+            hasMermaid,
           });
         }
       } catch (e: any) {
@@ -64,6 +89,35 @@ export function MarkdownRenderer({ markdown, className }: Props) {
       cancelled = true;
     };
   }, [markdown]);
+
+  useEffect(() => {
+    if (!state.hasMermaid || !state.html) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const { default: mermaid } = await import('mermaid');
+        if (cancelled) return;
+
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'loose',
+        });
+
+        const nodes = document.querySelectorAll<HTMLElement>('.mermaid');
+        if (nodes.length > 0) {
+          await mermaid.run({ nodes });
+        }
+      } catch (error) {
+        console.error('Mermaid rendering failed', error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [state.hasMermaid, state.html]);
 
   const note = useMemo(() => {
     if (!state.sanitized) return null;
