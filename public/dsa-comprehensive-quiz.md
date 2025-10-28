@@ -1077,23 +1077,17 @@ Understanding the limitations and applications of different shortest path algori
 
 ---
 
-## Conclusion
+## Conclusion <!-- CH_ID: dsa_conclusion -->
 
-This comprehensive quiz covers all major topics in Data Structures and Algorithms, from basic concepts to advanced applications. Each question tests different aspects of the SecureTextRenderer's capabilities:
+---
 
-- **Markdown formatting**: Headers, lists, code blocks, tables
-- **LaTeX math**: Inline and display math expressions
-- **Complex content**: Mixed markdown, LaTeX, and HTML
-- **Security**: XSS protection for all content
-- **Performance**: Efficient rendering of large documents
+### T/F: This quiz spans the full DSA and renderer surface. <!-- Q_ID: dsa_conclusion_summary -->
 
-The quiz includes:
+The comprehensive quiz touches every major data-structure topic while exercising Markdown, math, tables, mixed content, and sanitization checks.
 
-- **50+ questions** covering all major DSA topics
-- **Multiple question types**: MCQ and True/False
-- **Mathematical expressions**: Complex LaTeX formulas
-- **Code examples**: Syntax-highlighted code blocks
-- **Tables**: Structured data presentation
-- **Mixed content**: Rich formatting with security
+**Correct:** True
 
-This serves as both a comprehensive learning resource and a thorough test of the SecureTextRenderer's capabilities! 🚀
+**Exp:**
+More than 50 questions cover arrays, trees, graphs, algorithms, code blocks, LaTeX, tables, security cases, and mixed-content rendering, ensuring the SecureTextRenderer is validated across realistic authoring scenarios.
+
+---

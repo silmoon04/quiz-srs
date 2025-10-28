@@ -85,10 +85,31 @@ const sanitizeSchema = {
 };
 
 /**
+ * Pre-process markdown to normalize display math delimiters
+ * remarkMath requires $$ to be on separate lines, but many users write $$...$$
+ * inline. This function converts inline display math to the expected format.
+ */
+function preprocessDisplayMath(content: string): string {
+  // Convert inline $$...$$ to newline-separated format
+  // Match $$...$$  but not $...$
+  return content.replace(/\$\$([^$]+?)\$\$/g, (match, math) => {
+    // If the math already has the $$ on separate lines, don't change it
+    if (match.startsWith('$$\n') || match.endsWith('\n$$')) {
+      return match;
+    }
+    // Otherwise, add newlines around the math content
+    return `$$\n${math}\n$$`;
+  });
+}
+
+/**
  * Process markdown content through the safe pipeline
  */
 export async function processMarkdown(content: string): Promise<string> {
   try {
+    // Pre-process display math to ensure remarkMath can parse it correctly
+    const normalizedContent = preprocessDisplayMath(content);
+
     const processor = unified()
       .use(remarkParse) // Parse markdown
       .use(remarkGfm) // GitHub Flavored Markdown (tables, strikethrough, task lists)
@@ -99,7 +120,7 @@ export async function processMarkdown(content: string): Promise<string> {
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
       .use(rehypeStringify); // Convert to HTML string
 
-    const result = await processor.process(content);
+    const result = await processor.process(normalizedContent);
     return String(result);
   } catch (error) {
     console.error('Markdown processing error:', error);

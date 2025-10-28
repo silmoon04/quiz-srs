@@ -415,7 +415,7 @@ Evaluate: $2 + 3 \times 4$
 **A3:** 11
 **A4:** 24
 
-**Correct:** B2
+**Correct:** A2
 
 **Exp:**
 The result is **14**.
@@ -565,29 +565,17 @@ No, Unicode characters should not cause issues in proper markdown parsing.
 
 ---
 
-## Conclusion
+## Conclusion <!-- CH_ID: conclusion -->
 
-This advanced test quiz demonstrates all the capabilities of the SecureTextRenderer:
+---
 
-✅ **Basic Markdown**: Headers, bold, italic, inline code
-✅ **LaTeX Math**: Inline ($...$) and display ($$...$$) math
-✅ **Code Blocks**: Syntax-highlighted code in multiple languages
-✅ **Tables**: Complex data presentation with proper formatting
-✅ **Lists**: Ordered, unordered, and nested lists
-✅ **Mixed Content**: Complex combinations of all features
-✅ **Security**: XSS protection and safe HTML handling
-✅ **Edge Cases**: Special characters, unicode, and complex expressions
+### T/F: This quiz exercises every major renderer feature. <!-- Q_ID: conclusion_summary -->
 
-The quiz includes:
+The advanced test quiz spans Markdown formatting, KaTeX math, code blocks, tables, lists, security scenarios, and mixed-content combinations.
 
-- **25+ questions** covering all major features
-- **Multiple question types**: MCQ and True/False
-- **Mathematical expressions**: Complex LaTeX formulas
-- **Code examples**: Python, JavaScript, and pseudocode
-- **Tables**: Performance comparisons and data structures
-- **Security testing**: XSS protection validation
-- **Edge cases**: Unicode, special characters, and complex math
-- **Multiline explanations**: Detailed step-by-step reasoning
-- **Rich formatting**: Bold, italic, lists, and structured content
+**Correct:** True
 
-This serves as a comprehensive test suite for the SecureTextRenderer! 🚀
+**Exp:**
+Across more than 25 questions, this module validates the SecureTextRenderer's handling of rich Markdown, inline and display math, syntax-highlighted code, structured tables, XSS hardening, Unicode handling, and detailed explanations that mirror real-world authoring needs.
+
+---

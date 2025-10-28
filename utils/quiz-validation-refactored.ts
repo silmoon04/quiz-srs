@@ -472,8 +472,39 @@ export function validateQuizModule(data: any): ValidationResult {
     if (data.chapters.length === 0) {
       errors.push("'chapters' array cannot be empty");
     }
+
+    // Check for duplicate chapter IDs
+    const seenChapterIds = new Set<string>();
     data.chapters.forEach((chapter: any, chapterIndex: number) => {
+      if (chapter?.id && typeof chapter.id === 'string') {
+        if (seenChapterIds.has(chapter.id)) {
+          errors.push(
+            `Duplicate chapter ID found: '${chapter.id}' (Chapter ${chapterIndex + 1}). Each chapter must have a unique ID.`,
+          );
+        } else {
+          seenChapterIds.add(chapter.id);
+        }
+      }
       errors.push(...validateChapter(chapter, chapterIndex));
+    });
+
+    // Check for duplicate question IDs across all chapters
+    const seenQuestionIds = new Map<string, string>(); // questionId -> chapterId
+    data.chapters.forEach((chapter: any) => {
+      if (chapter?.questions && Array.isArray(chapter.questions)) {
+        chapter.questions.forEach((question: any, qIndex: number) => {
+          if (question?.questionId && typeof question.questionId === 'string') {
+            const existingChapter = seenQuestionIds.get(question.questionId);
+            if (existingChapter) {
+              errors.push(
+                `Duplicate question ID found: '${question.questionId}' appears in both chapter '${existingChapter}' and '${chapter.id || 'Unknown'}'. Each question must have a unique ID across the entire quiz module.`,
+              );
+            } else {
+              seenQuestionIds.set(question.questionId, chapter.id || 'Unknown');
+            }
+          }
+        });
+      }
     });
   }
   return { isValid: errors.length === 0, errors };
@@ -930,8 +961,17 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
 
     if (seenChapterIds.has(chapterId)) {
       errors.push(
-        `[Warning] Duplicate Chapter ID found: '${chapterId}'. This may cause issues. Chapter name: "${chapterName.substring(0, 30)}..."`,
+        `[Error] Duplicate Chapter ID found: '${chapterId}'. Each chapter must have a unique ID. Chapter name: "${chapterName.substring(0, 30)}..."`,
       );
+      // Generate a new unique ID to prevent React key errors
+      const originalId = chapterId;
+      let suffix = 1;
+      while (seenChapterIds.has(`${originalId}_${suffix}`)) {
+        suffix++;
+      }
+      chapterId = `${originalId}_${suffix}`;
+      errors.push(`[Auto-fix] Renamed duplicate chapter ID to '${chapterId}' to prevent errors.`);
+      seenChapterIds.add(chapterId);
     } else {
       seenChapterIds.add(chapterId);
     }
@@ -1010,8 +1050,19 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
 
         if (seenQuestionIds.has(questionId)) {
           errors.push(
-            `[Warning] Duplicate Question ID found: '${questionId}'. This may cause issues. Question text starts with: "${rawQuestionHeaderText.substring(0, 30)}..."`,
+            `[Error] Duplicate Question ID found: '${questionId}'. Each question must have a unique ID across the entire quiz. Question text starts with: "${rawQuestionHeaderText.substring(0, 30)}..."`,
           );
+          // Generate a new unique ID to prevent React key errors
+          const originalId = questionId;
+          let suffix = 1;
+          while (seenQuestionIds.has(`${originalId}_${suffix}`)) {
+            suffix++;
+          }
+          questionId = `${originalId}_${suffix}`;
+          errors.push(
+            `[Auto-fix] Renamed duplicate question ID to '${questionId}' to prevent React errors.`,
+          );
+          seenQuestionIds.add(questionId);
         } else {
           seenQuestionIds.add(questionId);
         }
@@ -1063,13 +1114,11 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
             );
           }
 
-          const correctAnswerText = (
-            currentLine.startsWith('**Correct:**')
-              ? currentLine.substring(10)
-              : currentLine.substring(8)
-          )
-            .trim()
-            .toLowerCase();
+          const correctPrefix = currentLine.startsWith('**Correct:**')
+            ? '**Correct:**'
+            : '**Ans:**';
+
+          const correctAnswerText = currentLine.slice(correctPrefix.length).trim().toLowerCase();
 
           if (correctAnswerText !== 'true' && correctAnswerText !== 'false') {
             throw new Error(
@@ -1190,9 +1239,10 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
               `Expected '**Correct:**' or '**Ans:**' for MCQ question ${questionId}, found: "${currentLine || 'EOF'}"`,
             );
           }
-          const correctSectionContent = currentLine.startsWith('**Correct:**')
-            ? currentLine.substring(10)
-            : currentLine.substring(8);
+          const correctSectionPrefix = currentLine.startsWith('**Correct:**')
+            ? '**Correct:**'
+            : '**Ans:**';
+          const correctSectionContent = currentLine.slice(correctSectionPrefix.length);
           const correctLabels = correctSectionContent
             .trim()
             .split(',')
