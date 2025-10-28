@@ -1220,51 +1220,51 @@
           "lastAttemptedAt": null
         },
         {
-          "questionId": "ch_iterative_bigo_2_q9",
+          "questionId": "ch_iterative_bigo_2_q10",
           "questionText": "What is the _most fundamental definition_ of an algorithm having $O(1)$ time complexity?",
           "options": [
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt1",
+              "optionId": "ch_iterative_bigo_2_q10_opt1",
               "optionText": "The algorithm takes exactly 1 second to run."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt2",
+              "optionId": "ch_iterative_bigo_2_q10_opt2",
               "optionText": "The algorithm performs exactly one operation."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt3",
+              "optionId": "ch_iterative_bigo_2_q10_opt3",
               "optionText": "The algorithm's execution time is constant and does not depend on the input size $n$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt4",
+              "optionId": "ch_iterative_bigo_2_q10_opt4",
               "optionText": "The algorithm is extremely fast for all inputs."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt5",
+              "optionId": "ch_iterative_bigo_2_q10_opt5",
               "optionText": "The algorithm does not involve any loops that depend on $n$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt6",
+              "optionId": "ch_iterative_bigo_2_q10_opt6",
               "optionText": "The number of operations is primarily characterized by a fixed upper limit, irrespective of $n$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt7",
+              "optionId": "ch_iterative_bigo_2_q10_opt7",
               "optionText": "The algorithm only works for inputs of size 1."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt8",
+              "optionId": "ch_iterative_bigo_2_q10_opt8",
               "optionText": "It's the most efficient complexity class possible."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt9",
+              "optionId": "ch_iterative_bigo_2_q10_opt9",
               "optionText": "Accessing an element in an array by its index is an example of an $O(1)$ operation."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q9_opt10",
+              "optionId": "ch_iterative_bigo_2_q10_opt10",
               "optionText": "The algorithm uses constant extra space."
             }
           ],
-          "correctOptionIds": ["ch_iterative_bigo_2_q9_opt3"],
+          "correctOptionIds": ["ch_iterative_bigo_2_q10_opt3"],
           "explanationText": "The most fundamental definition of $O(1)$ (constant time) complexity is that **the algorithm's execution time is constant and does not depend on the input size $n$**. This implies that the number of operations performed by the algorithm is bounded above by some constant $C$, regardless of the value of $n$. While 'The number of operations is primarily characterized by a fixed upper limit, irrespective of $n$.' is a consequence and accurate description, the definition focuses on the execution time's independence from input size. Accessing an array element by its index is a classic example of an $O(1)$ operation.",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
@@ -1277,51 +1277,51 @@
           "lastAttemptedAt": null
         },
         {
-          "questionId": "ch_iterative_bigo_2_q10",
+          "questionId": "ch_iterative_bigo_2_q2",
           "questionText": "Which statement _best defines the primary purpose_ of Big O notation in algorithm analysis?",
           "options": [
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt1",
+              "optionId": "ch_iterative_bigo_2_q2_opt1",
               "optionText": "An algorithm with complexity $O(n)$ has a faster rate of growth than an algorithm with $O(n^2)$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt2",
+              "optionId": "ch_iterative_bigo_2_q2_opt2",
               "optionText": "An algorithm with complexity $O(n^2)$ has a faster rate of growth than an algorithm with $O(n)$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt3",
+              "optionId": "ch_iterative_bigo_2_q2_opt3",
               "optionText": "Big O notation provides an exact count of operations."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt4",
+              "optionId": "ch_iterative_bigo_2_q2_opt4",
               "optionText": "Big O notation describes the asymptotic upper bound of an algorithm's growth rate."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt5",
+              "optionId": "ch_iterative_bigo_2_q2_opt5",
               "optionText": "Constant factors are significant in Big O notation (e.g., $O(2n)$ is different from $O(n)$)."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt6",
+              "optionId": "ch_iterative_bigo_2_q2_opt6",
               "optionText": "Lower-order terms are significant in Big O notation (e.g., $O(n^2 + n)$ is different from $O(n^2)$)."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt7",
+              "optionId": "ch_iterative_bigo_2_q2_opt7",
               "optionText": "If $f(n) = O(g(n))$, then $g(n)$ grows at least as fast as $f(n)$ for large $n$ (up to a constant factor)."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt8",
+              "optionId": "ch_iterative_bigo_2_q2_opt8",
               "optionText": "$100n + 500 = O(n)$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt9",
+              "optionId": "ch_iterative_bigo_2_q2_opt9",
               "optionText": "$n^2 / 2 + n/2 = O(n^2)$."
             },
             {
-              "optionId": "ch_iterative_bigo_2_q10_opt10",
+              "optionId": "ch_iterative_bigo_2_q2_opt10",
               "optionText": "Big O notation is only used for time complexity, not space complexity."
             }
           ],
-          "correctOptionIds": ["ch_iterative_bigo_2_q10_opt4"],
+          "correctOptionIds": ["ch_iterative_bigo_2_q2_opt4"],
           "explanationText": "The primary purpose of Big O notation is that it **describes the asymptotic upper bound of an algorithm's growth rate** as the input size $n$ tends towards infinity. This means if an algorithm's resource usage (time or space) is $f(n)$, and we say $f(n) = O(g(n))$, then $g(n)$ serves as an upper bound for $f(n)$ for sufficiently large $n$, implying $g(n)$ grows at least as fast as $f(n)$ (ignoring constant factors and lower-order terms). For example, a function $100n + 500$ is $O(n)$, and $n^2/2 + n/2$ is $O(n^2)$. Big O notation is used for both time and space complexity. An algorithm with $O(n)$ complexity has a _slower_ (more desirable) rate of growth of its complexity function than one with $O(n^2)$ complexity (where $n^2$ grows faster than $n$).",
           "status": "not_attempted",
           "timesAnsweredCorrectly": 0,
