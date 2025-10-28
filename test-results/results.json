@@ -1,0 +1,2125 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\playwright.config.ts",
+    "rootDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 11
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      ["html", null],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "C:/Users/hssil/Downloads/03_Programming_Projects/quiz-srs/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 11,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "quiz-flow.spec.ts",
+      "file": "quiz-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Quiz Application E2E Tests",
+          "file": "quiz-flow.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.224Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-a2b365dd8ef75ef731ec",
+              "file": "quiz-flow.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "should navigate to test page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4508,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.222Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-cec20766719ba45045b4",
+              "file": "quiz-flow.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "should display quiz content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5133,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.226Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-ccb8a3e7913001e47f27",
+              "file": "quiz-flow.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should handle quiz interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5165,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.206Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c4cd90daaf9ab46ce7b3",
+              "file": "quiz-flow.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 5053,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.207Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-f81f82d57cc5c2cf343e",
+              "file": "quiz-flow.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "should handle keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 5116,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.238Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-d9a11a03909214b9593d",
+              "file": "quiz-flow.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "should display error states gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 7149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.224Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-40c9fdfafe55129bfdbd",
+              "file": "quiz-flow.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should maintain state during navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 9214,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.224Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-f90f5039ebcbbb349367",
+              "file": "quiz-flow.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3349,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:57.393Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-bdb401c95a4d57fa87aa",
+              "file": "quiz-flow.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "should navigate to test page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 7110,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:57.685Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-12ff00de453c8ec77d24",
+              "file": "quiz-flow.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "should display quiz content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 10504,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:57.668Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-6d035dadaa299e87c946",
+              "file": "quiz-flow.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should handle quiz interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 6975,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:57.704Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-5d673384c203e3fa89e6",
+              "file": "quiz-flow.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7004,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:58.304Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-0aee8c3c77b42c0219d7",
+              "file": "quiz-flow.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "should handle keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 8343,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:58.893Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-81aa419d13d06880fbf3",
+              "file": "quiz-flow.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "should display error states gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8207,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:58.893Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-a187804285df1265a7a0",
+              "file": "quiz-flow.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should maintain state during navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 11781,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:58.893Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c2aacc21c31b5f6e8a11",
+              "file": "quiz-flow.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 4480,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:03.667Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-138ff0bfc6e453f00748",
+              "file": "quiz-flow.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "should navigate to test page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 4768,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:08.205Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-cb7a0f7e7fbaa5b76b62",
+              "file": "quiz-flow.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "should display quiz content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10125,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:08.290Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-5dbd626a207050bd4aef",
+              "file": "quiz-flow.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should handle quiz interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 9994,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:08.465Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-ed52f6152913ab1c0f9d",
+              "file": "quiz-flow.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6168,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:09.144Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-ed69217b09152730bd2a",
+              "file": "quiz-flow.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "should handle keyboard navigation",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 11038,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:79:36",
+                        "location": {
+                          "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                          "column": 36,
+                          "line": 79
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[36mconst\u001b[39m focusedElement \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m':focus:not([data-nextjs-dev-tools-button])'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mif\u001b[39m ((\u001b[36mawait\u001b[39m focusedElement\u001b[33m.\u001b[39mcount()) \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m expect(focusedElement)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m     }\n \u001b[90m 81 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                            "column": 36,
+                            "line": 79
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[36mconst\u001b[39m focusedElement \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m':focus:not([data-nextjs-dev-tools-button])'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mif\u001b[39m ((\u001b[36mawait\u001b[39m focusedElement\u001b[33m.\u001b[39mcount()) \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m expect(focusedElement)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m     }\n \u001b[90m 81 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:79:36\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:08.504Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-7d390--handle-keyboard-navigation-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-7d390--handle-keyboard-navigation-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                        "column": 36,
+                        "line": 79
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c42cc8e6773f81b3de5a",
+              "file": "quiz-flow.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "should display error states gracefully",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 5035,
+                      "error": {
+                        "message": "Error: page.goto: Navigation to \"http://localhost:3000/non-existent-page\" is interrupted by another navigation to \"http://localhost:3000/\"\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/non-existent-page\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: Navigation to \"http://localhost:3000/non-existent-page\" is interrupted by another navigation to \"http://localhost:3000/\"\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/non-existent-page\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:85:16",
+                        "location": {
+                          "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                          "column": 16,
+                          "line": 85
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 83 |\u001b[39m   test(\u001b[32m'should display error states gracefully'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 84 |\u001b[39m     \u001b[90m// Navigate to a non-existent page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 85 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/non-existent-page'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 86 |\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[90m// Should either show 404 content or stay on the page (Next.js behavior)\u001b[39m\n \u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m currentUrl \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39murl()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                            "column": 16,
+                            "line": 85
+                          },
+                          "message": "Error: page.goto: Navigation to \"http://localhost:3000/non-existent-page\" is interrupted by another navigation to \"http://localhost:3000/\"\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/non-existent-page\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 83 |\u001b[39m   test(\u001b[32m'should display error states gracefully'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 84 |\u001b[39m     \u001b[90m// Navigate to a non-existent page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 85 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/non-existent-page'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 86 |\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[90m// Should either show 404 content or stay on the page (Next.js behavior)\u001b[39m\n \u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m currentUrl \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39murl()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:85:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:11.923Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-e322e-lay-error-states-gracefully-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-e322e-lay-error-states-gracefully-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                        "column": 16,
+                        "line": 85
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-6dd082aaa0293c6dfcd2",
+              "file": "quiz-flow.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should maintain state during navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 10410,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:12.934Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-1bd30581a9101a775516",
+              "file": "quiz-flow.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 3078,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:15.176Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-f29b093d4b0cd156b85a",
+              "file": "quiz-flow.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "should navigate to test page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 29,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 3958,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:14.713Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-b29024ebe6194d7f7ac4",
+              "file": "quiz-flow.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "should display quiz content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2421,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:16.821Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-444626e1f50221a76d55",
+              "file": "quiz-flow.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should handle quiz interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 4229,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:18.651Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c6855c50f092a589114e",
+              "file": "quiz-flow.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 35,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3493,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.104Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-356a50da1c9c6e001649",
+              "file": "quiz-flow.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "should handle keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 4514,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:18.767Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-22210c86938202877fe2",
+              "file": "quiz-flow.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "should display error states gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 36,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 2879,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.120Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-cbcf8b54d5972adee358",
+              "file": "quiz-flow.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should maintain state during navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 29,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 7228,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:19.029Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-348d8d339fff72b5a3fc",
+              "file": "quiz-flow.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 41,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1819,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:21.092Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-6ec651f8b37732f68859",
+              "file": "quiz-flow.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "should navigate to test page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 40,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 2481,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.847Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c62ed2e202aa563907be",
+              "file": "quiz-flow.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "should display quiz content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 41,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4575,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:23.250Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-70369371efba84d9ea96",
+              "file": "quiz-flow.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should handle quiz interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 44,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 4820,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.807Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-a4da9357d5bfd1767d59",
+              "file": "quiz-flow.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 42,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4840,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.821Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c6d2485487c97f6f6dd1",
+              "file": "quiz-flow.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "should handle keyboard navigation",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 46,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 9805,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:79:36",
+                        "location": {
+                          "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                          "column": 36,
+                          "line": 79
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[36mconst\u001b[39m focusedElement \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m':focus:not([data-nextjs-dev-tools-button])'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mif\u001b[39m ((\u001b[36mawait\u001b[39m focusedElement\u001b[33m.\u001b[39mcount()) \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m expect(focusedElement)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m     }\n \u001b[90m 81 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                            "column": 36,
+                            "line": 79
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator(':focus:not([data-nextjs-dev-tools-button])')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':focus:not([data-nextjs-dev-tools-button])')\u001b[22m\n\u001b[2m    9 × locator resolved to <nextjs-portal></nextjs-portal>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[36mconst\u001b[39m focusedElement \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m':focus:not([data-nextjs-dev-tools-button])'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mif\u001b[39m ((\u001b[36mawait\u001b[39m focusedElement\u001b[33m.\u001b[39mcount()) \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m expect(focusedElement)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m     }\n \u001b[90m 81 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts:79:36\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.807Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-7d390--handle-keyboard-navigation-Mobile-Safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\test-results\\quiz-flow-Quiz-Application-7d390--handle-keyboard-navigation-Mobile-Safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\hssil\\Downloads\\03_Programming_Projects\\quiz-srs\\tests\\e2e\\quiz-flow.spec.ts",
+                        "column": 36,
+                        "line": 79
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-ea20187d58962fb01ed6",
+              "file": "quiz-flow.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "should display error states gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 45,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3533,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.880Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-6a8c0bbbb641adf7a363",
+              "file": "quiz-flow.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should maintain state during navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 47,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 6179,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.870Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-18280db2bf6cfb93b357",
+              "file": "quiz-flow.spec.ts",
+              "line": 95,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Accessibility Tests",
+          "file": "quiz-flow.spec.ts",
+          "line": 110,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should have proper heading structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 3926,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.218Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-68f0b58fb497b575be2b",
+              "file": "quiz-flow.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have proper form labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 3985,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.270Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-4d178a9b98c48cc908ec",
+              "file": "quiz-flow.spec.ts",
+              "line": 123,
+              "column": 3
+            },
+            {
+              "title": "should have proper button labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 3696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:50.256Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-1d56b2be7316723cce45",
+              "file": "quiz-flow.spec.ts",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "should have proper heading structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 4752,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:10:58.894Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-671ada866d7ababa8f1b",
+              "file": "quiz-flow.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have proper form labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 9476,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:01.275Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-7e6a511e7907c75cb46e",
+              "file": "quiz-flow.spec.ts",
+              "line": 123,
+              "column": 3
+            },
+            {
+              "title": "should have proper button labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4112,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:01.613Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-a35ebae6e5f549a2de28",
+              "file": "quiz-flow.spec.ts",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "should have proper heading structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4969,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:14.041Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-61392ef8eade3a84ad25",
+              "file": "quiz-flow.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have proper form labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 30,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:14.962Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-c0e26248e5129342c47f",
+              "file": "quiz-flow.spec.ts",
+              "line": 123,
+              "column": 3
+            },
+            {
+              "title": "should have proper button labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 4099,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:15.052Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-aea51a97724e0fa9d28b",
+              "file": "quiz-flow.spec.ts",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "should have proper heading structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 38,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2296,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.627Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-4b7cee56d9e4107b6ee8",
+              "file": "quiz-flow.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have proper form labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 37,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2383,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.588Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-4187a2587a164dcbd5e3",
+              "file": "quiz-flow.spec.ts",
+              "line": 123,
+              "column": 3
+            },
+            {
+              "title": "should have proper button labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 39,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 2228,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:20.729Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-be366cb7d0f35885cba1",
+              "file": "quiz-flow.spec.ts",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "should have proper heading structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 43,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 3298,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.802Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-9d029ab417ab31c8004d",
+              "file": "quiz-flow.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have proper form labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 48,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 3382,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:24.835Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-99a749253d28b7c71cc8",
+              "file": "quiz-flow.spec.ts",
+              "line": 123,
+              "column": 3
+            },
+            {
+              "title": "should have proper button labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 40,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 2665,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-27T23:11:23.578Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f6bcfd22fe2baf7643eb-545021e11ce321d8e917",
+              "file": "quiz-flow.spec.ts",
+              "line": 144,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-10-27T23:10:42.984Z",
+    "duration": 52588.701,
+    "expected": 52,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

@@ -12,85 +12,75 @@ import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
 import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
-import rehypeSanitize from 'rehype-sanitize';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 
-// Custom sanitization schema for safe HTML
+// Custom sanitization schema for safe HTML - extends defaultSchema to preserve KaTeX
 const sanitizeSchema = {
+  ...defaultSchema,
   tagNames: [
-    // Text formatting
-    'b',
-    'i',
-    'em',
-    'strong',
-    'code',
-    'pre',
-    'br',
-    // Lists
-    'ul',
-    'ol',
-    'li',
-    // Tables
-    'table',
-    'thead',
-    'tbody',
-    'tr',
-    'th',
-    'td',
-    // Structure
-    'p',
-    'div',
-    'span',
-    'blockquote',
-    // Links and images (with restrictions)
-    'a',
-    'img',
-    // Headings
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    // Horizontal rule
-    'hr',
-    // Strikethrough
-    'del',
-    's',
-    // Task lists
-    'input',
+    ...(defaultSchema.tagNames || []),
+    // KaTeX MathML elements
+    'math',
+    'semantics',
+    'mrow',
+    'mi',
+    'mo',
+    'mn',
+    'msup',
+    'msub',
+    'mfrac',
+    'mtable',
+    'mtr',
+    'mtd',
+    'annotation',
+    'annotation-xml',
+    'mtext',
+    'mspace',
+    'msqrt',
+    'mroot',
+    'munder',
+    'mover',
+    'munderover',
+    'mpadded',
+    'mphantom',
+    'menclose',
   ],
   attributes: {
-    // Allow href on links but sanitize URLs
-    a: ['href', 'title', 'target', 'rel'],
-    // Allow src and alt on images
-    img: ['src', 'alt', 'title', 'width', 'height'],
-    // Allow class for styling
-    '*': ['class'],
-    // Allow data attributes for KaTeX
-    span: ['data-katex', 'data-katex-display'],
-    div: ['data-katex', 'data-katex-display'],
-    // Allow type and checked for task lists
-    input: ['type', 'checked', 'disabled'],
-    // Allow code language classes
-    code: ['class'],
-    pre: ['class'],
-  },
-  protocols: {
-    href: ['http', 'https', 'mailto'],
-    src: ['http', 'https', 'data'],
-  },
-  // Custom URL sanitization
-  urlFilter: (url: string) => {
-    // Block javascript: URLs
-    if (url.toLowerCase().startsWith('javascript:')) {
-      return false;
-    }
-    // Block data: URLs except for images
-    if (url.toLowerCase().startsWith('data:') && !url.toLowerCase().startsWith('data:image/')) {
-      return false;
-    }
-    return true;
+    ...(defaultSchema.attributes || {}),
+    // Allow className on all elements (critical for KaTeX)
+    '*': [
+      ...(defaultSchema.attributes?.['*'] || []),
+      'className',
+      'style', // KaTeX needs inline styles
+    ],
+    // KaTeX MathML attributes
+    math: ['xmlns', 'display'],
+    semantics: [],
+    mrow: [],
+    mi: ['mathvariant'],
+    mo: ['stretchy', 'symmetric', 'lspace', 'rspace', 'minsize', 'maxsize'],
+    mn: [],
+    msup: [],
+    msub: [],
+    mfrac: ['linethickness'],
+    mtable: ['columnalign', 'rowspacing', 'columnspacing'],
+    mtr: [],
+    mtd: ['columnalign'],
+    annotation: ['encoding'],
+    'annotation-xml': ['encoding'],
+    mtext: [],
+    mspace: ['width', 'height', 'depth'],
+    msqrt: [],
+    mroot: [],
+    munder: [],
+    mover: [],
+    munderover: [],
+    mpadded: ['width', 'height', 'depth', 'lspace', 'voffset'],
+    mphantom: [],
+    menclose: ['notation'],
+    // Ensure span can have aria-hidden for accessibility
+    span: [...(defaultSchema.attributes?.span || []), 'aria-hidden'],
   },
 };
 
@@ -113,25 +103,11 @@ export async function processMarkdown(content: string): Promise<string> {
     return String(result);
   } catch (error) {
     console.error('Markdown processing error:', error);
-    // Return sanitized fallback
-    return sanitizeFallback(content);
+    // Return basic error message instead of trying to render potentially broken content
+    throw new Error(
+      `Failed to process markdown: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
-}
-
-/**
- * Fallback sanitization for when the pipeline fails
- */
-function sanitizeFallback(content: string): string {
-  // Basic HTML escaping
-  const escaped = content
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-
-  // Convert line breaks to <br>
-  return escaped.replace(/\n/g, '<br>');
 }
 
 /**

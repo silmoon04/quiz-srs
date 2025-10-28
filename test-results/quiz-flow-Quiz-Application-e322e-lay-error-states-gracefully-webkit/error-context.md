@@ -2,8 +2,71 @@
 
 ```yaml
 - generic [active] [ref=e1]:
-    - generic [ref=e3]:
-        - heading "404" [level=1] [ref=e4]
-        - heading "This page could not be found." [level=2] [ref=e6]
-    - status [ref=e7]
+    - generic [ref=e2]:
+        - generic [ref=e4]:
+            - generic [ref=e5]:
+                - img [ref=e8]
+                - heading "MCQ Master" [level=1] [ref=e18]
+                - paragraph [ref=e19]: Transform your learning with interactive multiple-choice quizzes. Load your quiz module and start your journey.
+            - generic [ref=e20]:
+                - generic [ref=e22]:
+                    - img [ref=e23]
+                    - text: Get Started
+                - generic [ref=e25]:
+                    - generic [ref=e26]:
+                        - paragraph [ref=e27]: Choose how you'd like to begin your learning experience.
+                        - generic [ref=e28]:
+                            - button "Try Algorithm Quiz" [ref=e29] [cursor=pointer]:
+                                - img
+                                - text: Try Algorithm Quiz
+                            - generic [ref=e30]:
+                                - paragraph [ref=e31]: or
+                                - button "Load Quiz (JSON/MD)" [ref=e32] [cursor=pointer]:
+                                    - img
+                                    - text: Load Quiz (JSON/MD)
+                    - generic [ref=e33]:
+                        - generic [ref=e34]:
+                            - img [ref=e36]
+                            - heading "Interactive Learning" [level=3] [ref=e38]
+                            - paragraph [ref=e39]: Engage with dynamic quizzes
+                        - generic [ref=e40]:
+                            - img [ref=e42]
+                            - heading "Smart Feedback" [level=3] [ref=e52]
+                            - paragraph [ref=e53]: Get detailed explanations
+                        - generic [ref=e54]:
+                            - img [ref=e56]
+                            - heading "Progress Tracking" [level=3] [ref=e58]
+                            - paragraph [ref=e59]: Monitor your learning journey
+                        - generic [ref=e60]:
+                            - img [ref=e62]
+                            - heading "Spaced Repetition" [level=3] [ref=e65]
+                            - paragraph [ref=e66]: Master topics with smart review schedules
+                        - generic [ref=e67]:
+                            - img [ref=e69]
+                            - heading "Markdown & JSON" [level=3] [ref=e72]
+                            - paragraph [ref=e73]: Support for both JSON and Markdown quiz formats
+                    - generic [ref=e74]:
+                        - heading "Supported Formats:" [level=4] [ref=e75]
+                        - generic [ref=e76]:
+                            - generic [ref=e77]:
+                                - paragraph [ref=e78]: 📄 JSON Format
+                                - paragraph [ref=e79]: Traditional structured quiz data with full feature support
+                                - generic [ref=e80]:
+                                    - paragraph [ref=e81]: • Complete quiz modules with chapters
+                                    - paragraph [ref=e82]: • Progress tracking and SRS data
+                                    - paragraph [ref=e83]: • LaTeX math expressions
+                            - generic [ref=e84]:
+                                - paragraph [ref=e85]: 📝 Markdown Format
+                                - paragraph [ref=e86]: Human-readable format with LaTeX, code blocks, and more
+                                - generic [ref=e87]:
+                                    - paragraph [ref=e88]: • Easy to write and edit
+                                    - paragraph [ref=e89]: • Supports LaTeX math expressions
+                                    - paragraph [ref=e90]: • Code blocks and rich formatting
+                                    - paragraph [ref=e91]: • Optional progress state tracking
+                        - generic [ref=e92]:
+                            - paragraph [ref=e93]: 'Markdown Format Example:'
+                            - generic [ref=e94]: '# Quiz Title _Optional description_ --- ## Chapter Name <!-- ID:chapter_id --> --- ### Q: What is 2+2? <!-- ID:q1 --> **Opt:** - **A1:** 3 - **A2:** 4 - **A3:** 5 **Ans:** A2 **Exp:** 2+2 equals 4. ---'
+        - region "Notifications (F8)":
+            - list
+    - status [ref=e95]
 ```

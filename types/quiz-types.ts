@@ -91,3 +91,10 @@ export interface SessionHistoryEntry {
   isReviewSessionQuestion: boolean;
   chapterId: string; // Chapter ID for context, especially for SRS reviews
 }
+
+export interface AnswerRecord {
+  selectedOptionId: string;
+  isCorrect: boolean;
+  displayedOptionIds: string[];
+  timestamp: string;
+}
