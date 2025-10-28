@@ -15,7 +15,7 @@ import {
   normalizeSingleQuestion,
   recalculateChapterStats,
   validateAndCorrectQuizModule,
-} from '@/utils/quiz-validation';
+} from '@/utils/quiz-validation-refactored';
 import type {
   QuizModule,
   QuizChapter,
@@ -737,7 +737,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
         console.log('Processing as Markdown file...');
 
         // Parse Markdown content
-        const { parseMarkdownToQuizModule } = await import('@/utils/quiz-validation');
+        const { parseMarkdownToQuizModule } = await import('@/utils/quiz-validation-refactored');
         const parseResult = parseMarkdownToQuizModule(fileContent);
 
         if (!parseResult.success || !parseResult.quizModule) {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseMarkdownToQuizModule } from '@/utils/quiz-validation';
+import { parseMarkdownToQuizModule } from '@/utils/quiz-validation-refactored';
 
 describe.skip('Global ID Uniqueness Validation', () => {
   it('should detect duplicate chapter IDs across the entire module', () => {
