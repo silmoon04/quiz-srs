@@ -13,6 +13,14 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      include: [
+        'app/**/*.{ts,tsx}',
+        'components/**/*.{ts,tsx}',
+        'hooks/**/*.{ts,tsx}',
+        'lib/**/*.{ts,tsx}',
+        'utils/**/*.{ts,tsx}',
+        'types/**/*.{ts,tsx}',
+      ],
       exclude: [
         'node_modules/',
         'tests/',
@@ -21,6 +29,11 @@ export default defineConfig({
         '**/coverage/**',
         '**/.next/**',
         '**/public/**',
+        '.next/**',
+        'out/**',
+        'scripts/**',
+        'playwright-report/**',
+        'test-results/**',
       ],
       thresholds: {
         global: {

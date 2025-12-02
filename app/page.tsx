@@ -695,12 +695,7 @@ ${validation.errors.slice(0, 3).join('\n')}`);
   const readFileAsText = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result;
-        if (typeof result === 'string') {
-          resolve(result);
-        }
-      };
+      // FIXED: Single onload handler with proper error handling
       reader.onload = (event) => {
         const result = event.target?.result;
         if (typeof result === 'string') {
@@ -823,31 +818,35 @@ ${validation.errors.slice(0, 3).join('\n')}`);
             );
             return;
           }
-        }
 
-        // If we reach here, either the JSON parsed successfully initially, or we need to handle it manually
-        if (!correctionResult) {
-          // Standard validation for successfully parsed JSON
-          const validation = validateQuizModule(parsedData);
-          if (!validation.isValid) {
-            console.error('Validation errors:', validation.errors);
-            throw new Error(`Invalid quiz module format:
-${validation.errors.slice(0, 3).join('\n')}`);
-          }
-
-          // Normalize and set the module
-          normalizedModule = normalizeQuizModule(parsedData);
-          setCurrentModule(normalizedModule);
-          setAnswerRecords({});
-          setAppState('dashboard');
-
-          showSuccess(
-            'Quiz Module Loaded Successfully!',
-            `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
+          // FIXED D1: If validation passed but no correctedModule, this is an error state
+          // The LaTeX correction process should have produced a module if validation passed
+          throw new Error(
+            'LaTeX correction passed validation but failed to produce a usable module',
           );
-
-          console.log('Successfully loaded quiz module:', normalizedModule.name);
         }
+
+        // If we reach here, the JSON parsed successfully initially
+        // Standard validation for successfully parsed JSON
+        const validation = validateQuizModule(parsedData);
+        if (!validation.isValid) {
+          console.error('Validation errors:', validation.errors);
+          throw new Error(`Invalid quiz module format:
+${validation.errors.slice(0, 3).join('\n')}`);
+        }
+
+        // Normalize and set the module
+        normalizedModule = normalizeQuizModule(parsedData);
+        setCurrentModule(normalizedModule);
+        setAnswerRecords({});
+        setAppState('dashboard');
+
+        showSuccess(
+          'Quiz Module Loaded Successfully!',
+          `Loaded "${normalizedModule.name}" with ${normalizedModule.chapters.length} chapters`,
+        );
+
+        console.log('Successfully loaded quiz module:', normalizedModule.name);
       }
     } catch (err) {
       console.error('Error loading quiz module:', err);

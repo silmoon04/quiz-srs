@@ -67,7 +67,9 @@ export function MarkdownRenderer({ markdown, className }: Props) {
 
         const { html: normalizedHtml, hasMermaid } = transformMermaidBlocks(html);
         // Final belt-and-suspenders gate before HTML insertion.
-        const disallowed = /<script\b|\\son\\w+=|javascript:/i.test(normalizedHtml);
+        // FIXED D11: Correct regex escaping - \s matches whitespace, not literal \s
+        // Pattern matches: script tags, event handlers (onclick, onerror, etc.), javascript: URLs
+        const disallowed = /<script\b|\s+on\w+\s*=|javascript:/i.test(normalizedHtml);
         if (!cancelled) {
           setState({
             html: disallowed ? '<p>Content blocked for security reasons.</p>' : normalizedHtml,

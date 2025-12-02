@@ -126,8 +126,10 @@ export function AccessibleOptionList({
             className="rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             onFocus={() => handleFocus(index)}
             onKeyDown={(e) => {
-              if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+              // FIXED D8: Stop propagation to prevent double-firing from parent handler
+              if (!disabled && !isSubmitted && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();
+                e.stopPropagation(); // FIXED: Prevent event from bubbling to parent radiogroup
                 onSelectOption(option.optionId);
               }
             }}
