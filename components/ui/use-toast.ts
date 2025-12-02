@@ -172,6 +172,8 @@ function toast({ ...props }: Toast) {
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState);
 
+  // FIXED D9: Remove state from dependency array to prevent listener churn
+  // The effect should only run once on mount and cleanup on unmount
   React.useEffect(() => {
     listeners.push(setState);
     return () => {
@@ -180,7 +182,7 @@ function useToast() {
         listeners.splice(index, 1);
       }
     };
-  }, [state]);
+  }, []); // FIXED: Empty dependency array - listener should persist for component lifetime
 
   return {
     ...state,

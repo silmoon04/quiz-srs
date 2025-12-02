@@ -699,16 +699,43 @@ export function validateSingleQuestion(data: any): ValidationResult {
 }
 
 export function normalizeSingleQuestion(data: QuizQuestion): QuizQuestion {
+  // FIXED D4: Properly clamp srsLevel to valid range [0, 2]
+  // Handle negative values, NaN, Infinity, and values > 2
+  const rawSrsLevel = data.srsLevel;
+  let normalizedSrsLevel = 0;
+
+  if (typeof rawSrsLevel === 'number' && Number.isFinite(rawSrsLevel)) {
+    normalizedSrsLevel = Math.max(0, Math.min(2, Math.floor(rawSrsLevel)));
+  }
+
+  // FIXED D4: Properly clamp answer counts to non-negative
+  const timesCorrect =
+    typeof data.timesAnsweredCorrectly === 'number' && data.timesAnsweredCorrectly >= 0
+      ? Math.floor(data.timesAnsweredCorrectly)
+      : 0;
+  const timesIncorrect =
+    typeof data.timesAnsweredIncorrectly === 'number' && data.timesAnsweredIncorrectly >= 0
+      ? Math.floor(data.timesAnsweredIncorrectly)
+      : 0;
+
+  // FIXED: Ensure status matches srsLevel for consistency
+  let normalizedStatus = data.status || 'not_attempted';
+  if (normalizedSrsLevel >= 2 && normalizedStatus !== 'mastered') {
+    normalizedStatus = 'mastered';
+  } else if (normalizedSrsLevel === 0 && normalizedStatus === 'mastered') {
+    normalizedStatus = 'attempted';
+  }
+
   return {
     ...data,
     type: data.type || 'mcq', // Default to 'mcq' if type is missing
-    status: data.status || 'not_attempted',
-    timesAnsweredCorrectly: data.timesAnsweredCorrectly || 0,
-    timesAnsweredIncorrectly: data.timesAnsweredIncorrectly || 0,
+    status: normalizedStatus,
+    timesAnsweredCorrectly: timesCorrect,
+    timesAnsweredIncorrectly: timesIncorrect,
     historyOfIncorrectSelections: data.historyOfIncorrectSelections || [],
     lastSelectedOptionId: data.lastSelectedOptionId || undefined,
     lastAttemptedAt: data.lastAttemptedAt || undefined,
-    srsLevel: data.srsLevel || 0,
+    srsLevel: normalizedSrsLevel,
     nextReviewAt: data.nextReviewAt || null,
     shownIncorrectOptionIds: data.shownIncorrectOptionIds || [],
   };
