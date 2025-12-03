@@ -157,12 +157,21 @@ describe('Keyboardable Options + Roving Grid', () => {
       const tabbableOptions = radioButtons.filter((btn) => btn.getAttribute('tabIndex') === '0');
       expect(tabbableOptions).toHaveLength(1);
 
+      // Focus the first option before arrow navigation
+      const firstOption = radioButtons[0];
+      firstOption.focus();
+
       // Arrow navigation should update tabindex
       await userEvent.keyboard('{ArrowDown}');
 
       const newTabbableOptions = radioButtons.filter((btn) => btn.getAttribute('tabIndex') === '0');
       expect(newTabbableOptions).toHaveLength(1);
-      expect(newTabbableOptions[0]).toHaveFocus();
+      // After arrow down, the second option (if exists) or first (if wrap) should have focus
+      if (radioButtons.length > 1) {
+        expect(radioButtons[1]).toHaveFocus();
+      } else {
+        expect(radioButtons[0]).toHaveFocus();
+      }
     });
   });
 

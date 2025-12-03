@@ -459,9 +459,9 @@ export function QuizSession({
     if (!currentModule) return 0;
     const currentChapter = currentModule.chapters.find((c) => c.id === chapter.id);
     if (!currentChapter) return 0;
-    return currentChapter.totalQuestions > 0
-      ? Math.round((currentChapter.correctAnswers / currentChapter.totalQuestions) * 100)
-      : 0;
+    // FIX: Use answeredQuestions for accuracy percentage, not totalQuestions
+    const answered = currentChapter.answeredQuestions || 0;
+    return answered > 0 ? Math.round((currentChapter.correctAnswers / answered) * 100) : 0;
   }, [currentModule, chapter.id]);
 
   return (

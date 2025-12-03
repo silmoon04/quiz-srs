@@ -82,12 +82,13 @@ export function AccessibleOptionList({
     [disabled, isSubmitted, focusedIndex, options, focusOption, onSelectOption],
   );
 
-  // Set initial focus when component mounts
+  // Set initial focus when component mounts - only if no option is selected
+  // FIX: Only set focusedIndex, don't call focus() which steals focus from other elements
   useEffect(() => {
-    if (options.length > 0) {
-      focusOption(0);
+    if (options.length > 0 && selectedOptionId === null) {
+      setFocusedIndex(0);
     }
-  }, [options.length, focusOption]);
+  }, [options.length, selectedOptionId]);
 
   // Update focused index when selected option changes
   useEffect(() => {
@@ -125,6 +126,12 @@ export function AccessibleOptionList({
             aria-labelledby={`option-text-${option.optionId}`}
             className="rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             onFocus={() => handleFocus(index)}
+            onClick={() => {
+              // Handle click directly on the radio wrapper
+              if (!disabled && !isSubmitted) {
+                onSelectOption(option.optionId);
+              }
+            }}
             onKeyDown={(e) => {
               // FIXED D8: Stop propagation to prevent double-firing from parent handler
               if (!disabled && !isSubmitted && (e.key === 'Enter' || e.key === ' ')) {
