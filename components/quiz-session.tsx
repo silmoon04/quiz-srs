@@ -465,7 +465,10 @@ export function QuizSession({
   }, [currentModule, chapter.id]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950">
+    <div
+      className="quiz-session min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950"
+      data-testid="quiz-session"
+    >
       {/* Fixed Progress and Score Bar */}
       <div className="sticky top-0 z-50 border-b border-slate-700 bg-gradient-to-r from-slate-900/95 to-slate-800/95 shadow-lg backdrop-blur-md">
         <div className="mx-auto max-w-4xl px-4 py-3">

@@ -26,7 +26,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start Quiz")').first();
     await startBtn.click();
 
     // Answer question
@@ -48,7 +48,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start Quiz")').first();
     await startBtn.click();
 
     // Answer and immediately navigate

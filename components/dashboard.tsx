@@ -70,7 +70,10 @@ export function Dashboard({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950 p-4">
+    <div
+      className="dashboard min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950 p-4"
+      data-testid="dashboard"
+    >
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header - Improved responsive layout */}
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">

@@ -15,7 +15,7 @@ export const validQuizJSON = {
   chapters: [
     {
       id: 'ch1',
-      title: 'Chapter 1: Basics',
+      name: 'Chapter 1: Basics',
       questions: [
         {
           questionId: 'q1',
@@ -27,7 +27,7 @@ export const validQuizJSON = {
             { optionId: 'q1-d', optionText: '6' },
           ],
           correctOptionIds: ['q1-b'],
-          explanation: 'Basic arithmetic: 2 + 2 = 4',
+          explanationText: 'Basic arithmetic: 2 + 2 = 4',
         },
         {
           questionId: 'q2',
@@ -39,7 +39,7 @@ export const validQuizJSON = {
             { optionId: 'q2-d', optionText: 'Madrid' },
           ],
           correctOptionIds: ['q2-c'],
-          explanation: 'Paris is the capital of France.',
+          explanationText: 'Paris is the capital of France.',
         },
         {
           questionId: 'q3',
@@ -49,13 +49,13 @@ export const validQuizJSON = {
             { optionId: 'q3-b', optionText: 'False' },
           ],
           correctOptionIds: ['q3-a'],
-          explanation: 'The sky appears blue due to Rayleigh scattering.',
+          explanationText: 'The sky appears blue due to Rayleigh scattering.',
         },
       ],
     },
     {
       id: 'ch2',
-      title: 'Chapter 2: Advanced',
+      name: 'Chapter 2: Advanced',
       questions: [
         {
           questionId: 'q4',
@@ -67,7 +67,7 @@ export const validQuizJSON = {
             { optionId: 'q4-d', optionText: '13' },
           ],
           correctOptionIds: ['q4-c'],
-          explanation: '12 × 12 = 144',
+          explanationText: '12 × 12 = 144',
         },
         {
           questionId: 'q5',
@@ -79,7 +79,7 @@ export const validQuizJSON = {
             { optionId: 'q5-d', optionText: 'Earth' },
           ],
           correctOptionIds: ['q5-b'],
-          explanation: 'Mercury is the closest planet to the Sun.',
+          explanationText: 'Mercury is the closest planet to the Sun.',
         },
       ],
     },
@@ -413,13 +413,22 @@ export async function waitForQuizLoaded(page: Page) {
 }
 
 export async function answerQuestion(page: Page, optionIndex: number, submit = true) {
-  // Click the option
-  const options = page.locator('[role="radio"], [role="option"], .option-card');
-  await options.nth(optionIndex).click();
+  // Wait for options to be visible and interactive
+  await page.waitForSelector('[role="radiogroup"]', { state: 'visible' });
+
+  // Get all option cards (inside the radiogroup)
+  const optionCards = page.locator('[role="radiogroup"] > div');
+
+  // Click the option at the given index
+  await optionCards.nth(optionIndex).click();
+
+  // Wait for React state to update
+  await page.waitForTimeout(200);
 
   if (submit) {
-    // Click submit button
-    const submitBtn = page.locator('button:has-text("Submit"), button:has-text("Check")');
+    // Wait for Submit button to be enabled and click it
+    const submitBtn = page.locator('button:has-text("Submit Answer"):not([disabled])');
+    await submitBtn.waitFor({ state: 'visible', timeout: 5000 });
     await submitBtn.click();
   }
 }
