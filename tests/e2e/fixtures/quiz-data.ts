@@ -414,21 +414,39 @@ export async function waitForQuizLoaded(page: Page) {
 
 export async function answerQuestion(page: Page, optionIndex: number, submit = true) {
   // Wait for options to be visible and interactive
-  await page.waitForSelector('[role="radiogroup"]', { state: 'visible' });
+  await page.waitForSelector('[role="radiogroup"]', { state: 'visible', timeout: 10000 });
 
-  // Get all option cards (inside the radiogroup)
-  const optionCards = page.locator('[role="radiogroup"] > div');
+  // Get all option cards using role="radio" (the wrapper divs in AccessibleOptionList)
+  const optionCards = page.locator('[role="radio"]');
 
-  // Click the option at the given index
-  await optionCards.nth(optionIndex).click();
+  // Wait for options to be ready
+  await optionCards.first().waitFor({ state: 'visible', timeout: 5000 });
+
+  // Click the option at the given index - click on the button inside
+  const targetOption = optionCards.nth(optionIndex);
+  await targetOption.locator('[role="button"]').click();
 
   // Wait for React state to update
-  await page.waitForTimeout(200);
+  await page.waitForTimeout(100);
 
   if (submit) {
     // Wait for Submit button to be enabled and click it
-    const submitBtn = page.locator('button:has-text("Submit Answer"):not([disabled])');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
     await submitBtn.waitFor({ state: 'visible', timeout: 5000 });
+    // Wait for button to be enabled (not disabled)
+    await page
+      .waitForFunction(
+        () => {
+          const btn =
+            document.querySelector('button:has([class*="Submit"])') ||
+            Array.from(document.querySelectorAll('button')).find((b) =>
+              b.textContent?.includes('Submit'),
+            );
+          return btn && !btn.hasAttribute('disabled');
+        },
+        { timeout: 5000 },
+      )
+      .catch(() => {}); // Ignore timeout, try clicking anyway
     await submitBtn.click();
   }
 }
