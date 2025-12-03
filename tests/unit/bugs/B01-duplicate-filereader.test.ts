@@ -55,19 +55,34 @@ describe('Bug #1: Duplicate FileReader onload Handler', () => {
       // Track the number of onload assignments
       let assignmentCount = 0;
 
-      const TrackedFileReader = class extends MockFileReader {
+      // Custom FileReader that tracks onload setter calls
+      class TrackedFileReader {
+        result: string | ArrayBuffer | null = null;
+        onerror: ((event: any) => void) | null = null;
         private _onload: ((event: any) => void) | null = null;
 
         get onload() {
           return this._onload;
         }
         set onload(handler: ((event: any) => void) | null) {
-          assignmentCount++;
+          if (handler !== null) {
+            // Only count non-null assignments (actual handler assignments)
+            assignmentCount++;
+          }
           this._onload = handler;
         }
-      };
 
-      // FIXED: Now correctly assigns onload only once
+        readAsText(_blob: Blob) {
+          setTimeout(() => {
+            this.result = 'file content';
+            if (this._onload) {
+              this._onload({ target: this });
+            }
+          }, 0);
+        }
+      }
+
+      // This simulates the FIXED implementation in page.tsx
       function fixedReadFileAsText(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
           const reader = new TrackedFileReader() as any;

@@ -34,20 +34,20 @@ const createChapter = (
   correctAnswers: correctCount,
 });
 
-// Helper to create a quizModule
+// Helper to create a module
 const createModule = (
   name: string = 'Test Module',
   chapters: QuizChapter[] = [createChapter('ch-1', 'Chapter 1')],
 ): QuizModule => ({
   name,
-  description: 'Test quizModule description',
+  description: 'Test module description',
   chapters,
 });
 
 // Create default props factory
 const createDefaultProps = (
   overrides: Partial<{
-    quizModule: QuizModule;
+    module: QuizModule;
     onStartQuiz: (chapterId: string) => void;
     onStartReviewSession: () => void;
     onLoadNewModule: () => void;
@@ -57,7 +57,7 @@ const createDefaultProps = (
     reviewQueueCount: number;
   }> = {},
 ) => ({
-  quizModule: createModule(),
+  module: createModule(),
   onStartQuiz: vi.fn(),
   onStartReviewSession: vi.fn(),
   onLoadNewModule: vi.fn(),
@@ -83,12 +83,12 @@ describe('DashboardWithInlineErrors Component', () => {
   });
 
   describe('Basic rendering', () => {
-    it('should render the dashboard with quizModule information', () => {
+    it('should render the dashboard with module information', () => {
       const quizModule = createModule('My Quiz Module');
-      render(<DashboardWithInlineErrors {...createDefaultProps({ quizModule })} />);
+      render(<DashboardWithInlineErrors {...createDefaultProps({ module: quizModule })} />);
 
       expect(screen.getByText('My Quiz Module')).toBeInTheDocument();
-      expect(screen.getByText('Test quizModule description')).toBeInTheDocument();
+      expect(screen.getByText('Test module description')).toBeInTheDocument();
     });
 
     it('should render action buttons', () => {
@@ -96,15 +96,15 @@ describe('DashboardWithInlineErrors Component', () => {
 
       expect(screen.getByRole('button', { name: /import state/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /export state/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /load new quizModule/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /load new module/i })).toBeInTheDocument();
     });
 
-    it('should render chapters from the quizModule', () => {
+    it('should render chapters from the module', () => {
       const quizModule = createModule('Test', [
         createChapter('ch-1', 'First Chapter'),
         createChapter('ch-2', 'Second Chapter'),
       ]);
-      render(<DashboardWithInlineErrors {...createDefaultProps({ quizModule })} />);
+      render(<DashboardWithInlineErrors {...createDefaultProps({ module: quizModule })} />);
 
       expect(screen.getByText('First Chapter')).toBeInTheDocument();
       expect(screen.getByText('Second Chapter')).toBeInTheDocument();
@@ -551,7 +551,9 @@ describe('DashboardWithInlineErrors Component', () => {
       const user = userEvent.setup();
       const onStartQuiz = vi.fn();
       const quizModule = createModule('Test', [createChapter('ch-1', 'Chapter 1')]);
-      render(<DashboardWithInlineErrors {...createDefaultProps({ quizModule, onStartQuiz })} />);
+      render(
+        <DashboardWithInlineErrors {...createDefaultProps({ module: quizModule, onStartQuiz })} />,
+      );
 
       const startButton = screen.getByRole('button', { name: /start quiz/i });
       await user.click(startButton);
@@ -585,12 +587,12 @@ describe('DashboardWithInlineErrors Component', () => {
       expect(onExportState).toHaveBeenCalled();
     });
 
-    it('should call onLoadNewModule when load new quizModule button is clicked', async () => {
+    it('should call onLoadNewModule when load new module button is clicked', async () => {
       const user = userEvent.setup();
       const onLoadNewModule = vi.fn();
       render(<DashboardWithInlineErrors {...createDefaultProps({ onLoadNewModule })} />);
 
-      const loadButton = screen.getByRole('button', { name: /load new quizModule/i });
+      const loadButton = screen.getByRole('button', { name: /load new module/i });
       await user.click(loadButton);
 
       expect(onLoadNewModule).toHaveBeenCalled();
@@ -727,20 +729,20 @@ describe('DashboardWithInlineErrors Component', () => {
       expect(onImportState).not.toHaveBeenCalled();
     });
 
-    it('should handle quizModule with no chapters', () => {
+    it('should handle module with no chapters', () => {
       const quizModule = createModule('Empty Module', []);
-      render(<DashboardWithInlineErrors {...createDefaultProps({ quizModule })} />);
+      render(<DashboardWithInlineErrors {...createDefaultProps({ module: quizModule })} />);
 
       expect(screen.getByText('Empty Module')).toBeInTheDocument();
       expect(screen.getByRole('heading', { name: 'Chapters' })).toBeInTheDocument();
     });
 
-    it('should handle quizModule with no description', () => {
+    it('should handle module with no description', () => {
       const quizModule: QuizModule = {
         name: 'No Description Module',
         chapters: [createChapter('ch-1', 'Chapter 1')],
       };
-      render(<DashboardWithInlineErrors {...createDefaultProps({ quizModule })} />);
+      render(<DashboardWithInlineErrors {...createDefaultProps({ module: quizModule })} />);
 
       expect(screen.getByText('No Description Module')).toBeInTheDocument();
     });
