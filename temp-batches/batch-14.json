@@ -1,0 +1,215 @@
+{
+  "batchIndex": 14,
+  "questions": [
+    {
+      "chapterIndex": 7,
+      "questionIndex": 2,
+      "questionId": "ch_viva_8_q43",
+      "questionText": "Sketch an algorithm to **delete all even numbers** from a Singly Linked List.",
+      "options": [
+        {
+          "optionId": "ch_viva_8_q43_opt1",
+          "optionText": "First, I handle the Head: while `head` is not null and even, `head = head.next`. Then, I traverse with `curr`. While `curr.next` is not null: if `curr.next.val` is even, I bypass it (`curr.next = curr.next.next`). Else, I advance `curr`. Return head."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt2",
+          "optionText": "I use a 'Sentinel' or 'Dummy' node pointing to head. This simplifies edge cases. I traverse using `prev` (starts at dummy) and `curr` (starts at head). If `curr` is even, `prev.next = curr.next`. Else `prev = curr`. Move `curr` forward. Return `dummy.next`."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt3",
+          "optionText": "I iterate through the list. I aggressively prune 'next' nodes. If the upcoming node is even, I snip it out immediately and check the *new* upcoming node (without advancing). Only when the upcoming node is odd do I step forward."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt4",
+          "optionText": "I will verify if `curr \\% 2 == 0` and set `curr = null`."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt5",
+          "optionText": "I will iterate and set `curr.next = curr.next.next`."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt6",
+          "optionText": "I will make a new list with odds."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt7",
+          "optionText": "I will traverse backwards."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt8",
+          "optionText": "I will assume head is odd."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt9",
+          "optionText": "I will use `curr.prev`."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt10",
+          "optionText": "I will delete the node and move `curr`."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt11",
+          "optionText": "I will use a Stack."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt12",
+          "optionText": "I will replace values with 0."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt13",
+          "optionText": "I will use recursion."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt14",
+          "optionText": "I will stop at the first even."
+        },
+        {
+          "optionId": "ch_viva_8_q43_opt15",
+          "optionText": "I will use two pointers but forget head update."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_8_q43_opt1", "ch_viva_8_q43_opt2", "ch_viva_8_q43_opt3"],
+      "explanationText": "Deletion in a singly linked list requires tracking the previous node to perform the relinking. The primary challenge is handling the head node if it is even. Using a dummy node (Option 2) or handling the head separately (Option 1) simplifies the logic. Time complexity is $O(N)$."
+    },
+    {
+      "chapterIndex": 7,
+      "questionIndex": 3,
+      "questionId": "ch_viva_8_q44",
+      "questionText": "Sketch an algorithm to **rotate** a Singly Linked List to the right by $K$ places.",
+      "options": [
+        {
+          "optionId": "ch_viva_8_q44_opt1",
+          "optionText": "I traverse to find the length `Len` and the `Tail`. I set $K = K \\% Len$. If $K=0$ return head. I connect `Tail.next = Head` (forming a ring). Then I traverse `Len - K` steps from the connection. I set the new head, and break the ring (`newTail.next = null`)."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt2",
+          "optionText": "I visualize the list as a ring. I close the ring first. Then I shift my starting point (Head) forward by `Length - K` steps. I cut the ring just before this new Head."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt3",
+          "optionText": "I find the pivot point. The new tail is at index $Len - K - 1$. The new head is `newTail.next`. I set `oldTail.next = oldHead` and `newTail.next = null`. Return `newHead`."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt4",
+          "optionText": "I will move the tail to head $K$ times."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt5",
+          "optionText": "I will use an array."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt6",
+          "optionText": "I will swap values."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt7",
+          "optionText": "I will pointer arithmetic."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt8",
+          "optionText": "I will reverse the list."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt9",
+          "optionText": "I will start from the Kth node."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt10",
+          "optionText": "I will use a Queue."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt11",
+          "optionText": "I will ignore $K > N$."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt12",
+          "optionText": "I will split the list and swap halves."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt13",
+          "optionText": "I will use recursion."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt14",
+          "optionText": "I will use Doubly list logic."
+        },
+        {
+          "optionId": "ch_viva_8_q44_opt15",
+          "optionText": "I will return null."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_8_q44_opt1", "ch_viva_8_q44_opt2", "ch_viva_8_q44_opt3"],
+      "explanationText": "The most efficient solution is to first calculate the length, handle the modulo $K$, form a temporary circle, and then break the circle at the new tail position. This is an $O(N)$ time, $O(1)$ space operation."
+    },
+    {
+      "chapterIndex": 7,
+      "questionIndex": 4,
+      "questionId": "ch_viva_8_q45",
+      "questionText": "Sketch an algorithm to return **all root-to-leaf paths** in a Binary Tree (as a list of strings `1->2->5`).",
+      "options": [
+        {
+          "optionId": "ch_viva_8_q45_opt1",
+          "optionText": "I use **DFS** (Recursion). The function takes a Node and a String `path`. I append `node.val` to `path`. If leaf, add `path` to result list. Else, recurse left with `path`, recurse right with `path`. Strings are immutable so backtracking is handled automatically."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt2",
+          "optionText": "I use an Iterative DFS with **two Stacks**. One for Nodes, one for `PathStrings`. When I push a child node, I also push `currentPath + \"->\" + child.val`. If I pop a leaf, I store the path string."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt3",
+          "optionText": "I build paths incrementally. As I descend, I construct the lineage of the node. When the descent hits a leaf node, I commit the current lineage to the final records."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt4",
+          "optionText": "I will use BFS."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt5",
+          "optionText": "I will only print the path."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt6",
+          "optionText": "I will use a global string."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt7",
+          "optionText": "I will traverse In-Order."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt8",
+          "optionText": "I will use a single list and remove items."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt9",
+          "optionText": "I will return the longest path."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt10",
+          "optionText": "I will store nodes in a Hash Map."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt11",
+          "optionText": "I will use a Queue."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt12",
+          "optionText": "I will start from leaves."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt13",
+          "optionText": "I will check for cycles."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt14",
+          "optionText": "I will use Dijkstra."
+        },
+        {
+          "optionId": "ch_viva_8_q45_opt15",
+          "optionText": "I will append `node` to string."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_8_q45_opt1", "ch_viva_8_q45_opt2", "ch_viva_8_q45_opt3"],
+      "explanationText": "Finding all paths requires a Depth-First Search (DFS) approach, as it naturally explores one path completely before backtracking. Recursion (Option 1) is the most common method, using the call stack for implicit backtracking. The time complexity is $O(N \\cdot L)$, where $L$ is the average path length, due to string concatenation."
+    }
+  ]
+}

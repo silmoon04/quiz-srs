@@ -1,0 +1,215 @@
+{
+  "batchIndex": 12,
+  "questions": [
+    {
+      "chapterIndex": 6,
+      "questionIndex": 1,
+      "questionId": "ch_viva_7_q37",
+      "questionText": "Sketch an algorithm to find the **Lowest Common Ancestor (LCA)** of two nodes in a **Binary Search Tree**.",
+      "options": [
+        {
+          "optionId": "ch_viva_7_q37_opt1",
+          "optionText": "Since it's a **BST**, I start at Root. I compare `p.val` and `q.val` with `root.val`. If both are smaller than root, I move `root = root.left`. If both are larger, `root = root.right`. If they split (one smaller, one larger) or one equals root, **this** root is the LCA. Return it."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt2",
+          "optionText": "I use Iteration. `curr = root`. While `curr` is not null: if `p` and `q` are both > `curr`, go right. If both < `curr`, go left. Else, break and return `curr`. This works because the LCA is the split point."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt3",
+          "optionText": "I use Recursion. If `root.val` > max(p, q), return `LCA(root.left)`. If `root.val` < min(p, q), return `LCA(root.right)`. Otherwise, we found the split point, return `root`."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt4",
+          "optionText": "I will search for both nodes."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt5",
+          "optionText": "I will return the root."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt6",
+          "optionText": "I will use BFS."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt7",
+          "optionText": "I will store paths to both nodes and compare."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt8",
+          "optionText": "I will use the parent pointers."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt9",
+          "optionText": "I will find the node with max value."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt10",
+          "optionText": "I will check if `left == right`."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt11",
+          "optionText": "I will use Dijkstra."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt12",
+          "optionText": "I will calculate depth."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt13",
+          "optionText": "I will use In-Order traversal."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt14",
+          "optionText": "I will start from leaves and go up."
+        },
+        {
+          "optionId": "ch_viva_7_q37_opt15",
+          "optionText": "I will check `root.left` and `root.right`."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_7_q37_opt1", "ch_viva_7_q37_opt2", "ch_viva_7_q37_opt3"],
+      "explanationText": "For a BST, the LCA is the first node encountered during traversal from the root where the two target nodes lie in different subtrees (one left, one right). This property allows for an efficient $O(H)$ time, $O(1)$ space solution, where $H$ is the height of the tree."
+    },
+    {
+      "chapterIndex": 6,
+      "questionIndex": 2,
+      "questionId": "ch_viva_7_q38",
+      "questionText": "Sketch an algorithm to find the **Diameter** (longest path between any two nodes) of a Binary Tree.",
+      "options": [
+        {
+          "optionId": "ch_viva_7_q38_opt1",
+          "optionText": "I define a recursive function `getHeight(node)`. It returns `1 + max(leftH, rightH)`. Inside this function, before returning, I update a global variable `maxDiameter = max(maxDiameter, leftH + rightH)`. This checks the path through *every* node."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt2",
+          "optionText": "I use DFS. At every node, I compute the depth of the left and right branches. The potential diameter through *this* node is `leftDepth + rightDepth`. I verify if this is the new maximum. Then I return the max depth to the parent."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt3",
+          "optionText": "I treat every node as a potential 'turning point' (anchor) of the path. I calculate the longest arms extending from each node. The maximum sum of two arms found anywhere in the tree is the diameter."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt4",
+          "optionText": "I will return `height(left) + height(right)`."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt5",
+          "optionText": "I will find the two deepest leaves and measure distance."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt6",
+          "optionText": "I will use BFS to find width."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt7",
+          "optionText": "I will sum all edges."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt8",
+          "optionText": "I will use Dijkstra from root."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt9",
+          "optionText": "I will check left-most and right-most nodes."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt10",
+          "optionText": "I will simply calculate height."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt11",
+          "optionText": "I will traverse In-Order."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt12",
+          "optionText": "I will use a matrix."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt13",
+          "optionText": "I will modify the tree."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt14",
+          "optionText": "I will return `max(left, right) + 1`."
+        },
+        {
+          "optionId": "ch_viva_7_q38_opt15",
+          "optionText": "I will assume the tree is balanced."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_7_q38_opt1", "ch_viva_7_q38_opt2", "ch_viva_7_q38_opt3"],
+      "explanationText": "The diameter is the longest path between any two nodes. This path may or may not pass through the root. The efficient $O(N)$ solution involves calculating the height of the left and right subtrees at every node and updating a global maximum diameter with the sum of those two heights."
+    },
+    {
+      "chapterIndex": 6,
+      "questionIndex": 3,
+      "questionId": "ch_viva_7_q39",
+      "questionText": "Sketch an algorithm to check if a Binary Tree is **Symmetric** (a mirror of itself around the center).",
+      "options": [
+        {
+          "optionId": "ch_viva_7_q39_opt1",
+          "optionText": "I define a helper `isMirror(node1, node2)`. If both null, True. If one null, False. If values differ, False. Else, return `isMirror(node1.left, node2.right)` AND `isMirror(node1.right, node2.left)`. Call this on `root.left` and `root.right`."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt2",
+          "optionText": "I use an Iterative approach with a Queue. I enqueue `root.left` and `root.right`. Loop: Dequeue `u` and `v`. Check equality. Enqueue `u.left, v.right` (Outers) and `u.right, v.left` (Inners). If mismatch, return False."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt3",
+          "optionText": "I verify symmetry by checking: 1. Roots match. 2. The left subtree is a mirror reflection of the right subtree. This requires recursive cross-comparison of children."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt4",
+          "optionText": "I will check if `root.left == root.right`."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt5",
+          "optionText": "I will check if left subtree is same as right subtree."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt6",
+          "optionText": "I will use In-Order traversal and check palindrome."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt7",
+          "optionText": "I will invert the left subtree and compare with right."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt8",
+          "optionText": "I will check if `left.key == right.key` recursively."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt9",
+          "optionText": "I will use a Stack for one side."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt10",
+          "optionText": "I will count nodes on both sides."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt11",
+          "optionText": "I will check height balance."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt12",
+          "optionText": "I will assume it is a heap."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt13",
+          "optionText": "I will compare root with leaves."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt14",
+          "optionText": "I will use BFS queue."
+        },
+        {
+          "optionId": "ch_viva_7_q39_opt15",
+          "optionText": "I will return False."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_7_q39_opt1", "ch_viva_7_q39_opt2", "ch_viva_7_q39_opt3"],
+      "explanationText": "Symmetry requires a recursive comparison of the left and right subtrees, but with cross-checking: the left child of the left subtree must match the right child of the right subtree, and vice versa. This is an $O(N)$ operation."
+    }
+  ]
+}
