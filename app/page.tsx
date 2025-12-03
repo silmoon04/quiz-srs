@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { WelcomeScreen } from '@/components/welcome-screen';
 import { Dashboard } from '@/components/dashboard';
 import { QuizSession } from '@/components/quiz-session';
@@ -8,6 +8,11 @@ import { QuizComplete } from '@/components/quiz-complete';
 import { AllQuestionsView } from '@/components/all-questions-view';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast, toast } from '@/components/ui/use-toast';
+import {
+  useQuizPersistence,
+  useStorageSync,
+  type PersistedQuizState,
+} from '@/hooks/use-quiz-persistence';
 import {
   validateQuizModule,
   normalizeQuizModule,
@@ -131,6 +136,88 @@ export default function MCQQuizForge() {
   const [currentHistoryViewIndex, setCurrentHistoryViewIndex] = useState<number | null>(null);
 
   const [answerRecords, setAnswerRecords] = useState<Record<string, AnswerRecord>>({});
+
+  // Track if we've restored from localStorage
+  const hasRestoredRef = useRef(false);
+
+  // Create state object for persistence
+  const persistableState = useMemo(() => {
+    // Don't persist until we've had a chance to restore
+    if (!hasRestoredRef.current) return null;
+
+    return {
+      module: currentModule,
+      appState,
+      currentChapterId,
+      currentQuestionIndex,
+      answerRecords,
+      sessionHistory,
+    };
+  }, [
+    currentModule,
+    appState,
+    currentChapterId,
+    currentQuestionIndex,
+    answerRecords,
+    sessionHistory,
+  ]);
+
+  // Handler for restoring state from localStorage
+  const handleRestoreState = useCallback((state: PersistedQuizState) => {
+    if (hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
+
+    // Only restore if there's a valid module
+    if (state.module) {
+      setCurrentModule(state.module);
+      setAppState(state.appState);
+      setCurrentChapterId(state.currentChapterId);
+      setCurrentQuestionIndex(state.currentQuestionIndex);
+      setAnswerRecords(state.answerRecords);
+      setSessionHistory(state.sessionHistory);
+
+      console.log('Restored quiz state from localStorage');
+      toast({
+        title: 'Welcome back!',
+        description: 'Your progress has been restored.',
+      });
+    } else {
+      hasRestoredRef.current = true;
+    }
+  }, []);
+
+  // Use persistence hook
+  const { saveNow, clear: clearPersistedData } = useQuizPersistence(
+    persistableState,
+    handleRestoreState,
+    300, // Save after 300ms of inactivity for quick autosave
+  );
+
+  // Sync state from other tabs
+  useStorageSync(
+    useCallback(
+      (state: PersistedQuizState) => {
+        if (state.module && state.module.name !== currentModule?.name) {
+          // Only sync if it's a different quiz to avoid conflicts
+          toast({
+            title: 'Quiz updated in another tab',
+            description: 'Refresh to see the latest changes.',
+          });
+        }
+      },
+      [currentModule?.name],
+    ),
+  );
+
+  // Mark as restored if no persisted state (fresh session)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!hasRestoredRef.current) {
+        hasRestoredRef.current = true;
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const applyAnswerRecordToQuestion = useCallback(
     (question: QuizQuestion | null | undefined) => {
@@ -1228,6 +1315,8 @@ ${validation.errors.slice(0, 3).join('\n')}`,
     setError('');
     setIsLoading(false);
     setAppState('welcome');
+    // Clear persisted state when loading a new module
+    clearPersistedData();
     showInfo('Ready for a new module', 'Choose a JSON or Markdown quiz file to begin.');
   };
 
@@ -1630,6 +1719,10 @@ ${validation.errors.slice(0, 3).join('\n')}`,
 
     // Mark as submitted
     setIsSubmitted(true);
+
+    // Save state immediately after answering
+    // Use setTimeout to allow state updates to propagate
+    setTimeout(() => saveNow(), 0);
 
     console.log('Answer submission completed successfully');
   };
