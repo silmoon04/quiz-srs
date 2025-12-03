@@ -220,7 +220,9 @@ describe('Bug Detection: SRS Calculations', () => {
 
       const isBrandNewAndReady = question.srsLevel === 0 && question.nextReviewAt === null;
       const isScheduledAndDue =
-        question.nextReviewAt !== null && new Date(question.nextReviewAt) <= now;
+        question.nextReviewAt !== null &&
+        question.nextReviewAt !== undefined &&
+        new Date(question.nextReviewAt) <= now;
 
       return isBrandNewAndReady || isScheduledAndDue;
     }

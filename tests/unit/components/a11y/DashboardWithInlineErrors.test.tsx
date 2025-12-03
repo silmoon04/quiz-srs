@@ -32,6 +32,7 @@ const createChapter = (
   totalQuestions: questionCount,
   answeredQuestions: answeredCount,
   correctAnswers: correctCount,
+  isCompleted: false,
 });
 
 // Helper to create a module

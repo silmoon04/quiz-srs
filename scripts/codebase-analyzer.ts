@@ -736,8 +736,7 @@ class CodebaseAnalyzer {
    * Generate JSON report
    */
   generateReport(): object {
-    const filesArray = Array.from(this.files.entries()).map(([path, info]) => ({
-      path,
+    const filesArray = Array.from(this.files.entries()).map(([_filePath, info]) => ({
       ...info,
     }));
 
