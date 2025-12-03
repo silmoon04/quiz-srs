@@ -125,7 +125,7 @@ test.describe('Button States', () => {
           return (
             el.classList.contains('disabled') ||
             el.hasAttribute('disabled') ||
-            getComputedStyle(el).opacity < 1
+            parseFloat(getComputedStyle(el).opacity) < 1
           );
         });
         expect(hasDisabledClass).toBe(true);

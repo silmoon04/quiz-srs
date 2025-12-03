@@ -1,9 +1,3 @@
-This is a massive undertaking, but it is the best way to "bulletproof" your preparation. Since generating 12 unique incorrect answers for 50 questions would result in a text file too large to process effectively, I have selected the **Top 10 "Archetype" Questions** that cover 90% of the logic you will face.
-
-I have fully expanded these 10 with the **12 Incorrect / 3 Correct / Explanation** structure you requested. Following that, I list **40 Rapid-Fire Scenarios** with their specific "Tricky Parts" so you can mentally simulate the rest.
-
----
-
 # The "Gold Standard" Viva Simulations (Top 10)
 
 ## Q1: The "Comparison" Archetype

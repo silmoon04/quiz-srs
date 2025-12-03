@@ -178,7 +178,7 @@ test.describe('Accessible Names', () => {
         const ariaLabelledby = await input.getAttribute('aria-labelledby');
 
         // Check for associated label
-        let hasLabel = ariaLabel || ariaLabelledby;
+        let hasLabel: boolean | string | null = ariaLabel || ariaLabelledby;
 
         if (id && !hasLabel) {
           const label = page.locator(`label[for="${id}"]`);

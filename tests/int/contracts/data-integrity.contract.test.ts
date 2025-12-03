@@ -314,7 +314,7 @@ describe('Data Integrity Contract - SRS State Consistency', () => {
 
       // not_attempted: no answers
       if (status === 'not_attempted') {
-        if (timesAnsweredCorrectly > 0 || timesAnsweredIncorrectly > 0) {
+        if ((timesAnsweredCorrectly || 0) > 0 || (timesAnsweredIncorrectly || 0) > 0) {
           return { valid: false, error: 'not_attempted but has answer history' };
         }
       }
@@ -328,7 +328,7 @@ describe('Data Integrity Contract - SRS State Consistency', () => {
 
       // passed_once: should have at least one correct
       if (status === 'passed_once') {
-        if (timesAnsweredCorrectly === 0) {
+        if ((timesAnsweredCorrectly || 0) === 0) {
           return { valid: false, error: 'passed_once but no correct answers' };
         }
       }
@@ -464,7 +464,7 @@ describe('Data Integrity Contract - Chapter Statistics', () => {
         { questionId: 'q1', status: 'not_attempted' } as QuizQuestion,
         { questionId: 'q2', status: 'passed_once' } as QuizQuestion,
         { questionId: 'q3', status: 'mastered' } as QuizQuestion,
-        { questionId: 'q4', status: 'needs_review' } as QuizQuestion,
+        { questionId: 'q4', status: 'review_soon' } as QuizQuestion,
       ];
 
       const stats = calculateChapterStats(questions);
@@ -476,7 +476,7 @@ describe('Data Integrity Contract - Chapter Statistics', () => {
         { questionId: 'q1', status: 'not_attempted' } as QuizQuestion,
         { questionId: 'q2', status: 'passed_once' } as QuizQuestion,
         { questionId: 'q3', status: 'mastered' } as QuizQuestion,
-        { questionId: 'q4', status: 'needs_review' } as QuizQuestion,
+        { questionId: 'q4', status: 'review_soon' } as QuizQuestion,
       ];
 
       const stats = calculateChapterStats(questions);
