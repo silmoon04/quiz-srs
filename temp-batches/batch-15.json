@@ -1,0 +1,215 @@
+{
+  "batchIndex": 15,
+  "questions": [
+    {
+      "chapterIndex": 8,
+      "questionIndex": 0,
+      "questionId": "ch_viva_9_q46",
+      "questionText": "Sketch an algorithm to find the **max depth** of an **N-ary Tree** (each node has a list of children).",
+      "options": [
+        {
+          "optionId": "ch_viva_9_q46_opt1",
+          "optionText": "I use **Recursion**. Base case: if children list is empty, return 1 (or 0). Else, initialize `max = 0$. Loop through all children: `max = Math.max(max, depth(child))`. Return `max + 1`."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt2",
+          "optionText": "I use **BFS** to count levels. I use a Queue. I keep a `level` counter. At the start of the outer loop, I capture `size = queue.size()`. I process that many nodes (adding all their children). Increment level. Repeat."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt3",
+          "optionText": "I traverse the tree. For every node, I poll all its subtrees to find the deepest one. I take that maximum depth and add one for the current node."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt4",
+          "optionText": "I will return `1 + children.size()`."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt5",
+          "optionText": "I will check `child[0]` and `child[last]`."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt6",
+          "optionText": "I will use binary tree logic."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt7",
+          "optionText": "I will use a Stack."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt8",
+          "optionText": "I will use BFS and return queue size."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt9",
+          "optionText": "I will count total nodes."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt10",
+          "optionText": "I will assume children are sorted by height."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt11",
+          "optionText": "I will use an array."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt12",
+          "optionText": "I will add 1 for every child."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt13",
+          "optionText": "I will return 0."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt14",
+          "optionText": "I will delete nodes."
+        },
+        {
+          "optionId": "ch_viva_9_q46_opt15",
+          "optionText": "I will use In-Order."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_9_q46_opt1", "ch_viva_9_q46_opt2", "ch_viva_9_q46_opt3"],
+      "explanationText": "Finding the max depth in an N-ary tree is a generalization of the binary tree height problem. Recursion (DFS) is the most natural fit, requiring a loop over all children to find the maximum depth among them. BFS is also a valid iterative approach. Time complexity is $O(N)$."
+    },
+    {
+      "chapterIndex": 8,
+      "questionIndex": 1,
+      "questionId": "ch_viva_9_q47",
+      "questionText": "Sketch an algorithm to check if an undirected Graph is **Bipartite** (can be colored with 2 colors such that no edge connects same colors).",
+      "options": [
+        {
+          "optionId": "ch_viva_9_q47_opt1",
+          "optionText": "I use **BFS** with a `Colors` array (0=Uncolored, 1=Red, 2=Blue). Loop all nodes (to handle disconnected). If uncolored, queue it and color Red. While queue not empty: Dequeue `u`. For neighbor `v`: If uncolored, color it opposite of `u` and enqueue. If colored same as `u`, return False."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt2",
+          "optionText": "I simulate a 2-coloring process. I paint the starting node Black. I enforce that all neighbors must be White. I propagate this constraint. If I ever find a neighbor that is already painted the 'wrong' color, I conclude it's impossible (not Bipartite)."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt3",
+          "optionText": "I traverse the graph. I maintain two sets: Set A and Set B. For every edge `(u, v)`, if `u` is in A, `v` must be in B. If I find a conflict where both ends of an edge fall in Set A, it fails."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt4",
+          "optionText": "I will check if the number of nodes is even."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt5",
+          "optionText": "I will check if it has cycles."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt6",
+          "optionText": "I will use DFS and check back-edges."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt7",
+          "optionText": "I will check vertex degrees."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt8",
+          "optionText": "I will count edges."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt9",
+          "optionText": "I will use Dijkstra."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt10",
+          "optionText": "I will use Union-Find."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt11",
+          "optionText": "I will color randomly."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt12",
+          "optionText": "I will split nodes into two sets randomly."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt13",
+          "optionText": "I will check if the graph is connected."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt14",
+          "optionText": "I will assume it is a tree."
+        },
+        {
+          "optionId": "ch_viva_9_q47_opt15",
+          "optionText": "I will use a Stack."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_9_q47_opt1", "ch_viva_9_q47_opt2", "ch_viva_9_q47_opt3"],
+      "explanationText": "A graph is bipartite if and only if it contains no odd-length cycles. The most straightforward way to check this is using BFS (or DFS) with a 2-coloring scheme. If a neighbor is found to have the same color as the current node, an odd cycle exists, and the graph is not bipartite. Time complexity is $O(V+E)$."
+    },
+    {
+      "chapterIndex": 8,
+      "questionIndex": 2,
+      "questionId": "ch_viva_9_q48",
+      "questionText": "Sketch an algorithm to efficiently find the **median** of a stream of integers.",
+      "options": [
+        {
+          "optionId": "ch_viva_9_q48_opt1",
+          "optionText": "I use **Two Heaps**: a `low` Max-Heap and a `high` Min-Heap. I balance them so their sizes differ by at most 1. New numbers go into `low`, then `low`'s max moves to `high` (to sort). If `high` is too big, move min back to `low`. Median is the top of the larger heap or average of both tops."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt2",
+          "optionText": "I maintain two halves of the dataset. The lower half is kept in a structure that gives me the maximum instantly. The upper half gives me the minimum instantly. The median sits at the boundary of these two structures."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt3",
+          "optionText": "I insert elements into a sorted structure (like two balanced heaps). I ensure the count of elements in both halves remains equal. The median is derived from the boundary elements."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt4",
+          "optionText": "I will sort the array every time."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt5",
+          "optionText": "I will use a Linked List and find middle."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt6",
+          "optionText": "I will use a BST."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt7",
+          "optionText": "I will average the min and max."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt8",
+          "optionText": "I will use a Hash Map."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt9",
+          "optionText": "I will use a single Heap."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt10",
+          "optionText": "I will use a Queue."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt11",
+          "optionText": "I will use just an array."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt12",
+          "optionText": "I will randomly sample."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt13",
+          "optionText": "I will swap elements."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt14",
+          "optionText": "I will use pointers."
+        },
+        {
+          "optionId": "ch_viva_9_q48_opt15",
+          "optionText": "I will use a Stack."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_9_q48_opt1", "ch_viva_9_q48_opt2", "ch_viva_9_q48_opt3"],
+      "explanationText": "The Two-Heap approach is the standard optimal solution for finding the median in a data stream. It ensures that insertion and median retrieval are both $O(\\log N)$ operations, as opposed to $O(N)$ or $O(N \\log N)$ if using arrays or sorting repeatedly."
+    }
+  ]
+}

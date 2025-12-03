@@ -1,0 +1,215 @@
+{
+  "batchIndex": 10,
+  "questions": [
+    {
+      "chapterIndex": 5,
+      "questionIndex": 0,
+      "questionId": "ch_viva_6_q31",
+      "questionText": "Sketch an algorithm to **invert** (mirror) a **Binary Tree**.",
+      "options": [
+        {
+          "optionId": "ch_viva_6_q31_opt1",
+          "optionText": "I use **Recursion**. Base case: if node is null, return. Recursive step: `invert(node.left)`, `invert(node.right)`. Then, perform the swap: `temp = node.left`, `node.left = node.right`, `node.right = temp`."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt2",
+          "optionText": "I use **Iterative BFS** (Queue). Enqueue root. While queue not empty: Dequeue node. Swap its left and right pointers. If left exists, enqueue it. If right exists, enqueue it. Return root."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt3",
+          "optionText": "I perform a recursive Post-Order traversal. I visit the left child, then the right child. Once the recursion returns, I swap the left and right pointers of the current node. This propagates the inversion from bottom to top."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt4",
+          "optionText": "I will swap the root's left and right children."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt5",
+          "optionText": "I will traverse In-Order and swap."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt6",
+          "optionText": "I will swap nodes with same values."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt7",
+          "optionText": "I will create a new tree and insert nodes in reverse order."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt8",
+          "optionText": "I will use a Stack to reverse the node values."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt9",
+          "optionText": "I will rotate the tree left."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt10",
+          "optionText": "I will sort the tree descending."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt11",
+          "optionText": "I will swap leaf nodes only."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt12",
+          "optionText": "I will change the pointers to point up."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt13",
+          "optionText": "I will mirror the array representation."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt14",
+          "optionText": "I will swap left.left with right.right."
+        },
+        {
+          "optionId": "ch_viva_6_q31_opt15",
+          "optionText": "I will use binary search."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_6_q31_opt1", "ch_viva_6_q31_opt2", "ch_viva_6_q31_opt3"],
+      "explanationText": "Inverting a tree requires swapping the left and right children of *every* node. This can be achieved recursively (DFS, Options 1, 3) or iteratively (BFS, Option 2). The time complexity is $O(N)$ as every node is visited exactly once."
+    },
+    {
+      "chapterIndex": 5,
+      "questionIndex": 1,
+      "questionId": "ch_viva_6_q32",
+      "questionText": "Sketch an algorithm to **serialize** a Binary Tree into a **String**.",
+      "options": [
+        {
+          "optionId": "ch_viva_6_q32_opt1",
+          "optionText": "I use **Pre-Order Traversal** (DFS). If node is null, append `#` to string. Else, append `node.val` + `,`. Then recurse left, then recurse right. The string captures the structure uniquely."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt2",
+          "optionText": "I use **Level-Order Traversal** (Queue). I enqueue the root. When I dequeue a node, if it is null, I append `null`. If it is real, I append its value and enqueue its children (even if they are null). This creates an array-like representation."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt3",
+          "optionText": "I build a string recursively. I define the structure as `Root(Left,Right)`. If a child is missing, I write `()`. This recursive bracket notation preserves the hierarchy."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt4",
+          "optionText": "I will perform In-Order traversal and save values."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt5",
+          "optionText": "I will save just the values in a list."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt6",
+          "optionText": "I will save root, then leaves."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt7",
+          "optionText": "I will use a Hash Map."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt8",
+          "optionText": "I will save the height and width."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt9",
+          "optionText": "I will convert it to a Heap array."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt10",
+          "optionText": "I will save `node.value` string."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt11",
+          "optionText": "I will ignore null nodes."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt12",
+          "optionText": "I will use BFS but skip nulls."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt13",
+          "optionText": "I will save parent pointers."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt14",
+          "optionText": "I will print the tree."
+        },
+        {
+          "optionId": "ch_viva_6_q32_opt15",
+          "optionText": "I will sort the values."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_6_q32_opt1", "ch_viva_6_q32_opt2", "ch_viva_6_q32_opt3"],
+      "explanationText": "Serialization requires capturing the tree's structure uniquely so it can be reconstructed. This necessitates recording null pointers. Pre-Order (DFS) and Level-Order (BFS) are the standard methods, both running in $O(N)$ time."
+    },
+    {
+      "chapterIndex": 5,
+      "questionIndex": 2,
+      "questionId": "ch_viva_6_q33",
+      "questionText": "Sketch an algorithm to move all **zeros** in an integer array to the **end**, while maintaining the relative order of non-zero elements.",
+      "options": [
+        {
+          "optionId": "ch_viva_6_q33_opt1",
+          "optionText": "I use a **`writeIndex`** initialized to 0. I loop through the array. If `array[i] \\ne 0`, I set `array[writeIndex] = array[i]` and increment `writeIndex`. After the loop, I fill indices from `writeIndex` to end with `0`."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt2",
+          "optionText": "I maintain a pointer for the 'Last Non-Zero Found'. I iterate through the array. When I find a non-zero, I swap it with the element at the 'Last Non-Zero' pointer and advance that pointer. This bubbles non-zeros to the front and zeros to the back."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt3",
+          "optionText": "I treat the array as a queue. I iterate through. If I see a non-zero, I move it to the first available 'slot' (tracked by a counter). I don't care what happens to the zeros initially. Finally, I overwrite the remaining tail slots with 0."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt4",
+          "optionText": "I will sort the array."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt5",
+          "optionText": "I will create a new array, copy non-zeros, then fill zeros."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt6",
+          "optionText": "I will loop and swap zeros with the last element."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt7",
+          "optionText": "I will delete zeros."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt8",
+          "optionText": "I will use a Stack for non-zeros."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt9",
+          "optionText": "I will use Bubble Sort logic."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt10",
+          "optionText": "I will search for 0 and shift the whole array left."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt11",
+          "optionText": "I will use two pointers at start and end."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt12",
+          "optionText": "I will use recursion."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt13",
+          "optionText": "I will replace zeros with -1."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt14",
+          "optionText": "I will rotate the array."
+        },
+        {
+          "optionId": "ch_viva_6_q33_opt15",
+          "optionText": "I will count zeros and restart the array."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_6_q33_opt1", "ch_viva_6_q33_opt2", "ch_viva_6_q33_opt3"],
+      "explanationText": "The requirement to maintain the relative order of non-zero elements necessitates an $O(N)$ time, $O(1)$ space in-place solution. The 'write index' or 'snowball' method (Option 1) achieves this by effectively overwriting the array with non-zeros first, then filling the remaining space with zeros."
+    }
+  ]
+}

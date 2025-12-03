@@ -1,0 +1,215 @@
+{
+  "batchIndex": 6,
+  "questions": [
+    {
+      "chapterIndex": 2,
+      "questionIndex": 3,
+      "questionId": "ch_viva_3_q19",
+      "questionText": "Sketch an algorithm to **print** the values of a Binary Tree **level-by-level** (Breadth-First).",
+      "options": [
+        {
+          "optionId": "ch_viva_3_q19_opt1",
+          "optionText": "I will use a **Queue**. Enqueue `root`. While Queue is not empty: `curr = queue.dequeue()`. Print `curr.data`. If `curr.left` exists, enqueue it. If `curr.right` exists, enqueue it."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt2",
+          "optionText": "I implement a standard Breadth-First Search. I start a Queue with the root. In a loop, I process the node at the front of the queue by printing it and adding its children to the back of the queue. This preserves the level order."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt3",
+          "optionText": "I use a Queue. To separate lines for each level, I track the `levelSize` at the start of each loop iteration. I dequeue `levelSize` nodes, printing them on one line, and enqueueing their children. Then I print a newline."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt4",
+          "optionText": "I will use a Stack."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt5",
+          "optionText": "I will use In-Order traversal."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt6",
+          "optionText": "I will use an array indices `2i+1`."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt7",
+          "optionText": "I will recurse left then recurse right."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt8",
+          "optionText": "I will print the root, then `root.left`, then `root.right`."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt9",
+          "optionText": "I will use a Priority Queue."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt10",
+          "optionText": "I will use a Hash Map keyed by depth."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt11",
+          "optionText": "I will iterate through the nodes."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt12",
+          "optionText": "I will flatten the tree to a list."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt13",
+          "optionText": "I will print as I delete nodes."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt14",
+          "optionText": "I will use binary search."
+        },
+        {
+          "optionId": "ch_viva_3_q19_opt15",
+          "optionText": "I will queue the root, then dequeue it, then stop."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_3_q19_opt1", "ch_viva_3_q19_opt2", "ch_viva_3_q19_opt3"],
+      "explanationText": "Breadth-First Search (BFS) naturally processes nodes level by level, making it the required traversal for this task. A Queue is the necessary auxiliary data structure to manage the FIFO order of nodes. Time complexity is $O(N)$."
+    },
+    {
+      "chapterIndex": 2,
+      "questionIndex": 4,
+      "questionId": "ch_viva_3_q20",
+      "questionText": "Sketch an algorithm to check if an **Array** of integers is a **palindrome** (reads same forwards and backwards).",
+      "options": [
+        {
+          "optionId": "ch_viva_3_q20_opt1",
+          "optionText": "I initialize two pointers: `start = 0` and `end = length-1`. I loop while `start < end`. If `array[start] \\ne array[end]`, return False. Else, increment `start`, decrement `end`. If loop finishes, return True."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt2",
+          "optionText": "I iterate from the outside in. I compare the element at index `i` with the element at `len-1-i`. I only need to iterate up to `len/2`. Any mismatch returns False."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt3",
+          "optionText": "I use a Two-Pointer approach. One pointer at the head, one at the tail. I check for equality and move them towards the center. This is $O(N)$ time and $O(1)$ space."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt4",
+          "optionText": "I will use two loops."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt5",
+          "optionText": "I will reverse the array and compare `A == B`."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt6",
+          "optionText": "I will use a Stack to reverse it."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt7",
+          "optionText": "I will check if `array[i] == array[i+1]`."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt8",
+          "optionText": "I will loop from 0 to N and check `array[i] == array[N-i]`."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt9",
+          "optionText": "I will hash the array."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt10",
+          "optionText": "I will split the array in half and swap halves."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt11",
+          "optionText": "I will use recursion without pointers."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt12",
+          "optionText": "I will use a Queue."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt13",
+          "optionText": "I will check the first and last elements."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt14",
+          "optionText": "I will loop until `start == end`."
+        },
+        {
+          "optionId": "ch_viva_3_q20_opt15",
+          "optionText": "I will return true if `length \\% 2 == 0`."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_3_q20_opt1", "ch_viva_3_q20_opt2", "ch_viva_3_q20_opt3"],
+      "explanationText": "The most efficient way to check for array symmetry is the Two-Pointer method, which runs in $O(N)$ time and $O(1)$ space. Pointers start at opposite ends and move inward, comparing elements at each step."
+    },
+    {
+      "chapterIndex": 3,
+      "questionIndex": 0,
+      "questionId": "ch_viva_4_q21",
+      "questionText": "Sketch an algorithm to **remove duplicates** from an **Unsorted Singly Linked List**.",
+      "options": [
+        {
+          "optionId": "ch_viva_4_q21_opt1",
+          "optionText": "I will use a **Hash Set** to store seen values. I traverse the list with `prev` and `curr` pointers. If `curr.value` is in the Set, I delete it by setting `prev.next = curr.next`. If not, I add it to the Set and move `prev` forward. `curr` moves forward every step."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt2",
+          "optionText": "I initialize an empty Set. I iterate through the Linked List. For each node, I check membership in the Set. If it's a duplicate, I perform a standard deletion by relinking the previous node to the next node. Otherwise, I register the value in the Set."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt3",
+          "optionText": "I maintain a `previous` pointer. As I scan the list, I query a Hash Set. If the current value is new, I add it and update `previous`. If it's a repeat, I skip the current node using `previous.next`, effectively removing it."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt4",
+          "optionText": "I will check if `curr.value == curr.next.value`."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt5",
+          "optionText": "I will use two loops to compare every node."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt6",
+          "optionText": "I will delete the node by setting `curr = null`."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt7",
+          "optionText": "I will sort the list first."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt8",
+          "optionText": "I will use an array to count frequencies."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt9",
+          "optionText": "I will traverse backwards to find duplicates."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt10",
+          "optionText": "I will use a Stack to track numbers."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt11",
+          "optionText": "I will skip the node using `curr = curr.next`."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt12",
+          "optionText": "I will use recursion to delete."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt13",
+          "optionText": "I will use a Queue."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt14",
+          "optionText": "I will compare the head with the tail."
+        },
+        {
+          "optionId": "ch_viva_4_q21_opt15",
+          "optionText": "I will create a new list and add *all* nodes."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_4_q21_opt1", "ch_viva_4_q21_opt2", "ch_viva_4_q21_opt3"],
+      "explanationText": "Since the list is unsorted, the only way to achieve $O(N)$ time complexity is by using a Hash Set to track seen values. The deletion process requires careful management of the `prev` pointer to correctly bypass the duplicate node."
+    }
+  ]
+}

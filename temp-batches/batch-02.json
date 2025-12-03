@@ -1,0 +1,215 @@
+{
+  "batchIndex": 2,
+  "questions": [
+    {
+      "chapterIndex": 0,
+      "questionIndex": 6,
+      "questionId": "ch_viva_1_q7",
+      "questionText": "Sketch an algorithm to find all elements in an integer Array that appear **more than once** (duplicates).",
+      "options": [
+        {
+          "optionId": "ch_viva_1_q7_opt1",
+          "optionText": "I will initialize an empty **Hash Set** called `seen` and a Set called `duplicates`. I iterate through the array. For each number: if it is already in `seen`, I add it to `duplicates`. Else, I add it to `seen`. Finally, I return the `duplicates` set."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt2",
+          "optionText": "I will use a **Frequency Map**. Loop through the array, mapping `Number -> Count`. After the loop, iterate through the Map's keys. If `Count > 1`, add to my result list. Return result."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt3",
+          "optionText": "I initialize a Hash Set. I loop through the array. If `set.add(value)` returns false (meaning it's already there), I print/store that value as a duplicate."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt4",
+          "optionText": "I will use nested loops to compare every number with every other number."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt5",
+          "optionText": "I will Sort the array and check neighbors."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt6",
+          "optionText": "I will use a Binary Search Tree."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt7",
+          "optionText": "I will use a Stack to track numbers."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt8",
+          "optionText": "I will use a Hash Map. If key exists, return true."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt9",
+          "optionText": "I will use an array of size 100 to count."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt10",
+          "optionText": "I will delete duplicates from the array."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt11",
+          "optionText": "Space complexity is $O(1)$."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt12",
+          "optionText": "I will hash the whole array into one value."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt13",
+          "optionText": "I will use a Queue to cycle through numbers."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt14",
+          "optionText": "I will use a Linked List to store seen numbers."
+        },
+        {
+          "optionId": "ch_viva_1_q7_opt15",
+          "optionText": "I will compare the first and last elements."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_1_q7_opt1", "ch_viva_1_q7_opt2", "ch_viva_1_q7_opt3"],
+      "explanationText": "The most efficient solution is to use a Hash Table (Map or Set) to track frequencies or existence. This allows for an $O(N)$ time complexity solution, which is faster than sorting ($O(N \\log N)$) or nested loops ($O(N^2)$)."
+    },
+    {
+      "chapterIndex": 0,
+      "questionIndex": 7,
+      "questionId": "ch_viva_1_q8",
+      "questionText": "Sketch an algorithm to check if a given Binary Tree is a valid **Binary Search Tree (BST)**.",
+      "options": [
+        {
+          "optionId": "ch_viva_1_q8_opt1",
+          "optionText": "I will perform an **In-Order Traversal** and store the values in a list. Then, I iterate through the list to check if it is **sorted** in strictly ascending order. If yes, it is a BST."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt2",
+          "optionText": "I will use a recursive function that takes a node and a valid range `(min, max)`. Initialize with `(-\\infty, +\\infty)`. At each node, check if `val` is within range. Recurse left updating `max` to `val`. Recurse right updating `min` to `val`."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt3",
+          "optionText": "I will use an Iterative In-Order traversal (using a Stack). I keep track of the `previous_value` visited. If the `current_value` is ever less than or equal to `previous_value`, I return False immediately."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt4",
+          "optionText": "I will traverse and check if `node.left.val < node.val` and `node.right.val > node.val`."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt5",
+          "optionText": "I will perform a Pre-Order traversal."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt6",
+          "optionText": "I will search for duplicates."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt7",
+          "optionText": "I will use a Queue for BFS and check values."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt8",
+          "optionText": "I will check if the tree is balanced."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt9",
+          "optionText": "I will sort the tree."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt10",
+          "optionText": "I will check if the height is $\\log N$."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt11",
+          "optionText": "I will assume it is a BST and try to search."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt12",
+          "optionText": "I compare the root with the leaves."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt13",
+          "optionText": "I convert it to a Heap and check."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt14",
+          "optionText": "I use recursion without passing min/max limits."
+        },
+        {
+          "optionId": "ch_viva_1_q8_opt15",
+          "optionText": "I return true if it has 2 children."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_1_q8_opt1", "ch_viva_1_q8_opt2", "ch_viva_1_q8_opt3"],
+      "explanationText": "The core property of a BST is that an In-Order traversal yields a sorted list (Options 1, 3). Alternatively, the recursive approach (Option 2) is robust, ensuring that every node adheres to the global min/max constraints imposed by its ancestors, not just its immediate parent."
+    },
+    {
+      "chapterIndex": 0,
+      "questionIndex": 8,
+      "questionId": "ch_viva_1_q9",
+      "questionText": "Sketch an algorithm to find the **middle node** of a Singly Linked List.",
+      "options": [
+        {
+          "optionId": "ch_viva_1_q9_opt1",
+          "optionText": "I will use the **Two Pointer Method** (Slow and Fast). Initialize both at head. Loop while `fast` and `fast.next` are not null. Move `slow` one step, move `fast` two steps. When `fast` reaches the end, `slow` will be at the middle. Return `slow`."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt2",
+          "optionText": "I will perform two passes. First, traverse to count total nodes `N`. Then, calculate `mid = N/2`. Traverse again from head `mid` times to reach the node. Return it."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt3",
+          "optionText": "I will push every node pointer onto a Stack while traversing. Then I pop $N/2$ elements off the stack. The element currently at the top is the middle."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt4",
+          "optionText": "I will access `list[size / 2]`."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt5",
+          "optionText": "I will use `head.next.next`."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt6",
+          "optionText": "I will check if `node.next == null`."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt7",
+          "optionText": "I will create a new array, copy the list, and take the middle index."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt8",
+          "optionText": "I will use recursion to fold the list in half."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt9",
+          "optionText": "I will guess the middle."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt10",
+          "optionText": "I will keep a count and stop at count 5."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt11",
+          "optionText": "I will iterate `i` and `j` at the same speed."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt12",
+          "optionText": "I will use a Doubly Linked List approach."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt13",
+          "optionText": "I will delete nodes from start and end until 1 remains."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt14",
+          "optionText": "I will use a Hash Map to store indices."
+        },
+        {
+          "optionId": "ch_viva_1_q9_opt15",
+          "optionText": "I will assume the list has size variable available."
+        }
+      ],
+      "correctOptionIds": ["ch_viva_1_q9_opt1", "ch_viva_1_q9_opt2", "ch_viva_1_q9_opt3"],
+      "explanationText": "The Two-Pointer (Tortoise and Hare) method (Option 1) is the most efficient, solving the problem in a single pass $O(N)$ time and $O(1)$ space. The two-pass method (Option 2) is also $O(N)$ time but requires two full traversals. The Stack method (Option 3) is $O(N)$ time but uses $O(N)$ space."
+    }
+  ]
+}
