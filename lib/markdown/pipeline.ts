@@ -90,6 +90,10 @@ const sanitizeSchema = {
  * inline. This function converts inline display math to the expected format.
  */
 function preprocessDisplayMath(content: string): string {
+  // Defensive check: return empty string if content is null/undefined
+  if (content == null) {
+    return '';
+  }
   // Convert inline $$...$$ to newline-separated format
   // Match $$...$$  but not $...$
   return content.replace(/\$\$([^$]+?)\$\$/g, (match, math) => {
@@ -106,6 +110,10 @@ function preprocessDisplayMath(content: string): string {
  * Process markdown content through the safe pipeline
  */
 export async function processMarkdown(content: string): Promise<string> {
+  // Validate input: treat null/undefined as empty string
+  if (content == null) {
+    return '';
+  }
   try {
     // Pre-process display math to ensure remarkMath can parse it correctly
     const normalizedContent = preprocessDisplayMath(content);

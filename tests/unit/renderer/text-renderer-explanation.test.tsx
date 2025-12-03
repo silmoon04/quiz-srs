@@ -211,9 +211,12 @@ This diagram shows the process flow.`;
       const { container: container1 } = render(<MarkdownRenderer markdown={explanation} />);
       const { container: container2 } = render(<MarkdownRenderer markdown={explanation} />);
 
-      // Wait for async rendering
+      // Wait for async rendering for BOTH containers
       await waitFor(() => {
         expect(container1.querySelectorAll('strong').length).toBeGreaterThan(0);
+      });
+      await waitFor(() => {
+        expect(container2.querySelectorAll('strong').length).toBeGreaterThan(0);
       });
 
       // Both should have the same structure

@@ -396,7 +396,8 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should block event handlers (onerror, onclick, etc.)', async () => {
-      // The component's regex uses \son\w+= pattern which expects whitespace before event handlers
+      // The component's regex uses \s+on\w+\s*= pattern which matches event handlers with leading whitespace
+      // Content like ' onerror=' should be blocked by the belt-and-suspenders check
       mockProcessMarkdown.mockResolvedValue('<img src="x" onerror="alert(1)">');
 
       const { container } = render(
@@ -404,11 +405,11 @@ describe('MarkdownRenderer Component', () => {
       );
 
       await waitFor(() => {
-        // The image renders but we verify the onerror attribute is present in DOM
-        // In real scenarios, rehype-sanitize would strip the onerror attribute
-        // This test verifies the component doesn't crash with such content
+        // The component correctly blocks content with event handlers
+        expect(screen.getByText('Content blocked for security reasons.')).toBeInTheDocument();
+        // The malicious img should NOT render
         const img = container.querySelector('img');
-        expect(img).toBeInTheDocument();
+        expect(img).not.toBeInTheDocument();
       });
     });
 
