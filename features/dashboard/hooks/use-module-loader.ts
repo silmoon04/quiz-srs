@@ -14,10 +14,8 @@
 import { useCallback } from 'react';
 import { useQuizStore } from '@/store';
 import type { QuizModule } from '@/types/quiz-types';
-import {
-  validateAndCorrectQuizModule,
-  parseMarkdownToQuizModule,
-} from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
+import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 
 // ============================================
 // TYPES
@@ -225,14 +223,31 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
   /**
    * Load default quiz module
-   * Tries /default-quiz.json first, then falls back to /qs_default.md
+   * Tries /default-quiz.md first, then falls back to /default-quiz.json
    */
   const loadDefault = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     clearErrorAction();
 
     try {
-      // Try loading JSON first
+      // Try loading Markdown first (Primary)
+      try {
+        const mdResponse = await fetch('/default-quiz.md');
+
+        if (mdResponse.ok) {
+          const mdContent = await mdResponse.text();
+          const result = processMarkdownContent(mdContent);
+
+          if (result.success && result.module) {
+            setCurrentModule(result.module);
+            return;
+          }
+        }
+      } catch {
+        // Markdown fetch failed, try JSON fallback
+      }
+
+      // Try loading JSON fallback
       try {
         const jsonResponse = await fetch('/default-quiz.json');
 
@@ -246,24 +261,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
           }
         }
       } catch {
-        // JSON fetch failed, try Markdown fallback
-      }
-
-      // Try loading Markdown fallback
-      try {
-        const mdResponse = await fetch('/qs_default.md');
-
-        if (mdResponse.ok) {
-          const mdContent = await mdResponse.text();
-          const result = processMarkdownContent(mdContent);
-
-          if (result.success && result.module) {
-            setCurrentModule(result.module);
-            return;
-          }
-        }
-      } catch {
-        // Markdown fetch also failed
+        // JSON fetch also failed
       }
 
       // Both sources failed

@@ -15,6 +15,34 @@ import rehypeKatex from 'rehype-katex';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 import rehypeHighlight from 'rehype-highlight';
+import { visit } from 'unist-util-visit';
+
+/**
+ * Rehype plugin to transform mermaid code blocks into div.mermaid
+ * This allows the client-side Mermaid library to pick them up automatically.
+ */
+function rehypeMermaid() {
+  return (tree: any) => {
+    visit(tree, 'element', (node: any, index: number, parent: any) => {
+      // Look for <pre><code class="language-mermaid">...</code></pre>
+      if (node.tagName === 'pre' && node.children && node.children.length > 0) {
+        const codeNode = node.children[0];
+        if (
+          codeNode.tagName === 'code' &&
+          codeNode.properties &&
+          Array.isArray(codeNode.properties.className) &&
+          codeNode.properties.className.includes('language-mermaid')
+        ) {
+          // Found it! Transform the PRE node into a DIV
+          node.tagName = 'div';
+          node.properties.className = ['mermaid'];
+          // The children of the code node are the text content of the diagram
+          node.children = codeNode.children;
+        }
+      }
+    });
+  };
+}
 
 // Custom sanitization schema for safe HTML - extends defaultSchema to preserve KaTeX
 const sanitizeSchema = {
@@ -50,6 +78,8 @@ const sanitizeSchema = {
     'pre',
     'code',
     'span',
+    // Mermaid
+    'div',
   ],
   attributes: {
     ...(defaultSchema.attributes || {}),
@@ -90,6 +120,8 @@ const sanitizeSchema = {
     // Code highlighting attributes
     code: ['className', 'class'],
     pre: ['className', 'class'],
+    // Mermaid
+    div: ['className', 'class'],
   },
 };
 
@@ -134,6 +166,7 @@ export function processMarkdownSync(content: string): string {
       .use(remarkMath) // Math support
       .use(remarkRehype) // Convert to HTML AST
       .use(rehypeRaw) // Allow raw HTML
+      .use(rehypeMermaid) // Transform mermaid blocks BEFORE highlight/sanitize
       .use(rehypeKatex) // Render math with KaTeX
       .use(rehypeHighlight, { ignoreMissing: true }) // Syntax highlighting
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML

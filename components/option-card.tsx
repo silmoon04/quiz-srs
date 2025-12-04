@@ -85,7 +85,7 @@ export const OptionCard = memo(function OptionCard({
       <div className="flex items-start gap-3 p-4">
         <div className="flex-1">
           <MarkdownRenderer
-            key={`option-${option.optionId}-${isSelected}-${isSubmitted}`}
+            key={`option-${option.optionId}`}
             markdown={option.optionText}
             className="leading-relaxed text-white"
           />

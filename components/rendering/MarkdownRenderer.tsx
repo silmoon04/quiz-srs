@@ -20,28 +20,6 @@ type RenderState = {
   hasMermaid?: boolean;
 };
 
-const MERMAID_BLOCK = /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/gi;
-
-function decodeHtmlEntities(code: string): string {
-  return code
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
-}
-
-function transformMermaidBlocks(html: string): { html: string; hasMermaid: boolean } {
-  let hasMermaid = false;
-  const transformed = html.replace(MERMAID_BLOCK, (_, encodedCode) => {
-    hasMermaid = true;
-    const decoded = decodeHtmlEntities(encodedCode.trim());
-    return `<div class="mermaid">${decoded}</div>`;
-  });
-
-  return { html: transformed, hasMermaid };
-}
-
 /**
  * Secure Markdown renderer (single source of dangerouslySetInnerHTML)
  * - Uses the unified pipeline in lib/markdown/pipeline (remark-parse/gfm/math → rehype-katex → rehype-sanitize).
@@ -59,13 +37,15 @@ export function MarkdownRenderer({ markdown, className }: Props) {
 
       const html = processMarkdownSync(markdown);
 
-      const { html: normalizedHtml, hasMermaid } = transformMermaidBlocks(html);
+      // Check if the pipeline produced any mermaid divs
+      const hasMermaid = html.includes('<div class="mermaid"');
+
       // Final belt-and-suspenders gate before HTML insertion.
       // Pattern matches: script tags, event handlers (onclick, onerror, etc.), javascript: URLs
-      const disallowed = /<script\b|\s+on\w+\s*=|javascript:/i.test(normalizedHtml);
+      const disallowed = /<script\b|\s+on\w+\s*=|javascript:/i.test(html);
 
       return {
-        html: disallowed ? '<p>Content blocked for security reasons.</p>' : normalizedHtml,
+        html: disallowed ? '<p>Content blocked for security reasons.</p>' : html,
         sanitized: disallowed,
         hasMermaid,
       };

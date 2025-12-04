@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import { useModuleLoader } from '@/features/dashboard/hooks/use-module-loader';
 import { useQuizStore } from '@/store';
 import type { QuizModule } from '@/types/quiz-types';
@@ -18,6 +18,10 @@ import type { QuizModule } from '@/types/quiz-types';
 // Mock the validation module
 vi.mock('@/utils/quiz-validation-refactored', () => ({
   validateAndCorrectQuizModule: vi.fn(),
+}));
+
+// Mock the parser module
+vi.mock('@/lib/quiz/parser', () => ({
   parseMarkdownToQuizModule: vi.fn(),
 }));
 
@@ -27,11 +31,8 @@ vi.mock('@/lib/markdown/pipeline', () => ({
 }));
 
 // Import mocked modules for type-safe access
-import {
-  validateAndCorrectQuizModule,
-  parseMarkdownToQuizModule,
-} from '@/utils/quiz-validation-refactored';
-import { processMarkdown } from '@/lib/markdown/pipeline';
+import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
+import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 
 // ============================================
 // TEST FIXTURES
@@ -446,10 +447,10 @@ describe('useModuleLoader', () => {
       vi.restoreAllMocks();
     });
 
-    it('should load default JSON quiz successfully', async () => {
+    it('should load default Markdown quiz successfully', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(createMockModule()),
+        text: () => Promise.resolve(validMarkdownContent),
       });
 
       const { result } = renderHook(() => useModuleLoader());
@@ -458,22 +459,23 @@ describe('useModuleLoader', () => {
         await result.current.loadDefault();
       });
 
-      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.json');
+      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.md');
+      expect(parseMarkdownToQuizModule).toHaveBeenCalled();
       expect(result.current.currentModule).not.toBeNull();
       expect(result.current.error).toBe('');
     });
 
-    it('should fallback to Markdown if JSON fails', async () => {
-      // First call (JSON) fails
+    it('should fallback to JSON if Markdown fails', async () => {
+      // First call (Markdown) fails
       (global.fetch as any)
         .mockResolvedValueOnce({
           ok: false,
           status: 404,
         })
-        // Second call (Markdown) succeeds
+        // Second call (JSON) succeeds
         .mockResolvedValueOnce({
           ok: true,
-          text: () => Promise.resolve(validMarkdownContent),
+          json: () => Promise.resolve(createMockModule()),
         });
 
       const { result } = renderHook(() => useModuleLoader());
@@ -482,9 +484,8 @@ describe('useModuleLoader', () => {
         await result.current.loadDefault();
       });
 
+      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.md');
       expect(global.fetch).toHaveBeenCalledWith('/default-quiz.json');
-      expect(global.fetch).toHaveBeenCalledWith('/qs_default.md');
-      expect(parseMarkdownToQuizModule).toHaveBeenCalled();
       expect(result.current.currentModule).not.toBeNull();
     });
 
@@ -522,7 +523,7 @@ describe('useModuleLoader', () => {
         loadingDuringFetch = useQuizStore.getState().isLoading;
         return Promise.resolve({
           ok: true,
-          json: () => Promise.resolve(createMockModule()),
+          text: () => Promise.resolve(validMarkdownContent),
         });
       });
 

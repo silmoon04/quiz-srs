@@ -4,6 +4,8 @@
 
 /* KaTeX styles for math rendering */
 @import "katex/dist/katex.min.css";
+/* Highlight.js styles for code syntax highlighting */
+@import "highlight.js/styles/github-dark.css";
 
 @layer base {
   :root {
