@@ -30,4 +30,7 @@ next-env.d.ts
 # Generated test artifacts
 playwright-report/
 test-results/
+coverage/
+coverage-report.json
+*-analysis.json
 
