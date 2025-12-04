@@ -36,7 +36,7 @@ test.describe('Mobile Layout (375px)', () => {
     // All essential elements should be visible
     await expect(page.locator(`text=${validQuizJSON.name}`)).toBeVisible();
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await expect(startBtn).toBeVisible();
     await startBtn.click();
 
@@ -65,7 +65,7 @@ test.describe('Mobile Layout (375px)', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Check option button sizes
@@ -87,7 +87,7 @@ test.describe('Mobile Layout (375px)', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer a question
@@ -145,7 +145,7 @@ test.describe('Tablet Layout (768px)', () => {
 
     await expect(page.locator(`text=${validQuizJSON.name}`)).toBeVisible();
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Should work normally
@@ -182,7 +182,7 @@ test.describe('Desktop Layout (1280px)', () => {
 
     await expect(page.locator(`text=${validQuizJSON.name}`)).toBeVisible();
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     await answerQuestion(page, 1);
@@ -225,7 +225,7 @@ test.describe('Large Desktop Layout (1920px)', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Text should still be readable
@@ -286,7 +286,7 @@ test.describe('Orientation Change', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Switch to landscape
@@ -359,7 +359,7 @@ test.describe('Consistent Across Sizes', () => {
       await page.waitForTimeout(100);
 
       // Start button should be reachable
-      const startBtn = page.locator('button:has-text("Start")');
+      const startBtn = page.locator('button:has-text("Start")').first();
       const isVisible = await startBtn.isVisible({ timeout: 500 }).catch(() => false);
 
       if (!isVisible) {

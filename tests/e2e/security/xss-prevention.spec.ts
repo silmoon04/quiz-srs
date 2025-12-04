@@ -65,7 +65,7 @@ test.describe('XSS Prevention - Script Tags', () => {
     await page.waitForTimeout(2000);
 
     // Try to start quiz and view questions
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await page.waitForTimeout(1000);
@@ -93,7 +93,7 @@ test.describe('XSS Prevention - Script Tags', () => {
     await page.waitForTimeout(2000);
 
     // Navigate through quiz
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       // Click on options
@@ -125,7 +125,7 @@ test.describe('XSS Prevention - Script Tags', () => {
     await page.waitForTimeout(2000);
 
     // Answer question to see explanation
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

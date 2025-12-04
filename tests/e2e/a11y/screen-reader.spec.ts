@@ -22,7 +22,7 @@ test.describe('ARIA Live Regions', () => {
   });
 
   test('D2-01: ARIA live announcements exist', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Check for live regions
@@ -34,7 +34,7 @@ test.describe('ARIA Live Regions', () => {
   });
 
   test('D2-02: Correct answer announced', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer correctly
@@ -58,7 +58,7 @@ test.describe('ARIA Live Regions', () => {
   });
 
   test('D2-03: Question number announced', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Check for question number visibility
@@ -77,7 +77,7 @@ test.describe('ARIA Live Regions', () => {
   });
 
   test('D2-04: Progress announced', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     const progressBar = page.locator('[role="progressbar"]');
@@ -107,7 +107,7 @@ test.describe('Accessible Names', () => {
   });
 
   test('D2-05: Options have accessible names', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     const options = page.locator('[role="radio"], [role="option"]');
@@ -264,7 +264,7 @@ test.describe('Structure & Landmarks', () => {
   });
 
   test('D2-13: Role attributes correct', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Check option roles
@@ -297,7 +297,7 @@ test.describe('State Changes', () => {
   });
 
   test('D2-14: State changes announced', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Select an option
@@ -320,7 +320,7 @@ test.describe('State Changes', () => {
   });
 
   test('Selection state updates ARIA', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     const options = page.locator('[role="radio"], [role="option"]');
@@ -353,7 +353,7 @@ test.describe('Focus Management', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer via keyboard
@@ -427,7 +427,7 @@ test.describe('Color & Contrast', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer to get feedback

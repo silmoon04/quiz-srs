@@ -68,7 +68,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer
@@ -101,7 +101,7 @@ test.describe('Concurrent Tab Handling', () => {
     await expect(page2.locator(`text=${validQuizJSON.name}`)).toBeVisible();
 
     // Make change in tab 1
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
     await answerQuestion(page, 1);
 
@@ -127,7 +127,7 @@ test.describe('Concurrent Tab Handling', () => {
     await waitForQuizLoaded(page);
 
     // Start in tab 1
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Open tab 2
@@ -232,7 +232,7 @@ test.describe('localStorage Quota', () => {
       }
     });
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Try to answer (save might fail)
@@ -293,7 +293,7 @@ test.describe('Incognito Mode', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     await answerQuestion(page, 1);
@@ -319,7 +319,7 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Answer history recorded', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer multiple questions
@@ -333,7 +333,7 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Correct/incorrect counts accurate', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer correctly
@@ -348,7 +348,7 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Answer modification tracked', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Select first option
@@ -393,7 +393,7 @@ test.describe('Session Boundaries', () => {
       };
     });
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
     await answerQuestion(page, 1);
 

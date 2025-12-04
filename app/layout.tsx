@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { Analytics } from '@vercel/analytics/next';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
+import { PersistenceProvider } from '@/services/persistence/provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -29,7 +30,9 @@ html {
         `}</style>
       </head>
       <body>
-        <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
+        <PersistenceProvider>
+          <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
+        </PersistenceProvider>
         <Analytics />
       </body>
     </html>
