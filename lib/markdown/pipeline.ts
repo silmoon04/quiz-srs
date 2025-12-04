@@ -23,7 +23,7 @@ import { visit } from 'unist-util-visit';
  */
 function rehypeMermaid() {
   return (tree: any) => {
-    visit(tree, 'element', (node: any, index: number, parent: any) => {
+    visit(tree, 'element', (node: any) => {
       // Look for <pre><code class="language-mermaid">...</code></pre>
       if (node.tagName === 'pre' && node.children && node.children.length > 0) {
         const codeNode = node.children[0];
@@ -168,6 +168,7 @@ export function processMarkdownSync(content: string): string {
       .use(rehypeRaw) // Allow raw HTML
       .use(rehypeMermaid) // Transform mermaid blocks BEFORE highlight/sanitize
       .use(rehypeKatex) // Render math with KaTeX
+      // @ts-expect-error - rehype-highlight types are inconsistent with actual API
       .use(rehypeHighlight, { ignoreMissing: true }) // Syntax highlighting
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
       .use(rehypeStringify); // Convert to HTML string
