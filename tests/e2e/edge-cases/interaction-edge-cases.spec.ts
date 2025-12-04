@@ -20,7 +20,7 @@ test.describe('Double-Click Prevention', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -112,7 +112,7 @@ test.describe('Rapid Navigation', () => {
   });
 
   test('E3-02: Rapid question navigation', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     const nextBtn = page.locator('button:has-text("Next")');
@@ -160,7 +160,7 @@ test.describe('Click During Animation', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Select and submit
@@ -187,7 +187,7 @@ test.describe('Scroll During Interaction', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Start selecting while scrolling
@@ -220,7 +220,7 @@ test.describe('Theme Toggle Mid-Action', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Select option
@@ -253,7 +253,7 @@ test.describe('Navigation During Save', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer question
@@ -285,7 +285,7 @@ test.describe('Import During Quiz', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer a question
@@ -317,7 +317,7 @@ test.describe('Concurrent Operations', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Do multiple things at once
@@ -352,7 +352,7 @@ test.describe('Concurrent Operations', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer rapidly
@@ -392,7 +392,7 @@ test.describe('Browser Back/Forward', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Answer question
@@ -423,7 +423,7 @@ test.describe('Browser Back/Forward', () => {
     await waitForQuizLoaded(page);
 
     // Navigate around
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Back
@@ -445,7 +445,7 @@ test.describe('Resize During Interaction', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     await startBtn.click();
 
     // Select option

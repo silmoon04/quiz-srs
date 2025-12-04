@@ -44,7 +44,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, mdQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -78,7 +78,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, listQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -110,7 +110,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, linkQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -143,7 +143,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, tableQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -176,7 +176,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, quoteQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -199,7 +199,7 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, codeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -231,7 +231,7 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, whitespaceQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -265,7 +265,7 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, inlineCodeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -287,7 +287,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, mathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -321,7 +321,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, blockMathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -355,7 +355,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, greekQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -376,7 +376,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longContentQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -418,7 +418,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longOptionQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -451,7 +451,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longExplanationQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -500,7 +500,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, overflowQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -553,7 +553,7 @@ $$E = mc^2$$
     await importQuizViaUI(page, mixedQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -596,7 +596,7 @@ $$E = mc^2$$
     await importQuizViaUI(page, nestedQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

@@ -219,7 +219,7 @@ test.describe('Silent Failure Prevention', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -281,7 +281,7 @@ test.describe('Error During Operations', () => {
       }
     });
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -437,7 +437,7 @@ test.describe('Console Error Monitoring', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

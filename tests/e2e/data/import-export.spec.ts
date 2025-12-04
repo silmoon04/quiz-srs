@@ -62,7 +62,7 @@ test.describe('JSON Import', () => {
     await expect(page.locator('text=🎯')).toBeVisible();
 
     // Start quiz and check Japanese text
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await expect(page.locator('text=🎉')).toBeVisible();
@@ -73,7 +73,7 @@ test.describe('JSON Import', () => {
     await importQuizViaUI(page, mathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -90,7 +90,7 @@ test.describe('JSON Import', () => {
     await importQuizViaUI(page, codeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -236,7 +236,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-03: Export complete state', async ({ page }) => {
     // Make some progress first
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1);
@@ -258,7 +258,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-04: Import/export round-trip', async ({ page }) => {
     // Make progress
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1);
@@ -296,7 +296,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-37: Export includes all progress data', async ({ page }) => {
     // Make varied progress
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1); // Correct
@@ -351,7 +351,7 @@ test.describe('Edge Case Quizzes', () => {
     await waitForQuizLoaded(page);
 
     // Should load and be answerable
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 0);
@@ -366,7 +366,7 @@ test.describe('Edge Case Quizzes', () => {
     await waitForQuizLoaded(page);
 
     // Should handle without crash
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

@@ -1,0 +1,2320 @@
+{
+  "summary": {
+    "total_files": 165,
+    "entry_points": 16,
+    "test_files": 93,
+    "dead_code_candidates": 23,
+    "circular_dependencies": 0,
+    "duplicate_groups": 2
+  },
+  "entry_points": {
+    "depcheck.config.cjs": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["depcheck"]
+    },
+    "next.config.mjs": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["@next/bundle-analyzer", "next"]
+    },
+    "playwright.config.ts": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["@playwright/test"]
+    },
+    "postcss.config.mjs": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["postcss-load-config"]
+    },
+    "tailwind.config.ts": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["tailwindcss"]
+    },
+    "vitest.config.ts": {
+      "type": "config",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["path", "vitest", "@vitejs/plugin-react"]
+    },
+    "app/layout.tsx": {
+      "type": "layout",
+      "direct_imports": ["components/a11y/ScreenReaderAnnouncer.tsx"],
+      "full_dependency_tree": ["components/a11y/ScreenReaderAnnouncer.tsx"],
+      "external_deps": ["geist", "next", "@vercel/analytics"]
+    },
+    "app/page.tsx": {
+      "type": "page",
+      "direct_imports": [
+        "utils/quiz-validation-refactored.ts",
+        "components/quiz-session.tsx",
+        "components/ui/toaster.tsx",
+        "types/quiz-types.ts",
+        "components/all-questions-view.tsx",
+        "components/quiz-complete.tsx",
+        "hooks/use-quiz-persistence.ts",
+        "lib/engine/srs.ts",
+        "components/ui/use-toast.ts",
+        "components/confirmation-modal-radix.tsx",
+        "components/dashboard.tsx",
+        "components/welcome-screen.tsx"
+      ],
+      "full_dependency_tree": [
+        "utils/quiz-validation-refactored.ts",
+        "types/quiz-types.ts",
+        "components/quiz-session.tsx",
+        "components/a11y/AccessibleOptionList.tsx",
+        "types/quiz-types.ts",
+        "components/option-card.tsx",
+        "types/quiz-types.ts",
+        "components/rendering/MarkdownRenderer.tsx",
+        "lib/markdown/pipeline.ts",
+        "components/ui/card.tsx",
+        "lib/utils.ts",
+        "types/quiz-types.ts",
+        "components/question-editor.tsx",
+        "types/quiz-types.ts",
+        "components/ui/card.tsx",
+        "components/ui/input.tsx",
+        "lib/utils.ts",
+        "components/rendering/MarkdownRenderer.tsx",
+        "components/ui/button.tsx",
+        "lib/utils.ts",
+        "components/confirmation-modal-radix.tsx",
+        "components/rendering/MarkdownRenderer.tsx",
+        "components/ui/button.tsx",
+        "components/ui/dialog.tsx",
+        "lib/utils.ts",
+        "components/ui/textarea.tsx",
+        "lib/utils.ts",
+        "components/ui/label.tsx",
+        "lib/utils.ts",
+        "components/ui/card.tsx",
+        "components/ui/circular-progress.tsx",
+        "lib/utils.ts",
+        "components/a11y/AccessibleQuestionGrid.tsx",
+        "types/quiz-types.ts",
+        "components/rendering/MarkdownRenderer.tsx",
+        "components/ui/button.tsx",
+        "components/progress-bar.tsx",
+        "components/a11y/ScreenReaderAnnouncer.tsx",
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts",
+        "components/ui/toaster.tsx",
+        "components/ui/toast.tsx",
+        "lib/utils.ts",
+        "components/ui/use-toast.ts",
+        "components/ui/toast.tsx",
+        "types/quiz-types.ts",
+        "components/all-questions-view.tsx",
+        "components/option-card.tsx",
+        "types/quiz-types.ts",
+        "components/ui/card.tsx",
+        "components/rendering/MarkdownRenderer.tsx",
+        "components/ui/button.tsx",
+        "components/progress-bar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/quiz-complete.tsx",
+        "components/progress-bar.tsx",
+        "components/ui/button.tsx",
+        "components/ui/card.tsx",
+        "hooks/use-quiz-persistence.ts",
+        "types/quiz-types.ts",
+        "lib/engine/srs.ts",
+        "components/ui/use-toast.ts",
+        "components/confirmation-modal-radix.tsx",
+        "components/dashboard.tsx",
+        "types/quiz-types.ts",
+        "components/ui/card.tsx",
+        "components/progress-bar.tsx",
+        "components/ui/button.tsx",
+        "components/chapter-card.tsx",
+        "components/progress-bar.tsx",
+        "components/ui/button.tsx",
+        "components/ui/card.tsx",
+        "components/welcome-screen.tsx",
+        "components/ui/button.tsx",
+        "components/ui/card.tsx"
+      ],
+      "external_deps": ["react"]
+    },
+    "app/test/page.tsx": {
+      "type": "page",
+      "direct_imports": ["utils/quiz-validation-refactored.ts"],
+      "full_dependency_tree": ["utils/quiz-validation-refactored.ts", "types/quiz-types.ts"],
+      "external_deps": ["react"]
+    },
+    "scripts/audit-snapshot.mjs": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["fs", "child_process", "path"]
+    },
+    "scripts/batch-quiz-update.ts": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/codebase-analyzer.ts": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/fix-quiz-json.ts": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/merge-batches.ts": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/validate-quiz.ts": {
+      "type": "script",
+      "direct_imports": ["lib/schema/quiz.ts"],
+      "full_dependency_tree": ["lib/schema/quiz.ts"],
+      "external_deps": ["fs", "path", "zod"]
+    },
+    "scripts/codemods/fix-dot-to-spread.mjs": {
+      "type": "script",
+      "direct_imports": [],
+      "full_dependency_tree": [],
+      "external_deps": ["node:fs", "node:path"]
+    }
+  },
+  "component_usage": {
+    "components/all-questions-view.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/chapter-card.tsx": {
+      "imported_by": ["components/dashboard.tsx"],
+      "import_count": 1
+    },
+    "components/confirmation-modal-radix.tsx": {
+      "imported_by": ["components/question-editor.tsx", "app/page.tsx"],
+      "import_count": 2
+    },
+    "components/dashboard.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/option-card.tsx": {
+      "imported_by": [
+        "components/a11y/AccessibleOptionList.tsx",
+        "components/all-questions-view.tsx"
+      ],
+      "import_count": 2
+    },
+    "components/progress-bar.tsx": {
+      "imported_by": [
+        "components/quiz-session.tsx",
+        "components/quiz-complete.tsx",
+        "components/all-questions-view.tsx",
+        "components/dashboard.tsx",
+        "components/chapter-card.tsx"
+      ],
+      "import_count": 5
+    },
+    "components/question-editor.tsx": {
+      "imported_by": ["components/quiz-session.tsx"],
+      "import_count": 1
+    },
+    "components/quiz-complete.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/quiz-session.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/toast-notification.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/welcome-screen.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/a11y/AccessibleOptionList.tsx": {
+      "imported_by": ["components/quiz-session.tsx"],
+      "import_count": 1
+    },
+    "components/a11y/AccessibleQuestionGrid.tsx": {
+      "imported_by": ["components/quiz-session.tsx"],
+      "import_count": 1
+    },
+    "components/a11y/ScreenReaderAnnouncer.tsx": {
+      "imported_by": ["components/quiz-session.tsx", "app/layout.tsx"],
+      "import_count": 2
+    },
+    "components/rendering/MarkdownRenderer.tsx": {
+      "imported_by": [
+        "components/option-card.tsx",
+        "components/quiz-session.tsx",
+        "components/question-editor.tsx",
+        "components/all-questions-view.tsx",
+        "components/confirmation-modal-radix.tsx"
+      ],
+      "import_count": 5
+    },
+    "components/ui/badge.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/button.tsx": {
+      "imported_by": [
+        "components/quiz-session.tsx",
+        "components/question-editor.tsx",
+        "components/all-questions-view.tsx",
+        "components/quiz-complete.tsx",
+        "components/confirmation-modal-radix.tsx",
+        "components/welcome-screen.tsx",
+        "components/dashboard.tsx",
+        "components/chapter-card.tsx"
+      ],
+      "import_count": 8
+    },
+    "components/ui/card.tsx": {
+      "imported_by": [
+        "components/option-card.tsx",
+        "components/quiz-session.tsx",
+        "components/question-editor.tsx",
+        "components/toast-notification.tsx",
+        "components/all-questions-view.tsx",
+        "components/quiz-complete.tsx",
+        "components/welcome-screen.tsx",
+        "components/dashboard.tsx",
+        "components/chapter-card.tsx"
+      ],
+      "import_count": 9
+    },
+    "components/ui/circular-progress.tsx": {
+      "imported_by": ["components/quiz-session.tsx"],
+      "import_count": 1
+    },
+    "components/ui/collapsible.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/dialog.tsx": {
+      "imported_by": ["components/confirmation-modal-radix.tsx"],
+      "import_count": 1
+    },
+    "components/ui/dropdown-menu.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/input.tsx": {
+      "imported_by": ["components/question-editor.tsx"],
+      "import_count": 1
+    },
+    "components/ui/label.tsx": {
+      "imported_by": ["components/question-editor.tsx"],
+      "import_count": 1
+    },
+    "components/ui/popover.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/scroll-area.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/select.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/separator.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/sheet.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/skeleton.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/slider.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/switch.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/table.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/tabs.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/textarea.tsx": {
+      "imported_by": ["components/question-editor.tsx"],
+      "import_count": 1
+    },
+    "components/ui/toast.tsx": {
+      "imported_by": ["components/ui/use-toast.ts", "components/ui/toaster.tsx"],
+      "import_count": 2
+    },
+    "components/ui/toaster.tsx": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "components/ui/toggle.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "components/ui/tooltip.tsx": {
+      "imported_by": ["components/quiz-session.tsx", "components/all-questions-view.tsx"],
+      "import_count": 2
+    },
+    "components/ui/use-toast.ts": {
+      "imported_by": ["app/page.tsx", "components/ui/toaster.tsx"],
+      "import_count": 2
+    }
+  },
+  "hook_usage": {
+    "components/ui/use-toast.ts": {
+      "imported_by": ["app/page.tsx", "components/ui/toaster.tsx"],
+      "import_count": 2
+    },
+    "hooks/use-mobile.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "hooks/use-quiz-persistence.ts": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "hooks/use-quiz-state.ts": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "tests/unit/hooks/use-mobile.test.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "tests/unit/hooks/use-quiz-persistence.test.ts": {
+      "imported_by": [],
+      "import_count": 0
+    }
+  },
+  "lib_usage": {
+    "lib/utils.ts": {
+      "imported_by": [
+        "components/ui/popover.tsx",
+        "components/ui/toast.tsx",
+        "components/ui/table.tsx",
+        "components/ui/skeleton.tsx",
+        "components/ui/input.tsx",
+        "components/ui/textarea.tsx",
+        "components/ui/separator.tsx",
+        "components/ui/sheet.tsx",
+        "components/ui/card.tsx",
+        "components/ui/toggle.tsx",
+        "components/ui/select.tsx",
+        "components/ui/label.tsx",
+        "components/ui/dropdown-menu.tsx",
+        "components/ui/badge.tsx",
+        "components/ui/scroll-area.tsx",
+        "components/ui/dialog.tsx",
+        "components/ui/tabs.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/slider.tsx",
+        "components/ui/circular-progress.tsx",
+        "components/ui/button.tsx",
+        "components/ui/tooltip.tsx"
+      ],
+      "import_count": 22
+    },
+    "lib/engine/index.ts": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "lib/engine/srs.ts": {
+      "imported_by": ["app/page.tsx"],
+      "import_count": 1
+    },
+    "lib/markdown/pipeline.ts": {
+      "imported_by": ["components/rendering/MarkdownRenderer.tsx"],
+      "import_count": 1
+    },
+    "lib/quiz/generate-displayed-options.tsx": {
+      "imported_by": [],
+      "import_count": 0
+    },
+    "lib/schema/quiz.ts": {
+      "imported_by": ["scripts/validate-quiz.ts"],
+      "import_count": 1
+    },
+    "utils/quiz-validation-refactored.ts": {
+      "imported_by": ["app/page.tsx", "app/test/page.tsx"],
+      "import_count": 2
+    }
+  },
+  "dead_code": [
+    {
+      "file_path": "next-env.d.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "vitest.config.accessibility.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "vitest.config.integration.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/toast-notification.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": "tests/unit/components/toast-notification.test.tsx"
+    },
+    {
+      "file_path": "components/ui/badge.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/collapsible.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/dropdown-menu.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/popover.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/scroll-area.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/select.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/separator.tsx",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/sheet.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/skeleton.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/slider.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/switch.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/table.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/tabs.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "components/ui/toggle.tsx",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "hooks/use-mobile.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": "tests/unit/hooks/use-mobile.test.tsx"
+    },
+    {
+      "file_path": "hooks/use-quiz-state.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "lib/engine/index.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    },
+    {
+      "file_path": "lib/quiz/generate-displayed-options.tsx",
+      "reason": "No non-test imports found",
+      "confidence": "medium",
+      "safe_to_delete": false,
+      "related_test_file": null
+    },
+    {
+      "file_path": "store/index.ts",
+      "reason": "No imports at all",
+      "confidence": "high",
+      "safe_to_delete": true,
+      "related_test_file": null
+    }
+  ],
+  "duplicates": [
+    {
+      "files": ["app/page.tsx", "app/test/page.tsx"],
+      "similarity_type": "name",
+      "details": "Multiple files with base name 'page'"
+    },
+    {
+      "files": ["lib/engine/index.ts", "store/index.ts"],
+      "similarity_type": "name",
+      "details": "Multiple files with base name 'index'"
+    }
+  ],
+  "circular_dependencies": [],
+  "files": {
+    "depcheck.config.cjs": {
+      "relative_path": "depcheck.config.cjs",
+      "line_count": 63,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["depcheck"]
+    },
+    "next-env.d.ts": {
+      "relative_path": "next-env.d.ts",
+      "line_count": 5,
+      "imports_count": 0,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "next.config.mjs": {
+      "relative_path": "next.config.mjs",
+      "line_count": 37,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["@next/bundle-analyzer", "next"]
+    },
+    "playwright.config.ts": {
+      "relative_path": "playwright.config.ts",
+      "line_count": 76,
+      "imports_count": 1,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["@playwright/test"]
+    },
+    "postcss.config.mjs": {
+      "relative_path": "postcss.config.mjs",
+      "line_count": 9,
+      "imports_count": 1,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["postcss-load-config"]
+    },
+    "tailwind.config.ts": {
+      "relative_path": "tailwind.config.ts",
+      "line_count": 101,
+      "imports_count": 1,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["tailwindcss"]
+    },
+    "vitest.config.accessibility.ts": {
+      "relative_path": "vitest.config.accessibility.ts",
+      "line_count": 18,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["path", "vitest", "@vitejs/plugin-react"]
+    },
+    "vitest.config.integration.ts": {
+      "relative_path": "vitest.config.integration.ts",
+      "line_count": 18,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["path", "vitest", "@vitejs/plugin-react"]
+    },
+    "vitest.config.ts": {
+      "relative_path": "vitest.config.ts",
+      "line_count": 65,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["path", "vitest", "@vitejs/plugin-react"]
+    },
+    "app/layout.tsx": {
+      "relative_path": "app/layout.tsx",
+      "line_count": 37,
+      "imports_count": 5,
+      "exports_count": 2,
+      "imported_by_count": 1,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["geist", "next", "@vercel/analytics"]
+    },
+    "app/page.tsx": {
+      "relative_path": "app/page.tsx",
+      "line_count": 2021,
+      "imports_count": 14,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "app/test/page.tsx": {
+      "relative_path": "app/test/page.tsx",
+      "line_count": 194,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/all-questions-view.tsx": {
+      "relative_path": "components/all-questions-view.tsx",
+      "line_count": 281,
+      "imports_count": 9,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/chapter-card.tsx": {
+      "relative_path": "components/chapter-card.tsx",
+      "line_count": 123,
+      "imports_count": 4,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react"]
+    },
+    "components/confirmation-modal-radix.tsx": {
+      "relative_path": "components/confirmation-modal-radix.tsx",
+      "line_count": 108,
+      "imports_count": 4,
+      "exports_count": 1,
+      "imported_by_count": 4,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react"]
+    },
+    "components/dashboard.tsx": {
+      "relative_path": "components/dashboard.tsx",
+      "line_count": 265,
+      "imports_count": 8,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/option-card.tsx": {
+      "relative_path": "components/option-card.tsx",
+      "line_count": 97,
+      "imports_count": 5,
+      "exports_count": 1,
+      "imported_by_count": 3,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/progress-bar.tsx": {
+      "relative_path": "components/progress-bar.tsx",
+      "line_count": 86,
+      "imports_count": 0,
+      "exports_count": 1,
+      "imported_by_count": 6,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "components/question-editor.tsx": {
+      "relative_path": "components/question-editor.tsx",
+      "line_count": 586,
+      "imports_count": 11,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/quiz-complete.tsx": {
+      "relative_path": "components/quiz-complete.tsx",
+      "line_count": 212,
+      "imports_count": 4,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react"]
+    },
+    "components/quiz-session.tsx": {
+      "relative_path": "components/quiz-session.tsx",
+      "line_count": 969,
+      "imports_count": 14,
+      "exports_count": 1,
+      "imported_by_count": 4,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/toast-notification.tsx": {
+      "relative_path": "components/toast-notification.tsx",
+      "line_count": 117,
+      "imports_count": 3,
+      "exports_count": 3,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/welcome-screen.tsx": {
+      "relative_path": "components/welcome-screen.tsx",
+      "line_count": 222,
+      "imports_count": 5,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "react"]
+    },
+    "components/a11y/AccessibleOptionList.tsx": {
+      "relative_path": "components/a11y/AccessibleOptionList.tsx",
+      "line_count": 158,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/a11y/AccessibleQuestionGrid.tsx": {
+      "relative_path": "components/a11y/AccessibleQuestionGrid.tsx",
+      "line_count": 233,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/a11y/ScreenReaderAnnouncer.tsx": {
+      "relative_path": "components/a11y/ScreenReaderAnnouncer.tsx",
+      "line_count": 81,
+      "imports_count": 1,
+      "exports_count": 2,
+      "imported_by_count": 6,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/rendering/MarkdownRenderer.tsx": {
+      "relative_path": "components/rendering/MarkdownRenderer.tsx",
+      "line_count": 142,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 18,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["mermaid", "react"]
+    },
+    "components/ui/badge.tsx": {
+      "relative_path": "components/ui/badge.tsx",
+      "line_count": 33,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["class-variance-authority", "react"]
+    },
+    "components/ui/button.tsx": {
+      "relative_path": "components/ui/button.tsx",
+      "line_count": 49,
+      "imports_count": 4,
+      "exports_count": 1,
+      "imported_by_count": 9,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-slot", "class-variance-authority", "react"]
+    },
+    "components/ui/card.tsx": {
+      "relative_path": "components/ui/card.tsx",
+      "line_count": 55,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 9,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/ui/circular-progress.tsx": {
+      "relative_path": "components/ui/circular-progress.tsx",
+      "line_count": 55,
+      "imports_count": 1,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "components/ui/collapsible.tsx": {
+      "relative_path": "components/ui/collapsible.tsx",
+      "line_count": 11,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-collapsible"]
+    },
+    "components/ui/dialog.tsx": {
+      "relative_path": "components/ui/dialog.tsx",
+      "line_count": 104,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-dialog", "lucide-react", "react"]
+    },
+    "components/ui/dropdown-menu.tsx": {
+      "relative_path": "components/ui/dropdown-menu.tsx",
+      "line_count": 187,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-dropdown-menu", "lucide-react", "react"]
+    },
+    "components/ui/input.tsx": {
+      "relative_path": "components/ui/input.tsx",
+      "line_count": 22,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/ui/label.tsx": {
+      "relative_path": "components/ui/label.tsx",
+      "line_count": 21,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-label", "class-variance-authority", "react"]
+    },
+    "components/ui/popover.tsx": {
+      "relative_path": "components/ui/popover.tsx",
+      "line_count": 31,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-popover", "react"]
+    },
+    "components/ui/scroll-area.tsx": {
+      "relative_path": "components/ui/scroll-area.tsx",
+      "line_count": 46,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-scroll-area", "react"]
+    },
+    "components/ui/select.tsx": {
+      "relative_path": "components/ui/select.tsx",
+      "line_count": 153,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["lucide-react", "@radix-ui/react-select", "react"]
+    },
+    "components/ui/separator.tsx": {
+      "relative_path": "components/ui/separator.tsx",
+      "line_count": 26,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-separator", "react"]
+    },
+    "components/ui/sheet.tsx": {
+      "relative_path": "components/ui/sheet.tsx",
+      "line_count": 121,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": [
+        "@radix-ui/react-dialog",
+        "lucide-react",
+        "react",
+        "class-variance-authority"
+      ]
+    },
+    "components/ui/skeleton.tsx": {
+      "relative_path": "components/ui/skeleton.tsx",
+      "line_count": 7,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "components/ui/slider.tsx": {
+      "relative_path": "components/ui/slider.tsx",
+      "line_count": 25,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react", "@radix-ui/react-slider"]
+    },
+    "components/ui/switch.tsx": {
+      "relative_path": "components/ui/switch.tsx",
+      "line_count": 29,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react", "@radix-ui/react-switch"]
+    },
+    "components/ui/table.tsx": {
+      "relative_path": "components/ui/table.tsx",
+      "line_count": 91,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/ui/tabs.tsx": {
+      "relative_path": "components/ui/tabs.tsx",
+      "line_count": 55,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react", "@radix-ui/react-tabs"]
+    },
+    "components/ui/textarea.tsx": {
+      "relative_path": "components/ui/textarea.tsx",
+      "line_count": 21,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "components/ui/toast.tsx": {
+      "relative_path": "components/ui/toast.tsx",
+      "line_count": 124,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": [
+        "@radix-ui/react-toast",
+        "class-variance-authority",
+        "lucide-react",
+        "react"
+      ]
+    },
+    "components/ui/toaster.tsx": {
+      "relative_path": "components/ui/toaster.tsx",
+      "line_count": 29,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "components/ui/toggle.tsx": {
+      "relative_path": "components/ui/toggle.tsx",
+      "line_count": 43,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-toggle", "class-variance-authority", "react"]
+    },
+    "components/ui/tooltip.tsx": {
+      "relative_path": "components/ui/tooltip.tsx",
+      "line_count": 30,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 3,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["@radix-ui/react-tooltip", "react"]
+    },
+    "components/ui/use-toast.ts": {
+      "relative_path": "components/ui/use-toast.ts",
+      "line_count": 194,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "hooks/use-mobile.tsx": {
+      "relative_path": "hooks/use-mobile.tsx",
+      "line_count": 19,
+      "imports_count": 1,
+      "exports_count": 1,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "hooks/use-quiz-persistence.ts": {
+      "relative_path": "hooks/use-quiz-persistence.ts",
+      "line_count": 314,
+      "imports_count": 2,
+      "exports_count": 6,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "hooks/use-quiz-state.ts": {
+      "relative_path": "hooks/use-quiz-state.ts",
+      "line_count": 176,
+      "imports_count": 3,
+      "exports_count": 1,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["react"]
+    },
+    "lib/utils.ts": {
+      "relative_path": "lib/utils.ts",
+      "line_count": 6,
+      "imports_count": 2,
+      "exports_count": 1,
+      "imported_by_count": 23,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["tailwind-merge", "clsx"]
+    },
+    "lib/engine/index.ts": {
+      "relative_path": "lib/engine/index.ts",
+      "line_count": 22,
+      "imports_count": 0,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "lib/engine/srs.ts": {
+      "relative_path": "lib/engine/srs.ts",
+      "line_count": 252,
+      "imports_count": 0,
+      "exports_count": 11,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "lib/markdown/pipeline.ts": {
+      "relative_path": "lib/markdown/pipeline.ts",
+      "line_count": 178,
+      "imports_count": 9,
+      "exports_count": 4,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": [
+        "remark-math",
+        "remark-rehype",
+        "remark-parse",
+        "rehype-raw",
+        "remark-gfm",
+        "unified",
+        "rehype-stringify",
+        "rehype-katex",
+        "rehype-sanitize"
+      ]
+    },
+    "lib/quiz/generate-displayed-options.tsx": {
+      "relative_path": "lib/quiz/generate-displayed-options.tsx",
+      "line_count": 103,
+      "imports_count": 1,
+      "exports_count": 2,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "lib/schema/quiz.ts": {
+      "relative_path": "lib/schema/quiz.ts",
+      "line_count": 135,
+      "imports_count": 1,
+      "exports_count": 27,
+      "imported_by_count": 6,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["zod"]
+    },
+    "scripts/audit-snapshot.mjs": {
+      "relative_path": "scripts/audit-snapshot.mjs",
+      "line_count": 109,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "child_process", "path"]
+    },
+    "scripts/batch-quiz-update.ts": {
+      "relative_path": "scripts/batch-quiz-update.ts",
+      "line_count": 106,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/codebase-analyzer.ts": {
+      "relative_path": "scripts/codebase-analyzer.ts",
+      "line_count": 821,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/fix-quiz-json.ts": {
+      "relative_path": "scripts/fix-quiz-json.ts",
+      "line_count": 39,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/merge-batches.ts": {
+      "relative_path": "scripts/merge-batches.ts",
+      "line_count": 148,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "path"]
+    },
+    "scripts/validate-quiz.ts": {
+      "relative_path": "scripts/validate-quiz.ts",
+      "line_count": 100,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["fs", "path", "zod"]
+    },
+    "scripts/codemods/fix-dot-to-spread.mjs": {
+      "relative_path": "scripts/codemods/fix-dot-to-spread.mjs",
+      "line_count": 45,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": true,
+      "is_test_file": false,
+      "external_deps": ["node:fs", "node:path"]
+    },
+    "store/index.ts": {
+      "relative_path": "store/index.ts",
+      "line_count": 9,
+      "imports_count": 0,
+      "exports_count": 4,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "store/quiz-store.ts": {
+      "relative_path": "store/quiz-store.ts",
+      "line_count": 320,
+      "imports_count": 3,
+      "exports_count": 6,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": ["zustand"]
+    },
+    "tests/setup.ts": {
+      "relative_path": "tests/setup.ts",
+      "line_count": 19,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/jest-dom", "vitest", "@testing-library/react"]
+    },
+    "tests/a11y/announce.smoke.test.tsx": {
+      "relative_path": "tests/a11y/announce.smoke.test.tsx",
+      "line_count": 131,
+      "imports_count": 6,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/user-event", "@testing-library/react"]
+    },
+    "tests/a11y/announcer.test.tsx": {
+      "relative_path": "tests/a11y/announcer.test.tsx",
+      "line_count": 112,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/a11y/keyboard-access.test.tsx": {
+      "relative_path": "tests/a11y/keyboard-access.test.tsx",
+      "line_count": 334,
+      "imports_count": 6,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/user-event", "@testing-library/react"]
+    },
+    "tests/a11y/modal.focus.test.tsx": {
+      "relative_path": "tests/a11y/modal.focus.test.tsx",
+      "line_count": 171,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/user-event", "@testing-library/react"]
+    },
+    "tests/a11y/modal.trap.smoke.test.tsx": {
+      "relative_path": "tests/a11y/modal.trap.smoke.test.tsx",
+      "line_count": 57,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/user-event", "@testing-library/react"]
+    },
+    "tests/a11y/reduced-motion.test.tsx": {
+      "relative_path": "tests/a11y/reduced-motion.test.tsx",
+      "line_count": 204,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/access/accessibility.test.tsx": {
+      "relative_path": "tests/access/accessibility.test.tsx",
+      "line_count": 344,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/e2e/global-setup.ts": {
+      "relative_path": "tests/e2e/global-setup.ts",
+      "line_count": 69,
+      "imports_count": 2,
+      "exports_count": 3,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/quiz-flow-expected.spec.ts": {
+      "relative_path": "tests/e2e/quiz-flow-expected.spec.ts",
+      "line_count": 457,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/quiz-flow.spec.ts": {
+      "relative_path": "tests/e2e/quiz-flow.spec.ts",
+      "line_count": 162,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/user-flow-contracts.spec.ts": {
+      "relative_path": "tests/e2e/user-flow-contracts.spec.ts",
+      "line_count": 411,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/a11y/keyboard-navigation.spec.ts": {
+      "relative_path": "tests/e2e/a11y/keyboard-navigation.spec.ts",
+      "line_count": 449,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/a11y/screen-reader.spec.ts": {
+      "relative_path": "tests/e2e/a11y/screen-reader.spec.ts",
+      "line_count": 448,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/data/import-export.spec.ts": {
+      "relative_path": "tests/e2e/data/import-export.spec.ts",
+      "line_count": 488,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["fs"]
+    },
+    "tests/e2e/data/persistence.spec.ts": {
+      "relative_path": "tests/e2e/data/persistence.spec.ts",
+      "line_count": 423,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/edge-cases/error-recovery.spec.ts": {
+      "relative_path": "tests/e2e/edge-cases/error-recovery.spec.ts",
+      "line_count": 463,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/edge-cases/interaction-edge-cases.spec.ts": {
+      "relative_path": "tests/e2e/edge-cases/interaction-edge-cases.spec.ts",
+      "line_count": 492,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/edge-cases/state-edge-cases.spec.ts": {
+      "relative_path": "tests/e2e/edge-cases/state-edge-cases.spec.ts",
+      "line_count": 550,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/fixtures/malicious-data.ts": {
+      "relative_path": "tests/e2e/fixtures/malicious-data.ts",
+      "line_count": 280,
+      "imports_count": 0,
+      "exports_count": 12,
+      "imported_by_count": 2,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": []
+    },
+    "tests/e2e/fixtures/quiz-data.ts": {
+      "relative_path": "tests/e2e/fixtures/quiz-data.ts",
+      "line_count": 472,
+      "imports_count": 1,
+      "exports_count": 22,
+      "imported_by_count": 15,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/journeys/first-time-user.spec.ts": {
+      "relative_path": "tests/e2e/journeys/first-time-user.spec.ts",
+      "line_count": 253,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/journeys/return-user.spec.ts": {
+      "relative_path": "tests/e2e/journeys/return-user.spec.ts",
+      "line_count": 293,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/journeys/srs-cycle.spec.ts": {
+      "relative_path": "tests/e2e/journeys/srs-cycle.spec.ts",
+      "line_count": 283,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/security/xss-prevention.spec.ts": {
+      "relative_path": "tests/e2e/security/xss-prevention.spec.ts",
+      "line_count": 499,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/ui/content-rendering.spec.ts": {
+      "relative_path": "tests/e2e/ui/content-rendering.spec.ts",
+      "line_count": 607,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/ui/feedback-states.spec.ts": {
+      "relative_path": "tests/e2e/ui/feedback-states.spec.ts",
+      "line_count": 438,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/e2e/ui/responsive.spec.ts": {
+      "relative_path": "tests/e2e/ui/responsive.spec.ts",
+      "line_count": 373,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@playwright/test"]
+    },
+    "tests/fixtures/xss/payloads.ts": {
+      "relative_path": "tests/fixtures/xss/payloads.ts",
+      "line_count": 41,
+      "imports_count": 0,
+      "exports_count": 2,
+      "imported_by_count": 1,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": []
+    },
+    "tests/int/bugs/bug-detection.test.ts": {
+      "relative_path": "tests/int/bugs/bug-detection.test.ts",
+      "line_count": 598,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/contracts/accessibility.contract.test.ts": {
+      "relative_path": "tests/int/contracts/accessibility.contract.test.ts",
+      "line_count": 591,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/contracts/answer-feedback.contract.test.ts": {
+      "relative_path": "tests/int/contracts/answer-feedback.contract.test.ts",
+      "line_count": 358,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/contracts/content-rendering.contract.test.ts": {
+      "relative_path": "tests/int/contracts/content-rendering.contract.test.ts",
+      "line_count": 530,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/contracts/data-integrity.contract.test.ts": {
+      "relative_path": "tests/int/contracts/data-integrity.contract.test.ts",
+      "line_count": 681,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/contracts/ui-consistency.contract.test.ts": {
+      "relative_path": "tests/int/contracts/ui-consistency.contract.test.ts",
+      "line_count": 596,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/int/quiz/quiz-flow.test.ts": {
+      "relative_path": "tests/int/quiz/quiz-flow.test.ts",
+      "line_count": 467,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/int/rendering/quiz-components.test.tsx": {
+      "relative_path": "tests/int/rendering/quiz-components.test.tsx",
+      "line_count": 186,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/int/state/state-persistence.test.ts": {
+      "relative_path": "tests/int/state/state-persistence.test.ts",
+      "line_count": 614,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/meta/static.audits.test.ts": {
+      "relative_path": "tests/meta/static.audits.test.ts",
+      "line_count": 48,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["fs", "glob", "vitest"]
+    },
+    "tests/renderer/sanitize.contract.test.tsx": {
+      "relative_path": "tests/renderer/sanitize.contract.test.tsx",
+      "line_count": 175,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/app/layout.test.tsx": {
+      "relative_path": "tests/unit/app/layout.test.tsx",
+      "line_count": 282,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/app/page.test.tsx": {
+      "relative_path": "tests/unit/app/page.test.tsx",
+      "line_count": 730,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/app/test-page.test.tsx": {
+      "relative_path": "tests/unit/app/test-page.test.tsx",
+      "line_count": 519,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/bugs/B01-duplicate-filereader.test.ts": {
+      "relative_path": "tests/unit/bugs/B01-duplicate-filereader.test.ts",
+      "line_count": 292,
+      "imports_count": 1,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/bugs/D01-silent-failure.test.ts": {
+      "relative_path": "tests/unit/bugs/D01-silent-failure.test.ts",
+      "line_count": 262,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/bugs/D03-zero-correct-options.test.ts": {
+      "relative_path": "tests/unit/bugs/D03-zero-correct-options.test.ts",
+      "line_count": 204,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/bugs/D04-negative-srs-level.test.ts": {
+      "relative_path": "tests/unit/bugs/D04-negative-srs-level.test.ts",
+      "line_count": 240,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/bugs/D11-xss-regex.test.tsx": {
+      "relative_path": "tests/unit/bugs/D11-xss-regex.test.tsx",
+      "line_count": 307,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/all-questions-view.test.tsx": {
+      "relative_path": "tests/unit/components/all-questions-view.test.tsx",
+      "line_count": 1030,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/chapter-card.test.tsx": {
+      "relative_path": "tests/unit/components/chapter-card.test.tsx",
+      "line_count": 778,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/dashboard.test.tsx": {
+      "relative_path": "tests/unit/components/dashboard.test.tsx",
+      "line_count": 961,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/option-card.test.tsx": {
+      "relative_path": "tests/unit/components/option-card.test.tsx",
+      "line_count": 768,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/progress-bar.test.tsx": {
+      "relative_path": "tests/unit/components/progress-bar.test.tsx",
+      "line_count": 569,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/toast-notification.test.tsx": {
+      "relative_path": "tests/unit/components/toast-notification.test.tsx",
+      "line_count": 794,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/welcome-screen.test.tsx": {
+      "relative_path": "tests/unit/components/welcome-screen.test.tsx",
+      "line_count": 707,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/a11y/AccessibleOptionList.test.tsx": {
+      "relative_path": "tests/unit/components/a11y/AccessibleOptionList.test.tsx",
+      "line_count": 917,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/a11y/AccessibleQuestionGrid.test.tsx": {
+      "relative_path": "tests/unit/components/a11y/AccessibleQuestionGrid.test.tsx",
+      "line_count": 973,
+      "imports_count": 5,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/rendering/MarkdownRenderer.test.tsx": {
+      "relative_path": "tests/unit/components/rendering/MarkdownRenderer.test.tsx",
+      "line_count": 948,
+      "imports_count": 6,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/badge.test.tsx": {
+      "relative_path": "tests/unit/components/ui/badge.test.tsx",
+      "line_count": 124,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/button.test.tsx": {
+      "relative_path": "tests/unit/components/ui/button.test.tsx",
+      "line_count": 230,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/circular-progress.test.tsx": {
+      "relative_path": "tests/unit/components/ui/circular-progress.test.tsx",
+      "line_count": 598,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/collapsible.test.tsx": {
+      "relative_path": "tests/unit/components/ui/collapsible.test.tsx",
+      "line_count": 663,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/dropdown-menu.test.tsx": {
+      "relative_path": "tests/unit/components/ui/dropdown-menu.test.tsx",
+      "line_count": 1155,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/popover.test.tsx": {
+      "relative_path": "tests/unit/components/ui/popover.test.tsx",
+      "line_count": 747,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/scroll-area.test.tsx": {
+      "relative_path": "tests/unit/components/ui/scroll-area.test.tsx",
+      "line_count": 266,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/select.test.tsx": {
+      "relative_path": "tests/unit/components/ui/select.test.tsx",
+      "line_count": 839,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/sheet.test.tsx": {
+      "relative_path": "tests/unit/components/ui/sheet.test.tsx",
+      "line_count": 857,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/skeleton.test.tsx": {
+      "relative_path": "tests/unit/components/ui/skeleton.test.tsx",
+      "line_count": 129,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/slider.test.tsx": {
+      "relative_path": "tests/unit/components/ui/slider.test.tsx",
+      "line_count": 434,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/switch.test.tsx": {
+      "relative_path": "tests/unit/components/ui/switch.test.tsx",
+      "line_count": 176,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/table.test.tsx": {
+      "relative_path": "tests/unit/components/ui/table.test.tsx",
+      "line_count": 889,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/tabs.test.tsx": {
+      "relative_path": "tests/unit/components/ui/tabs.test.tsx",
+      "line_count": 394,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/components/ui/tooltip.test.tsx": {
+      "relative_path": "tests/unit/components/ui/tooltip.test.tsx",
+      "line_count": 557,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["@testing-library/user-event", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/engine/srs.test.ts": {
+      "relative_path": "tests/unit/engine/srs.test.ts",
+      "line_count": 231,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/hooks/use-mobile.test.tsx": {
+      "relative_path": "tests/unit/hooks/use-mobile.test.tsx",
+      "line_count": 228,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/hooks/use-quiz-persistence.test.ts": {
+      "relative_path": "tests/unit/hooks/use-quiz-persistence.test.ts",
+      "line_count": 233,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/lib/utils.test.ts": {
+      "relative_path": "tests/unit/lib/utils.test.ts",
+      "line_count": 80,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/lib/quiz/generate-displayed-options.test.tsx": {
+      "relative_path": "tests/unit/lib/quiz/generate-displayed-options.test.tsx",
+      "line_count": 498,
+      "imports_count": 3,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/parser/id-uniqueness.test.ts": {
+      "relative_path": "tests/unit/parser/id-uniqueness.test.ts",
+      "line_count": 224,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/parser/markdown-parser.test.ts": {
+      "relative_path": "tests/unit/parser/markdown-parser.test.ts",
+      "line_count": 456,
+      "imports_count": 10,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["fs", "path", "vitest"]
+    },
+    "tests/unit/parser/quiz-schema.test.ts": {
+      "relative_path": "tests/unit/parser/quiz-schema.test.ts",
+      "line_count": 238,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/renderer/current-functionality.test.tsx": {
+      "relative_path": "tests/unit/renderer/current-functionality.test.tsx",
+      "line_count": 196,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/latex-functionality.test.tsx": {
+      "relative_path": "tests/unit/renderer/latex-functionality.test.tsx",
+      "line_count": 204,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/markdown-import-comprehensive.test.tsx": {
+      "relative_path": "tests/unit/renderer/markdown-import-comprehensive.test.tsx",
+      "line_count": 681,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/secure-text-renderer.test.tsx": {
+      "relative_path": "tests/unit/renderer/secure-text-renderer.test.tsx",
+      "line_count": 140,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/simple-renderer.test.tsx": {
+      "relative_path": "tests/unit/renderer/simple-renderer.test.tsx",
+      "line_count": 140,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/text-renderer-explanation.test.tsx": {
+      "relative_path": "tests/unit/renderer/text-renderer-explanation.test.tsx",
+      "line_count": 252,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/text-renderer-latex.test.tsx": {
+      "relative_path": "tests/unit/renderer/text-renderer-latex.test.tsx",
+      "line_count": 222,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/text-renderer-markdown.test.tsx": {
+      "relative_path": "tests/unit/renderer/text-renderer-markdown.test.tsx",
+      "line_count": 226,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/renderer/text-renderer-security.test.tsx": {
+      "relative_path": "tests/unit/renderer/text-renderer-security.test.tsx",
+      "line_count": 207,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["react", "vitest", "@testing-library/react"]
+    },
+    "tests/unit/store/quiz-store.test.ts": {
+      "relative_path": "tests/unit/store/quiz-store.test.ts",
+      "line_count": 268,
+      "imports_count": 4,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest", "@testing-library/react"]
+    },
+    "tests/unit/types/quiz-types.test.ts": {
+      "relative_path": "tests/unit/types/quiz-types.test.ts",
+      "line_count": 668,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "tests/unit/validation/duplicate-ids.test.ts": {
+      "relative_path": "tests/unit/validation/duplicate-ids.test.ts",
+      "line_count": 245,
+      "imports_count": 2,
+      "exports_count": 0,
+      "imported_by_count": 0,
+      "is_entry_point": false,
+      "is_test_file": true,
+      "external_deps": ["vitest"]
+    },
+    "types/quiz-types.ts": {
+      "relative_path": "types/quiz-types.ts",
+      "line_count": 100,
+      "imports_count": 0,
+      "exports_count": 11,
+      "imported_by_count": 29,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    },
+    "utils/quiz-validation-refactored.ts": {
+      "relative_path": "utils/quiz-validation-refactored.ts",
+      "line_count": 1384,
+      "imports_count": 1,
+      "exports_count": 9,
+      "imported_by_count": 16,
+      "is_entry_point": false,
+      "is_test_file": false,
+      "external_deps": []
+    }
+  }
+}

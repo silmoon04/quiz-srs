@@ -1,0 +1,26 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "quiz-srs-progress",
+          "value": "{\"questionsAttempted\":[],\"correctAnswers\":[],\"incorrectAnswers\":[],\"srsLevels\":{},\"lastReviewDates\":{}}"
+        },
+        {
+          "name": "quiz-srs-name",
+          "value": "Test Quiz"
+        },
+        {
+          "name": "quiz-srs-view",
+          "value": "dashboard"
+        },
+        {
+          "name": "quiz-srs-data",
+          "value": "{\"name\":\"Test Quiz\",\"description\":\"A quiz for e2e testing\",\"chapters\":[{\"id\":\"ch1\",\"name\":\"Chapter 1: Basics\",\"questions\":[{\"questionId\":\"q1\",\"questionText\":\"What is 2 + 2?\",\"options\":[{\"optionId\":\"q1-a\",\"optionText\":\"3\"},{\"optionId\":\"q1-b\",\"optionText\":\"4\"},{\"optionId\":\"q1-c\",\"optionText\":\"5\"},{\"optionId\":\"q1-d\",\"optionText\":\"6\"}],\"correctOptionIds\":[\"q1-b\"],\"explanationText\":\"Basic arithmetic: 2 + 2 = 4\"},{\"questionId\":\"q2\",\"questionText\":\"What is the capital of France?\",\"options\":[{\"optionId\":\"q2-a\",\"optionText\":\"London\"},{\"optionId\":\"q2-b\",\"optionText\":\"Berlin\"},{\"optionId\":\"q2-c\",\"optionText\":\"Paris\"},{\"optionId\":\"q2-d\",\"optionText\":\"Madrid\"}],\"correctOptionIds\":[\"q2-c\"],\"explanationText\":\"Paris is the capital of France.\"},{\"questionId\":\"q3\",\"questionText\":\"Is the sky blue?\",\"options\":[{\"optionId\":\"q3-a\",\"optionText\":\"True\"},{\"optionId\":\"q3-b\",\"optionText\":\"False\"}],\"correctOptionIds\":[\"q3-a\"],\"explanationText\":\"The sky appears blue due to Rayleigh scattering.\"}]},{\"id\":\"ch2\",\"name\":\"Chapter 2: Advanced\",\"questions\":[{\"questionId\":\"q4\",\"questionText\":\"What is the square root of 144?\",\"options\":[{\"optionId\":\"q4-a\",\"optionText\":\"10\"},{\"optionId\":\"q4-b\",\"optionText\":\"11\"},{\"optionId\":\"q4-c\",\"optionText\":\"12\"},{\"optionId\":\"q4-d\",\"optionText\":\"13\"}],\"correctOptionIds\":[\"q4-c\"],\"explanationText\":\"12 × 12 = 144\"},{\"questionId\":\"q5\",\"questionText\":\"Which planet is closest to the Sun?\",\"options\":[{\"optionId\":\"q5-a\",\"optionText\":\"Venus\"},{\"optionId\":\"q5-b\",\"optionText\":\"Mercury\"},{\"optionId\":\"q5-c\",\"optionText\":\"Mars\"},{\"optionId\":\"q5-d\",\"optionText\":\"Earth\"}],\"correctOptionIds\":[\"q5-b\"],\"explanationText\":\"Mercury is the closest planet to the Sun.\"}]}]}"
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,7 @@ test.describe('Keyboard Navigation - Tab Order', () => {
 
   test('D1-01: Tab order is logical', async ({ page }) => {
     // Start quiz first
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -47,7 +47,7 @@ test.describe('Keyboard Navigation - Tab Order', () => {
   });
 
   test('D1-02: All interactive elements reachable', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -72,7 +72,7 @@ test.describe('Keyboard Navigation - Tab Order', () => {
   });
 
   test('D1-09: No keyboard traps', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -108,7 +108,7 @@ test.describe('Keyboard Navigation - Option Selection', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -284,7 +284,7 @@ test.describe('Keyboard Navigation - Question Navigation', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -407,7 +407,7 @@ test.describe('Focus Visibility', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")');
+    const startBtn = page.locator('button:has-text("Start")').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
