@@ -1,5 +1,5 @@
 import { describe, it, test, expect } from 'vitest';
-import { parseMarkdownToQuizModule } from '@/utils/quiz-validation-refactored';
+import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 

@@ -641,9 +641,9 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Mermaid Diagram Support', () => {
     it('should detect mermaid blocks and transform them', async () => {
-      mockProcessMarkdownSync.mockReturnValue(
-        '<pre><code class="language-mermaid">graph TD\n  A-->B</code></pre>',
-      );
+      // The pipeline (mocked) is responsible for the transformation.
+      // We simulate the pipeline returning the transformed HTML.
+      mockProcessMarkdownSync.mockReturnValue('<div class="mermaid">graph TD\n  A-->B</div>');
 
       const { container } = render(
         <MarkdownRenderer markdown="```mermaid\ngraph TD\n  A-->B\n```" />,
@@ -656,9 +656,8 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should decode HTML entities in mermaid blocks', async () => {
-      mockProcessMarkdownSync.mockReturnValue(
-        '<pre><code class="language-mermaid">A --&gt; B</code></pre>',
-      );
+      // The pipeline handles decoding. We simulate the output.
+      mockProcessMarkdownSync.mockReturnValue('<div class="mermaid">A --> B</div>');
 
       const { container } = render(<MarkdownRenderer markdown="```mermaid\nA --> B\n```" />);
 
@@ -671,9 +670,9 @@ describe('MarkdownRenderer Component', () => {
 
     it('should handle multiple mermaid blocks', async () => {
       mockProcessMarkdownSync.mockReturnValue(
-        '<pre><code class="language-mermaid">graph TD\n  A-->B</code></pre>' +
+        '<div class="mermaid">graph TD\n  A-->B</div>' +
           '<p>Some text</p>' +
-          '<pre><code class="language-mermaid">graph LR\n  C-->D</code></pre>',
+          '<div class="mermaid">graph LR\n  C-->D</div>',
       );
 
       const { container } = render(
