@@ -14,6 +14,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
+import rehypeHighlight from 'rehype-highlight';
 
 // Custom sanitization schema for safe HTML - extends defaultSchema to preserve KaTeX
 const sanitizeSchema = {
@@ -45,13 +46,18 @@ const sanitizeSchema = {
     'mpadded',
     'mphantom',
     'menclose',
+    // Code highlighting
+    'pre',
+    'code',
+    'span',
   ],
   attributes: {
     ...(defaultSchema.attributes || {}),
-    // Allow className on all elements (critical for KaTeX)
+    // Allow className on all elements (critical for KaTeX and Highlight.js)
     '*': [
       ...(defaultSchema.attributes?.['*'] || []),
       'className',
+      'class', // Allow standard class attribute
       'style', // KaTeX needs inline styles
     ],
     // KaTeX MathML attributes
@@ -81,6 +87,9 @@ const sanitizeSchema = {
     menclose: ['notation'],
     // Ensure span can have aria-hidden for accessibility
     span: [...(defaultSchema.attributes?.span || []), 'aria-hidden'],
+    // Code highlighting attributes
+    code: ['className', 'class'],
+    pre: ['className', 'class'],
   },
 };
 
@@ -107,9 +116,10 @@ function preprocessDisplayMath(content: string): string {
 }
 
 /**
- * Process markdown content through the safe pipeline
+ * Process markdown content through the safe pipeline (Synchronous Version)
+ * This eliminates hydration mismatches and double-click issues caused by async rendering.
  */
-export async function processMarkdown(content: string): Promise<string> {
+export function processMarkdownSync(content: string): string {
   // Validate input: treat null/undefined as empty string
   if (content == null) {
     return '';
@@ -125,18 +135,24 @@ export async function processMarkdown(content: string): Promise<string> {
       .use(remarkRehype) // Convert to HTML AST
       .use(rehypeRaw) // Allow raw HTML
       .use(rehypeKatex) // Render math with KaTeX
+      .use(rehypeHighlight, { ignoreMissing: true }) // Syntax highlighting
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
       .use(rehypeStringify); // Convert to HTML string
 
-    const result = await processor.process(normalizedContent);
+    const result = processor.processSync(normalizedContent);
     return String(result);
   } catch (error) {
     console.error('Markdown processing error:', error);
     // Return basic error message instead of trying to render potentially broken content
-    throw new Error(
-      `Failed to process markdown: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    );
+    return `<p>Error rendering content: ${error instanceof Error ? error.message : 'Unknown error'}</p>`;
   }
+}
+
+/**
+ * Process markdown content through the safe pipeline (Async Wrapper for backward compatibility)
+ */
+export async function processMarkdown(content: string): Promise<string> {
+  return processMarkdownSync(content);
 }
 
 /**

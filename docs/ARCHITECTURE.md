@@ -252,19 +252,7 @@ JSON Input → validateQuizModule() → Normalized QuizModule → Components
 
 ## Known Technical Debt
 
-### 1. Monolithic page.tsx (HIGH)
-
-- **Issue:** 2000+ lines, 13 useState, 28 handlers
-- **Impact:** Hard to test, maintain, and extend
-- **Solution:** Migrate to Zustand store, extract handlers
-
-### 2. Bridge Hook (MEDIUM)
-
-- **Issue:** `use-quiz-state.ts` is a temporary migration bridge
-- **Impact:** Extra indirection during transition
-- **Solution:** Remove after Zustand migration complete
-
-### 3. Test Coverage Gaps (LOW)
+### 1. Test Coverage Gaps (LOW)
 
 - **Issue:** Some medium-confidence dead code flagged
 - **Impact:** Tests exist but source unused
@@ -274,23 +262,23 @@ JSON Input → validateQuizModule() → Normalized QuizModule → Components
 
 ## Migration Plan: page.tsx → Zustand
 
-### Phase 1: State Migration (Current)
+### Phase 1: State Migration (Completed)
 
 1. [x] Create Zustand store with slices
 2. [x] Create bridge hook (use-quiz-state)
-3. [ ] Replace useState calls one-by-one
+3. [x] Replace useState calls one-by-one
 
-### Phase 2: Handler Migration
+### Phase 2: Handler Migration (Completed)
 
-1. [ ] Move handleSubmitAnswer to store action
-2. [ ] Move handleNextQuestion to store action
-3. [ ] Move handleImportQuiz to store action
+1. [x] Move handleSubmitAnswer to store action
+2. [x] Move handleNextQuestion to store action
+3. [x] Move handleImportQuiz to store action
 
-### Phase 3: Cleanup
+### Phase 3: Cleanup (Completed)
 
-1. [ ] Remove bridge hook
-2. [ ] Merge use-quiz-persistence with Zustand persist
-3. [ ] Split remaining UI logic into smaller components
+1. [x] Remove bridge hook
+2. [x] Merge use-quiz-persistence with Zustand persist
+3. [x] Split remaining UI logic into smaller components
 
 ---
 

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { processMarkdown } from '@/lib/markdown/pipeline';
+import React, { useEffect, useMemo } from 'react';
+import { processMarkdownSync } from '@/lib/markdown/pipeline';
 
 type Props = {
   markdown: string;
@@ -46,50 +46,36 @@ function transformMermaidBlocks(html: string): { html: string; hasMermaid: boole
  * Secure Markdown renderer (single source of dangerouslySetInnerHTML)
  * - Uses the unified pipeline in lib/markdown/pipeline (remark-parse/gfm/math → rehype-katex → rehype-sanitize).
  * - Blocks javascript: URLs / inline handlers if anything slipped past.
+ * - NOW SYNCHRONOUS to prevent hydration mismatches and double-click issues.
  */
 export function MarkdownRenderer({ markdown, className }: Props) {
-  const [state, setState] = useState<RenderState>({ html: '', sanitized: false });
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        if (!USE_SECURE_RENDERER) {
-          // Safety net if the flag is off: render as plaintext paragraph.
-          const escaped = markdown
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-          if (!cancelled) setState({ html: `<p>${escaped}</p>`, sanitized: true });
-          return;
-        }
-        const html = await processMarkdown(markdown);
-
-        const { html: normalizedHtml, hasMermaid } = transformMermaidBlocks(html);
-        // Final belt-and-suspenders gate before HTML insertion.
-        // FIXED D11: Correct regex escaping - \s matches whitespace, not literal \s
-        // Pattern matches: script tags, event handlers (onclick, onerror, etc.), javascript: URLs
-        const disallowed = /<script\b|\s+on\w+\s*=|javascript:/i.test(normalizedHtml);
-        if (!cancelled) {
-          setState({
-            html: disallowed ? '<p>Content blocked for security reasons.</p>' : normalizedHtml,
-            sanitized: disallowed,
-            hasMermaid,
-          });
-        }
-      } catch (e: any) {
-        if (!cancelled) {
-          setState({
-            html: '<p>Error rendering content.</p>',
-            sanitized: true,
-            error: String(e?.message ?? e),
-          });
-        }
+  const state: RenderState = useMemo(() => {
+    try {
+      if (!USE_SECURE_RENDERER) {
+        // Safety net if the flag is off: render as plaintext paragraph.
+        const escaped = markdown.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return { html: `<p>${escaped}</p>`, sanitized: true };
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
+
+      const html = processMarkdownSync(markdown);
+
+      const { html: normalizedHtml, hasMermaid } = transformMermaidBlocks(html);
+      // Final belt-and-suspenders gate before HTML insertion.
+      // Pattern matches: script tags, event handlers (onclick, onerror, etc.), javascript: URLs
+      const disallowed = /<script\b|\s+on\w+\s*=|javascript:/i.test(normalizedHtml);
+
+      return {
+        html: disallowed ? '<p>Content blocked for security reasons.</p>' : normalizedHtml,
+        sanitized: disallowed,
+        hasMermaid,
+      };
+    } catch (e: any) {
+      return {
+        html: '<p>Error rendering content.</p>',
+        sanitized: true,
+        error: String(e?.message ?? e),
+      };
+    }
   }, [markdown]);
 
   useEffect(() => {

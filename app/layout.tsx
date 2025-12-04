@@ -5,6 +5,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import { PersistenceProvider } from '@/services/persistence/provider';
 import './globals.css';
+import 'katex/dist/katex.min.css';
+import 'highlight.js/styles/github-dark.css'; // Syntax highlighting theme
 
 export const metadata: Metadata = {
   title: 'Quiz‑SRS',

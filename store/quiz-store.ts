@@ -144,322 +144,342 @@ const initialState = {
 
 export const useQuizStore = create<QuizState>()(
   devtools(
-    (set, get) => ({
-      ...initialState,
+    persist(
+      (set, get) => ({
+        ...initialState,
 
-      // === Quiz Data Actions ===
+        // === Quiz Data Actions ===
 
-      setCurrentModule: (module) => set({ currentModule: module }, false, 'setCurrentModule'),
+        setCurrentModule: (module) => set({ currentModule: module }, false, 'setCurrentModule'),
 
-      updateModule: (updater) =>
-        set(
-          (state) => {
-            if (!state.currentModule) return state;
-            return { currentModule: updater(state.currentModule) };
-          },
-          false,
-          'updateModule',
-        ),
+        updateModule: (updater) =>
+          set(
+            (state) => {
+              if (!state.currentModule) return state;
+              return { currentModule: updater(state.currentModule) };
+            },
+            false,
+            'updateModule',
+          ),
 
-      clearQuizData: () =>
-        set(
-          {
-            currentModule: null,
-            answerRecords: {},
-            appState: 'welcome',
-            currentChapterId: '',
-            currentQuestionIndex: 0,
-            selectedOptionId: null,
-            isSubmitted: false,
-            sessionHistory: [],
-            currentHistoryViewIndex: null,
-            isReviewSessionActive: false,
-            currentReviewQuestion: null,
-          },
-          false,
-          'clearQuizData',
-        ),
-
-      setAnswerRecord: (questionId, record) =>
-        set(
-          (state) => ({
-            answerRecords: { ...state.answerRecords, [questionId]: record },
-          }),
-          false,
-          'setAnswerRecord',
-        ),
-
-      // === Session Actions ===
-
-      setAppState: (appState) => set({ appState }, false, 'setAppState'),
-
-      setCurrentChapterId: (currentChapterId) =>
-        set({ currentChapterId }, false, 'setCurrentChapterId'),
-
-      setCurrentQuestionIndex: (currentQuestionIndex) =>
-        set({ currentQuestionIndex }, false, 'setCurrentQuestionIndex'),
-
-      nextQuestion: () =>
-        set(
-          (state) => {
-            const chapter = get().getCurrentChapter();
-            if (!chapter) return state;
-
-            const maxIndex = chapter.questions.length - 1;
-            const newIndex = Math.min(state.currentQuestionIndex + 1, maxIndex);
-
-            return {
-              currentQuestionIndex: newIndex,
+        clearQuizData: () =>
+          set(
+            {
+              currentModule: null,
+              answerRecords: {},
+              appState: 'welcome',
+              currentChapterId: '',
+              currentQuestionIndex: 0,
               selectedOptionId: null,
               isSubmitted: false,
-            };
-          },
-          false,
-          'nextQuestion',
-        ),
+              sessionHistory: [],
+              currentHistoryViewIndex: null,
+              isReviewSessionActive: false,
+              currentReviewQuestion: null,
+            },
+            false,
+            'clearQuizData',
+          ),
 
-      previousQuestion: () =>
-        set(
-          (state) => ({
-            currentQuestionIndex: Math.max(state.currentQuestionIndex - 1, 0),
-            selectedOptionId: null,
-            isSubmitted: false,
-          }),
-          false,
-          'previousQuestion',
-        ),
+        setAnswerRecord: (questionId, record) =>
+          set(
+            (state) => ({
+              answerRecords: { ...state.answerRecords, [questionId]: record },
+            }),
+            false,
+            'setAnswerRecord',
+          ),
 
-      selectOption: (optionId) => set({ selectedOptionId: optionId }, false, 'selectOption'),
+        // === Session Actions ===
 
-      submitAnswer: (selectedOptionId, displayedOptions) =>
-        set(
-          (state) => {
-            // If no parameters provided, just set isSubmitted (legacy behavior)
-            if (selectedOptionId === undefined || displayedOptions === undefined) {
-              return { isSubmitted: true };
-            }
+        setAppState: (appState) => set({ appState }, false, 'setAppState'),
 
-            // Get current question
-            const { currentModule, currentChapterId, currentQuestionIndex, isReviewSessionActive } =
-              state;
-            if (!currentModule || !currentChapterId) {
-              return { isSubmitted: true };
-            }
+        setCurrentChapterId: (currentChapterId) =>
+          set({ currentChapterId }, false, 'setCurrentChapterId'),
 
-            const chapterIndex = currentModule.chapters.findIndex((c) => c.id === currentChapterId);
-            if (chapterIndex === -1) {
-              return { isSubmitted: true };
-            }
+        setCurrentQuestionIndex: (currentQuestionIndex) =>
+          set({ currentQuestionIndex }, false, 'setCurrentQuestionIndex'),
 
-            const chapter = currentModule.chapters[chapterIndex];
-            const question = chapter.questions[currentQuestionIndex];
-            if (!question) {
-              return { isSubmitted: true };
-            }
+        nextQuestion: () =>
+          set(
+            (state) => {
+              const chapter = get().getCurrentChapter();
+              if (!chapter) return state;
 
-            // Check if answer is correct
-            const isCorrect = question.correctOptionIds.includes(selectedOptionId);
+              const maxIndex = chapter.questions.length - 1;
+              const newIndex = Math.min(state.currentQuestionIndex + 1, maxIndex);
 
-            // Call SRS engine
-            const srsInput = {
-              srsLevel: question.srsLevel ?? 0,
-              status: question.status ?? 'not_attempted',
-              timesAnsweredCorrectly: question.timesAnsweredCorrectly ?? 0,
-              timesAnsweredIncorrectly: question.timesAnsweredIncorrectly ?? 0,
-            };
-            const srsResult = calculateNextReview(srsInput, isCorrect);
+              return {
+                currentQuestionIndex: newIndex,
+                selectedOptionId: null,
+                isSubmitted: false,
+              };
+            },
+            false,
+            'nextQuestion',
+          ),
 
-            // Build updated question
-            const timestamp = new Date().toISOString();
-            const updatedQuestion: QuizQuestion = {
-              ...question,
-              srsLevel: srsResult.srsLevel,
-              status: srsResult.status,
-              nextReviewAt: srsResult.nextReviewAt,
-              timesAnsweredCorrectly: srsResult.timesAnsweredCorrectly,
-              timesAnsweredIncorrectly: srsResult.timesAnsweredIncorrectly,
-              lastAttemptedAt: timestamp,
-              lastSelectedOptionId: selectedOptionId,
-              historyOfIncorrectSelections: isCorrect
-                ? question.historyOfIncorrectSelections
-                : [...(question.historyOfIncorrectSelections || []), selectedOptionId],
-            };
+        previousQuestion: () =>
+          set(
+            (state) => ({
+              currentQuestionIndex: Math.max(state.currentQuestionIndex - 1, 0),
+              selectedOptionId: null,
+              isSubmitted: false,
+            }),
+            false,
+            'previousQuestion',
+          ),
 
-            // Build updated chapter
-            const updatedQuestions = [...chapter.questions];
-            updatedQuestions[currentQuestionIndex] = updatedQuestion;
-            const updatedChapter: QuizChapter = {
-              ...chapter,
-              questions: updatedQuestions,
-            };
+        selectOption: (optionId) => set({ selectedOptionId: optionId }, false, 'selectOption'),
 
-            // Build updated module
-            const updatedChapters = [...currentModule.chapters];
-            updatedChapters[chapterIndex] = updatedChapter;
-            const updatedModule: QuizModule = {
-              ...currentModule,
-              chapters: updatedChapters,
-            };
+        submitAnswer: (selectedOptionId, displayedOptions) =>
+          set(
+            (state) => {
+              // If no parameters provided, just set isSubmitted (legacy behavior)
+              if (selectedOptionId === undefined || displayedOptions === undefined) {
+                return { isSubmitted: true };
+              }
 
-            // Build answer record
-            const answerRecord: AnswerRecord = {
-              selectedOptionId,
-              isCorrect,
-              displayedOptionIds: displayedOptions.map((o) => o.optionId),
-              timestamp,
-            };
+              // Get current question
+              const {
+                currentModule,
+                currentChapterId,
+                currentQuestionIndex,
+                isReviewSessionActive,
+              } = state;
+              if (!currentModule || !currentChapterId) {
+                return { isSubmitted: true };
+              }
 
-            // Build session history entry
-            const historyEntry: SessionHistoryEntry = {
-              questionSnapshot: { ...question }, // Snapshot before update
-              selectedOptionId,
-              displayedOptions,
-              isCorrect,
-              isReviewSessionQuestion: isReviewSessionActive,
-              chapterId: currentChapterId,
-            };
+              const chapterIndex = currentModule.chapters.findIndex(
+                (c) => c.id === currentChapterId,
+              );
+              if (chapterIndex === -1) {
+                return { isSubmitted: true };
+              }
 
-            return {
-              isSubmitted: true,
-              currentModule: updatedModule,
-              answerRecords: {
-                ...state.answerRecords,
-                [question.questionId]: answerRecord,
-              },
-              sessionHistory: [...state.sessionHistory, historyEntry],
-            };
-          },
-          false,
-          'submitAnswer',
-        ),
+              const chapter = currentModule.chapters[chapterIndex];
+              const question = chapter.questions[currentQuestionIndex];
+              if (!question) {
+                return { isSubmitted: true };
+              }
 
-      resetQuestionState: () =>
-        set({ selectedOptionId: null, isSubmitted: false }, false, 'resetQuestionState'),
+              // Check if answer is correct
+              const isCorrect = question.correctOptionIds.includes(selectedOptionId);
 
-      // === UI Actions ===
+              // Call SRS engine
+              const srsInput = {
+                srsLevel: question.srsLevel ?? 0,
+                status: question.status ?? 'not_attempted',
+                timesAnsweredCorrectly: question.timesAnsweredCorrectly ?? 0,
+                timesAnsweredIncorrectly: question.timesAnsweredIncorrectly ?? 0,
+              };
+              const srsResult = calculateNextReview(srsInput, isCorrect);
 
-      setIsLoading: (isLoading) => set({ isLoading }, false, 'setIsLoading'),
+              // Build updated question
+              const timestamp = new Date().toISOString();
+              const updatedQuestion: QuizQuestion = {
+                ...question,
+                srsLevel: srsResult.srsLevel,
+                status: srsResult.status,
+                nextReviewAt: srsResult.nextReviewAt,
+                timesAnsweredCorrectly: srsResult.timesAnsweredCorrectly,
+                timesAnsweredIncorrectly: srsResult.timesAnsweredIncorrectly,
+                lastAttemptedAt: timestamp,
+                lastSelectedOptionId: selectedOptionId,
+                historyOfIncorrectSelections: isCorrect
+                  ? question.historyOfIncorrectSelections
+                  : [...(question.historyOfIncorrectSelections || []), selectedOptionId],
+              };
 
-      setError: (error) => set({ error }, false, 'setError'),
+              // Build updated chapter
+              const updatedQuestions = [...chapter.questions];
+              updatedQuestions[currentQuestionIndex] = updatedQuestion;
+              const updatedChapter: QuizChapter = {
+                ...chapter,
+                questions: updatedQuestions,
+              };
 
-      clearError: () => set({ error: '' }, false, 'clearError'),
+              // Build updated module
+              const updatedChapters = [...currentModule.chapters];
+              updatedChapters[chapterIndex] = updatedChapter;
+              const updatedModule: QuizModule = {
+                ...currentModule,
+                chapters: updatedChapters,
+              };
 
-      setEditModeActive: (isEditModeActive) =>
-        set({ isEditModeActive }, false, 'setEditModeActive'),
+              // Build answer record
+              const answerRecord: AnswerRecord = {
+                selectedOptionId,
+                isCorrect,
+                displayedOptionIds: displayedOptions.map((o) => o.optionId),
+                timestamp,
+              };
 
-      setEditingQuestionData: (editingQuestionData) =>
-        set({ editingQuestionData }, false, 'setEditingQuestionData'),
+              // Build session history entry
+              const historyEntry: SessionHistoryEntry = {
+                questionSnapshot: { ...question }, // Snapshot before update
+                selectedOptionId,
+                displayedOptions,
+                isCorrect,
+                isReviewSessionQuestion: isReviewSessionActive,
+                chapterId: currentChapterId,
+              };
 
-      clearEditingQuestionData: () =>
-        set({ editingQuestionData: null }, false, 'clearEditingQuestionData'),
+              return {
+                isSubmitted: true,
+                currentModule: updatedModule,
+                answerRecords: {
+                  ...state.answerRecords,
+                  [question.questionId]: answerRecord,
+                },
+                sessionHistory: [...state.sessionHistory, historyEntry],
+              };
+            },
+            false,
+            'submitAnswer',
+          ),
 
-      // === SRS Actions ===
+        resetQuestionState: () =>
+          set({ selectedOptionId: null, isSubmitted: false }, false, 'resetQuestionState'),
 
-      startReviewSession: () =>
-        set(
-          {
-            isReviewSessionActive: true,
-            appState: 'quiz',
-          },
-          false,
-          'startReviewSession',
-        ),
+        // === UI Actions ===
 
-      endReviewSession: () =>
-        set(
-          {
-            isReviewSessionActive: false,
-            currentReviewQuestion: null,
-          },
-          false,
-          'endReviewSession',
-        ),
+        setIsLoading: (isLoading) => set({ isLoading }, false, 'setIsLoading'),
 
-      setCurrentReviewQuestion: (question) =>
-        set({ currentReviewQuestion: question }, false, 'setCurrentReviewQuestion'),
+        setError: (error) => set({ error }, false, 'setError'),
 
-      // === Session History Actions ===
+        clearError: () => set({ error: '' }, false, 'clearError'),
 
-      addToSessionHistory: (entry) =>
-        set(
-          (state) => ({
-            sessionHistory: [...state.sessionHistory, entry],
-          }),
-          false,
-          'addToSessionHistory',
-        ),
+        setEditModeActive: (isEditModeActive) =>
+          set({ isEditModeActive }, false, 'setEditModeActive'),
 
-      setHistoryViewIndex: (index) =>
-        set({ currentHistoryViewIndex: index }, false, 'setHistoryViewIndex'),
+        setEditingQuestionData: (editingQuestionData) =>
+          set({ editingQuestionData }, false, 'setEditingQuestionData'),
 
-      clearSessionHistory: () =>
-        set({ sessionHistory: [], currentHistoryViewIndex: null }, false, 'clearSessionHistory'),
+        clearEditingQuestionData: () =>
+          set({ editingQuestionData: null }, false, 'clearEditingQuestionData'),
 
-      // === Navigation Actions ===
+        // === SRS Actions ===
 
-      startQuiz: (chapterId) =>
-        set(
-          {
-            currentChapterId: chapterId,
-            currentQuestionIndex: 0,
-            selectedOptionId: null,
-            isSubmitted: false,
-            answerRecords: {},
-            isReviewSessionActive: false,
-            currentReviewQuestion: null,
-            sessionHistory: [],
-            currentHistoryViewIndex: null,
-            appState: 'quiz',
-          },
-          false,
-          'startQuiz',
-        ),
+        startReviewSession: () =>
+          set(
+            {
+              isReviewSessionActive: true,
+              appState: 'quiz',
+            },
+            false,
+            'startReviewSession',
+          ),
 
-      backToDashboard: () =>
-        set(
-          {
-            appState: 'welcome',
-            currentChapterId: '',
-            currentQuestionIndex: 0,
-            selectedOptionId: null,
-            isSubmitted: false,
-            isReviewSessionActive: false,
-            currentReviewQuestion: null,
-            sessionHistory: [],
-            currentHistoryViewIndex: null,
-            isEditModeActive: false,
-            editingQuestionData: null,
-          },
-          false,
-          'backToDashboard',
-        ),
+        endReviewSession: () =>
+          set(
+            {
+              isReviewSessionActive: false,
+              currentReviewQuestion: null,
+            },
+            false,
+            'endReviewSession',
+          ),
 
-      // === Computed Getters (Selectors) ===
+        setCurrentReviewQuestion: (question) =>
+          set({ currentReviewQuestion: question }, false, 'setCurrentReviewQuestion'),
 
-      getCurrentChapter: () => {
-        const { currentModule, currentChapterId } = get();
-        if (!currentModule || !currentChapterId) return null;
-        return currentModule.chapters.find((c) => c.id === currentChapterId) || null;
+        // === Session History Actions ===
+
+        addToSessionHistory: (entry) =>
+          set(
+            (state) => ({
+              sessionHistory: [...state.sessionHistory, entry],
+            }),
+            false,
+            'addToSessionHistory',
+          ),
+
+        setHistoryViewIndex: (index) =>
+          set({ currentHistoryViewIndex: index }, false, 'setHistoryViewIndex'),
+
+        clearSessionHistory: () =>
+          set({ sessionHistory: [], currentHistoryViewIndex: null }, false, 'clearSessionHistory'),
+
+        // === Navigation Actions ===
+
+        startQuiz: (chapterId) =>
+          set(
+            {
+              currentChapterId: chapterId,
+              currentQuestionIndex: 0,
+              selectedOptionId: null,
+              isSubmitted: false,
+              answerRecords: {},
+              isReviewSessionActive: false,
+              currentReviewQuestion: null,
+              sessionHistory: [],
+              currentHistoryViewIndex: null,
+              appState: 'quiz',
+            },
+            false,
+            'startQuiz',
+          ),
+
+        backToDashboard: () =>
+          set(
+            {
+              appState: 'welcome',
+              currentChapterId: '',
+              currentQuestionIndex: 0,
+              selectedOptionId: null,
+              isSubmitted: false,
+              isReviewSessionActive: false,
+              currentReviewQuestion: null,
+              sessionHistory: [],
+              currentHistoryViewIndex: null,
+              isEditModeActive: false,
+              editingQuestionData: null,
+            },
+            false,
+            'backToDashboard',
+          ),
+
+        // === Computed Getters (Selectors) ===
+
+        getCurrentChapter: () => {
+          const { currentModule, currentChapterId } = get();
+          if (!currentModule || !currentChapterId) return null;
+          return currentModule.chapters.find((c) => c.id === currentChapterId) || null;
+        },
+
+        getCurrentQuestion: () => {
+          const chapter = get().getCurrentChapter();
+          const { currentQuestionIndex } = get();
+          if (!chapter) return null;
+          return chapter.questions[currentQuestionIndex] || null;
+        },
+
+        getTotalQuestionsInChapter: () => {
+          const chapter = get().getCurrentChapter();
+          return chapter?.questions.length || 0;
+        },
+
+        getQuestionByIndex: (index) => {
+          const chapter = get().getCurrentChapter();
+          if (!chapter) return null;
+          return chapter.questions[index] || null;
+        },
+      }),
+      {
+        name: 'quiz-store',
+        version: 1,
+        partialize: (state) => ({
+          currentModule: state.currentModule,
+          answerRecords: state.answerRecords,
+          appState: state.appState,
+          currentChapterId: state.currentChapterId,
+          currentQuestionIndex: state.currentQuestionIndex,
+          sessionHistory: state.sessionHistory,
+        }),
       },
-
-      getCurrentQuestion: () => {
-        const chapter = get().getCurrentChapter();
-        const { currentQuestionIndex } = get();
-        if (!chapter) return null;
-        return chapter.questions[currentQuestionIndex] || null;
-      },
-
-      getTotalQuestionsInChapter: () => {
-        const chapter = get().getCurrentChapter();
-        return chapter?.questions.length || 0;
-      },
-
-      getQuestionByIndex: (index) => {
-        const chapter = get().getCurrentChapter();
-        if (!chapter) return null;
-        return chapter.questions[index] || null;
-      },
-    }),
+    ),
     { name: 'quiz-store' },
   ),
 );
