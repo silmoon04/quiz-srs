@@ -5,18 +5,22 @@ import * as React from 'react';
 // Mock the markdown pipeline
 vi.mock('@/lib/markdown/pipeline', () => ({
   processMarkdown: vi.fn(),
+  processMarkdownSync: vi.fn(),
 }));
 
 // Import after mocking
 import { MarkdownRenderer } from '@/components/rendering/MarkdownRenderer';
-import { processMarkdown } from '@/lib/markdown/pipeline';
+import { processMarkdown, processMarkdownSync } from '@/lib/markdown/pipeline';
 
 const mockProcessMarkdown = processMarkdown as ReturnType<typeof vi.fn>;
+const mockProcessMarkdownSync = processMarkdownSync as ReturnType<typeof vi.fn>;
 
 describe('MarkdownRenderer Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Setup default mock behavior for both sync and async
     mockProcessMarkdown.mockResolvedValue('<p>Default mock output</p>');
+    mockProcessMarkdownSync.mockReturnValue('<p>Default mock output</p>');
   });
 
   afterEach(() => {
@@ -25,7 +29,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Basic Rendering', () => {
     it('should render without crashing', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Hello World</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Hello World</p>');
 
       render(<MarkdownRenderer markdown="Hello World" />);
 
@@ -35,7 +39,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render plain text correctly', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>This is plain text content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>This is plain text content</p>');
 
       render(<MarkdownRenderer markdown="This is plain text content" />);
 
@@ -44,24 +48,24 @@ describe('MarkdownRenderer Component', () => {
       });
     });
 
-    it('should call processMarkdown with the provided markdown', async () => {
+    it('should call processMarkdownSync with the provided markdown', async () => {
       const markdown = 'Test markdown content';
-      mockProcessMarkdown.mockResolvedValue('<p>Test markdown content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Test markdown content</p>');
 
       render(<MarkdownRenderer markdown={markdown} />);
 
       await waitFor(() => {
-        expect(mockProcessMarkdown).toHaveBeenCalledWith(markdown);
+        expect(mockProcessMarkdownSync).toHaveBeenCalledWith(markdown);
       });
     });
 
     it('should handle empty markdown string', async () => {
-      mockProcessMarkdown.mockResolvedValue('');
+      mockProcessMarkdownSync.mockReturnValue('');
 
       const { container } = render(<MarkdownRenderer markdown="" />);
 
       await waitFor(() => {
-        expect(mockProcessMarkdown).toHaveBeenCalledWith('');
+        expect(mockProcessMarkdownSync).toHaveBeenCalledWith('');
       });
 
       // Container should still exist
@@ -69,9 +73,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should re-render when markdown prop changes', async () => {
-      mockProcessMarkdown
-        .mockResolvedValueOnce('<p>First content</p>')
-        .mockResolvedValueOnce('<p>Updated content</p>');
+      mockProcessMarkdownSync
+        .mockReturnValueOnce('<p>First content</p>')
+        .mockReturnValueOnce('<p>Updated content</p>');
 
       const { rerender } = render(<MarkdownRenderer markdown="First content" />);
 
@@ -85,13 +89,13 @@ describe('MarkdownRenderer Component', () => {
         expect(screen.getByText('Updated content')).toBeInTheDocument();
       });
 
-      expect(mockProcessMarkdown).toHaveBeenCalledTimes(2);
+      expect(mockProcessMarkdownSync).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('Bold and Italic Markdown', () => {
     it('should render bold text', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><strong>Bold text</strong></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><strong>Bold text</strong></p>');
 
       render(<MarkdownRenderer markdown="**Bold text**" />);
 
@@ -103,7 +107,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render italic text', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><em>Italic text</em></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><em>Italic text</em></p>');
 
       render(<MarkdownRenderer markdown="*Italic text*" />);
 
@@ -115,7 +119,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render bold and italic combined', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><strong><em>Bold and Italic</em></strong></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><strong><em>Bold and Italic</em></strong></p>');
 
       render(<MarkdownRenderer markdown="***Bold and Italic***" />);
 
@@ -125,7 +129,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render strikethrough text (GFM)', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><del>Strikethrough text</del></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><del>Strikethrough text</del></p>');
 
       render(<MarkdownRenderer markdown="~~Strikethrough text~~" />);
 
@@ -139,7 +143,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Code Blocks and Inline Code', () => {
     it('should render inline code', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><code>inline code</code></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><code>inline code</code></p>');
 
       render(<MarkdownRenderer markdown="`inline code`" />);
 
@@ -151,7 +155,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render code blocks', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code>function hello() {\n  console.log("Hello");\n}</code></pre>',
       );
 
@@ -165,7 +169,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render code blocks with language specifier', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code class="language-javascript">const x = 1;</code></pre>',
       );
 
@@ -181,7 +185,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle multiple code blocks', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code>Block 1</code></pre><p>Text</p><pre><code>Block 2</code></pre>',
       );
 
@@ -196,7 +200,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Links', () => {
     it('should render safe HTTP links', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><a href="https://example.com">Safe Link</a></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><a href="https://example.com">Safe Link</a></p>');
 
       render(<MarkdownRenderer markdown="[Safe Link](https://example.com)" />);
 
@@ -208,7 +212,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render safe HTTPS links', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><a href="https://secure.example.com">HTTPS Link</a></p>',
       );
 
@@ -221,7 +225,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render mailto links', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><a href="mailto:test@example.com">Email Me</a></p>',
       );
 
@@ -234,7 +238,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle links with special characters', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><a href="https://example.com/path?query=value&amp;other=1">Link with params</a></p>',
       );
 
@@ -250,7 +254,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Lists', () => {
     it('should render unordered lists', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
       );
 
@@ -267,7 +271,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render ordered lists', async () => {
-      mockProcessMarkdown.mockResolvedValue('<ol><li>First</li><li>Second</li><li>Third</li></ol>');
+      mockProcessMarkdownSync.mockReturnValue(
+        '<ol><li>First</li><li>Second</li><li>Third</li></ol>',
+      );
 
       render(<MarkdownRenderer markdown="1. First\n2. Second\n3. Third" />);
 
@@ -282,7 +288,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render nested lists', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<ul><li>Parent<ul><li>Child 1</li><li>Child 2</li></ul></li></ul>',
       );
 
@@ -296,7 +302,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render task lists (GFM)', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<ul><li><input type="checkbox" disabled> Task 1</li><li><input type="checkbox" checked disabled> Task 2</li></ul>',
       );
 
@@ -311,7 +317,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Headers', () => {
     it('should render h1 headers', async () => {
-      mockProcessMarkdown.mockResolvedValue('<h1>Main Title</h1>');
+      mockProcessMarkdownSync.mockReturnValue('<h1>Main Title</h1>');
 
       render(<MarkdownRenderer markdown="# Main Title" />);
 
@@ -323,7 +329,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render h2 headers', async () => {
-      mockProcessMarkdown.mockResolvedValue('<h2>Section Title</h2>');
+      mockProcessMarkdownSync.mockReturnValue('<h2>Section Title</h2>');
 
       render(<MarkdownRenderer markdown="## Section Title" />);
 
@@ -335,7 +341,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render h3 headers', async () => {
-      mockProcessMarkdown.mockResolvedValue('<h3>Subsection</h3>');
+      mockProcessMarkdownSync.mockReturnValue('<h3>Subsection</h3>');
 
       render(<MarkdownRenderer markdown="### Subsection" />);
 
@@ -346,7 +352,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render multiple header levels', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<h1>Title</h1><h2>Section</h2><h3>Subsection</h3><h4>Detail</h4>',
       );
 
@@ -361,7 +367,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render h5 and h6 headers', async () => {
-      mockProcessMarkdown.mockResolvedValue('<h5>H5 Header</h5><h6>H6 Header</h6>');
+      mockProcessMarkdownSync.mockReturnValue('<h5>H5 Header</h5><h6>H6 Header</h6>');
 
       render(<MarkdownRenderer markdown="##### H5 Header\n###### H6 Header" />);
 
@@ -375,7 +381,7 @@ describe('MarkdownRenderer Component', () => {
   describe('XSS Prevention', () => {
     it('should block script tags', async () => {
       // The component's belt-and-suspenders check should block this
-      mockProcessMarkdown.mockResolvedValue('<p>Safe content</p><script>alert("xss")</script>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Safe content</p><script>alert("xss")</script>');
 
       render(<MarkdownRenderer markdown='<script>alert("xss")</script>' />);
 
@@ -386,7 +392,7 @@ describe('MarkdownRenderer Component', () => {
 
     it('should block javascript: URLs', async () => {
       // The component's regex check should catch this
-      mockProcessMarkdown.mockResolvedValue('<p><a href="javascript:alert(1)">Click me</a></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><a href="javascript:alert(1)">Click me</a></p>');
 
       render(<MarkdownRenderer markdown="[Click me](javascript:alert(1))" />);
 
@@ -398,7 +404,7 @@ describe('MarkdownRenderer Component', () => {
     it('should block event handlers (onerror, onclick, etc.)', async () => {
       // The component's regex uses \s+on\w+\s*= pattern which matches event handlers with leading whitespace
       // Content like ' onerror=' should be blocked by the belt-and-suspenders check
-      mockProcessMarkdown.mockResolvedValue('<img src="x" onerror="alert(1)">');
+      mockProcessMarkdownSync.mockReturnValue('<img src="x" onerror="alert(1)">');
 
       const { container } = render(
         <MarkdownRenderer markdown='<img src="x" onerror="alert(1)">' />,
@@ -414,7 +420,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should show security note when content is sanitized', async () => {
-      mockProcessMarkdown.mockResolvedValue('<script>malicious</script>');
+      mockProcessMarkdownSync.mockReturnValue('<script>malicious</script>');
 
       render(<MarkdownRenderer markdown="<script>malicious</script>" />);
 
@@ -426,7 +432,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should not show security note for safe content', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Safe and clean content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Safe and clean content</p>');
 
       render(<MarkdownRenderer markdown="Safe and clean content" />);
 
@@ -439,18 +445,18 @@ describe('MarkdownRenderer Component', () => {
 
     it('should handle data: URLs safely', async () => {
       // The sanitization pipeline should handle this
-      mockProcessMarkdown.mockResolvedValue('<p><a href="https://safe.com">Safe link</a></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><a href="https://safe.com">Safe link</a></p>');
 
       render(<MarkdownRenderer markdown="[Bad link](data:text/html,<script>alert(1)</script>)" />);
 
       await waitFor(() => {
         // Should not contain data: URL in the final output
-        expect(mockProcessMarkdown).toHaveBeenCalled();
+        expect(mockProcessMarkdownSync).toHaveBeenCalled();
       });
     });
 
     it('should block embedded scripts in various formats', async () => {
-      mockProcessMarkdown.mockResolvedValue('<script type="text/javascript">evil()</script>');
+      mockProcessMarkdownSync.mockReturnValue('<script type="text/javascript">evil()</script>');
 
       render(<MarkdownRenderer markdown='<script type="text/javascript">evil()</script>' />);
 
@@ -462,7 +468,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('LaTeX/Math Rendering', () => {
     it('should render inline math', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p>The formula is <span class="katex">E = mc<sup>2</sup></span></p>',
       );
 
@@ -475,7 +481,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render display math', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<div class="katex-display"><span class="katex">∑_{i=1}^{n} x_i</span></div>',
       );
 
@@ -488,7 +494,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle complex math expressions', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<div class="katex"><span>∫</span><span>f(x)dx</span></div>',
       );
 
@@ -500,7 +506,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle math with Greek letters', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p><span class="katex">α + β = γ</span></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p><span class="katex">α + β = γ</span></p>');
 
       const { container } = render(<MarkdownRenderer markdown="$\\alpha + \\beta = \\gamma$" />);
 
@@ -510,7 +516,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle fractions', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><span class="katex"><span class="mfrac">1/2</span></span></p>',
       );
 
@@ -524,7 +530,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Custom className Application', () => {
     it('should apply custom className to container', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Content</p>');
 
       const { container } = render(
         <MarkdownRenderer markdown="Content" className="custom-class" />,
@@ -537,7 +543,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should apply multiple custom classes', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Content</p>');
 
       const { container } = render(
         <MarkdownRenderer markdown="Content" className="class-one class-two class-three" />,
@@ -552,7 +558,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render without className when not provided', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Content</p>');
 
       const { container } = render(<MarkdownRenderer markdown="Content" />);
 
@@ -563,7 +569,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle Tailwind-style classes', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Styled content</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Styled content</p>');
 
       const { container } = render(
         <MarkdownRenderer
@@ -584,7 +590,9 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Error Handling', () => {
     it('should display error message when processing fails', async () => {
-      mockProcessMarkdown.mockRejectedValue(new Error('Processing failed'));
+      mockProcessMarkdownSync.mockImplementation(() => {
+        throw new Error('Processing failed');
+      });
 
       render(<MarkdownRenderer markdown="Some content" />);
 
@@ -594,7 +602,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should display error message for unknown errors', async () => {
-      mockProcessMarkdown.mockRejectedValue('Unknown error');
+      mockProcessMarkdownSync.mockImplementation(() => {
+        throw 'Unknown error';
+      });
 
       render(<MarkdownRenderer markdown="Some content" />);
 
@@ -604,7 +614,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle null error', async () => {
-      mockProcessMarkdown.mockRejectedValue(null);
+      mockProcessMarkdownSync.mockImplementation(() => {
+        throw null;
+      });
 
       render(<MarkdownRenderer markdown="Content" />);
 
@@ -614,7 +626,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should show security note when error occurs', async () => {
-      mockProcessMarkdown.mockRejectedValue(new Error('Failed'));
+      mockProcessMarkdownSync.mockImplementation(() => {
+        throw new Error('Failed');
+      });
 
       render(<MarkdownRenderer markdown="Content" />);
 
@@ -627,7 +641,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Mermaid Diagram Support', () => {
     it('should detect mermaid blocks and transform them', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code class="language-mermaid">graph TD\n  A-->B</code></pre>',
       );
 
@@ -642,7 +656,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should decode HTML entities in mermaid blocks', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code class="language-mermaid">A --&gt; B</code></pre>',
       );
 
@@ -656,7 +670,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle multiple mermaid blocks', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<pre><code class="language-mermaid">graph TD\n  A-->B</code></pre>' +
           '<p>Some text</p>' +
           '<pre><code class="language-mermaid">graph LR\n  C-->D</code></pre>',
@@ -675,7 +689,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Tables (GFM)', () => {
     it('should render simple tables', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<table><thead><tr><th>Header 1</th><th>Header 2</th></tr></thead>' +
           '<tbody><tr><td>Cell 1</td><td>Cell 2</td></tr></tbody></table>',
       );
@@ -693,7 +707,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render tables with multiple rows', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<table><thead><tr><th>Name</th><th>Age</th></tr></thead>' +
           '<tbody><tr><td>Alice</td><td>30</td></tr><tr><td>Bob</td><td>25</td></tr></tbody></table>',
       );
@@ -711,7 +725,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Blockquotes', () => {
     it('should render blockquotes', async () => {
-      mockProcessMarkdown.mockResolvedValue('<blockquote><p>This is a quote</p></blockquote>');
+      mockProcessMarkdownSync.mockReturnValue('<blockquote><p>This is a quote</p></blockquote>');
 
       render(<MarkdownRenderer markdown="> This is a quote" />);
 
@@ -722,7 +736,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render nested blockquotes', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<blockquote><p>Level 1</p><blockquote><p>Level 2</p></blockquote></blockquote>',
       );
 
@@ -737,7 +751,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Horizontal Rules', () => {
     it('should render horizontal rules', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Above</p><hr><p>Below</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Above</p><hr><p>Below</p>');
 
       const { container } = render(<MarkdownRenderer markdown="Above\n\n---\n\nBelow" />);
 
@@ -750,7 +764,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Images', () => {
     it('should render images with alt text', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><img src="https://example.com/image.png" alt="Alt text"></p>',
       );
 
@@ -764,7 +778,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle images without alt text', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><img src="https://example.com/image.png" alt=""></p>',
       );
 
@@ -781,7 +795,7 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Paragraphs and Line Breaks', () => {
     it('should render multiple paragraphs', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>First paragraph</p><p>Second paragraph</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>First paragraph</p><p>Second paragraph</p>');
 
       render(<MarkdownRenderer markdown="First paragraph\n\nSecond paragraph" />);
 
@@ -792,7 +806,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle hard line breaks', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>Line 1<br>Line 2</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>Line 1<br>Line 2</p>');
 
       const { container } = render(<MarkdownRenderer markdown="Line 1  \nLine 2" />);
 
@@ -805,10 +819,10 @@ describe('MarkdownRenderer Component', () => {
 
   describe('Concurrent Updates', () => {
     it('should handle rapid markdown changes correctly', async () => {
-      mockProcessMarkdown
-        .mockResolvedValueOnce('<p>First</p>')
-        .mockResolvedValueOnce('<p>Second</p>')
-        .mockResolvedValueOnce('<p>Third</p>');
+      mockProcessMarkdownSync
+        .mockReturnValueOnce('<p>First</p>')
+        .mockReturnValueOnce('<p>Second</p>')
+        .mockReturnValueOnce('<p>Third</p>');
 
       const { rerender } = render(<MarkdownRenderer markdown="First" />);
 
@@ -821,40 +835,13 @@ describe('MarkdownRenderer Component', () => {
       });
     });
 
-    it('should cancel previous render when markdown changes', async () => {
-      // First call resolves slowly
-      let resolveFirst: (value: string) => void;
-      const firstPromise = new Promise<string>((resolve) => {
-        resolveFirst = resolve;
-      });
-
-      mockProcessMarkdown
-        .mockReturnValueOnce(firstPromise)
-        .mockResolvedValueOnce('<p>Updated content</p>');
-
-      const { rerender } = render(<MarkdownRenderer markdown="Initial" />);
-
-      // Change markdown before first render completes
-      rerender(<MarkdownRenderer markdown="Updated content" />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Updated content')).toBeInTheDocument();
-      });
-
-      // Resolve the first promise late - it should be cancelled
-      resolveFirst!('<p>Initial</p>');
-
-      // The cancelled render should not override the current state
-      await waitFor(() => {
-        expect(screen.getByText('Updated content')).toBeInTheDocument();
-        expect(screen.queryByText('Initial')).not.toBeInTheDocument();
-      });
-    });
+    // NOTE: The "cancel previous render" test is no longer relevant for synchronous rendering
+    // because there is no async operation to cancel.
   });
 
   describe('Accessibility', () => {
     it('should have proper ARIA structure for security notes', async () => {
-      mockProcessMarkdown.mockResolvedValue('<script>evil</script>');
+      mockProcessMarkdownSync.mockReturnValue('<script>evil</script>');
 
       render(<MarkdownRenderer markdown="<script>evil</script>" />);
 
@@ -866,7 +853,9 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should render semantic HTML elements', async () => {
-      mockProcessMarkdown.mockResolvedValue('<h1>Title</h1><p>Paragraph</p><ul><li>Item</li></ul>');
+      mockProcessMarkdownSync.mockReturnValue(
+        '<h1>Title</h1><p>Paragraph</p><ul><li>Item</li></ul>',
+      );
 
       render(<MarkdownRenderer markdown="# Title\n\nParagraph\n\n- Item" />);
 
@@ -881,27 +870,27 @@ describe('MarkdownRenderer Component', () => {
   describe('Edge Cases', () => {
     it('should handle very long markdown content', async () => {
       const longContent = 'Word '.repeat(1000);
-      mockProcessMarkdown.mockResolvedValue(`<p>${longContent}</p>`);
+      mockProcessMarkdownSync.mockReturnValue(`<p>${longContent}</p>`);
 
       render(<MarkdownRenderer markdown={longContent} />);
 
       await waitFor(() => {
-        expect(mockProcessMarkdown).toHaveBeenCalledWith(longContent);
+        expect(mockProcessMarkdownSync).toHaveBeenCalledWith(longContent);
       });
     });
 
     it('should handle special characters', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>&lt;div&gt; &amp; &quot;quotes&quot;</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>&lt;div&gt; &amp; &quot;quotes&quot;</p>');
 
       render(<MarkdownRenderer markdown='<div> & "quotes"' />);
 
       await waitFor(() => {
-        expect(mockProcessMarkdown).toHaveBeenCalled();
+        expect(mockProcessMarkdownSync).toHaveBeenCalled();
       });
     });
 
     it('should handle unicode content', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p>こんにちは 🎉 Привет</p>');
+      mockProcessMarkdownSync.mockReturnValue('<p>こんにちは 🎉 Привет</p>');
 
       render(<MarkdownRenderer markdown="こんにちは 🎉 Привет" />);
 
@@ -911,7 +900,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle markdown with only whitespace', async () => {
-      mockProcessMarkdown.mockResolvedValue('<p></p>');
+      mockProcessMarkdownSync.mockReturnValue('<p></p>');
 
       const { container } = render(<MarkdownRenderer markdown="   \n\n   " />);
 
@@ -921,7 +910,7 @@ describe('MarkdownRenderer Component', () => {
     });
 
     it('should handle nested formatting', async () => {
-      mockProcessMarkdown.mockResolvedValue(
+      mockProcessMarkdownSync.mockReturnValue(
         '<p><strong><em><code>Bold italic code</code></em></strong></p>',
       );
 

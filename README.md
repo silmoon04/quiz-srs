@@ -14,7 +14,9 @@ Quiz-SRS is a Next.js 15 + TypeScript learning environment for studying and auth
 
 | Area                                                             | Purpose                                                                                                                                           |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/page.tsx`                                                   | Single-page state machine that loads modules, manages quiz/review dashboards, tracks SRS progress, and coordinates child components.              |
+| `app/page.tsx`                                                   | Lightweight entry point that orchestrates feature containers (`DashboardContainer`, `QuizSessionContainer`) based on global state.                |
+| `store/quiz-store.ts`                                            | Centralized Zustand store managing quiz data, session state, SRS progress, and persistence (via `persist` middleware).                            |
+| `features/`                                                      | Feature-based modules (Dashboard, Quiz Session, Editor) containing logic-heavy Containers and pure UI Views.                                      |
 | `components/quiz-session.tsx`                                    | Core quiz UI (answer submission, history navigation, review mode, inline question editor, import/export actions).                                 |
 | `components/all-questions-view.tsx`                              | Read-only chapter summary with option reveal toggles and score breakdowns.                                                                        |
 | `components/rendering/MarkdownRenderer.tsx`, `components/a11y/*` | Markdown display helpers and accessible widgets, including `AccessibleOptionList` and `ScreenReaderAnnouncer`.                                    |
@@ -188,6 +190,8 @@ The main session state machine (`app/page.tsx`) tracks:
 ## Repository Layout
 
 - `app/` - Next.js App Router pages and layouts.
+- `features/` - Feature-based modules (Dashboard, Quiz Session, Editor).
+- `store/` - Zustand state management.
 - `components/` - UI primitives, quiz flows, accessibility helpers, editor modals.
 - `hooks/` - Shared hooks (announcers, timers, etc.).
 - `lib/` - Markdown pipeline and shared utilities.

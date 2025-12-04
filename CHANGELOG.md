@@ -63,6 +63,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Content Filtering**: Removal of iframe, form, and other dangerous HTML elements
 - **Attribute Sanitization**: Stripping of onclick, onload, and other event handlers
 
+## [1.1.0] - 2025-12-04
+
+### Added
+
+- **Feature-Based Architecture**: Introduced `features/` directory with `Dashboard`, `QuizSession`, `QuestionEditor`, and `SrsReview` modules.
+- **Zustand State Management**: Centralized application state in `store/quiz-store.ts` with slices for quiz data, session, UI, and SRS.
+- **Native Persistence**: Implemented Zustand `persist` middleware for robust state saving to `localStorage`.
+- **Feature Containers**: Decoupled UI from logic using Container/View pattern.
+
+### Changed
+
+- **Refactored `page.tsx`**: Transformed monolithic page into a lightweight orchestration layer.
+- **Persistence Logic**: Migrated from manual `useQuizPersistence` hook to Zustand middleware.
+- **Test Suite**: Updated tests to support new architecture and fixed markdown renderer tests.
+
+### Removed
+
+- **Legacy Hooks**: Removed `use-quiz-state.ts` (bridge hook) and `use-quiz-persistence.ts`.
+- **Monolithic Logic**: Extracted business logic from `page.tsx` into custom hooks and store actions.
+
 ## [1.0.0] - 2024-01-XX
 
 ### Added
