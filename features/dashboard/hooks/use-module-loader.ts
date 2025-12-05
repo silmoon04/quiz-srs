@@ -229,6 +229,8 @@ export function useModuleLoader(): UseModuleLoaderReturn {
     setIsLoading(true);
     clearErrorAction();
 
+    const errors: string[] = [];
+
     try {
       // Try loading Markdown first (Primary)
       try {
@@ -241,10 +243,16 @@ export function useModuleLoader(): UseModuleLoaderReturn {
           if (result.success && result.module) {
             setCurrentModule(result.module);
             return;
+          } else {
+            errors.push(`Markdown parsing failed: ${result.error || 'Unknown error'}`);
           }
+        } else {
+          errors.push(`Markdown fetch failed: ${mdResponse.status} ${mdResponse.statusText}`);
         }
-      } catch {
-        // Markdown fetch failed, try JSON fallback
+      } catch (mdError) {
+        errors.push(
+          `Markdown fetch error: ${mdError instanceof Error ? mdError.message : 'Network error'}`,
+        );
       }
 
       // Try loading JSON fallback
@@ -258,17 +266,27 @@ export function useModuleLoader(): UseModuleLoaderReturn {
           if (result.validationResult.isValid && result.normalizedModule) {
             setCurrentModule(result.normalizedModule);
             return;
+          } else {
+            errors.push(`JSON validation failed: ${result.validationResult.errors.join(', ')}`);
           }
+        } else {
+          errors.push(`JSON fetch failed: ${jsonResponse.status} ${jsonResponse.statusText}`);
         }
-      } catch {
-        // JSON fetch also failed
+      } catch (jsonError) {
+        errors.push(
+          `JSON fetch error: ${jsonError instanceof Error ? jsonError.message : 'Network error'}`,
+        );
       }
 
-      // Both sources failed
-      setError('Failed to load default quiz: No valid quiz file found');
+      // Both sources failed - show detailed error
+      const errorDetail = errors.length > 0 ? errors.join('; ') : 'Unknown error';
+      console.error('[useModuleLoader] Failed to load default quiz:', errorDetail);
+      setError(`Failed to load default quiz: ${errorDetail}`);
       setCurrentModule(null);
     } catch (e) {
-      setError(`Failed to load default quiz: ${e instanceof Error ? e.message : 'Unknown error'}`);
+      const errorMsg = e instanceof Error ? e.message : 'Unknown error';
+      console.error('[useModuleLoader] Unexpected error:', errorMsg);
+      setError(`Failed to load default quiz: ${errorMsg}`);
       setCurrentModule(null);
     } finally {
       setIsLoading(false);
