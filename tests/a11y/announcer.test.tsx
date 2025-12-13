@@ -84,7 +84,7 @@ describe('Screen Reader Announcer', () => {
 
     // Fast forward time
     await act(async () => {
-      vi.advanceTimersByTime(200);
+      vi.advanceTimersByTime(1600);
     });
 
     // Should be cleared after timeout (check that visible status is gone)

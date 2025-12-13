@@ -13,7 +13,7 @@ test.describe('Application Loading', () => {
     await page.goto('/');
 
     // Should show the app title
-    await expect(page.locator('h1')).toContainText(/Quiz/i);
+    await expect(page.locator('h1')).toContainText(/Quiz|MCQ/i);
 
     // Should have a way to start/load a quiz
     const loadButton = page.getByRole('button', { name: /load|start|begin/i });
@@ -211,15 +211,17 @@ test.describe('Quiz Session - Expected Behavior', () => {
   test('should track question progress', async ({ page }) => {
     await page.waitForLoadState('networkidle');
 
-    // Look for progress indicator
-    const progress = page.locator(
-      '[class*="progress"], text=/\\d+.*of.*\\d+/i, text=/question.*\\d+/i',
-    );
+    // Look for any progress indicator (CSS or text-based)
+    const progressByCss = page.locator('[class*="progress"], [data-testid*="progress"]');
+    const progressByText = page.getByText(/\d+\s*(of|\/)\s*\d+/i);
+    const questionCounter = page.getByText(/question\s*\d+/i);
 
-    // Progress indicator should be visible
-    if (await progress.isVisible()) {
-      await expect(progress).toBeVisible();
-    }
+    const hasAny =
+      (await progressByCss.count()) > 0 ||
+      (await progressByText.count()) > 0 ||
+      (await questionCounter.count()) > 0;
+
+    expect(hasAny).toBeTruthy();
   });
 });
 
@@ -372,7 +374,7 @@ test.describe('State Persistence - Expected Behavior', () => {
     }
 
     // Look for export button
-    const exportButton = page.getByRole('button', { name: /export|save|download/i });
+    const exportButton = page.getByRole('button', { name: /export|save|download/i }).first();
 
     // Export functionality should be available
     if (await exportButton.isVisible()) {

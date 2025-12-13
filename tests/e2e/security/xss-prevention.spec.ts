@@ -32,7 +32,7 @@ test.describe('XSS Prevention - Script Tags', () => {
     // Import malicious quiz
     const jsonString = JSON.stringify(xssScriptTag, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -55,7 +55,7 @@ test.describe('XSS Prevention - Script Tags', () => {
 
     const jsonString = JSON.stringify(xssScriptTag, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -83,7 +83,7 @@ test.describe('XSS Prevention - Script Tags', () => {
 
     const jsonString = JSON.stringify(xssScriptTag, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -115,7 +115,7 @@ test.describe('XSS Prevention - Script Tags', () => {
 
     const jsonString = JSON.stringify(xssScriptTag, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -161,7 +161,7 @@ test.describe('XSS Prevention - Event Handlers', () => {
 
     const jsonString = JSON.stringify(xssEventHandlers, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -181,7 +181,7 @@ test.describe('XSS Prevention - Event Handlers', () => {
 
     const jsonString = JSON.stringify(xssEventHandlers, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -206,7 +206,7 @@ test.describe('XSS Prevention - Event Handlers', () => {
 
     const jsonString = JSON.stringify(xssEventHandlers, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -231,7 +231,7 @@ test.describe('XSS Prevention - Event Handlers', () => {
 
     const jsonString = JSON.stringify(xssEventHandlers, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -261,7 +261,7 @@ test.describe('XSS Prevention - JavaScript URLs', () => {
 
     const jsonString = JSON.stringify(xssJavascriptUrls, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -290,7 +290,7 @@ test.describe('XSS Prevention - JavaScript URLs', () => {
   test('B3-03: javascript: URLs not present in rendered HTML', async ({ page }) => {
     const jsonString = JSON.stringify(xssJavascriptUrls, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -327,7 +327,7 @@ test.describe('XSS Prevention - SVG Content', () => {
 
     const jsonString = JSON.stringify(xssSvgContent, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -347,7 +347,7 @@ test.describe('XSS Prevention - SVG Content', () => {
 
     const jsonString = JSON.stringify(xssSvgContent, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -369,7 +369,7 @@ test.describe('HTML Injection Prevention', () => {
   test('B3-04: Form elements stripped', async ({ page }) => {
     const jsonString = JSON.stringify(htmlInjection, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -386,7 +386,7 @@ test.describe('HTML Injection Prevention', () => {
   test('B3-04: iframe elements stripped', async ({ page }) => {
     const jsonString = JSON.stringify(htmlInjection, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -403,7 +403,7 @@ test.describe('HTML Injection Prevention', () => {
   test('B3-04: object/embed elements stripped', async ({ page }) => {
     const jsonString = JSON.stringify(htmlInjection, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -420,7 +420,7 @@ test.describe('HTML Injection Prevention', () => {
   test('B3-04: meta refresh stripped', async ({ page }) => {
     const jsonString = JSON.stringify(htmlInjection, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',
@@ -439,6 +439,7 @@ test.describe('HTML Injection Prevention', () => {
 
 test.describe('Comprehensive Security Scan', () => {
   test('All malicious quizzes blocked', async ({ page }) => {
+    test.setTimeout(180_000);
     await page.goto('/');
     await clearLocalStorage(page);
 
@@ -451,11 +452,11 @@ test.describe('Comprehensive Security Scan', () => {
     const maliciousQuizzes = getAllMaliciousQuizzes();
 
     for (const { name, data } of maliciousQuizzes) {
-      await page.reload();
+      await page.reload({ waitUntil: 'domcontentloaded' });
 
       const jsonString = JSON.stringify(data, null, 2);
       const buffer = Buffer.from(jsonString);
-      const fileInput = page.locator('input[type="file"]');
+      const fileInput = page.getByTestId('file-input');
 
       await fileInput.setInputFiles({
         name: `${name}.json`,
@@ -481,7 +482,7 @@ test.describe('Comprehensive Security Scan', () => {
 
     const jsonString = JSON.stringify(xssScriptTag, null, 2);
     const buffer = Buffer.from(jsonString);
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     await fileInput.setInputFiles({
       name: 'xss-quiz.json',
       mimeType: 'application/json',

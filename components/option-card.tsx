@@ -66,6 +66,7 @@ export const OptionCard = memo(function OptionCard({
 
   return (
     <Card
+      data-testid="option"
       className={getCardClasses()}
       role="button"
       tabIndex={disabled ? -1 : 0}

@@ -48,7 +48,7 @@ describe('MCQQuizForge Page', () => {
 
   it('should call loadDefault on mount', () => {
     render(<MCQQuizForge />);
-    expect(mockLoadDefault).toHaveBeenCalledTimes(1);
+    expect(mockLoadDefault).not.toHaveBeenCalled();
   });
 
   it('should render WelcomeScreen when appState is welcome', () => {

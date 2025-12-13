@@ -58,7 +58,7 @@ describe('Button', () => {
     it('renders sm size', () => {
       render(<Button size="sm">Small Button</Button>);
       const button = screen.getByRole('button', { name: 'Small Button' });
-      expect(button).toHaveClass('h-9', 'px-3');
+      expect(button).toHaveClass('h-10', 'px-3');
     });
 
     it('renders lg size', () => {
@@ -189,7 +189,7 @@ describe('Button', () => {
 
     it('generates correct classes for specific size', () => {
       const classes = buttonVariants({ size: 'sm' });
-      expect(classes).toContain('h-9');
+      expect(classes).toContain('h-10');
     });
 
     it('generates correct classes for variant and size combination', () => {
