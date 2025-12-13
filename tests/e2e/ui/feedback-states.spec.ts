@@ -20,28 +20,22 @@ test.describe('Answer Feedback States', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
-    if (await startBtn.isVisible()) {
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
+    if (await startBtn.isVisible().catch(() => false)) {
       await startBtn.click();
     }
     await page.waitForTimeout(500);
   });
 
   test('C1-01: Selected option visibility', async ({ page }) => {
-    // Click an option
-    const options = page
-      .locator('[role="radio"], [role="option"], .option-card, button')
-      .filter({ hasText: /^[A-D]|^[1-4]/ });
+    const firstRadio = page.locator('[role="radio"]').first();
+    await expect(firstRadio).toBeVisible();
+    await firstRadio.click();
 
-    if (await options.first().isVisible()) {
-      await options.first().click();
-
-      // Should have visual indication
-      const selected = page.locator(
-        '[aria-checked="true"], [data-selected="true"], .selected, [class*="selected"]',
-      );
-      await expect(selected).toBeVisible();
-    }
+    // Should have visual indication
+    await expect(
+      page.locator('[aria-checked="true"], [data-selected="true"]').first(),
+    ).toBeVisible();
   });
 
   test('C1-02: Correct answer highlighting', async ({ page }) => {
@@ -91,9 +85,12 @@ test.describe('Answer Feedback States', () => {
     );
 
     // Either highlighted or explained
-    const explanation = page.locator('text=/correct|answer/i');
-
-    await expect(correctHighlight.or(explanation)).toBeVisible({ timeout: 2000 });
+    const correctCount = await correctHighlight.count();
+    if (correctCount > 0) {
+      await expect(correctHighlight.first()).toBeVisible({ timeout: 2000 });
+    } else {
+      await expect(page.locator('text=/correct|answer/i').first()).toBeVisible({ timeout: 2000 });
+    }
   });
 });
 
@@ -105,17 +102,17 @@ test.describe('Button States', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
-    if (await startBtn.isVisible()) {
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
+    if (await startBtn.isVisible().catch(() => false)) {
       await startBtn.click();
     }
   });
 
   test('C1-04: Disabled button appearance', async ({ page }) => {
     // Submit button should be disabled when nothing selected
-    const submitBtn = page.locator('button:has-text("Submit"), button:has-text("Check")');
+    const submitBtn = page.locator('button:has-text("Submit Answer"), button:has-text("Check")');
 
-    if (await submitBtn.isVisible()) {
+    if (await submitBtn.isVisible().catch(() => false)) {
       // Check if disabled
       const isDisabled = await submitBtn.isDisabled();
 
@@ -179,14 +176,14 @@ test.describe('Loading States', () => {
     await clearLocalStorage(page);
 
     // Start import and look for loading
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
 
     // Import large quiz (create inline for this test)
     const largeQuiz = {
       name: 'Large Quiz',
       chapters: Array.from({ length: 10 }, (_, i) => ({
         id: `ch${i}`,
-        title: `Chapter ${i}`,
+        name: `Chapter ${i}`,
         questions: Array.from({ length: 50 }, (_, j) => ({
           questionId: `q${i}-${j}`,
           questionText: `Question ${j} of chapter ${i}`,
@@ -195,6 +192,7 @@ test.describe('Loading States', () => {
             { optionId: `${i}-${j}-b`, optionText: 'B' },
           ],
           correctOptionIds: [`${i}-${j}-a`],
+          explanationText: 'Auto-generated explanation',
         })),
       })),
     };

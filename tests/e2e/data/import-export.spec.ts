@@ -62,7 +62,7 @@ test.describe('JSON Import', () => {
     await expect(page.locator('text=🎯')).toBeVisible();
 
     // Start quiz and check Japanese text
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await expect(page.locator('text=🎉')).toBeVisible();
@@ -73,16 +73,16 @@ test.describe('JSON Import', () => {
     await importQuizViaUI(page, mathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // LaTeX should be rendered (check for MathJax/KaTeX elements)
-      const mathContent = page.locator('.katex, .MathJax, [class*="math"]');
+      const katex = page.locator('.katex');
       const rawLatex = page.locator('text=$x$');
-
-      // Either rendered or raw visible
-      await expect(mathContent.or(rawLatex).first()).toBeVisible({ timeout: 5000 });
+      const hasKatex = (await katex.count()) > 0;
+      const hasRaw = (await rawLatex.count()) > 0;
+      expect(hasKatex || hasRaw).toBe(true);
     }
   });
 
@@ -90,18 +90,18 @@ test.describe('JSON Import', () => {
     await importQuizViaUI(page, codeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Code should be in pre/code elements
-      const codeElement = page.locator('pre, code, [class*="code"]');
-      await expect(codeElement.first()).toBeVisible({ timeout: 2000 });
+      const codeElement = page.locator('pre code, pre, code').first();
+      await expect(codeElement).toBeVisible({ timeout: 5000 });
     }
   });
 
   test('B1-10: Empty file rejection', async ({ page }) => {
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     const buffer = Buffer.from('');
 
     await fileInput.setInputFiles({
@@ -111,14 +111,14 @@ test.describe('JSON Import', () => {
     });
 
     // Should show error
-    await expect(page.locator('text=/error|invalid|empty/i')).toBeVisible({ timeout: 2000 });
+    await expect(page.getByText('Error Loading Quiz Module')).toBeVisible({ timeout: 5000 });
   });
 
   test('B1-12: Malformed JSON handling', async ({ page }) => {
     for (const invalidJson of malformedJsonStrings.slice(0, 3)) {
       await page.reload();
 
-      const fileInput = page.locator('input[type="file"]');
+      const fileInput = page.getByTestId('file-input');
       const buffer = Buffer.from(invalidJson);
 
       await fileInput.setInputFiles({
@@ -137,7 +137,7 @@ test.describe('JSON Import', () => {
     const incompleteQuiz = { name: 'Test' }; // Missing chapters
 
     const buffer = Buffer.from(JSON.stringify(incompleteQuiz));
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
 
     await fileInput.setInputFiles({
       name: 'incomplete.json',
@@ -146,9 +146,7 @@ test.describe('JSON Import', () => {
     });
 
     // Should show error about missing fields
-    await expect(page.locator('text=/error|invalid|required|chapters/i')).toBeVisible({
-      timeout: 2000,
-    });
+    await expect(page.getByText('Error Loading Quiz Module')).toBeVisible({ timeout: 5000 });
   });
 
   test('B1-15: Extra unknown fields ignored', async ({ page }) => {
@@ -178,7 +176,7 @@ test.describe('Markdown Import', () => {
     await waitForQuizLoaded(page);
 
     // Quiz should be loaded
-    await expect(page.locator('text=/Test Quiz|Chapter/i')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /test quiz/i })).toBeVisible();
   });
 
   test('B1-13: Malformed Markdown handling', async ({ page }) => {
@@ -221,7 +219,7 @@ What is 1+1?
     await waitForQuizLoaded(page);
 
     // Should parse correctly
-    await expect(page.locator('text=/Quiz|Chapter/i')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /quiz with blanks/i })).toBeVisible();
   });
 });
 
@@ -236,7 +234,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-03: Export complete state', async ({ page }) => {
     // Make some progress first
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1);
@@ -258,7 +256,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-04: Import/export round-trip', async ({ page }) => {
     // Make progress
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1);
@@ -296,7 +294,7 @@ test.describe('Export Functionality', () => {
 
   test('B1-37: Export includes all progress data', async ({ page }) => {
     // Make varied progress
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 1); // Correct
@@ -340,10 +338,7 @@ test.describe('Edge Case Quizzes', () => {
 
     // Should either show error or empty state
     await page.waitForTimeout(1000);
-    const error = page.locator('text=/error|no questions|empty/i');
-    const emptyState = page.locator('text=/no content|import/i');
-
-    await expect(error.or(emptyState).or(page.locator('body'))).toBeVisible();
+    await expect(page.getByText('Error Loading Quiz Module')).toBeVisible();
   });
 
   test('E2-02: Single question quiz', async ({ page }) => {
@@ -351,7 +346,7 @@ test.describe('Edge Case Quizzes', () => {
     await waitForQuizLoaded(page);
 
     // Should load and be answerable
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 0);
@@ -366,12 +361,12 @@ test.describe('Edge Case Quizzes', () => {
     await waitForQuizLoaded(page);
 
     // Should handle without crash
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Long content should be visible (possibly truncated/scrollable)
-      await expect(page.locator('.question-text, [data-testid="question"]').first()).toBeVisible();
+      await expect(page.getByTestId('question')).toBeVisible();
     }
   });
 
@@ -411,8 +406,10 @@ test.describe('Edge Case Quizzes', () => {
 test.describe('File Type Validation', () => {
   test('B1-40: File type validation on import', async ({ page }) => {
     await page.goto('/');
+    await clearLocalStorage(page);
+    await page.reload({ waitUntil: 'domcontentloaded' });
 
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
 
     // Try importing wrong file type
     const buffer = Buffer.from('Just plain text');
@@ -432,8 +429,10 @@ test.describe('File Type Validation', () => {
 
   test('Binary file rejection', async ({ page }) => {
     await page.goto('/');
+    await clearLocalStorage(page);
+    await page.reload({ waitUntil: 'domcontentloaded' });
 
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
 
     // Create binary-like content
     const buffer = Buffer.from([0x00, 0x01, 0x02, 0xff, 0xfe]);

@@ -329,7 +329,7 @@ describe('QuizSessionContainer', () => {
         fireEvent.click(screen.getByTestId('back-dashboard-btn'));
 
         const state = useQuizStore.getState();
-        expect(state.appState).toBe('welcome');
+        expect(state.appState).toBe('dashboard');
         expect(state.currentChapterId).toBe('');
         expect(state.currentQuestionIndex).toBe(0);
       });

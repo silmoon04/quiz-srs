@@ -1,20 +1,9 @@
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 
-// Mock ResizeObserver for Radix UI compatibility with JSDOM
-beforeAll(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-});
-
-afterAll(() => {
-  vi.restoreAllMocks();
-});
+// ResizeObserver mock is handled globally in tests/setup.ts
 
 describe('Tooltip Component', () => {
   describe('Rendering', () => {

@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useQuizStore } from '@/store/quiz-store';
 import { WelcomeScreen } from '@/components/welcome-screen';
 import { Toaster } from '@/components/ui/toaster';
@@ -11,12 +10,8 @@ import { useModuleLoader } from '@/features/dashboard/hooks/use-module-loader';
 
 export default function MCQQuizForge() {
   const appState = useQuizStore((state) => state.appState);
+  const startQuiz = useQuizStore((state) => state.startQuiz);
   const { loadDefault, loadFromFile, isLoading, error } = useModuleLoader();
-
-  // Initial load
-  useEffect(() => {
-    loadDefault();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <main className="min-h-screen bg-background font-sans antialiased">
@@ -34,6 +29,7 @@ export default function MCQQuizForge() {
           <DashboardContainer
             onStartQuiz={(chapterId) => {
               console.log('Starting quiz:', chapterId);
+              startQuiz(chapterId);
             }}
             onStartReview={() => {
               console.log('Starting review');

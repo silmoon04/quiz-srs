@@ -424,8 +424,8 @@ export const useQuizStore = create<QuizState>()(
 
         backToDashboard: () =>
           set(
-            {
-              appState: 'welcome',
+            (state) => ({
+              appState: state.currentModule ? 'dashboard' : 'welcome',
               currentChapterId: '',
               currentQuestionIndex: 0,
               selectedOptionId: null,
@@ -436,7 +436,7 @@ export const useQuizStore = create<QuizState>()(
               currentHistoryViewIndex: null,
               isEditModeActive: false,
               editingQuestionData: null,
-            },
+            }),
             false,
             'backToDashboard',
           ),

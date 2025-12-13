@@ -144,6 +144,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
   const setIsLoading = useQuizStore((state) => state.setIsLoading);
   const setError = useQuizStore((state) => state.setError);
   const clearErrorAction = useQuizStore((state) => state.clearError);
+  const setAppState = useQuizStore((state) => state.setAppState);
 
   /**
    * Load module from JSON string
@@ -163,11 +164,12 @@ export function useModuleLoader(): UseModuleLoaderReturn {
         }
 
         setCurrentModule(result.module!);
+        setAppState('dashboard');
       } finally {
         setIsLoading(false);
       }
     },
-    [setIsLoading, clearErrorAction, setError, setCurrentModule],
+    [setIsLoading, clearErrorAction, setError, setCurrentModule, setAppState],
   );
 
   /**
@@ -214,11 +216,12 @@ export function useModuleLoader(): UseModuleLoaderReturn {
         }
 
         setCurrentModule(result.module!);
+        setAppState('dashboard');
       } finally {
         setIsLoading(false);
       }
     },
-    [setIsLoading, clearErrorAction, setError, setCurrentModule],
+    [setIsLoading, clearErrorAction, setError, setCurrentModule, setAppState],
   );
 
   /**
@@ -240,6 +243,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
           if (result.success && result.module) {
             setCurrentModule(result.module);
+            setAppState('dashboard');
             return;
           }
         }
@@ -257,6 +261,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
           if (result.validationResult.isValid && result.normalizedModule) {
             setCurrentModule(result.normalizedModule);
+            setAppState('dashboard');
             return;
           }
         }
@@ -273,19 +278,14 @@ export function useModuleLoader(): UseModuleLoaderReturn {
     } finally {
       setIsLoading(false);
     }
-  }, [setIsLoading, clearErrorAction, setError, setCurrentModule]);
+  }, [setIsLoading, clearErrorAction, setError, setCurrentModule, setAppState]);
 
-  /**
-   * Clear the current module and any errors
-   */
   const clearModule = useCallback((): void => {
     setCurrentModule(null);
+    setAppState('welcome');
     clearErrorAction();
-  }, [setCurrentModule, clearErrorAction]);
+  }, [setCurrentModule, setAppState, clearErrorAction]);
 
-  /**
-   * Clear error message
-   */
   const clearError = useCallback((): void => {
     clearErrorAction();
   }, [clearErrorAction]);

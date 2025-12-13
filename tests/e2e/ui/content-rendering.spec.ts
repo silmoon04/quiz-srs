@@ -44,7 +44,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, mdQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -52,7 +52,11 @@ test.describe('Markdown Rendering', () => {
       const bold = page.locator('strong, b');
       const italic = page.locator('em, i');
 
-      await expect(bold.or(italic).or(page.locator('text=bold'))).toBeVisible();
+      if ((await bold.count()) > 0) {
+        await expect(bold.first()).toBeVisible();
+      } else {
+        await expect(italic.first()).toBeVisible();
+      }
     }
   });
 
@@ -78,13 +82,13 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, listQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Check for list elements
       const list = page.locator('ul, ol, li');
-      await expect(list.first().or(page.locator('text=Item 1'))).toBeVisible();
+      await expect(list.first()).toBeVisible();
     }
   });
 
@@ -110,7 +114,7 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, linkQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -143,14 +147,13 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, tableQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Check for table elements
       const table = page.locator('table');
-      const tableContent = page.locator('text=Col A');
-      await expect(table.or(tableContent)).toBeVisible();
+      await expect(table.first()).toBeVisible();
     }
   });
 
@@ -176,14 +179,13 @@ test.describe('Markdown Rendering', () => {
     await importQuizViaUI(page, quoteQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Check for blockquote
       const quote = page.locator('blockquote');
-      const quoteText = page.locator('text=Imagination');
-      await expect(quote.or(quoteText)).toBeVisible();
+      await expect(quote.first()).toBeVisible();
     }
   });
 });
@@ -199,7 +201,7 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, codeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -231,12 +233,12 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, whitespaceQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Whitespace should be preserved in code
-      const codeContent = await page.locator('pre, code').textContent();
+      const codeContent = await page.locator('pre').first().textContent();
       if (codeContent) {
         expect(codeContent).toContain('function');
       }
@@ -265,7 +267,7 @@ test.describe('Code Block Rendering', () => {
     await importQuizViaUI(page, inlineCodeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -287,7 +289,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, mathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -321,7 +323,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, blockMathQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -355,7 +357,7 @@ test.describe('LaTeX Rendering', () => {
     await importQuizViaUI(page, greekQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -376,7 +378,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longContentQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -418,7 +420,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longOptionQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -451,7 +453,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, longExplanationQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -500,7 +502,7 @@ test.describe('Long Content Handling', () => {
     await importQuizViaUI(page, overflowQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -516,6 +518,12 @@ test.describe('Long Content Handling', () => {
 });
 
 test.describe('Mixed Content', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    await clearLocalStorage(page);
+    await page.reload();
+  });
+
   test('C2-14: Mixed content types', async ({ page }) => {
     const mixedQuiz = {
       name: 'Mixed Content',
@@ -553,7 +561,7 @@ $$E = mc^2$$
     await importQuizViaUI(page, mixedQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -596,7 +604,7 @@ $$E = mc^2$$
     await importQuizViaUI(page, nestedQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

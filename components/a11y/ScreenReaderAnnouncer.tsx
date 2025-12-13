@@ -49,7 +49,7 @@ export function ScreenReaderAnnouncer({ children }: ScreenReaderAnnouncerProps) 
     timeoutRef.current = setTimeout(() => {
       setAnnouncement(null);
       timeoutRef.current = null;
-    }, 100);
+    }, 1500);
   }, []);
 
   // Cleanup timeout on unmount

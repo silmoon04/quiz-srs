@@ -114,6 +114,14 @@ export function AccessibleOptionList({
           showAsIncorrect: isSubmitted && isSelected && !isCorrect,
         };
 
+        const dataState = displayState.showAsCorrect
+          ? 'correct'
+          : displayState.showAsIncorrect
+            ? 'incorrect'
+            : displayState.isSelected
+              ? 'selected'
+              : 'idle';
+
         return (
           <div
             key={option.optionId}
@@ -122,10 +130,18 @@ export function AccessibleOptionList({
             }}
             role="radio"
             aria-checked={displayState.isSelected}
+            data-state={dataState}
+            data-correct={isCorrect ? 'true' : 'false'}
+            data-selected={displayState.isSelected ? 'true' : 'false'}
             tabIndex={index === focusedIndex ? 0 : -1}
             aria-labelledby={`option-text-${option.optionId}`}
             className="rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             onFocus={() => handleFocus(index)}
+            onPointerDown={() => {
+              if (!disabled && !isSubmitted) {
+                onSelectOption(option.optionId);
+              }
+            }}
             onClick={() => {
               // Handle click directly on the radio wrapper
               if (!disabled && !isSubmitted) {

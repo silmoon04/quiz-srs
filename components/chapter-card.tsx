@@ -109,6 +109,7 @@ export function ChapterCard({ chapter, onStartQuiz }: ChapterCardProps) {
 
           {/* Button with consistent positioning */}
           <Button
+            data-testid="start-chapter-button"
             onClick={() => onStartQuiz(chapter.id)}
             className="w-full bg-blue-700 text-white shadow-sm transition-all duration-200 hover:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 active:bg-blue-900"
             size="sm"

@@ -33,4 +33,5 @@ test-results/
 coverage/
 coverage-report.json
 *-analysis.json
+*.log
 

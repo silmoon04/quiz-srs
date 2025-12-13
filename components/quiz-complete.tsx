@@ -137,7 +137,8 @@ export function QuizComplete({
         >
           <Button
             onClick={onBackToDashboard}
-            className="bg-blue-700 text-white shadow-sm hover:bg-blue-800"
+            data-testid="back-dashboard-btn"
+            className="border-blue-700 bg-blue-900/40 text-blue-200 shadow-sm transition-all duration-200 hover:border-blue-600 hover:bg-blue-800/50 hover:text-white"
             size="lg"
           >
             <Home className="mr-2 h-5 w-5" />
