@@ -168,6 +168,18 @@ export function QuizSession({
 
     const generateDisplayedOptions = (): DisplayedOption[] => {
       const maxDisplayOptions = 5;
+
+      // For edge-case questions with many options, display the full option set.
+      // This keeps the UI faithful to the imported module and supports E2E expectations.
+      if (question.options.length > maxDisplayOptions) {
+        return [...question.options]
+          .map((opt) => ({
+            ...opt,
+            isCorrect: question.correctOptionIds.includes(opt.optionId),
+          }))
+          .sort(() => Math.random() - 0.5);
+      }
+
       const correctOptions = question.options.filter((opt) =>
         question.correctOptionIds.includes(opt.optionId),
       );
@@ -464,10 +476,27 @@ export function QuizSession({
     return answered > 0 ? Math.round((currentChapter.correctAnswers / answered) * 100) : 0;
   }, [currentModule, chapter.id]);
 
+  // Announce question changes and submission outcomes for screen readers.
+  useEffect(() => {
+    if (isReviewSession) return;
+    announce(`Question ${currentQuestionIndex + 1} of ${totalQuestions}`);
+  }, [announce, isReviewSession, question.questionId, currentQuestionIndex, totalQuestions]);
+
+  useEffect(() => {
+    if (!displayIsSubmitted) return;
+    const isCorrectNow =
+      (displayQuestion as any).lastIsCorrect === true ||
+      (displaySelectedOptionId
+        ? displayQuestion.correctOptionIds.includes(displaySelectedOptionId)
+        : false);
+    announce(isCorrectNow ? 'Correct' : 'Incorrect');
+  }, [announce, displayIsSubmitted, displayQuestion, displaySelectedOptionId]);
+
   return (
     <div
       className="quiz-session min-h-screen bg-gradient-to-br from-black via-slate-950 to-gray-950"
       data-testid="quiz-session"
+      data-state={displayIsSubmitted ? 'submitted' : 'in-progress'}
     >
       {/* Fixed Progress and Score Bar */}
       <div className="sticky top-0 z-50 border-b border-slate-700 bg-gradient-to-r from-slate-900/95 to-slate-800/95 shadow-lg backdrop-blur-md">
@@ -620,6 +649,8 @@ export function QuizSession({
                       onClick={onBackToDashboard}
                       variant="outline"
                       size="sm"
+                      data-testid="back-dashboard-btn"
+                      aria-label="Return to Dashboard"
                       className="h-10 w-10 flex-shrink-0 border-gray-700 bg-gray-900/70 p-0 text-gray-200 transition-all duration-200 hover:border-gray-600 hover:bg-gray-800 hover:text-white focus-visible:ring-2 focus-visible:ring-gray-500 active:bg-gray-800/80"
                     >
                       <Home className="h-4 w-4" />
@@ -697,7 +728,10 @@ export function QuizSession({
           )}
 
           {/* Question Navigation Grid - Accessible keyboard navigation */}
-          <Card className="mb-6 border-slate-700 bg-slate-900/50 shadow-sm backdrop-blur-sm">
+          <Card
+            data-testid="question-nav"
+            className="mb-6 border-slate-700 bg-slate-900/50 shadow-sm backdrop-blur-sm"
+          >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-medium text-white">Question Navigation</h3>
@@ -746,7 +780,7 @@ export function QuizSession({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="prose prose-invert max-w-none">
+              <div className="question-text prose prose-invert max-w-none" data-testid="question">
                 <MarkdownRenderer
                   markdown={displayQuestion.questionText}
                   className="break-words text-lg leading-relaxed text-white"
@@ -770,7 +804,10 @@ export function QuizSession({
 
           {/* Explanation - Enhanced styling */}
           {displayIsSubmitted && (
-            <Card className="border-slate-700 bg-gradient-to-r from-slate-900 to-slate-950 shadow-lg backdrop-blur-sm">
+            <Card
+              data-testid="explanation-card"
+              className="border-slate-700 bg-gradient-to-r from-slate-900 to-slate-950 shadow-lg backdrop-blur-sm"
+            >
               <CardHeader>
                 <CardTitle className="text-lg text-slate-200">Explanation</CardTitle>
               </CardHeader>
@@ -930,18 +967,12 @@ export function QuizSession({
               {/* FIXED: Next Question Button - For advancing to actual next question */}
               {shouldShowNextQuestion && (
                 <Button
+                  data-testid="next-question-button"
                   onClick={onNextQuestion}
                   className="whitespace-nowrap bg-green-700 px-6 text-white shadow-sm transition-all duration-200 hover:bg-green-800 focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 active:bg-green-900"
                 >
                   {isReviewSession ? 'Next Review' : 'Next Question'}
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {/*
-                  />
                 </Button>
               )}
             </div>

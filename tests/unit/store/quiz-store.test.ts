@@ -520,14 +520,14 @@ describe('Quiz Store', () => {
       });
     });
 
-    it('should set appState to welcome', () => {
+    it('should set appState to dashboard when a module is loaded', () => {
       expect(useQuizStore.getState().appState).toBe('quiz');
 
       act(() => {
         useQuizStore.getState().backToDashboard();
       });
 
-      expect(useQuizStore.getState().appState).toBe('welcome');
+      expect(useQuizStore.getState().appState).toBe('dashboard');
     });
 
     it('should clear currentChapterId to empty string', () => {
@@ -636,7 +636,7 @@ describe('Quiz Store', () => {
       });
 
       const state = useQuizStore.getState();
-      expect(state.appState).toBe('welcome');
+      expect(state.appState).toBe('dashboard');
       expect(state.currentChapterId).toBe('');
       expect(state.currentQuestionIndex).toBe(0);
       expect(state.selectedOptionId).toBeNull();

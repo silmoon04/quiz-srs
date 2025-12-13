@@ -27,9 +27,8 @@ test.describe('Error Boundary', () => {
     // Should show error UI or recover, not crash
     await expect(page.locator('body')).toBeVisible();
 
-    // Should either show error message or fresh state
-    const errorOrFresh = page.locator('text=/error|oops|something went wrong|import|welcome/i');
-    await expect(errorOrFresh.first()).toBeVisible({ timeout: 3000 });
+    // Fresh state should still be usable
+    await expect(page.getByTestId('load-custom-quiz-button')).toBeVisible({ timeout: 5000 });
   });
 
   test('E1-08: Recovery from any error', async ({ page }) => {
@@ -94,7 +93,7 @@ test.describe('Parse Error Recovery', () => {
   test('E1-02: Parse error message', async ({ page }) => {
     await page.goto('/');
 
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
     const buffer = Buffer.from('{ invalid json }}}');
 
     await fileInput.setInputFiles({
@@ -104,7 +103,7 @@ test.describe('Parse Error Recovery', () => {
     });
 
     // Should show parse error message
-    await expect(page.locator('text=/error|invalid|parse|json/i')).toBeVisible({ timeout: 2000 });
+    await expect(page.getByText('Error Loading Quiz Module')).toBeVisible({ timeout: 5000 });
   });
 
   test('E1-03: Validation error detail', async ({ page }) => {
@@ -117,7 +116,7 @@ test.describe('Parse Error Recovery', () => {
     };
 
     const buffer = Buffer.from(JSON.stringify(invalidQuiz));
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('file-input');
 
     await fileInput.setInputFiles({
       name: 'invalid.json',
@@ -126,9 +125,7 @@ test.describe('Parse Error Recovery', () => {
     });
 
     // Should show specific validation error
-    await expect(page.locator('text=/error|invalid|required|chapters/i')).toBeVisible({
-      timeout: 2000,
-    });
+    await expect(page.getByText('Error Loading Quiz Module')).toBeVisible({ timeout: 5000 });
   });
 });
 
@@ -146,10 +143,8 @@ test.describe('Storage Error Recovery', () => {
     // App should recover
     await expect(page.locator('body')).toBeVisible();
 
-    // Should show fresh state or error
-    await expect(page.locator('text=/import|error|welcome/i').first()).toBeVisible({
-      timeout: 3000,
-    });
+    // Should show fresh state
+    await expect(page.getByTestId('load-custom-quiz-button')).toBeVisible({ timeout: 5000 });
   });
 
   test('B2-02: Partial localStorage corruption', async ({ page }) => {
@@ -177,9 +172,7 @@ test.describe('Storage Error Recovery', () => {
     await page.reload();
 
     // App should start fresh
-    await expect(page.locator('text=/import|welcome|get started/i').first()).toBeVisible({
-      timeout: 3000,
-    });
+    await expect(page.getByTestId('load-custom-quiz-button')).toBeVisible({ timeout: 5000 });
   });
 
   test('B2-11: Recover half-written state', async ({ page }) => {
@@ -197,9 +190,7 @@ test.describe('Storage Error Recovery', () => {
 
     // Should recover from truncated JSON
     await expect(page.locator('body')).toBeVisible();
-    await expect(page.locator('text=/error|import|welcome/i').first()).toBeVisible({
-      timeout: 3000,
-    });
+    await expect(page.getByTestId('load-custom-quiz-button')).toBeVisible({ timeout: 5000 });
   });
 });
 
@@ -219,7 +210,7 @@ test.describe('Silent Failure Prevention', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

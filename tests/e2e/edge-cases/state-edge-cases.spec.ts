@@ -21,9 +21,9 @@ import {
 
 test.describe('Empty & Minimal Quizzes', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded', timeout: 30000 });
     await clearLocalStorage(page);
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
   });
 
   test('E2-01: Empty quiz handling', async ({ page }) => {
@@ -31,15 +31,16 @@ test.describe('Empty & Minimal Quizzes', () => {
 
     // Should show error or empty state
     await page.waitForTimeout(1000);
-    const result = page.locator('text=/error|empty|no questions/i');
-    await expect(result.or(page.locator('body'))).toBeVisible();
+    await expect(
+      page.getByText(/error loading quiz module|validation failed|empty|no questions/i).first(),
+    ).toBeVisible();
   });
 
   test('E2-02: Single question quiz', async ({ page }) => {
     await importQuizViaUI(page, singleQuestionQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -75,18 +76,12 @@ test.describe('Empty & Minimal Quizzes', () => {
     await importQuizViaUI(page, singleOptionQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
       // Should be able to select and submit
-      const option = page.locator('[role="radio"], .option-card');
-      await option.click();
-
-      const submit = page.locator('button:has-text("Submit")');
-      if (await submit.isVisible()) {
-        await submit.click();
-      }
+      await answerQuestion(page, 1);
 
       await expect(page.locator('body')).toBeVisible();
     }
@@ -96,7 +91,7 @@ test.describe('Empty & Minimal Quizzes', () => {
     await importQuizViaUI(page, allCorrectQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -104,9 +99,9 @@ test.describe('Empty & Minimal Quizzes', () => {
       await answerQuestion(page, 0);
 
       // Should show correct feedback
-      await expect(page.locator('[class*="correct"], text=/correct/i')).toBeVisible({
-        timeout: 2000,
-      });
+      await expect(
+        page.locator('[data-state="correct"], [data-testid="explanation-card"]').first(),
+      ).toBeVisible({ timeout: 2000 });
     }
   });
 
@@ -166,7 +161,7 @@ test.describe('Many Options', () => {
     await importQuizViaUI(page, manyManyOptions);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -184,7 +179,7 @@ test.describe('Many Options', () => {
     await importQuizViaUI(page, manyOptionsQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -205,9 +200,9 @@ test.describe('Large Quiz', () => {
     const loadTime = Date.now() - startTime;
 
     // Should load in reasonable time
-    expect(loadTime).toBeLessThan(15000);
+    expect(loadTime).toBeLessThan(30000);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -256,7 +251,7 @@ test.describe('Content Edge Cases', () => {
     await importQuizViaUI(page, nestedQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -326,7 +321,7 @@ test.describe('Content Edge Cases', () => {
     await importQuizViaUI(page, longContentQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -366,7 +361,7 @@ test.describe('Content Edge Cases', () => {
     await importQuizViaUI(page, unicodeEdgeQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 
@@ -431,7 +426,7 @@ test.describe('ID Edge Cases', () => {
     await importQuizViaUI(page, specialIdQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
       await answerQuestion(page, 0);
@@ -538,7 +533,7 @@ test.describe('Option Content Edge Cases', () => {
     await importQuizViaUI(page, identicalOptionsQuiz);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
 

@@ -1,5 +1,9 @@
 import { QuizModule, QuizChapter, QuizQuestion, QuizOption } from '@/types/quiz-types';
-import { validateQuizModule, normalizeQuizModule } from '@/utils/quiz-validation-refactored';
+import {
+  validateQuizModule,
+  normalizeQuizModule,
+  sanitizeForId,
+} from '@/utils/quiz-validation-refactored';
 
 interface ParseResult {
   success: boolean;
@@ -60,7 +64,9 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
         .replace(/<!--.*?-->/g, '')
         .trim();
       const idMatch = chunk.match(/<!--\s*(?:ID|CH_ID):\s*(\S+)\s*-->/);
-      const chapterId = idMatch ? idMatch[1] : `chapter_${chapters.length + 1}_${Date.now()}`;
+      const chapterId = idMatch
+        ? idMatch[1]
+        : `chapter_${sanitizeForId(chapterName)}_${chapters.length}`;
 
       let chapterDesc = '';
       const cDescMatch = chunk.match(/^Description:\s*(.+)$/m) || chunk.match(/^_([^_]+)_$/m);
@@ -94,7 +100,7 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
       const idMatch = chunk.match(/<!--\s*(?:ID|Q_ID):\s*(\S+)\s*-->/);
       const questionId = idMatch
         ? idMatch[1]
-        : `${currentChapter.id}_q${currentChapter.questions.length + 1}_${Date.now()}`;
+        : `${currentChapter.id}_q${currentChapter.questions.length + 1}`;
 
       try {
         const question = parseQuestionChunk(chunk, type, questionId, rawTitle);

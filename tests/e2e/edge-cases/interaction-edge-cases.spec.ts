@@ -20,7 +20,7 @@ test.describe('Double-Click Prevention', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     if (await startBtn.isVisible()) {
       await startBtn.click();
     }
@@ -28,11 +28,11 @@ test.describe('Double-Click Prevention', () => {
 
   test('E3-01: Double-click prevention on submit', async ({ page }) => {
     // Select an option
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
     await options.first().click();
 
     // Double-click submit rapidly
-    const submitBtn = page.locator('button:has-text("Submit")');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
 
     if (await submitBtn.isVisible()) {
       await submitBtn.dblclick();
@@ -47,15 +47,15 @@ test.describe('Double-Click Prevention', () => {
   });
 
   test('E3-01: Rapid submit clicks handled', async ({ page }) => {
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
     await options.first().click();
 
-    const submitBtn = page.locator('button:has-text("Submit")');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
 
-    if (await submitBtn.isVisible()) {
+    if (await submitBtn.isVisible().catch(() => false)) {
       // Click many times rapidly
       for (let i = 0; i < 5; i++) {
-        await submitBtn.click({ delay: 10 });
+        await submitBtn.click({ delay: 10, timeout: 250 }).catch(() => {});
       }
 
       await page.waitForTimeout(500);
@@ -66,7 +66,7 @@ test.describe('Double-Click Prevention', () => {
   });
 
   test('E3-02: Rapid option clicks handled', async ({ page }) => {
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
     const count = await options.count();
 
     // Click through options rapidly
@@ -94,37 +94,44 @@ test.describe('Rapid Navigation', () => {
   });
 
   test('A3-45: Rapid chapter navigation', async ({ page }) => {
-    // Find chapter navigation
-    const chapters = page.locator('[class*="chapter"], [data-testid*="chapter"]');
-    const count = await chapters.count();
+    const chapterStarts = page.locator('[data-testid="start-chapter-button"]');
+    const count = await chapterStarts.count();
+    if (count < 2) return;
 
-    if (count > 1) {
-      // Click rapidly between chapters
-      for (let i = 0; i < 10; i++) {
-        await chapters.nth(i % count).click({ delay: 50 });
+    for (let i = 0; i < 6; i++) {
+      await chapterStarts.nth(i % count).click({ delay: 25 });
+      const back = page.getByTestId('back-dashboard-btn');
+      if (await back.isVisible().catch(() => false)) {
+        await back.click({ delay: 25 });
       }
-
-      await page.waitForTimeout(500);
-
-      // App should still work
-      await expect(page.locator('body')).toBeVisible();
     }
+
+    await expect(page.locator('body')).toBeVisible();
   });
 
   test('E3-02: Rapid question navigation', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
-    const nextBtn = page.locator('button:has-text("Next")');
-    const prevBtn = page.locator('button:has-text("Previous")');
-
-    // Navigate rapidly
-    for (let i = 0; i < 10; i++) {
-      if (await nextBtn.isEnabled().catch(() => false)) {
-        await nextBtn.click({ delay: 50 });
+    // Submit once so navigation controls appear
+    const options = page.locator('[role="radio"]');
+    if (
+      await options
+        .first()
+        .isVisible()
+        .catch(() => false)
+    ) {
+      await options.first().click();
+      const submit = page.locator('button:has-text("Submit")');
+      if (await submit.isVisible().catch(() => false)) {
+        await submit.click();
       }
-      if (await prevBtn.isEnabled().catch(() => false)) {
-        await prevBtn.click({ delay: 50 });
+    }
+
+    const nextBtn = page.getByTestId('next-question-button');
+    for (let i = 0; i < 10; i++) {
+      if (await nextBtn.isVisible().catch(() => false)) {
+        await nextBtn.click({ delay: 25 }).catch(() => {});
       }
     }
 
@@ -160,18 +167,19 @@ test.describe('Click During Animation', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Select and submit
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
-    const submitBtn = page.locator('button:has-text("Submit")');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
     await submitBtn.click();
 
     // Immediately try to click next during transition
-    const nextBtn = page.locator('button:has-text("Next")');
+    const nextBtn = page.getByTestId('next-question-button');
     await nextBtn.click({ delay: 0 }).catch(() => {});
 
     await page.waitForTimeout(500);
@@ -187,7 +195,7 @@ test.describe('Scroll During Interaction', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Start selecting while scrolling
@@ -196,8 +204,13 @@ test.describe('Scroll During Interaction', () => {
       await page.evaluate(() => window.scrollBy(0, 100));
 
       // Click option
-      const options = page.locator('[role="radio"], .option-card');
-      if (await options.first().isVisible()) {
+      const options = page.locator('[role="radio"]');
+      if (
+        await options
+          .first()
+          .isVisible()
+          .catch(() => false)
+      ) {
         await options.first().click();
       }
 
@@ -220,11 +233,12 @@ test.describe('Theme Toggle Mid-Action', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Select option
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
     // Toggle theme
@@ -234,8 +248,8 @@ test.describe('Theme Toggle Mid-Action', () => {
     }
 
     // Submit
-    const submitBtn = page.locator('button:has-text("Submit")');
-    if (await submitBtn.isVisible()) {
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
+    if (await submitBtn.isVisible().catch(() => false)) {
       await submitBtn.click();
     }
 
@@ -253,14 +267,15 @@ test.describe('Navigation During Save', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer question
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
-    const submitBtn = page.locator('button:has-text("Submit")');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
     await submitBtn.click();
 
     // Immediately navigate away (during potential save)
@@ -285,11 +300,12 @@ test.describe('Import During Quiz', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer a question
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
     // Try to import new quiz mid-session
@@ -317,20 +333,20 @@ test.describe('Concurrent Operations', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Do multiple things at once
     await Promise.all([
       // Select option
       page
-        .locator('[role="radio"], .option-card')
+        .locator('[role="radio"]')
         .first()
         .click()
         .catch(() => {}),
       // Try to navigate
       page
-        .locator('button:has-text("Next")')
+        .getByTestId('next-question-button')
         .click()
         .catch(() => {}),
       // Toggle theme
@@ -352,12 +368,12 @@ test.describe('Concurrent Operations', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer rapidly
     for (let i = 0; i < 5; i++) {
-      const options = page.locator('[role="radio"], .option-card');
+      const options = page.locator('[role="radio"]');
       if (
         await options
           .first()
@@ -367,14 +383,14 @@ test.describe('Concurrent Operations', () => {
         await options.first().click();
       }
 
-      const submitBtn = page.locator('button:has-text("Submit")');
+      const submitBtn = page.locator('button:has-text("Submit Answer")');
       if (await submitBtn.isVisible().catch(() => false)) {
-        await submitBtn.click();
+        await submitBtn.click().catch(() => {});
       }
 
-      const nextBtn = page.locator('button:has-text("Next")');
+      const nextBtn = page.getByTestId('next-question-button');
       if (await nextBtn.isVisible().catch(() => false)) {
-        await nextBtn.click();
+        await nextBtn.click().catch(() => {});
       }
     }
 
@@ -392,20 +408,21 @@ test.describe('Browser Back/Forward', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer question
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
-    const submitBtn = page.locator('button:has-text("Submit")');
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
     await submitBtn.click();
 
     // Go to next
-    const nextBtn = page.locator('button:has-text("Next")');
-    if (await nextBtn.isVisible()) {
-      await nextBtn.click();
+    const nextBtn = page.getByTestId('next-question-button');
+    if (await nextBtn.isVisible().catch(() => false)) {
+      await nextBtn.click().catch(() => {});
     }
 
     // Press back
@@ -423,7 +440,7 @@ test.describe('Browser Back/Forward', () => {
     await waitForQuizLoaded(page);
 
     // Navigate around
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Back
@@ -445,11 +462,12 @@ test.describe('Resize During Interaction', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Select option
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
     // Resize during selection
@@ -458,8 +476,8 @@ test.describe('Resize During Interaction', () => {
     await page.setViewportSize({ width: 1280, height: 800 });
 
     // Submit
-    const submitBtn = page.locator('button:has-text("Submit")');
-    if (await submitBtn.isVisible()) {
+    const submitBtn = page.locator('button:has-text("Submit Answer")');
+    if (await submitBtn.isVisible().catch(() => false)) {
       await submitBtn.click();
     }
 
@@ -476,12 +494,15 @@ test.describe('Interrupted Operations', () => {
     await clearLocalStorage(page);
 
     // Start import
-    const importPromise = importQuizViaUI(page, validQuizJSON);
+    const importPromise = importQuizViaUI(page, validQuizJSON).catch(() => {});
 
     // Interrupt by navigating away
     await page.evaluate(() => window.stop());
 
     await page.waitForTimeout(500);
+
+    // Ensure the interrupted import can't fail the test via unhandled rejection
+    await importPromise;
 
     // Reload
     await page.goto('/');

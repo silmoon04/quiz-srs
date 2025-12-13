@@ -32,8 +32,21 @@ export const PRE_LOADED_QUIZ_STATE = {
  */
 export const STORAGE_STATE_PATH = 'tests/e2e/.auth/storage-state.json';
 
+function resolveBaseURL(config: FullConfig): string {
+  const projectBaseURL = config.projects
+    ?.map((p) => p.use?.baseURL)
+    .find((url): url is string => typeof url === 'string' && url.length > 0);
+
+  const envBaseURL = process.env.PLAYWRIGHT_BASE_URL || process.env.BASE_URL;
+
+  const resolved = (projectBaseURL || envBaseURL || 'http://localhost:4000') as string;
+  return resolved.replace(/\/$/, '');
+}
+
 async function globalSetup(_config: FullConfig) {
   console.log('🚀 Global setup: Pre-loading quiz data...');
+
+  const baseURL = resolveBaseURL(_config);
 
   // Launch browser to set up localStorage state
   const browser = await chromium.launch();
@@ -42,14 +55,23 @@ async function globalSetup(_config: FullConfig) {
 
   try {
     // Navigate to the app
-    await page.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
 
-    // Pre-load quiz data into localStorage
+    // Pre-load Zustand persisted store state into localStorage
+    // Key must match `persist({ name: 'quiz-store' })` in store/quiz-store.ts
     await page.evaluate((state) => {
-      localStorage.setItem('quiz-srs-data', JSON.stringify(state.quizData));
-      localStorage.setItem('quiz-srs-name', state.quizName);
-      localStorage.setItem('quiz-srs-view', state.currentView);
-      localStorage.setItem('quiz-srs-progress', JSON.stringify(state.userProgress));
+      const persisted = {
+        state: {
+          currentModule: state.quizData,
+          answerRecords: {},
+          appState: state.currentView,
+          currentChapterId: '',
+          currentQuestionIndex: 0,
+          sessionHistory: [],
+        },
+        version: 1,
+      };
+      localStorage.setItem('quiz-store', JSON.stringify(persisted));
     }, PRE_LOADED_QUIZ_STATE);
 
     // Save the storage state for reuse

@@ -266,8 +266,8 @@ test.describe('Review Session Flow', () => {
     await waitForQuizLoaded(page);
     await startQuizSession(page);
 
-    // Answer everything correctly
-    for (let i = 0; i < 5; i++) {
+    // Answer everything correctly (default fixture has 3 questions)
+    for (let i = 0; i < 3; i++) {
       await answerQuestion(page, 1);
       await navigateToNextQuestion(page).catch(() => {});
     }

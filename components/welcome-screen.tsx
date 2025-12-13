@@ -73,6 +73,7 @@ export function WelcomeScreen({
               {/* Primary Action - Try Algorithm Quiz */}
               <div className="space-y-4">
                 <Button
+                  data-testid="start-default-quiz-button"
                   onClick={onLoadDefaultQuiz}
                   disabled={isLoading}
                   size="lg"
@@ -86,6 +87,7 @@ export function WelcomeScreen({
                 <div className="flex flex-col items-center space-y-2">
                   <p className="text-sm text-gray-400">or</p>
                   <Button
+                    data-testid="load-custom-quiz-button"
                     onClick={triggerFileInput}
                     disabled={isLoading}
                     size="sm"
@@ -100,6 +102,7 @@ export function WelcomeScreen({
 
               {/* Hidden file input */}
               <input
+                data-testid="file-input"
                 ref={fileInputRef}
                 type="file"
                 accept=".json,.md,.markdown,application/json,text/markdown"

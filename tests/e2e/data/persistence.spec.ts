@@ -26,7 +26,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start Quiz")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer question
@@ -48,7 +48,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start Quiz")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer and immediately navigate
@@ -68,7 +68,7 @@ test.describe('State Persistence', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer
@@ -101,7 +101,7 @@ test.describe('Concurrent Tab Handling', () => {
     await expect(page2.locator(`text=${validQuizJSON.name}`)).toBeVisible();
 
     // Make change in tab 1
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
     await answerQuestion(page, 1);
 
@@ -109,11 +109,8 @@ test.describe('Concurrent Tab Handling', () => {
     await page2.reload();
     await waitForQuizLoaded(page2);
 
-    // Should have progress
-    const hasProgress = await page2
-      .locator('text=/answered|progress|1/i')
-      .isVisible()
-      .catch(() => false);
+    // Should have persisted state
+    const hasProgress = Boolean(await getLocalStorage(page2, 'quiz-state'));
 
     await page2.close();
 
@@ -127,7 +124,7 @@ test.describe('Concurrent Tab Handling', () => {
     await waitForQuizLoaded(page);
 
     // Start in tab 1
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Open tab 2
@@ -168,9 +165,7 @@ test.describe('State Corruption Handling', () => {
 
     // Should recover gracefully
     await expect(page.locator('body')).toBeVisible();
-    await expect(page.locator('text=/import|welcome|error/i').first()).toBeVisible({
-      timeout: 3000,
-    });
+    await expect(page.getByTestId('load-custom-quiz-button')).toBeVisible({ timeout: 5000 });
   });
 
   test('B2-02: Partial corruption recovery', async ({ page }) => {
@@ -232,7 +227,7 @@ test.describe('localStorage Quota', () => {
       }
     });
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Try to answer (save might fail)
@@ -293,7 +288,7 @@ test.describe('Incognito Mode', () => {
     await importQuizViaUI(page, validQuizJSON);
     await waitForQuizLoaded(page);
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     await answerQuestion(page, 1);
@@ -319,7 +314,7 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Answer history recorded', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer multiple questions
@@ -333,7 +328,7 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Correct/incorrect counts accurate', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Answer correctly
@@ -348,11 +343,12 @@ test.describe('Answer Tracking', () => {
   });
 
   test('Answer modification tracked', async ({ page }) => {
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
 
     // Select first option
-    const options = page.locator('[role="radio"], .option-card');
+    const options = page.locator('[role="radio"]');
+    await expect(options.first()).toBeVisible();
     await options.first().click();
 
     // Change to second
@@ -393,7 +389,7 @@ test.describe('Session Boundaries', () => {
       };
     });
 
-    const startBtn = page.locator('button:has-text("Start")').first();
+    const startBtn = page.locator('[data-testid="start-chapter-button"]').first();
     await startBtn.click();
     await answerQuestion(page, 1);
 

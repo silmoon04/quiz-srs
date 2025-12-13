@@ -478,7 +478,7 @@ describe('useQuizSession', () => {
           result.current.backToDashboard();
         });
 
-        expect(result.current.appState).toBe('welcome');
+        expect(result.current.appState).toBe('dashboard');
         expect(result.current.currentChapter).toBeNull();
         expect(result.current.currentQuestionIndex).toBe(0);
         expect(result.current.selectedOptionId).toBeNull();

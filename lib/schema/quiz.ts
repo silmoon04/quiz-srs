@@ -1,5 +1,50 @@
 import { z } from 'zod';
 
+type AnyRecord = Record<string, any>;
+
+function normalizeQuizModuleInput(data: unknown): unknown {
+  if (!data || typeof data !== 'object') return data;
+  const moduleObj = data as AnyRecord;
+
+  const chapters = Array.isArray(moduleObj.chapters) ? moduleObj.chapters : [];
+
+  const normalizedChapters = chapters.map((chapterRaw: unknown) => {
+    if (!chapterRaw || typeof chapterRaw !== 'object') return chapterRaw;
+    const chapter = chapterRaw as AnyRecord;
+
+    const questions = Array.isArray(chapter.questions) ? chapter.questions : [];
+    const normalizedQuestions = questions.map((questionRaw: unknown) => {
+      if (!questionRaw || typeof questionRaw !== 'object') return questionRaw;
+      const question = questionRaw as AnyRecord;
+      return {
+        ...question,
+        explanationText: question.explanationText ?? question.explanation ?? '',
+      };
+    });
+
+    const totalQuestions =
+      typeof chapter.totalQuestions === 'number'
+        ? chapter.totalQuestions
+        : normalizedQuestions.length;
+
+    return {
+      ...chapter,
+      name: chapter.name ?? chapter.title ?? chapter.chapterName ?? 'Chapter',
+      questions: normalizedQuestions,
+      totalQuestions,
+      answeredQuestions:
+        typeof chapter.answeredQuestions === 'number' ? chapter.answeredQuestions : 0,
+      correctAnswers: typeof chapter.correctAnswers === 'number' ? chapter.correctAnswers : 0,
+      isCompleted: typeof chapter.isCompleted === 'boolean' ? chapter.isCompleted : false,
+    };
+  });
+
+  return {
+    ...moduleObj,
+    chapters: normalizedChapters,
+  };
+}
+
 // Base schemas
 export const QuizOptionSchema = z.object({
   optionId: z.string().min(1, 'Option ID is required'),
@@ -11,7 +56,7 @@ export const QuizQuestionSchema = z.object({
   questionText: z.string().min(1, 'Question text is required'),
   options: z.array(QuizOptionSchema).min(2, 'At least 2 options are required'),
   correctOptionIds: z.array(z.string()).min(1, 'At least one correct option is required'),
-  explanationText: z.string().min(1, 'Explanation text is required'),
+  explanationText: z.string().optional().default(''),
   type: z.enum(['mcq', 'true_false']).optional(),
   // Performance tracking fields
   status: z
@@ -107,11 +152,12 @@ export type SessionHistoryEntry = z.infer<typeof SessionHistoryEntrySchema>;
 export const parseQuizOption = (data: unknown): QuizOption => QuizOptionSchema.parse(data);
 export const parseQuizQuestion = (data: unknown): QuizQuestion => QuizQuestionSchema.parse(data);
 export const parseQuizChapter = (data: unknown): QuizChapter => QuizChapterSchema.parse(data);
-export const parseQuizModule = (data: unknown): QuizModule => QuizModuleSchema.parse(data);
+export const parseQuizModule = (data: unknown): QuizModule =>
+  QuizModuleSchema.parse(normalizeQuizModuleInput(data));
 
 // Assertion function for QuizModule
 export function assertQuizModule(value: unknown): asserts value is QuizModule {
-  QuizModuleSchema.parse(value);
+  QuizModuleSchema.parse(normalizeQuizModuleInput(value));
 }
 
 // Validation helpers
@@ -119,7 +165,7 @@ export const validateQuizModule = (
   data: unknown,
 ): { success: true; data: QuizModule } | { success: false; error: z.ZodError } => {
   try {
-    const result = QuizModuleSchema.parse(data);
+    const result = QuizModuleSchema.parse(normalizeQuizModuleInput(data));
     return { success: true, data: result };
   } catch (error) {
     if (error instanceof z.ZodError) {

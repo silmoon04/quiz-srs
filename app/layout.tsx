@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import { PersistenceProvider } from '@/services/persistence/provider';
 import './globals.css';
+import { LegacyStorageBridge } from '@/components/legacy-storage-bridge';
 import 'katex/dist/katex.min.css';
 import 'highlight.js/styles/github-dark.css'; // Syntax highlighting theme
 
@@ -35,6 +36,7 @@ html {
         <PersistenceProvider>
           <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
         </PersistenceProvider>
+        <LegacyStorageBridge />
         <Analytics />
       </body>
     </html>

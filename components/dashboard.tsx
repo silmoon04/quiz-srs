@@ -91,6 +91,7 @@ export function Dashboard({
           {/* Action buttons - Improved responsive layout */}
           <div className="flex flex-wrap gap-2 lg:flex-shrink-0">
             <input
+              data-testid="dashboard-import-state-input"
               ref={importFileInputRef}
               type="file"
               accept=".json,application/json"

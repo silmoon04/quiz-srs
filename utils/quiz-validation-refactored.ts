@@ -5,6 +5,38 @@ export interface ValidationResult {
   errors: string[];
 }
 
+/**
+ * Sanitizes text for use in deterministic IDs.
+ * Takes first 30 chars, lowercases, replaces non-alphanumeric with underscores,
+ * and collapses multiple underscores.
+ */
+export function sanitizeForId(text: string): string {
+  return text
+    .slice(0, 30)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+/**
+ * Resolves duplicate IDs by appending _1, _2, etc.
+ * Returns a unique ID and updates the seenIds set.
+ */
+export function resolveDuplicateId(baseId: string, seenIds: Set<string>): string {
+  if (!seenIds.has(baseId)) {
+    seenIds.add(baseId);
+    return baseId;
+  }
+  let suffix = 1;
+  while (seenIds.has(`${baseId}_${suffix}`)) {
+    suffix++;
+  }
+  const uniqueId = `${baseId}_${suffix}`;
+  seenIds.add(uniqueId);
+  return uniqueId;
+}
+
 interface LaTeXCorrectionResult {
   correctedContent: string;
   correctionsMade: number;
@@ -488,6 +520,15 @@ export function validateQuizModule(data: any): ValidationResult {
       errors.push(...validateChapter(chapter, chapterIndex));
     });
 
+    // Require at least one question across the module, but allow empty chapters.
+    const totalQuestions = data.chapters.reduce((sum: number, ch: any) => {
+      const qCount = Array.isArray(ch?.questions) ? ch.questions.length : 0;
+      return sum + qCount;
+    }, 0);
+    if (totalQuestions === 0) {
+      errors.push('Quiz module must contain at least one question');
+    }
+
     // Check for duplicate question IDs across all chapters
     const seenQuestionIds = new Map<string, string>(); // questionId -> chapterId
     data.chapters.forEach((chapter: any) => {
@@ -520,8 +561,11 @@ function validateChapter(chapter: any, index: number): string[] {
   if (typeof chapter.id !== 'string' || chapter.id.trim() === '') {
     errors.push(`${prefix}: Missing or invalid 'id' property (must be non-empty string)`);
   }
-  if (typeof chapter.name !== 'string' || chapter.name.trim() === '') {
-    errors.push(`${prefix}: Missing or invalid 'name' property (must be non-empty string)`);
+  const chapterName = chapter.name ?? chapter.title;
+  if (typeof chapterName !== 'string' || chapterName.trim() === '') {
+    errors.push(
+      `${prefix}: Missing or invalid 'name' property (must be non-empty string) (also accepts legacy 'title')`,
+    );
   }
   if (chapter.description !== undefined && typeof chapter.description !== 'string') {
     errors.push(`${prefix}: Invalid 'description' property (must be string if provided)`);
@@ -529,9 +573,6 @@ function validateChapter(chapter: any, index: number): string[] {
   if (!Array.isArray(chapter.questions)) {
     errors.push(`${prefix}: Missing or invalid 'questions' property (must be array)`);
   } else {
-    if (chapter.questions.length === 0) {
-      errors.push(`${prefix}: 'questions' array cannot be empty`);
-    }
     chapter.questions.forEach((question: any, questionIndex: number) => {
       errors.push(...validateQuestion(question, chapter.id || `chap${index}`, questionIndex));
     });
@@ -552,10 +593,11 @@ function validateQuestion(question: any, chapterId: string, questionIndex: numbe
   if (typeof question.questionText !== 'string' || question.questionText.trim() === '') {
     errors.push(`${prefix}: Missing or invalid 'questionText' property (must be non-empty string)`);
   }
-  if (typeof question.explanationText !== 'string' || question.explanationText.trim() === '') {
-    errors.push(
-      `${prefix}: Missing or invalid 'explanationText' property (must be non-empty string)`,
-    );
+  // explanationText is optional for some rendering-focused fixtures.
+  // Accept legacy 'explanation' too.
+  const explanation = question.explanationText ?? question.explanation;
+  if (explanation !== undefined && typeof explanation !== 'string') {
+    errors.push(`${prefix}: Invalid explanation field (must be string if provided)`);
   }
 
   // Validate 'type' field
@@ -728,6 +770,7 @@ export function normalizeSingleQuestion(data: QuizQuestion): QuizQuestion {
 
   return {
     ...data,
+    explanationText: (data as any).explanationText ?? (data as any).explanation ?? '',
     type: data.type || 'mcq', // Default to 'mcq' if type is missing
     status: normalizedStatus,
     timesAnsweredCorrectly: timesCorrect,
@@ -753,6 +796,7 @@ export function normalizeQuizModule(data: any): QuizModule {
     ).length;
     return {
       ...chapter,
+      name: chapter.name ?? chapter.title ?? 'Chapter',
       questions: normalizedQuestions,
       totalQuestions,
       answeredQuestions,
@@ -980,7 +1024,8 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
       }
     }
     if (!chapterId) {
-      chapterId = `chapter_${chapters.length + 1}_${Date.now()}`;
+      const sanitizedName = sanitizeForId(chapterName);
+      chapterId = `chapter_${sanitizedName}_${chapters.length}`;
       errors.push(
         `[Warning] Chapter "${chapterName.substring(0, 30)}..." is missing an ID. Generated default: ${chapterId}`,
       );
@@ -990,15 +1035,10 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
       errors.push(
         `[Error] Duplicate Chapter ID found: '${chapterId}'. Each chapter must have a unique ID. Chapter name: "${chapterName.substring(0, 30)}..."`,
       );
-      // Generate a new unique ID to prevent React key errors
+      // Generate a new unique ID using deterministic suffix resolution
       const originalId = chapterId;
-      let suffix = 1;
-      while (seenChapterIds.has(`${originalId}_${suffix}`)) {
-        suffix++;
-      }
-      chapterId = `${originalId}_${suffix}`;
+      chapterId = resolveDuplicateId(originalId, seenChapterIds);
       errors.push(`[Auto-fix] Renamed duplicate chapter ID to '${chapterId}' to prevent errors.`);
-      seenChapterIds.add(chapterId);
     } else {
       seenChapterIds.add(chapterId);
     }
@@ -1069,7 +1109,7 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
           }
         }
         if (!questionId) {
-          questionId = `${chapterId}_q${questionCounterInChapter}_${Date.now()}`; // Generic 'q' prefix, type field will differentiate
+          questionId = `${chapterId}_q${questionCounterInChapter}`;
           errors.push(
             `[Warning] Question in chapter ${chapterId} (starting with "${rawQuestionHeaderText.substring(0, 30)}...") is missing an ID. Generated default: ${questionId}`,
           );
@@ -1079,17 +1119,12 @@ export function parseMarkdownToQuizModule(markdownContent: string): MarkdownPars
           errors.push(
             `[Error] Duplicate Question ID found: '${questionId}'. Each question must have a unique ID across the entire quiz. Question text starts with: "${rawQuestionHeaderText.substring(0, 30)}..."`,
           );
-          // Generate a new unique ID to prevent React key errors
+          // Generate a new unique ID using deterministic suffix resolution
           const originalId = questionId;
-          let suffix = 1;
-          while (seenQuestionIds.has(`${originalId}_${suffix}`)) {
-            suffix++;
-          }
-          questionId = `${originalId}_${suffix}`;
+          questionId = resolveDuplicateId(originalId, seenQuestionIds);
           errors.push(
             `[Auto-fix] Renamed duplicate question ID to '${questionId}' to prevent React errors.`,
           );
-          seenQuestionIds.add(questionId);
         } else {
           seenQuestionIds.add(questionId);
         }

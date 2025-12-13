@@ -168,8 +168,7 @@ export function processMarkdownSync(content: string): string {
       .use(rehypeRaw) // Allow raw HTML
       .use(rehypeMermaid) // Transform mermaid blocks BEFORE highlight/sanitize
       .use(rehypeKatex) // Render math with KaTeX
-      // @ts-expect-error - rehype-highlight types are inconsistent with actual API
-      .use(rehypeHighlight, { ignoreMissing: true }) // Syntax highlighting
+      .use(rehypeHighlight as any, { ignoreMissing: true }) // Syntax highlighting
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
       .use(rehypeStringify); // Convert to HTML string
 
