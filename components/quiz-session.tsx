@@ -167,18 +167,9 @@ export function QuizSession({
     }
 
     const generateDisplayedOptions = (): DisplayedOption[] => {
-      const maxDisplayOptions = 5;
-
-      // For edge-case questions with many options, display the full option set.
-      // This keeps the UI faithful to the imported module and supports E2E expectations.
-      if (question.options.length > maxDisplayOptions) {
-        return [...question.options]
-          .map((opt) => ({
-            ...opt,
-            isCorrect: question.correctOptionIds.includes(opt.optionId),
-          }))
-          .sort(() => Math.random() - 0.5);
-      }
+      // SRS algorithm: Show 1 correct + up to 3 incorrect = 4 total options
+      // This ensures a focused quiz experience regardless of how many options exist
+      const maxDisplayOptions = 4;
 
       const correctOptions = question.options.filter((opt) =>
         question.correctOptionIds.includes(opt.optionId),

@@ -1,6 +1,7 @@
 import type { DisplayedOption, QuizQuestion } from '@/types/quiz-types';
 
-const DEFAULT_MAX_OPTIONS = 5;
+// SRS algorithm: Show 1 correct + up to 3 incorrect = 4 total options
+const DEFAULT_MAX_OPTIONS = 4;
 
 /**
  * Error thrown when a question has no valid correct options

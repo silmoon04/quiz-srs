@@ -36,7 +36,8 @@ export interface QuizSessionContainerProps {
 // CONSTANTS
 // ============================================
 
-const MAX_DISPLAY_OPTIONS = 5;
+// SRS algorithm: Show 1 correct + up to 3 incorrect = 4 total options
+const MAX_DISPLAY_OPTIONS = 4;
 
 // ============================================
 // HELPER FUNCTIONS

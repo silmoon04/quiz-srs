@@ -491,8 +491,8 @@ describe('useModuleLoader', () => {
 
     it('should set error if both default sources fail', async () => {
       (global.fetch as any)
-        .mockResolvedValueOnce({ ok: false, status: 404 })
-        .mockResolvedValueOnce({ ok: false, status: 404 });
+        .mockResolvedValueOnce({ ok: false, status: 404, statusText: 'Not Found' })
+        .mockResolvedValueOnce({ ok: false, status: 404, statusText: 'Not Found' });
 
       const { result } = renderHook(() => useModuleLoader());
 
@@ -501,6 +501,8 @@ describe('useModuleLoader', () => {
       });
 
       expect(result.current.error).toContain('Failed to load default quiz');
+      expect(result.current.error).toContain('/default-quiz.md');
+      expect(result.current.error).toContain('/default-quiz.json');
       expect(result.current.currentModule).toBeNull();
     });
 

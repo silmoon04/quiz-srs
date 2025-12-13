@@ -233,11 +233,14 @@ export function useModuleLoader(): UseModuleLoaderReturn {
     clearErrorAction();
 
     const errors: string[] = [];
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
     try {
       // Try loading Markdown first (Primary)
       try {
-        const mdResponse = await fetch('/default-quiz.md');
+        const mdUrl = `${basePath}/default-quiz.md`;
+        console.log(`[useModuleLoader] Attempting to fetch default quiz from: ${mdUrl}`);
+        const mdResponse = await fetch(mdUrl);
 
         if (mdResponse.ok) {
           const mdContent = await mdResponse.text();
@@ -251,7 +254,9 @@ export function useModuleLoader(): UseModuleLoaderReturn {
             errors.push(`Markdown parsing failed: ${result.error || 'Unknown error'}`);
           }
         } else {
-          errors.push(`Markdown fetch failed: ${mdResponse.status} ${mdResponse.statusText}`);
+          errors.push(
+            `Markdown fetch failed: ${mdResponse.status} ${mdResponse.statusText} (${mdUrl})`,
+          );
         }
       } catch (mdError) {
         errors.push(
@@ -261,7 +266,9 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
       // Try loading JSON fallback
       try {
-        const jsonResponse = await fetch('/default-quiz.json');
+        const jsonUrl = `${basePath}/default-quiz.json`;
+        console.log(`[useModuleLoader] Attempting to fetch fallback quiz from: ${jsonUrl}`);
+        const jsonResponse = await fetch(jsonUrl);
 
         if (jsonResponse.ok) {
           const jsonData = await jsonResponse.json();
@@ -275,7 +282,9 @@ export function useModuleLoader(): UseModuleLoaderReturn {
             errors.push(`JSON validation failed: ${result.validationResult.errors.join(', ')}`);
           }
         } else {
-          errors.push(`JSON fetch failed: ${jsonResponse.status} ${jsonResponse.statusText}`);
+          errors.push(
+            `JSON fetch failed: ${jsonResponse.status} ${jsonResponse.statusText} (${jsonUrl})`,
+          );
         }
       } catch (jsonError) {
         errors.push(
