@@ -1,6 +1,6 @@
 # Deep Codebase Analysis Report
 
-**Generated:** 2025-12-21 07:33:35
+**Generated:** 2025-12-21 08:27:24
 
 **Analyzer:** [scripts/deep-codebase-analyzer.py](../scripts/deep-codebase-analyzer.py)
 
@@ -10,10 +10,10 @@
 
 | Metric                | Count |
 | --------------------- | ----- |
-| Total Files           | 190   |
+| Total Files           | 177   |
 | Entry Points          | 24    |
 | Test Files            | 96    |
-| Dead Code Candidates  | 29    |
+| Dead Code Candidates  | 15    |
 | Circular Dependencies | 0     |
 | Duplicate Groups      | 2     |
 
@@ -221,8 +221,8 @@
 - `features/quiz-session/hooks/use-quiz-session.ts`
 - `lib/engine/srs.ts`
 - `lib/markdown/pipeline.ts`
-- `lib/quiz/parser.ts`
-- ... and 5 more
+- `lib/quiz/generate-displayed-options.tsx`
+- ... and 6 more
 
 ### `config/depcheck.config.cjs` (config)
 
@@ -441,42 +441,28 @@
 
 ### HIGH CONFIDENCE (Safe to Delete)
 
-| File                                           | Reason            | Related Test |
-| ---------------------------------------------- | ----------------- | ------------ |
-| `components/quiz-complete.tsx`                 | No imports at all | `N/A`        |
-| `config/vitest.config.accessibility.ts`        | No imports at all | `N/A`        |
-| `config/vitest.config.integration.ts`          | No imports at all | `N/A`        |
-| `features/dashboard/components/index.ts`       | No imports at all | `N/A`        |
-| `features/dashboard/hooks/index.ts`            | No imports at all | `N/A`        |
-| `features/dashboard/index.ts`                  | No imports at all | `N/A`        |
-| `features/index.ts`                            | No imports at all | `N/A`        |
-| `features/question-editor/components/index.ts` | No imports at all | `N/A`        |
-| `features/question-editor/hooks/index.ts`      | No imports at all | `N/A`        |
-| `features/question-editor/index.ts`            | No imports at all | `N/A`        |
-| `features/quiz-session/components/index.ts`    | No imports at all | `N/A`        |
-| `features/quiz-session/hooks/index.ts`         | No imports at all | `N/A`        |
-| `features/quiz-session/index.ts`               | No imports at all | `N/A`        |
-| `features/srs-review/components/index.ts`      | No imports at all | `N/A`        |
-| `features/srs-review/hooks/index.ts`           | No imports at all | `N/A`        |
-| `features/srs-review/index.ts`                 | No imports at all | `N/A`        |
-| `lib/engine/index.ts`                          | No imports at all | `N/A`        |
-| `next-env.d.ts`                                | No imports at all | `N/A`        |
+| File                                    | Reason            | Related Test |
+| --------------------------------------- | ----------------- | ------------ |
+| `components/quiz-complete.tsx`          | No imports at all | `N/A`        |
+| `config/vitest.config.accessibility.ts` | No imports at all | `N/A`        |
+| `config/vitest.config.integration.ts`   | No imports at all | `N/A`        |
+| `lib/engine/index.ts`                   | No imports at all | `N/A`        |
+| `next-env.d.ts`                         | No imports at all | `N/A`        |
 
 ### MEDIUM CONFIDENCE (Only imported by tests)
 
-| File                                      | Reason                    | Related Test                                        |
-| ----------------------------------------- | ------------------------- | --------------------------------------------------- |
-| `components/all-questions-view.tsx`       | No non-test imports found | `tests/unit/components/all-questions-view.test.tsx` |
-| `components/ui/badge.tsx`                 | No non-test imports found | `N/A`                                               |
-| `components/ui/collapsible.tsx`           | No non-test imports found | `N/A`                                               |
-| `components/ui/popover.tsx`               | No non-test imports found | `N/A`                                               |
-| `components/ui/scroll-area.tsx`           | No non-test imports found | `N/A`                                               |
-| `components/ui/skeleton.tsx`              | No non-test imports found | `N/A`                                               |
-| `components/ui/slider.tsx`                | No non-test imports found | `N/A`                                               |
-| `components/ui/switch.tsx`                | No non-test imports found | `N/A`                                               |
-| `components/ui/tabs.tsx`                  | No non-test imports found | `N/A`                                               |
-| `hooks/use-mobile.tsx`                    | No non-test imports found | `tests/unit/hooks/use-mobile.test.tsx`              |
-| `lib/quiz/generate-displayed-options.tsx` | No non-test imports found | `N/A`                                               |
+| File                                | Reason                    | Related Test                                        |
+| ----------------------------------- | ------------------------- | --------------------------------------------------- |
+| `components/all-questions-view.tsx` | No non-test imports found | `tests/unit/components/all-questions-view.test.tsx` |
+| `components/ui/badge.tsx`           | No non-test imports found | `N/A`                                               |
+| `components/ui/collapsible.tsx`     | No non-test imports found | `N/A`                                               |
+| `components/ui/popover.tsx`         | No non-test imports found | `N/A`                                               |
+| `components/ui/scroll-area.tsx`     | No non-test imports found | `N/A`                                               |
+| `components/ui/skeleton.tsx`        | No non-test imports found | `N/A`                                               |
+| `components/ui/slider.tsx`          | No non-test imports found | `N/A`                                               |
+| `components/ui/switch.tsx`          | No non-test imports found | `N/A`                                               |
+| `components/ui/tabs.tsx`            | No non-test imports found | `N/A`                                               |
+| `hooks/use-mobile.tsx`              | No non-test imports found | `tests/unit/hooks/use-mobile.test.tsx`              |
 
 ---
 
@@ -500,19 +486,6 @@ _Multiple files with base name 'page'_
 
 _Multiple files with base name 'index'_
 
-- `features/index.ts`
-- `features/dashboard/index.ts`
-- `features/dashboard/components/index.ts`
-- `features/dashboard/hooks/index.ts`
-- `features/question-editor/index.ts`
-- `features/question-editor/components/index.ts`
-- `features/question-editor/hooks/index.ts`
-- `features/quiz-session/index.ts`
-- `features/quiz-session/components/index.ts`
-- `features/quiz-session/hooks/index.ts`
-- `features/srs-review/index.ts`
-- `features/srs-review/components/index.ts`
-- `features/srs-review/hooks/index.ts`
 - `lib/engine/index.ts`
 - `store/index.ts`
 
@@ -520,42 +493,42 @@ _Multiple files with base name 'index'_
 
 ## Component Usage Analysis
 
-| Component                                    | Import Count | Imported By                                                                                              |
-| -------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------- |
-| `components/all-questions-view.tsx`          | 0            | NONE                                                                                                     |
-| `components/quiz-complete.tsx`               | 0            | NONE                                                                                                     |
-| `components/ui/badge.tsx`                    | 0            | NONE                                                                                                     |
-| `components/ui/collapsible.tsx`              | 0            | NONE                                                                                                     |
-| `components/ui/popover.tsx`                  | 0            | NONE                                                                                                     |
-| `components/ui/scroll-area.tsx`              | 0            | NONE                                                                                                     |
-| `components/ui/skeleton.tsx`                 | 0            | NONE                                                                                                     |
-| `components/ui/slider.tsx`                   | 0            | NONE                                                                                                     |
-| `components/ui/switch.tsx`                   | 0            | NONE                                                                                                     |
-| `components/ui/tabs.tsx`                     | 0            | NONE                                                                                                     |
-| `components/chapter-card.tsx`                | 1            | components/dashboard.tsx                                                                                 |
-| `components/confirmation-modal-radix.tsx`    | 1            | components/question-editor.tsx                                                                           |
-| `components/dashboard.tsx`                   | 1            | features/dashboard/components/DashboardContainer.tsx                                                     |
-| `components/legacy-storage-bridge.tsx`       | 1            | app/layout.tsx                                                                                           |
-| `components/question-editor.tsx`             | 1            | components/quiz-session.tsx                                                                              |
-| `components/quiz-session.tsx`                | 1            | features/quiz-session/components/QuizSessionContainer.tsx                                                |
-| `components/welcome-screen.tsx`              | 1            | app/page.tsx                                                                                             |
-| `components/a11y/AccessibleOptionList.tsx`   | 1            | components/quiz-session.tsx                                                                              |
-| `components/a11y/AccessibleQuestionGrid.tsx` | 1            | components/quiz-session.tsx                                                                              |
-| `components/ui/circular-progress.tsx`        | 1            | components/quiz-session.tsx                                                                              |
-| `components/ui/dialog.tsx`                   | 1            | components/confirmation-modal-radix.tsx                                                                  |
-| `components/ui/input.tsx`                    | 1            | components/question-editor.tsx                                                                           |
-| `components/ui/label.tsx`                    | 1            | components/question-editor.tsx                                                                           |
-| `components/ui/textarea.tsx`                 | 1            | components/question-editor.tsx                                                                           |
-| `components/ui/toaster.tsx`                  | 1            | app/page.tsx                                                                                             |
-| `components/ui/use-toast.ts`                 | 1            | components/ui/toaster.tsx                                                                                |
-| `components/option-card.tsx`                 | 2            | components/all-questions-view.tsx, components/a11y/AccessibleOptionList.tsx                              |
-| `components/ui/toast.tsx`                    | 2            | components/ui/toaster.tsx, components/ui/use-toast.ts                                                    |
-| `components/ui/tooltip.tsx`                  | 2            | components/quiz-session.tsx, components/all-questions-view.tsx                                           |
-| `components/a11y/ScreenReaderAnnouncer.tsx`  | 3            | components/quiz-session.tsx, app/page.tsx, app/layout.tsx                                                |
-| `components/progress-bar.tsx`                | 5            | components/all-questions-view.tsx, components/quiz-complete.tsx, components/quiz-session.tsx +2 more     |
-| `components/rendering/MarkdownRenderer.tsx`  | 5            | components/question-editor.tsx, components/all-questions-view.tsx, components/option-card.tsx +2 more    |
-| `components/ui/button.tsx`                   | 8            | components/welcome-screen.tsx, components/question-editor.tsx, components/all-questions-view.tsx +5 more |
-| `components/ui/card.tsx`                     | 8            | components/welcome-screen.tsx, components/option-card.tsx, components/question-editor.tsx +5 more        |
+| Component                                    | Import Count | Imported By                                                                                                    |
+| -------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `components/all-questions-view.tsx`          | 0            | NONE                                                                                                           |
+| `components/quiz-complete.tsx`               | 0            | NONE                                                                                                           |
+| `components/ui/badge.tsx`                    | 0            | NONE                                                                                                           |
+| `components/ui/collapsible.tsx`              | 0            | NONE                                                                                                           |
+| `components/ui/popover.tsx`                  | 0            | NONE                                                                                                           |
+| `components/ui/scroll-area.tsx`              | 0            | NONE                                                                                                           |
+| `components/ui/skeleton.tsx`                 | 0            | NONE                                                                                                           |
+| `components/ui/slider.tsx`                   | 0            | NONE                                                                                                           |
+| `components/ui/switch.tsx`                   | 0            | NONE                                                                                                           |
+| `components/ui/tabs.tsx`                     | 0            | NONE                                                                                                           |
+| `components/chapter-card.tsx`                | 1            | components/dashboard.tsx                                                                                       |
+| `components/confirmation-modal-radix.tsx`    | 1            | components/question-editor.tsx                                                                                 |
+| `components/dashboard.tsx`                   | 1            | features/dashboard/components/DashboardContainer.tsx                                                           |
+| `components/legacy-storage-bridge.tsx`       | 1            | app/layout.tsx                                                                                                 |
+| `components/question-editor.tsx`             | 1            | components/quiz-session.tsx                                                                                    |
+| `components/quiz-session.tsx`                | 1            | features/quiz-session/components/QuizSessionContainer.tsx                                                      |
+| `components/welcome-screen.tsx`              | 1            | app/page.tsx                                                                                                   |
+| `components/a11y/AccessibleOptionList.tsx`   | 1            | components/quiz-session.tsx                                                                                    |
+| `components/a11y/AccessibleQuestionGrid.tsx` | 1            | components/quiz-session.tsx                                                                                    |
+| `components/ui/circular-progress.tsx`        | 1            | components/quiz-session.tsx                                                                                    |
+| `components/ui/dialog.tsx`                   | 1            | components/confirmation-modal-radix.tsx                                                                        |
+| `components/ui/input.tsx`                    | 1            | components/question-editor.tsx                                                                                 |
+| `components/ui/label.tsx`                    | 1            | components/question-editor.tsx                                                                                 |
+| `components/ui/textarea.tsx`                 | 1            | components/question-editor.tsx                                                                                 |
+| `components/ui/toaster.tsx`                  | 1            | app/page.tsx                                                                                                   |
+| `components/ui/use-toast.ts`                 | 1            | components/ui/toaster.tsx                                                                                      |
+| `components/option-card.tsx`                 | 2            | components/all-questions-view.tsx, components/a11y/AccessibleOptionList.tsx                                    |
+| `components/ui/toast.tsx`                    | 2            | components/ui/use-toast.ts, components/ui/toaster.tsx                                                          |
+| `components/ui/tooltip.tsx`                  | 2            | components/all-questions-view.tsx, components/quiz-session.tsx                                                 |
+| `components/a11y/ScreenReaderAnnouncer.tsx`  | 3            | app/page.tsx, components/quiz-session.tsx, app/layout.tsx                                                      |
+| `components/progress-bar.tsx`                | 5            | components/dashboard.tsx, components/quiz-session.tsx, components/chapter-card.tsx +2 more                     |
+| `components/rendering/MarkdownRenderer.tsx`  | 5            | components/question-editor.tsx, components/confirmation-modal-radix.tsx, components/option-card.tsx +2 more    |
+| `components/ui/button.tsx`                   | 8            | components/question-editor.tsx, components/confirmation-modal-radix.tsx, components/welcome-screen.tsx +5 more |
+| `components/ui/card.tsx`                     | 8            | components/question-editor.tsx, components/welcome-screen.tsx, components/option-card.tsx +5 more              |
 
 ---
 
@@ -575,16 +548,16 @@ _Multiple files with base name 'index'_
 
 ## Lib/Utils Usage Analysis
 
-| File                                      | Import Count | Imported By                                                                                       |
-| ----------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------- |
-| `lib/engine/index.ts`                     | 0            | NONE                                                                                              |
-| `lib/quiz/generate-displayed-options.tsx` | 0            | NONE                                                                                              |
-| `lib/engine/srs.ts`                       | 1            | store/quiz-store.ts                                                                               |
-| `lib/markdown/pipeline.ts`                | 1            | components/rendering/MarkdownRenderer.tsx                                                         |
-| `lib/quiz/parser.ts`                      | 1            | features/dashboard/hooks/use-module-loader.ts                                                     |
-| `lib/schema/quiz.ts`                      | 1            | scripts/validate-quiz.ts                                                                          |
-| `utils/quiz-validation-refactored.ts`     | 2            | features/dashboard/hooks/use-module-loader.ts, lib/quiz/parser.ts                                 |
-| `lib/utils.ts`                            | 24           | components/ui/circular-progress.tsx, components/ui/textarea.tsx, components/ui/toast.tsx +21 more |
+| File                                      | Import Count | Imported By                                                                                  |
+| ----------------------------------------- | ------------ | -------------------------------------------------------------------------------------------- |
+| `lib/engine/index.ts`                     | 0            | NONE                                                                                         |
+| `lib/engine/srs.ts`                       | 1            | store/quiz-store.ts                                                                          |
+| `lib/markdown/pipeline.ts`                | 1            | components/rendering/MarkdownRenderer.tsx                                                    |
+| `lib/quiz/generate-displayed-options.tsx` | 1            | components/quiz-session.tsx                                                                  |
+| `lib/quiz/parser.ts`                      | 1            | features/dashboard/hooks/use-module-loader.ts                                                |
+| `lib/schema/quiz.ts`                      | 1            | scripts/validate-quiz.ts                                                                     |
+| `utils/quiz-validation-refactored.ts`     | 2            | lib/quiz/parser.ts, features/dashboard/hooks/use-module-loader.ts                            |
+| `lib/utils.ts`                            | 24           | app/design-showcase/shared.tsx, components/ui/label.tsx, components/ui/textarea.tsx +21 more |
 
 ---
 
@@ -605,20 +578,20 @@ _Multiple files with base name 'index'_
 | `app/design-showcase/theme-playful/page.tsx`                | 830   | 4       | 1       | 0           |
 | `app/design-showcase/theme-saas/page.tsx`                   | 1086  | 4       | 1       | 0           |
 | `app/layout.tsx`                                            | 44    | 7       | 2       | 1           |
-| `app/page.tsx`                                              | 55    | 7       | 1       | 1           |
+| `app/page.tsx`                                              | 52    | 7       | 1       | 1           |
 | `components/a11y/AccessibleOptionList.tsx`                  | 174   | 3       | 1       | 2           |
 | `components/a11y/AccessibleQuestionGrid.tsx`                | 233   | 2       | 1       | 2           |
 | `components/a11y/ScreenReaderAnnouncer.tsx`                 | 81    | 1       | 2       | 7           |
 | `components/all-questions-view.tsx`                         | 281   | 9       | 1       | 1           |
 | `components/chapter-card.tsx`                               | 124   | 4       | 1       | 2           |
-| `components/confirmation-modal-radix.tsx`                   | 108   | 4       | 1       | 3           |
+| `components/confirmation-modal-radix.tsx`                   | 110   | 4       | 1       | 3           |
 | `components/dashboard.tsx`                                  | 266   | 8       | 1       | 2           |
 | `components/legacy-storage-bridge.tsx`                      | 91    | 2       | 1       | 1           |
 | `components/option-card.tsx`                                | 98    | 5       | 1       | 3           |
 | `components/progress-bar.tsx`                               | 86    | 0       | 1       | 6           |
 | `components/question-editor.tsx`                            | 586   | 11      | 1       | 1           |
 | `components/quiz-complete.tsx`                              | 213   | 4       | 1       | 0           |
-| `components/quiz-session.tsx`                               | 991   | 14      | 1       | 4           |
+| `components/quiz-session.tsx`                               | 938   | 15      | 1       | 4           |
 | `components/rendering/MarkdownRenderer.tsx`                 | 108   | 3       | 1       | 18          |
 | `components/ui/badge.tsx`                                   | 33    | 3       | 1       | 1           |
 | `components/ui/button.tsx`                                  | 49    | 4       | 1       | 9           |
@@ -644,28 +617,15 @@ _Multiple files with base name 'index'_
 | `config/vitest.config.accessibility.ts`                     | 19    | 3       | 1       | 0           |
 | `config/vitest.config.integration.ts`                       | 19    | 3       | 1       | 0           |
 | `config/vitest.config.ts`                                   | 66    | 3       | 1       | 0           |
-| `features/dashboard/components/DashboardContainer.tsx`      | 335   | 5       | 2       | 2           |
-| `features/dashboard/components/index.ts`                    | 4     | 0       | 1       | 0           |
-| `features/dashboard/hooks/index.ts`                         | 3     | 0       | 1       | 0           |
+| `features/dashboard/components/DashboardContainer.tsx`      | 331   | 4       | 2       | 2           |
 | `features/dashboard/hooks/use-module-loader.ts`             | 333   | 5       | 2       | 4           |
-| `features/dashboard/index.ts`                               | 4     | 0       | 2       | 0           |
-| `features/index.ts`                                         | 6     | 0       | 4       | 0           |
-| `features/question-editor/components/index.ts`              | 3     | 0       | 0       | 0           |
-| `features/question-editor/hooks/index.ts`                   | 3     | 0       | 0       | 0           |
-| `features/question-editor/index.ts`                         | 4     | 0       | 2       | 0           |
-| `features/quiz-session/components/QuizSessionContainer.tsx` | 255   | 5       | 2       | 2           |
-| `features/quiz-session/components/index.ts`                 | 4     | 0       | 1       | 0           |
-| `features/quiz-session/hooks/index.ts`                      | 2     | 0       | 2       | 0           |
+| `features/quiz-session/components/QuizSessionContainer.tsx` | 144   | 5       | 2       | 2           |
 | `features/quiz-session/hooks/use-quiz-session.ts`           | 184   | 4       | 2       | 2           |
-| `features/quiz-session/index.ts`                            | 4     | 0       | 2       | 0           |
-| `features/srs-review/components/index.ts`                   | 3     | 0       | 0       | 0           |
-| `features/srs-review/hooks/index.ts`                        | 3     | 0       | 0       | 0           |
-| `features/srs-review/index.ts`                              | 4     | 0       | 2       | 0           |
 | `hooks/use-mobile.tsx`                                      | 19    | 1       | 1       | 1           |
 | `lib/engine/index.ts`                                       | 22    | 0       | 0       | 0           |
 | `lib/engine/srs.ts`                                         | 252   | 0       | 11      | 3           |
 | `lib/markdown/pipeline.ts`                                  | 227   | 11      | 5       | 4           |
-| `lib/quiz/generate-displayed-options.tsx`                   | 104   | 1       | 2       | 2           |
+| `lib/quiz/generate-displayed-options.tsx`                   | 104   | 1       | 2       | 3           |
 | `lib/quiz/parser.ts`                                        | 260   | 2       | 1       | 6           |
 | `lib/schema/quiz.ts`                                        | 181   | 1       | 27      | 6           |
 | `lib/utils.ts`                                              | 6     | 2       | 1       | 25          |
@@ -684,7 +644,7 @@ _Multiple files with base name 'index'_
 | `services/persistence/local-storage.ts`                     | 37    | 1       | 2       | 1           |
 | `services/persistence/provider.tsx`                         | 27    | 3       | 2       | 1           |
 | `services/persistence/types.ts`                             | 17    | 1       | 2       | 2           |
-| `store/index.ts`                                            | 9     | 0       | 4       | 8           |
+| `store/index.ts`                                            | 9     | 0       | 4       | 7           |
 | `store/quiz-store.ts`                                       | 495   | 4       | 6       | 3           |
 | `tailwind.config.ts`                                        | 101   | 1       | 1       | 0           |
 | `types/quiz-types.ts`                                       | 100   | 0       | 11      | 37          |
@@ -703,18 +663,5 @@ Remove-Item 'next-env.d.ts'
 Remove-Item 'components/quiz-complete.tsx'
 Remove-Item 'config/vitest.config.accessibility.ts'
 Remove-Item 'config/vitest.config.integration.ts'
-Remove-Item 'features/index.ts'
-Remove-Item 'features/dashboard/index.ts'
-Remove-Item 'features/dashboard/components/index.ts'
-Remove-Item 'features/dashboard/hooks/index.ts'
-Remove-Item 'features/question-editor/index.ts'
-Remove-Item 'features/question-editor/components/index.ts'
-Remove-Item 'features/question-editor/hooks/index.ts'
-Remove-Item 'features/quiz-session/index.ts'
-Remove-Item 'features/quiz-session/components/index.ts'
-Remove-Item 'features/quiz-session/hooks/index.ts'
-Remove-Item 'features/srs-review/index.ts'
-Remove-Item 'features/srs-review/components/index.ts'
-Remove-Item 'features/srs-review/hooks/index.ts'
 Remove-Item 'lib/engine/index.ts'
 ```

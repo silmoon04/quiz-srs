@@ -1,322 +1,42 @@
-# Quiz-SRS Architecture
+# Architecture Overview
 
-**Last Updated:** December 4, 2025
+Last updated: 2025-12-21
 
----
+## Summary
 
-## Overview
+Quiz-SRS is a Next.js 15 app with a layered structure:
 
-Quiz-SRS is a Next.js 15 application implementing a spaced repetition system (SRS) for multiple-choice quizzes. The architecture follows a layered approach with clear separation between UI, state management, and business logic.
+- App layer: routing and top-level state orchestration.
+- Feature layer: container components that wire store state to UI.
+- Shared components: reusable UI and accessibility widgets.
+- Domain logic: parsing, validation, SRS, and rendering pipeline.
+- Persistence: local storage adapter behind a service interface.
 
----
+## Key Directories
 
-## Architecture Layers
+- `app/`: App Router entrypoints (`app/layout.tsx`, `app/page.tsx`).
+- `features/`: Feature modules (dashboard, quiz-session).
+- `components/`: Shared UI and quiz views (session UI, dashboard cards, renderers).
+- `lib/`: Domain logic (markdown pipeline, SRS engine, quiz helpers).
+- `store/`: Zustand state and persistence wiring.
+- `services/`: Persistence interfaces and local storage implementation.
+- `types/`: Shared type definitions.
+- `tests/`: Unit, integration, accessibility, and E2E suites.
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    UI Layer                         │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐   │
-│  │   Pages     │ │  Components │ │     UI      │   │
-│  │  (app/)     │ │ (components)│ │ (Shadcn)    │   │
-│  └─────────────┘ └─────────────┘ └─────────────┘   │
-├─────────────────────────────────────────────────────┤
-│                  State Layer                        │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐   │
-│  │   Zustand   │ │   Custom    │ │  React      │   │
-│  │   Store     │ │   Hooks     │ │  State      │   │
-│  │  (store/)   │ │  (hooks/)   │ │  (page.tsx) │   │
-│  └─────────────┘ └─────────────┘ └─────────────┘   │
-├─────────────────────────────────────────────────────┤
-│                Business Logic Layer                 │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐   │
-│  │  SRS Engine │ │  Validation │ │   Schema    │   │
-│  │ (lib/engine)│ │  (utils/)   │ │ (lib/schema)│   │
-│  └─────────────┘ └─────────────┘ └─────────────┘   │
-├─────────────────────────────────────────────────────┤
-│              Cross-Cutting Concerns                 │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐   │
-│  │   Types     │ │  Markdown   │ │ Persistence │   │
-│  │  (types/)   │ │ (lib/markdown)│(localStorage)│  │
-│  └─────────────┘ └─────────────┘ └─────────────┘   │
-└─────────────────────────────────────────────────────┘
-```
+## Main Flow (Current)
 
----
+1. `app/page.tsx` chooses between welcome, dashboard, and session views based on store state.
+2. `features/dashboard/...` loads modules (default or user import) and starts a session.
+3. `components/quiz-session.tsx` renders questions, options, feedback, and history navigation.
+4. Persistence flows through `services/persistence/local-storage.ts` via the store.
 
-## Directory Structure
+## Boundaries and Responsibilities
 
-```
-quiz-srs/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx           # Root layout (fonts, analytics)
-│   ├── page.tsx             # Main app (Refactored to use Feature Containers)
-│   ├── globals.css          # Global styles
-│   └── test/                # Test utilities page
-│
-├── features/                # Feature Modules (New Architecture)
-│   ├── dashboard/          # Dashboard Feature
-│   │   ├── DashboardContainer.tsx
-│   │   └── DashboardView.tsx
-│   ├── question-editor/    # Editor Feature
-│   │   ├── QuestionEditorContainer.tsx
-│   │   └── QuestionEditorView.tsx
-│   ├── quiz-session/       # Quiz Session Feature
-│   │   ├── QuizSessionContainer.tsx
-│   │   └── QuizSessionView.tsx
-│   └── srs-review/         # SRS Review Feature
-│       ├── SrsReviewContainer.tsx
-│       └── SrsReviewView.tsx
-│
-├── components/              # Shared React Components
-│   ├── a11y/               # Accessibility components
-│   ├── rendering/          # Content rendering
-│   ├── ui/                 # Shadcn UI primitives
-│   └── [Shared Components] # Generic components used across features
-│
-├── hooks/                   # Custom React Hooks
-│   ├── use-mobile.tsx      # Mobile detection
-│   ├── use-quiz-persistence.ts  # Persistence hook
-│   └── [Feature Hooks]     # Feature-specific logic
-│
-├── lib/                     # Business Logic
-│   ├── engine/             # SRS Algorithm (Pure Functions)
-│   ├── markdown/           # Markdown Processing
-│   ├── schema/             # Zod Schemas
-│   └── utils.ts            # Generic utilities
-│
-├── services/                # Service Layer
-│   └── persistence/        # Persistence implementations
-│
-├── store/                   # Zustand State Management
-│   ├── index.ts            # Store exports
-│   └── quiz-store.ts       # Global state
-│
-├── types/                   # TypeScript Definitions
-│
-└── tests/                   # Test Suite
-```
+- Parsing and validation live in `lib/quiz/` and `utils/` (import boundaries).
+- Rendering is handled by `components/rendering/MarkdownRenderer.tsx` and `lib/markdown/pipeline.ts`.
+- SRS scheduling is isolated in `lib/engine/srs.ts`.
 
----
+## Notes
 
-## Feature Architecture
-
-The application has been refactored to use a feature-based architecture, improving maintainability and scalability.
-
-### Feature-Based Folder Structure
-
-Code is organized by feature domain rather than technical type. Each feature folder contains its own Container, View, and related logic.
-
-### Container/Presentation Pattern
-
-We strictly separate logic from UI:
-
-- **Containers (`*Container.tsx`):** Handle state, side effects, and data fetching. They pass data and callbacks to Views.
-- **Views (`*View.tsx`):** Pure UI components. They receive data via props and emit events via callbacks. They contain no business logic.
-
-### Custom Hooks
-
-Logic is extracted into custom hooks for reusability and testing:
-
-- `useQuizSession`: Manages quiz state and navigation.
-- `useQuestionEditor`: Manages question editing state.
-- `useDashboard`: Manages dashboard data and interactions.
-
-### Dependency Injection
-
-Persistence is handled via Dependency Injection to allow easy swapping of storage mechanisms (e.g., LocalStorage vs. API):
-
-- `PersistenceService` interface defines the contract.
-- `LocalStorageService` implements the interface.
-- Services are injected into hooks or stores.
-
----
-
-## Key Design Patterns
-
-### 1. Pure Functions for Business Logic
-
-The SRS engine uses pure functions for testability:
-
-```typescript
-// lib/engine/srs.ts
-export function calculateNextReview(input: SrsInput, isCorrect: boolean): SrsResult {
-  // No side effects, fully deterministic
-  // Easy to unit test
-}
-```
-
-### 2. Component Composition
-
-UI components follow the composition pattern:
-
-```
-QuizSession
-├── QuestionDisplay
-│   └── MarkdownRenderer
-├── OptionList
-│   └── OptionCard (x4)
-├── ProgressBar
-└── NavigationButtons
-```
-
-### 3. State Slices (Zustand)
-
-State is organized into logical slices:
-
-```typescript
-// store/quiz-store.ts
-interface QuizStore {
-  // Session Slice
-  currentQuestionIndex: number;
-  isQuizActive: boolean;
-
-  // Questions Slice
-  questions: QuizQuestion[];
-  answerHistory: Map<string, AnswerRecord>;
-
-  // UI Slice
-  showExplanation: boolean;
-  isSubmitting: boolean;
-
-  // SRS Slice
-  srsLevels: Map<string, number>;
-  nextReviewDates: Map<string, Date>;
-}
-```
-
-### 4. Validation at Boundaries
-
-Data is validated at import boundaries:
-
-```
-JSON Input → validateQuizModule() → Normalized QuizModule → Components
-```
-
----
-
-## Data Flow
-
-### Quiz Loading
-
-```
-1. User imports JSON/Markdown
-2. parseQuizFile() → Raw object
-3. validateQuizModule() → Validation result
-4. normalizeQuizModule() → Clean QuizModule
-5. setCurrentModule() → State update
-6. Components re-render
-```
-
-### Answer Submission
-
-```
-1. User selects option
-2. handleSubmitAnswer()
-3. calculateNextReview() → SRS calculation (pure)
-4. Update question state
-5. recalculateChapterStats()
-6. Persist to localStorage
-```
-
----
-
-## Testing Strategy
-
-| Layer       | Test Type  | Tool         | Coverage Target |
-| ----------- | ---------- | ------------ | --------------- |
-| SRS Engine  | Unit       | Vitest       | 100%            |
-| Validation  | Unit       | Vitest       | 100%            |
-| Components  | Unit       | Vitest + RTL | 80%+            |
-| Hooks       | Unit       | Vitest       | 80%+            |
-| Integration | Contract   | Vitest       | Key paths       |
-| E2E         | User flows | Playwright   | Critical paths  |
-| A11y        | WCAG       | Vitest       | WCAG 2.1 AA     |
-
----
-
-## Dependencies (Runtime)
-
-| Package       | Purpose        | Used By          |
-| ------------- | -------------- | ---------------- |
-| `next`        | Framework      | App              |
-| `react`       | UI             | All components   |
-| `zustand`     | State          | store/           |
-| `zod`         | Validation     | lib/schema/      |
-| `@radix-ui/*` | UI primitives  | components/ui/   |
-| `katex`       | Math rendering | MarkdownRenderer |
-| `mermaid`     | Diagrams       | MarkdownRenderer |
-| `rehype-*`    | Markdown       | lib/markdown/    |
-| `unified`     | Markdown       | lib/markdown/    |
-
----
-
-## Known Technical Debt
-
-### 1. Test Coverage Gaps (LOW)
-
-- **Issue:** Some medium-confidence dead code flagged
-- **Impact:** Tests exist but source unused
-- **Solution:** Periodic cleanup audits
-
----
-
-## Migration Plan: page.tsx → Zustand
-
-### Phase 1: State Migration (Completed)
-
-1. [x] Create Zustand store with slices
-2. [x] Create bridge hook (use-quiz-state)
-3. [x] Replace useState calls one-by-one
-
-### Phase 2: Handler Migration (Completed)
-
-1. [x] Move handleSubmitAnswer to store action
-2. [x] Move handleNextQuestion to store action
-3. [x] Move handleImportQuiz to store action
-
-### Phase 3: Cleanup (Completed)
-
-1. [x] Remove bridge hook
-2. [x] Merge use-quiz-persistence with Zustand persist
-3. [x] Split remaining UI logic into smaller components
-
----
-
-## Extension Points
-
-### Adding New Question Types
-
-1. Extend `types/quiz-types.ts`:
-
-```typescript
-type QuestionType = 'multiple-choice' | 'true-false' | 'fill-blank';
-```
-
-2. Add validation in `lib/schema/quiz.ts`
-3. Create new component in `components/`
-4. Add case in `QuizSession.tsx`
-
-### Adding New SRS Algorithms
-
-1. Create new module in `lib/engine/`:
-
-```typescript
-// lib/engine/sm2.ts
-export function calculateSM2Review(input: SM2Input, grade: number): SM2Result;
-```
-
-2. Update store to use new algorithm
-3. Add tests in `tests/unit/engine/`
-
----
-
-## Metrics
-
-| Metric         | Current | Target |
-| -------------- | ------- | ------ |
-| Total Files    | 165     | <150   |
-| Test Files     | 71      | 71     |
-| Unit Tests     | 2062    | 2000+  |
-| Test Coverage  | ~85%    | 90%+   |
-| Bundle Size    | TBD     | <200KB |
-| page.tsx Lines | ~2000   | <500   |
+- The main session flow currently routes between the welcome screen, dashboard, and quiz session.
+- For dependency maps and audits, see `docs/CODEBASE-MAP-GUIDE.md` and `docs/ARCHITECTURE_AUDIT.md`.

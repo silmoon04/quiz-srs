@@ -1,9 +1,9 @@
 {
   "summary": {
-    "files": 190,
-    "edges": 258,
-    "fan_in_nodes": 69,
-    "fan_out_nodes": 147
+    "files": 177,
+    "edges": 242,
+    "fan_in_nodes": 57,
+    "fan_out_nodes": 138
   },
   "top_fan_in": [
     ["types/quiz-types.ts", 37],
@@ -13,31 +13,31 @@
     ["utils/quiz-validation-refactored.ts", 12],
     ["components/ui/button.tsx", 9],
     ["components/ui/card.tsx", 8],
-    ["store/index.ts", 8],
     ["components/a11y/ScreenReaderAnnouncer.tsx", 7],
     ["app/design-showcase/shared.tsx", 7],
+    ["store/index.ts", 7],
     ["components/progress-bar.tsx", 6],
     ["lib/quiz/parser.ts", 6],
     ["lib/schema/quiz.ts", 6],
-    ["features/dashboard/hooks/use-module-loader.ts", 5],
-    ["store/quiz-store.ts", 4]
+    ["store/quiz-store.ts", 4],
+    ["features/dashboard/hooks/use-module-loader.ts", 4]
   ],
   "top_fan_out": [
-    ["components/quiz-session.tsx", 12],
+    ["components/quiz-session.tsx", 13],
     ["components/question-editor.tsx", 8],
     ["app/page.tsx", 7],
     ["components/all-questions-view.tsx", 7],
     ["components/dashboard.tsx", 5],
     ["tests/unit/features/dashboard/hooks/use-module-loader.test.ts", 5],
-    ["features/index.ts", 4],
-    ["features/dashboard/components/DashboardContainer.tsx", 4],
     ["features/dashboard/hooks/use-module-loader.ts", 4],
     ["tests/unit/features/dashboard/components/DashboardContainer.test.tsx", 4],
     ["app/layout.tsx", 3],
     ["components/chapter-card.tsx", 3],
     ["components/confirmation-modal-radix.tsx", 3],
     ["components/option-card.tsx", 3],
-    ["components/quiz-complete.tsx", 3]
+    ["components/quiz-complete.tsx", 3],
+    ["features/dashboard/components/DashboardContainer.tsx", 3],
+    ["features/quiz-session/components/QuizSessionContainer.tsx", 3]
   ],
   "layer_edges": [
     {
@@ -56,8 +56,8 @@
       "count": 20
     },
     {
-      "from": "features",
-      "to": "features",
+      "from": "components",
+      "to": "lib",
       "count": 18
     },
     {
@@ -69,11 +69,6 @@
       "from": "tests",
       "to": "tests",
       "count": 18
-    },
-    {
-      "from": "components",
-      "to": "lib",
-      "count": 17
     },
     {
       "from": "tests",
@@ -121,11 +116,6 @@
       "count": 3
     },
     {
-      "from": "features",
-      "to": "store",
-      "count": 3
-    },
-    {
       "from": "services",
       "to": "services",
       "count": 3
@@ -133,6 +123,16 @@
     {
       "from": "features",
       "to": "components",
+      "count": 2
+    },
+    {
+      "from": "features",
+      "to": "features",
+      "count": 2
+    },
+    {
+      "from": "features",
+      "to": "store",
       "count": 2
     },
     {
@@ -170,7 +170,7 @@
   "low_cohesion_candidates": [
     ["utils/quiz-validation-refactored.ts", 76, 47546],
     ["app/design-showcase/theme-saas/page.tsx", 11, 43024],
-    ["components/quiz-session.tsx", 16, 42122],
+    ["components/quiz-session.tsx", 16, 39813],
     ["app/design-showcase/theme-brand/page.tsx", 11, 33173],
     ["app/design-showcase/theme-playful/page.tsx", 11, 32565],
     ["scripts/codebase-analyzer.ts", 40, 23870],

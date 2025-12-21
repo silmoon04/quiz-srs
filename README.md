@@ -190,7 +190,7 @@ The main session state machine (`app/page.tsx`) tracks:
 ## Repository Layout
 
 - `app/` - Next.js App Router pages and layouts.
-- `features/` - Feature-based modules (Dashboard, Quiz Session, Editor).
+- `features/` - Feature-based modules (Dashboard, Quiz Session).
 - `store/` - Zustand state management.
 - `components/` - UI primitives, quiz flows, accessibility helpers, editor modals.
 - `hooks/` - Shared hooks (announcers, timers, etc.).
@@ -199,14 +199,17 @@ The main session state machine (`app/page.tsx`) tracks:
 - `tests/` - Vitest suites and fixtures (`tests/fixtures` holds Markdown samples).
 - `types/` - Type definitions shared across UI, parsers, and tests.
 - `utils/` - Validation, normalization, import/export helpers.
-- `docs/` - Deep-dive documentation (`SecureTextRenderer.md`, `TESTING.md`, audit notes).
+- `docs/` - Deep-dive documentation (architecture, testing, and audit notes).
 - `scripts/` - Developer scripts and codemods.
 
 ## Documentation
 
-- `docs/TESTING.md` - Testing plans, release gates, and automation guidance.
-- `docs/SecureTextRenderer.md` - API and migration details for the secure Markdown renderer.
-- `WORK_SUMMARY.md` - Recent engineering updates and outstanding issues.
+- `docs/TESTING.md` - Testing commands, suite scope, and CI guidance.
+- `docs/ARCHITECTURE.md` - Current architecture overview and boundaries.
+- `docs/ARCHITECTURE_AUDIT.md` - Architecture/UX audit findings and maintenance priorities.
+- `docs/CODEBASE-MAP-GUIDE.md` - How to regenerate and read the DAG/callgraph.
+- `docs/DEEP-CODEBASE-MAP.md` - Detailed dependency and entry-point map.
+- `docs/UX-ISSUES.md` - UX backlog prioritized by impact and effort.
 
 ## License
 

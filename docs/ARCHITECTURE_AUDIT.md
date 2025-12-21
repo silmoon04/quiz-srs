@@ -18,16 +18,16 @@ Note: `codebase-analysis.json` currently has an empty reverse call graph and doe
 - The codebase has a solid layered intent (app -> features -> components/hooks -> store/lib/utils) but key flows are disconnected after refactors.
 - Largest UX blockers are wiring/routing gaps (review flow, completion view, editor, per-question actions) rather than missing UI components.
 - Coupling hotspots are `types/quiz-types.ts`, `components/rendering/MarkdownRenderer.tsx`, and `components/quiz-session.tsx`, which makes changes ripple widely.
-- Redundant code exists in design showcase pages, feature index stubs, and unused UI primitives. Removing or wiring these can shrink surface area and reduce confusion.
+- Redundant code exists in design showcase pages and unused UI primitives. Removing or wiring these can shrink surface area and reduce confusion.
 
 ## Coupling and cohesion metrics (from `docs/ARCHITECTURE-METRICS.json`)
 
 Summary:
 
-- Files scanned: 190
-- Local import edges: 258
-- Nodes with fan-in: 69
-- Nodes with fan-out: 147
+- Files scanned: 177
+- Local import edges: 242
+- Nodes with fan-in: 57
+- Nodes with fan-out: 138
 
 Top fan-in (most depended-on):
 
@@ -38,11 +38,11 @@ Top fan-in (most depended-on):
 - `utils/quiz-validation-refactored.ts` (12)
 - `components/ui/button.tsx` (9)
 - `components/ui/card.tsx` (8)
-- `store/index.ts` (8)
+- `components/a11y/ScreenReaderAnnouncer.tsx` (7)
 
 Top fan-out (most outgoing dependencies):
 
-- `components/quiz-session.tsx` (12)
+- `components/quiz-session.tsx` (13)
 - `components/question-editor.tsx` (8)
 - `app/page.tsx` (7)
 - `components/all-questions-view.tsx` (7)
@@ -53,16 +53,16 @@ Layer-to-layer edges (top counts):
 - components -> components (45)
 - tests -> components (40)
 - tests -> types (20)
-- features -> features (18)
+- components -> lib (18)
 - tests -> lib (18)
-- components -> lib (17)
+- tests -> tests (18)
+- tests -> utils (10)
 - app -> lib (8)
-- app -> app (7)
 
 Low cohesion candidates (many functions + large size):
 
 - `utils/quiz-validation-refactored.ts` (76 functions, 47,546 bytes)
-- `components/quiz-session.tsx` (16 functions, 42,122 bytes)
+- `components/quiz-session.tsx` (16 functions, 39,813 bytes)
 - `app/design-showcase/theme-saas/page.tsx` (11 functions, 43,024 bytes)
 - `app/design-showcase/theme-brand/page.tsx` (11 functions, 33,173 bytes)
 - `app/design-showcase/theme-playful/page.tsx` (11 functions, 32,565 bytes)
@@ -80,22 +80,20 @@ Interpretation:
 High-confidence cleanup candidates (from analyzers):
 
 - Design showcase pages (multiple `app/design-showcase/*` entries).
-- Feature index stubs in `features/*/index.ts` that re-export nothing or are unused.
 - Unused UI primitives in `components/ui/*` (several have zero non-test imports).
 
 Codebase analyzer highlights:
 
-- Dead exports: 102 (from `codebase-analysis.json` export usage flags).
+- Dead exports: 97 (from `codebase-analysis.json` export usage flags).
 - Duplicate name groups: `page.tsx` and `index.ts` families across multiple folders.
-- Suggestions list length: 100+ (mostly delete/split recommendations for design showcase and large files).
+- Suggestions list length: 27 (mostly delete/split recommendations for design showcase and large files).
 
 Estimated size savings (very rough, no formatting/lint removal):
 
 - Design showcase pages: 1500-2500 LOC.
 - Unused UI primitives: 800-1200 LOC.
-- Feature stubs/re-exports: 150-300 LOC.
 - Session logic duplication (option generation in two places): 120-200 LOC.
-  Total rough reduction: 2,500-4,200 LOC.
+  Total rough reduction: 2,350-3,900 LOC.
 
 Risk note: delete only after verifying no dynamic imports or documentation references depend on these files.
 
@@ -186,7 +184,7 @@ Phase 0 (safety):
 
 Phase 1 (cleanup):
 
-- Remove or wire dead feature stubs and design showcase pages.
+- Remove or wire design showcase pages.
 - Consolidate option generation into a single helper.
 
 Phase 2 (architecture):
