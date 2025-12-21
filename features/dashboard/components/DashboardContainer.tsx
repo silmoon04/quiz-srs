@@ -12,7 +12,6 @@
 import { useCallback, useMemo, useRef } from 'react';
 import { Dashboard } from '@/components/dashboard';
 import { useModuleLoader } from '../hooks/use-module-loader';
-import { useQuizStore } from '@/store';
 import type { QuizModule } from '@/types/quiz-types';
 
 // ============================================
@@ -70,10 +69,7 @@ export function DashboardContainer({ onStartQuiz, onStartReview }: DashboardCont
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Get module loader hook
-  const { currentModule, isLoading, error, loadFromFile, clearModule } = useModuleLoader();
-
-  // Get store actions for state management
-  const setCurrentModule = useQuizStore((state) => state.setCurrentModule);
+  const { currentModule, isLoading, error, loadFromFile } = useModuleLoader();
 
   // Calculate review queue count
   const reviewQueueCount = useMemo(() => calculateReviewQueueCount(currentModule), [currentModule]);

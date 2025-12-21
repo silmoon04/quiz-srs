@@ -28,12 +28,9 @@ export default function MCQQuizForge() {
         {appState === 'dashboard' && (
           <DashboardContainer
             onStartQuiz={(chapterId) => {
-              console.log('Starting quiz:', chapterId);
               startQuiz(chapterId);
             }}
-            onStartReview={() => {
-              console.log('Starting review');
-            }}
+            onStartReview={() => {}}
           />
         )}
 

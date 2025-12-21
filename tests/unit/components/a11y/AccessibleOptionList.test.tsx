@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AccessibleOptionList } from '@/components/a11y/AccessibleOptionList';
 import type { DisplayedOption } from '@/types/quiz-types';
@@ -70,6 +70,12 @@ const createDefaultProps = (
   correctOptionIds: [],
   ...overrides,
 });
+
+const focusWithAct = (element: HTMLElement) => {
+  act(() => {
+    element.focus();
+  });
+};
 
 describe('AccessibleOptionList Component', () => {
   beforeEach(() => {
@@ -205,7 +211,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowDown}');
 
@@ -217,7 +223,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[1].focus();
+      focusWithAct(radios[1]);
 
       await user.keyboard('{ArrowUp}');
 
@@ -229,7 +235,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[3].focus();
+      focusWithAct(radios[3]);
 
       await user.keyboard('{ArrowDown}');
 
@@ -241,7 +247,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowUp}');
 
@@ -253,7 +259,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[2].focus();
+      focusWithAct(radios[2]);
 
       await user.keyboard('{Home}');
 
@@ -265,7 +271,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{End}');
 
@@ -278,7 +284,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[1].focus();
+      focusWithAct(radios[1]);
 
       await user.keyboard('{Enter}');
 
@@ -291,7 +297,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[2].focus();
+      focusWithAct(radios[2]);
 
       await user.keyboard(' ');
 
@@ -304,7 +310,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption, disabled: true })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{Enter}');
@@ -320,7 +326,7 @@ describe('AccessibleOptionList Component', () => {
       );
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       // Arrow navigation should be disabled when submitted
       await user.keyboard('{ArrowDown}');
@@ -334,7 +340,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
@@ -348,7 +354,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
@@ -362,7 +368,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       await user.keyboard('{ArrowDown}');
 
@@ -429,7 +435,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{Enter}');
 
@@ -442,7 +448,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
       await user.keyboard(' ');
@@ -567,7 +573,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption, disabled: true })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
       await user.keyboard('{Enter}');
 
       expect(onSelectOption).not.toHaveBeenCalled();
@@ -579,7 +585,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps({ onSelectOption, disabled: true })} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
       await user.keyboard(' ');
 
       expect(onSelectOption).not.toHaveBeenCalled();
@@ -609,7 +615,7 @@ describe('AccessibleOptionList Component', () => {
 
       const radios = screen.getAllByRole('radio');
       const initialFocused = radios[0];
-      initialFocused.focus();
+      focusWithAct(initialFocused);
 
       await user.keyboard('{ArrowDown}');
 
@@ -627,7 +633,7 @@ describe('AccessibleOptionList Component', () => {
 
       // Focus second option directly
       await user.click(radios[1]);
-      radios[1].focus();
+      focusWithAct(radios[1]);
 
       // After focusing, tabIndex should update
       expect(radios[1]).toHaveAttribute('tabIndex', '0');
@@ -651,7 +657,7 @@ describe('AccessibleOptionList Component', () => {
       render(<AccessibleOptionList {...createDefaultProps()} />);
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       // Initially only first has tabIndex 0
       expect(radios[0]).toHaveAttribute('tabIndex', '0');
@@ -856,7 +862,7 @@ describe('AccessibleOptionList Component', () => {
       );
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       // Navigate to third option
       await user.keyboard('{ArrowDown}');
@@ -890,7 +896,7 @@ describe('AccessibleOptionList Component', () => {
       );
 
       const radios = screen.getAllByRole('radio');
-      radios[0].focus();
+      focusWithAct(radios[0]);
 
       // Navigate to second option (correct answer)
       await user.keyboard('{ArrowDown}');

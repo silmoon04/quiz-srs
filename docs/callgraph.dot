@@ -1,0 +1,4 @@
+digraph CallGraph {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7e6"];
+}

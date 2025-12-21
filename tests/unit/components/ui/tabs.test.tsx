@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
@@ -25,6 +25,12 @@ describe('Tabs Component', () => {
         <TabsContent value="tab3">Content 3</TabsContent>
       </Tabs>,
     );
+  };
+
+  const focusWithAct = (element: HTMLElement) => {
+    act(() => {
+      element.focus();
+    });
   };
 
   describe('Tabs', () => {
@@ -264,7 +270,7 @@ describe('Tabs Component', () => {
       renderTabs();
 
       const tab1 = screen.getByRole('tab', { name: 'Tab 1' });
-      tab1.focus();
+      focusWithAct(tab1);
 
       await user.keyboard('{ArrowRight}');
       expect(screen.getByRole('tab', { name: 'Tab 2' })).toHaveFocus();
@@ -275,7 +281,7 @@ describe('Tabs Component', () => {
       renderTabs({ defaultValue: 'tab2' });
 
       const tab2 = screen.getByRole('tab', { name: 'Tab 2' });
-      tab2.focus();
+      focusWithAct(tab2);
 
       await user.keyboard('{ArrowLeft}');
       expect(screen.getByRole('tab', { name: 'Tab 1' })).toHaveFocus();
@@ -286,7 +292,7 @@ describe('Tabs Component', () => {
       renderTabs({ defaultValue: 'tab3' });
 
       const tab3 = screen.getByRole('tab', { name: 'Tab 3' });
-      tab3.focus();
+      focusWithAct(tab3);
 
       await user.keyboard('{ArrowRight}');
       expect(screen.getByRole('tab', { name: 'Tab 1' })).toHaveFocus();
@@ -297,7 +303,7 @@ describe('Tabs Component', () => {
       renderTabs();
 
       const tab1 = screen.getByRole('tab', { name: 'Tab 1' });
-      tab1.focus();
+      focusWithAct(tab1);
 
       await user.keyboard('{ArrowLeft}');
       expect(screen.getByRole('tab', { name: 'Tab 3' })).toHaveFocus();
@@ -308,7 +314,7 @@ describe('Tabs Component', () => {
       renderTabs({ defaultValue: 'tab3' });
 
       const tab3 = screen.getByRole('tab', { name: 'Tab 3' });
-      tab3.focus();
+      focusWithAct(tab3);
 
       await user.keyboard('{Home}');
       expect(screen.getByRole('tab', { name: 'Tab 1' })).toHaveFocus();
@@ -319,7 +325,7 @@ describe('Tabs Component', () => {
       renderTabs();
 
       const tab1 = screen.getByRole('tab', { name: 'Tab 1' });
-      tab1.focus();
+      focusWithAct(tab1);
 
       await user.keyboard('{End}');
       expect(screen.getByRole('tab', { name: 'Tab 3' })).toHaveFocus();
@@ -330,7 +336,7 @@ describe('Tabs Component', () => {
       renderTabs();
 
       const tab2 = screen.getByRole('tab', { name: 'Tab 2' });
-      tab2.focus();
+      focusWithAct(tab2);
 
       await user.keyboard('{Enter}');
       expect(screen.getByText('Content 2')).toBeInTheDocument();
@@ -341,7 +347,7 @@ describe('Tabs Component', () => {
       renderTabs();
 
       const tab2 = screen.getByRole('tab', { name: 'Tab 2' });
-      tab2.focus();
+      focusWithAct(tab2);
 
       await user.keyboard(' ');
       expect(screen.getByText('Content 2')).toBeInTheDocument();
@@ -365,7 +371,7 @@ describe('Tabs Component', () => {
       );
 
       const tab1 = screen.getByRole('tab', { name: 'Tab 1' });
-      tab1.focus();
+      focusWithAct(tab1);
 
       await user.keyboard('{ArrowRight}');
       expect(screen.getByRole('tab', { name: 'Tab 3' })).toHaveFocus();

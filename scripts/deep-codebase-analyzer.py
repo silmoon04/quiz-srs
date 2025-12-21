@@ -110,29 +110,29 @@ class DeepCodebaseAnalyzer:
         
     def analyze(self) -> Dict[str, Any]:
         """Main analysis entry point"""
-        print("🔍 Starting deep codebase analysis...\n")
+        print("[info] Starting deep codebase analysis...\n")
         
         # Phase 1: Collect all files
-        print("📁 Phase 1: Collecting files...")
+        print("[info] Phase 1: Collecting files...")
         self._collect_files()
         print(f"   Found {len(self.files)} code files\n")
         
         # Phase 2: Parse all files
-        print("📊 Phase 2: Parsing imports and exports...")
+        print("[info] Phase 2: Parsing imports and exports...")
         self._parse_all_files()
         
         # Phase 3: Build dependency graph
-        print("🔗 Phase 3: Building dependency graph...")
+        print("[info] Phase 3: Building dependency graph...")
         self._build_dependency_graph()
         
         # Phase 4: Detect issues
-        print("🔎 Phase 4: Detecting issues...")
+        print("[info] Phase 4: Detecting issues...")
         self._detect_circular_dependencies()
         self._detect_duplicates()
         self._detect_dead_code()
         
         # Phase 5: Generate report
-        print("📝 Phase 5: Generating report...\n")
+        print("[info] Phase 5: Generating report...\n")
         return self._generate_report()
     
     def _collect_files(self):
@@ -162,7 +162,7 @@ class DeepCodebaseAnalyzer:
                             content_hash=content_hash
                         )
                     except Exception as e:
-                        print(f"   Warning: Could not read {rel_path_str}: {e}")
+                        print(f"[warn] Could not read {rel_path_str}: {e}")
     
     def _is_entry_point(self, path: str) -> bool:
         """Determine if file is an entry point"""
@@ -215,7 +215,7 @@ class DeepCodebaseAnalyzer:
                 file_info.functions = self._parse_functions(content)
                 file_info.external_deps = self._extract_external_deps(file_info.imports)
             except Exception as e:
-                print(f"   Warning: Could not parse {rel_path}: {e}")
+                print(f"[warn] Could not parse {rel_path}: {e}")
     
     def _parse_imports(self, content: str) -> List[ImportInfo]:
         """Parse all import statements including multi-line imports"""
@@ -697,12 +697,16 @@ class DeepCodebaseAnalyzer:
             'dead_code': [asdict(d) for d in self.dead_code],
             'duplicates': [asdict(d) for d in self.duplicates],
             'circular_dependencies': [asdict(c) for c in self.circular_deps],
+            'import_graph': {k: sorted(list(v)) for k, v in self.import_graph.items()},
+            'reverse_import_graph': {k: sorted(list(v)) for k, v in self.reverse_import_graph.items()},
             'files': {k: {
                 'relative_path': v.relative_path,
                 'line_count': v.line_count,
                 'imports_count': len(v.imports),
                 'exports_count': len(v.exports),
                 'imported_by_count': len(v.imported_by),
+                'imports_files': sorted(list(set(v.imports_files))),
+                'imported_by': sorted(list(set(v.imported_by))),
                 'is_entry_point': v.is_entry_point,
                 'is_test_file': v.is_test_file,
                 'external_deps': v.external_deps
@@ -735,7 +739,7 @@ class DeepCodebaseAnalyzer:
         
         # Summary
         md.append("\n---\n")
-        md.append("## 📊 Summary")
+        md.append("## Summary")
         md.append("")
         summary = analysis['summary']
         md.append(f"| Metric | Count |")
@@ -749,7 +753,7 @@ class DeepCodebaseAnalyzer:
         
         # Entry Points with Full Call Stack
         md.append("\n---\n")
-        md.append("## 🚀 Entry Points & Full Dependency Trees")
+        md.append("## Entry Points & Full Dependency Trees")
         md.append("")
         
         for entry_path, info in sorted(analysis['entry_points'].items()):
@@ -781,7 +785,7 @@ class DeepCodebaseAnalyzer:
         
         # Dead Code Section (THE MAIN EVENT)
         md.append("\n---\n")
-        md.append("## ☠️ Dead Code Candidates (DELETION TARGETS)")
+        md.append("## Dead Code Candidates (DELETION TARGETS)")
         md.append("")
         md.append("> These files have NO non-test imports and are likely safe to delete.")
         md.append("")
@@ -791,7 +795,7 @@ class DeepCodebaseAnalyzer:
         medium_confidence = [d for d in analysis['dead_code'] if d['confidence'] == 'medium']
         
         if high_confidence:
-            md.append("### 🔴 HIGH CONFIDENCE (Safe to Delete)")
+            md.append("### HIGH CONFIDENCE (Safe to Delete)")
             md.append("")
             md.append("| File | Reason | Related Test |")
             md.append("|------|--------|--------------|")
@@ -801,7 +805,7 @@ class DeepCodebaseAnalyzer:
             md.append("")
         
         if medium_confidence:
-            md.append("### 🟡 MEDIUM CONFIDENCE (Only imported by tests)")
+            md.append("### MEDIUM CONFIDENCE (Only imported by tests)")
             md.append("")
             md.append("| File | Reason | Related Test |")
             md.append("|------|--------|--------------|")
@@ -813,7 +817,7 @@ class DeepCodebaseAnalyzer:
         # Duplicates
         if analysis['duplicates']:
             md.append("\n---\n")
-            md.append("## 🔄 Duplicate Files")
+            md.append("## Duplicate Files")
             md.append("")
             for i, dup in enumerate(analysis['duplicates'], 1):
                 md.append(f"### Group {i}: {dup['similarity_type'].upper()}")
@@ -826,18 +830,18 @@ class DeepCodebaseAnalyzer:
         # Circular Dependencies
         if analysis['circular_dependencies']:
             md.append("\n---\n")
-            md.append("## 🔁 Circular Dependencies")
+            md.append("## Circular Dependencies")
             md.append("")
             for i, circ in enumerate(analysis['circular_dependencies'], 1):
                 md.append(f"### Cycle {i}")
                 md.append("```")
-                md.append(" → ".join(circ['cycle']))
+                md.append("  ".join(circ['cycle']))
                 md.append("```")
                 md.append("")
         
         # Component Usage (sorted by import count)
         md.append("\n---\n")
-        md.append("## 📦 Component Usage Analysis")
+        md.append("## Component Usage Analysis")
         md.append("")
         md.append("| Component | Import Count | Imported By |")
         md.append("|-----------|--------------|-------------|")
@@ -854,7 +858,7 @@ class DeepCodebaseAnalyzer:
         
         # Hook Usage
         md.append("\n---\n")
-        md.append("## 🪝 Hook Usage Analysis")
+        md.append("## Hook Usage Analysis")
         md.append("")
         md.append("| Hook | Import Count | Imported By |")
         md.append("|------|--------------|-------------|")
@@ -871,7 +875,7 @@ class DeepCodebaseAnalyzer:
         
         # Lib/Utils Usage
         md.append("\n---\n")
-        md.append("## 📚 Lib/Utils Usage Analysis")
+        md.append("## Lib/Utils Usage Analysis")
         md.append("")
         md.append("| File | Import Count | Imported By |")
         md.append("|------|--------------|-------------|")
@@ -888,7 +892,7 @@ class DeepCodebaseAnalyzer:
         
         # Files Overview (for reference)
         md.append("\n---\n")
-        md.append("## 📁 All Files Overview")
+        md.append("## All Files Overview")
         md.append("")
         md.append("<details>")
         md.append("<summary>Click to expand full file list</summary>")
@@ -905,7 +909,7 @@ class DeepCodebaseAnalyzer:
         
         # Cleanup Commands
         md.append("\n---\n")
-        md.append("## 🧹 Cleanup Commands")
+        md.append("## Cleanup Commands")
         md.append("")
         md.append("### Delete High-Confidence Dead Code")
         md.append("```powershell")
@@ -929,37 +933,37 @@ def main():
         
         # Print summary
         print("=" * 60)
-        print("📊 ANALYSIS SUMMARY")
+        print("ANALYSIS SUMMARY")
         print("=" * 60)
         
         summary = analysis['summary']
-        print(f"\n📁 Total Files: {summary['total_files']}")
-        print(f"🚀 Entry Points: {summary['entry_points']}")
-        print(f"🧪 Test Files: {summary['test_files']}")
-        print(f"☠️  Dead Code Candidates: {summary['dead_code_candidates']}")
-        print(f"🔁 Circular Dependencies: {summary['circular_dependencies']}")
-        print(f"🔄 Duplicate Groups: {summary['duplicate_groups']}")
+        print(f"\nTotal Files: {summary['total_files']}")
+        print(f"Entry Points: {summary['entry_points']}")
+        print(f"Test Files: {summary['test_files']}")
+        print(f"Dead Code Candidates: {summary['dead_code_candidates']}")
+        print(f"Circular Dependencies: {summary['circular_dependencies']}")
+        print(f"Duplicate Groups: {summary['duplicate_groups']}")
         
         # List dead code
         if analysis['dead_code']:
-            print("\n☠️  Dead Code Files:")
+            print("\nDead Code Files:")
             for dc in analysis['dead_code'][:15]:
-                marker = "🔴" if dc['confidence'] == 'high' else "🟡"
-                print(f"   {marker} {dc['file_path']}")
+                marker = "[HIGH]" if dc['confidence'] == 'high' else "[TEST]"
+                print(f"  {marker} {dc['file_path']}")
             if len(analysis['dead_code']) > 15:
-                print(f"   ... and {len(analysis['dead_code']) - 15} more")
+                print(f"  ... and {len(analysis['dead_code']) - 15} more")
         
         # List duplicates
         if analysis['duplicates']:
-            print("\n🔄 Duplicates:")
+            print("\nDuplicates:")
             for dup in analysis['duplicates'][:5]:
-                print(f"   - {dup['similarity_type']}: {', '.join(dup['files'][:3])}")
+                print(f"  - {dup['similarity_type']}: {', '.join(dup['files'][:3])}")
         
         # Save JSON report
         json_path = ROOT_DIR / 'codebase-deep-analysis.json'
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(analysis, f, indent=2)
-        print(f"\n✅ JSON report saved to: {json_path}")
+        print(f"\n[ok] JSON report saved to: {json_path}")
         
         # Save Markdown report
         md_report = analyzer.generate_markdown_report(analysis)
@@ -967,10 +971,10 @@ def main():
         md_path.parent.mkdir(exist_ok=True)
         with open(md_path, 'w', encoding='utf-8') as f:
             f.write(md_report)
-        print(f"✅ Markdown report saved to: {md_path}")
+        print(f"[ok] Markdown report saved to: {md_path}")
         
     except Exception as e:
-        print(f"❌ Analysis failed: {e}")
+        print(f"[error] Analysis failed: {e}")
         import traceback
         traceback.print_exc()
         exit(1)

@@ -36,6 +36,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { QuestionEditor } from './question-editor';
 import { CircularProgress } from '@/components/ui/circular-progress';
 import { ProgressBar } from './progress-bar';
+import {
+  generateDisplayedOptions,
+  NoCorrectOptionsError,
+} from '@/lib/quiz/generate-displayed-options';
 
 interface QuizSessionProps {
   chapter: QuizChapter;
@@ -146,10 +150,6 @@ export function QuizSession({
     importFileInputRef.current?.click();
   };
 
-  console.log('Quiz Session - isSubmitted:', displayIsSubmitted);
-  console.log('Quiz Session - question:', displayQuestion.questionId);
-  console.log('Quiz Session - isViewingHistoricalEntry:', isViewingHistoricalEntry);
-
   // FIXED: Stable display options for historical view
   useEffect(() => {
     if (isViewingHistoricalEntry && historicalEntry) {
@@ -166,74 +166,21 @@ export function QuizSession({
       return;
     }
 
-    const generateDisplayedOptions = (): DisplayedOption[] => {
-      // SRS algorithm: Show 1 correct + up to 3 incorrect = 4 total options
-      // This ensures a focused quiz experience regardless of how many options exist
-      const maxDisplayOptions = 4;
+    let newDisplayedOptions: DisplayedOption[];
+    try {
+      newDisplayedOptions = generateDisplayedOptions(question);
+    } catch (error) {
+      const message =
+        error instanceof NoCorrectOptionsError
+          ? error.message
+          : `Failed to generate options for ${question.questionId}`;
+      console.error(message, error);
+      newDisplayedOptions = question.options.slice(0, 4).map((opt) => ({
+        ...opt,
+        isCorrect: false,
+      }));
+    }
 
-      const correctOptions = question.options.filter((opt) =>
-        question.correctOptionIds.includes(opt.optionId),
-      );
-      const incorrectOptions = question.options.filter(
-        (opt) => !question.correctOptionIds.includes(opt.optionId),
-      );
-
-      const shownIncorrectIds = question.shownIncorrectOptionIds || [];
-      const unshownIncorrectOptions = incorrectOptions.filter(
-        (opt) => !shownIncorrectIds.includes(opt.optionId),
-      );
-      const shownIncorrectOptions = incorrectOptions.filter((opt) =>
-        shownIncorrectIds.includes(opt.optionId),
-      );
-
-      const selectedOptions: DisplayedOption[] = [];
-
-      if (correctOptions.length > 0) {
-        const correctIndex = question.srsLevel ? question.srsLevel % correctOptions.length : 0;
-        const selectedCorrectOption = correctOptions[correctIndex] || correctOptions[0];
-        selectedOptions.push({
-          ...selectedCorrectOption,
-          isCorrect: true,
-        });
-      }
-
-      const remainingSlots = maxDisplayOptions - selectedOptions.length;
-
-      const shuffledUnshown = [...unshownIncorrectOptions].sort(() => Math.random() - 0.5);
-      for (let i = 0; i < Math.min(remainingSlots, shuffledUnshown.length); i++) {
-        selectedOptions.push({
-          ...shuffledUnshown[i],
-          isCorrect: false,
-        });
-      }
-
-      const remainingSlotsAfterUnshown = maxDisplayOptions - selectedOptions.length;
-      if (remainingSlotsAfterUnshown > 0 && shownIncorrectOptions.length > 0) {
-        const shuffledShown = [...shownIncorrectOptions].sort(() => Math.random() - 0.5);
-        for (let i = 0; i < Math.min(remainingSlotsAfterUnshown, shuffledShown.length); i++) {
-          selectedOptions.push({
-            ...shuffledShown[i],
-            isCorrect: false,
-          });
-        }
-      }
-
-      const remainingSlotsAfterIncorrect = maxDisplayOptions - selectedOptions.length;
-      const remainingCorrect = correctOptions.filter(
-        (opt) => !selectedOptions.some((selected) => selected.optionId === opt.optionId),
-      );
-
-      for (let i = 0; i < Math.min(remainingSlotsAfterIncorrect, remainingCorrect.length); i++) {
-        selectedOptions.push({
-          ...remainingCorrect[i],
-          isCorrect: true,
-        });
-      }
-
-      return selectedOptions.sort(() => Math.random() - 0.5);
-    };
-
-    const newDisplayedOptions = generateDisplayedOptions();
     setDisplayedOptionsCache(newDisplayedOptions);
     setTargetCorrectOptionForFeedback(null);
     lastGeneratedQuestionIdRef.current = question.questionId;

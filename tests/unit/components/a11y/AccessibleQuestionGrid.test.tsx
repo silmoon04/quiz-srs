@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AccessibleQuestionGrid } from '@/components/a11y/AccessibleQuestionGrid';
 import type { QuizQuestion, SessionHistoryEntry, DisplayedOption } from '@/types/quiz-types';
@@ -62,6 +62,12 @@ const createDefaultProps = (
   isReviewSession: false,
   ...overrides,
 });
+
+const focusWithAct = (element: HTMLElement) => {
+  act(() => {
+    element.focus();
+  });
+};
 
 describe('AccessibleQuestionGrid Component', () => {
   beforeEach(() => {
@@ -199,7 +205,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowRight}');
 
@@ -211,7 +217,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ currentQuestionIndex: 2 })} />);
 
       const buttons = getGridButtons();
-      buttons[2].focus();
+      focusWithAct(buttons[2]);
 
       await user.keyboard('{ArrowLeft}');
 
@@ -223,7 +229,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ currentQuestionIndex: 3 })} />);
 
       const buttons = getGridButtons();
-      buttons[3].focus();
+      focusWithAct(buttons[3]);
 
       await user.keyboard('{ArrowRight}');
 
@@ -235,7 +241,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowLeft}');
 
@@ -247,7 +253,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ currentQuestionIndex: 2 })} />);
 
       const buttons = getGridButtons();
-      buttons[2].focus();
+      focusWithAct(buttons[2]);
 
       await user.keyboard('{Home}');
 
@@ -259,7 +265,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{End}');
 
@@ -271,7 +277,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowRight}');
       await user.keyboard('{ArrowRight}');
@@ -285,7 +291,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowRight}');
       await user.keyboard('{ArrowRight}');
@@ -299,7 +305,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowRight}');
 
@@ -332,7 +338,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ onNavigateToQuestion })} />);
 
       const buttons = getGridButtons();
-      buttons[1].focus();
+      focusWithAct(buttons[1]);
 
       await user.keyboard('{Enter}');
 
@@ -345,7 +351,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ onNavigateToQuestion })} />);
 
       const buttons = getGridButtons();
-      buttons[2].focus();
+      focusWithAct(buttons[2]);
 
       await user.keyboard(' ');
 
@@ -358,7 +364,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ onNavigateToQuestion })} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{ArrowRight}');
       await user.keyboard('{ArrowRight}');
@@ -414,7 +420,7 @@ describe('AccessibleQuestionGrid Component', () => {
       const buttons = getGridButtons();
 
       // Tab to focus grid, then use arrow to navigate
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
       await user.keyboard('{ArrowRight}');
       await user.keyboard('{ArrowRight}');
 
@@ -428,7 +434,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       // Initially first has tabIndex 0
       expect(buttons[0]).toHaveAttribute('tabIndex', '0');
@@ -793,7 +799,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ onNavigateToQuestion })} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       // Rapid navigation
       await user.keyboard('{ArrowRight}');
@@ -809,7 +815,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       await user.keyboard('{Home}');
 
@@ -821,7 +827,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps({ currentQuestionIndex: 3 })} />);
 
       const buttons = getGridButtons();
-      buttons[3].focus();
+      focusWithAct(buttons[3]);
 
       await user.keyboard('{End}');
 
@@ -882,7 +888,7 @@ describe('AccessibleQuestionGrid Component', () => {
       expect(buttons[3]).toHaveAttribute('title', 'Question 4 (Unanswered)');
 
       // Focus and navigate
-      buttons[2].focus();
+      focusWithAct(buttons[2]);
       await user.keyboard('{ArrowLeft}');
       expect(buttons[1]).toHaveFocus();
 
@@ -911,7 +917,7 @@ describe('AccessibleQuestionGrid Component', () => {
       render(<AccessibleQuestionGrid {...createDefaultProps()} />);
 
       const buttons = getGridButtons();
-      buttons[0].focus();
+      focusWithAct(buttons[0]);
 
       // Multiple navigation operations
       await user.keyboard('{ArrowRight}');

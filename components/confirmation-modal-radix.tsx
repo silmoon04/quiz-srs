@@ -69,11 +69,13 @@ export function ConfirmationModal({
             {styles.icon}
             {title}
           </DialogTitle>
-          <DialogDescription className="text-gray-300">
-            <MarkdownRenderer
-              markdown={message}
-              className="break-words leading-relaxed text-white"
-            />
+          <DialogDescription asChild>
+            <div className="text-gray-300">
+              <MarkdownRenderer
+                markdown={message}
+                className="break-words leading-relaxed text-white"
+              />
+            </div>
           </DialogDescription>
         </DialogHeader>
 

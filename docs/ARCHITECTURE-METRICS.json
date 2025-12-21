@@ -1,0 +1,334 @@
+{
+  "summary": {
+    "files": 190,
+    "edges": 258,
+    "fan_in_nodes": 69,
+    "fan_out_nodes": 147
+  },
+  "top_fan_in": [
+    ["types/quiz-types.ts", 37],
+    ["lib/utils.ts", 25],
+    ["components/rendering/MarkdownRenderer.tsx", 17],
+    ["tests/e2e/fixtures/quiz-data.ts", 15],
+    ["utils/quiz-validation-refactored.ts", 12],
+    ["components/ui/button.tsx", 9],
+    ["components/ui/card.tsx", 8],
+    ["store/index.ts", 8],
+    ["components/a11y/ScreenReaderAnnouncer.tsx", 7],
+    ["app/design-showcase/shared.tsx", 7],
+    ["components/progress-bar.tsx", 6],
+    ["lib/quiz/parser.ts", 6],
+    ["lib/schema/quiz.ts", 6],
+    ["features/dashboard/hooks/use-module-loader.ts", 5],
+    ["store/quiz-store.ts", 4]
+  ],
+  "top_fan_out": [
+    ["components/quiz-session.tsx", 12],
+    ["components/question-editor.tsx", 8],
+    ["app/page.tsx", 7],
+    ["components/all-questions-view.tsx", 7],
+    ["components/dashboard.tsx", 5],
+    ["tests/unit/features/dashboard/hooks/use-module-loader.test.ts", 5],
+    ["features/index.ts", 4],
+    ["features/dashboard/components/DashboardContainer.tsx", 4],
+    ["features/dashboard/hooks/use-module-loader.ts", 4],
+    ["tests/unit/features/dashboard/components/DashboardContainer.test.tsx", 4],
+    ["app/layout.tsx", 3],
+    ["components/chapter-card.tsx", 3],
+    ["components/confirmation-modal-radix.tsx", 3],
+    ["components/option-card.tsx", 3],
+    ["components/quiz-complete.tsx", 3]
+  ],
+  "layer_edges": [
+    {
+      "from": "components",
+      "to": "components",
+      "count": 45
+    },
+    {
+      "from": "tests",
+      "to": "components",
+      "count": 40
+    },
+    {
+      "from": "tests",
+      "to": "types",
+      "count": 20
+    },
+    {
+      "from": "features",
+      "to": "features",
+      "count": 18
+    },
+    {
+      "from": "tests",
+      "to": "lib",
+      "count": 18
+    },
+    {
+      "from": "tests",
+      "to": "tests",
+      "count": 18
+    },
+    {
+      "from": "components",
+      "to": "lib",
+      "count": 17
+    },
+    {
+      "from": "tests",
+      "to": "utils",
+      "count": 10
+    },
+    {
+      "from": "app",
+      "to": "lib",
+      "count": 8
+    },
+    {
+      "from": "app",
+      "to": "app",
+      "count": 7
+    },
+    {
+      "from": "components",
+      "to": "types",
+      "count": 7
+    },
+    {
+      "from": "tests",
+      "to": "store",
+      "count": 6
+    },
+    {
+      "from": "app",
+      "to": "components",
+      "count": 5
+    },
+    {
+      "from": "tests",
+      "to": "features",
+      "count": 5
+    },
+    {
+      "from": "features",
+      "to": "types",
+      "count": 4
+    },
+    {
+      "from": "app",
+      "to": "features",
+      "count": 3
+    },
+    {
+      "from": "features",
+      "to": "store",
+      "count": 3
+    },
+    {
+      "from": "services",
+      "to": "services",
+      "count": 3
+    },
+    {
+      "from": "features",
+      "to": "components",
+      "count": 2
+    },
+    {
+      "from": "lib",
+      "to": "types",
+      "count": 2
+    },
+    {
+      "from": "tests",
+      "to": "app",
+      "count": 2
+    },
+    {
+      "from": "app",
+      "to": "services",
+      "count": 1
+    },
+    {
+      "from": "app",
+      "to": "store",
+      "count": 1
+    },
+    {
+      "from": "components",
+      "to": "store",
+      "count": 1
+    },
+    {
+      "from": "features",
+      "to": "lib",
+      "count": 1
+    }
+  ],
+  "layer_violations_sample": [],
+  "low_cohesion_candidates": [
+    ["utils/quiz-validation-refactored.ts", 76, 47546],
+    ["app/design-showcase/theme-saas/page.tsx", 11, 43024],
+    ["components/quiz-session.tsx", 16, 42122],
+    ["app/design-showcase/theme-brand/page.tsx", 11, 33173],
+    ["app/design-showcase/theme-playful/page.tsx", 11, 32565],
+    ["scripts/codebase-analyzer.ts", 40, 23870],
+    ["app/design-showcase/shared.tsx", 16, 22864],
+    ["tests/int/contracts/data-integrity.contract.test.ts", 12, 21171],
+    ["tests/int/state/state-persistence.test.ts", 12, 19407],
+    ["tests/e2e/fixtures/quiz-data.ts", 19, 17729]
+  ],
+  "export_dead_ratio_sample": [
+    {
+      "file": "app/design-showcase/page.tsx",
+      "exports": 2,
+      "dead": 2
+    },
+    {
+      "file": "app/design-showcase/shared.tsx",
+      "exports": 38,
+      "dead": 35
+    },
+    {
+      "file": "app/design-showcase/theme-ankidroid/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-aptitude/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-brand/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-dark/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-minimal/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-playful/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/design-showcase/theme-saas/page.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "app/layout.tsx",
+      "exports": 2,
+      "dead": 0
+    },
+    {
+      "file": "app/page.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/a11y/AccessibleOptionList.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/a11y/AccessibleQuestionGrid.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/a11y/ScreenReaderAnnouncer.tsx",
+      "exports": 2,
+      "dead": 0
+    },
+    {
+      "file": "components/all-questions-view.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/chapter-card.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/confirmation-modal-radix.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/dashboard.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/legacy-storage-bridge.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/option-card.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/progress-bar.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/question-editor.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/quiz-complete.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "components/quiz-session.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/rendering/MarkdownRenderer.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/ui/badge.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "components/ui/button.tsx",
+      "exports": 1,
+      "dead": 1
+    },
+    {
+      "file": "components/ui/card.tsx",
+      "exports": 0,
+      "dead": 0
+    },
+    {
+      "file": "components/ui/circular-progress.tsx",
+      "exports": 1,
+      "dead": 0
+    },
+    {
+      "file": "components/ui/collapsible.tsx",
+      "exports": 0,
+      "dead": 0
+    }
+  ]
+}

@@ -117,6 +117,10 @@ class CodebaseAnalyzer {
     this.rootDir = rootDir;
   }
 
+  private normalizePath(input: string): string {
+    return input.replace(/\\/g, '/');
+  }
+
   /**
    * Main analysis entry point
    */
@@ -166,7 +170,7 @@ class CodebaseAnalyzer {
 
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
-      const relativePath = path.relative(this.rootDir, fullPath);
+      const relativePath = this.normalizePath(path.relative(this.rootDir, fullPath));
 
       if (entry.isDirectory()) {
         if (!EXCLUDED_DIRS.includes(entry.name) && !entry.name.startsWith('.')) {
@@ -544,18 +548,19 @@ class CodebaseAnalyzer {
    * Resolve import path to file path
    */
   private resolveImportPath(fromFile: string, importSource: string): string | null {
-    // Handle aliases
-    if (importSource.startsWith('@/')) {
-      importSource = importSource.replace('@/', '');
-    }
+    const isAlias = importSource.startsWith('@/');
+    const cleanedSource = isAlias ? importSource.replace('@/', '') : importSource;
 
     // Skip external modules
-    if (!importSource.startsWith('.') && !importSource.startsWith('@/')) {
+    if (!isAlias && !cleanedSource.startsWith('.')) {
       return null;
     }
 
-    const fromDir = path.dirname(fromFile);
-    const resolvedPath = path.normalize(path.join(fromDir, importSource)).replace(/\\/g, '/');
+    const fromDir = isAlias ? this.rootDir : path.dirname(fromFile);
+    let resolvedPath = this.normalizePath(path.normalize(path.join(fromDir, cleanedSource)));
+    if (path.isAbsolute(resolvedPath)) {
+      resolvedPath = this.normalizePath(path.relative(this.rootDir, resolvedPath));
+    }
 
     // Try different extensions
     for (const ext of ['', '.ts', '.tsx', '.js', '.jsx', '/index.ts', '/index.tsx', '/index.js']) {
