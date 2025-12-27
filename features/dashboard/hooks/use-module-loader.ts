@@ -16,6 +16,7 @@ import { useQuizStore } from '@/store';
 import type { QuizModule } from '@/types/quiz-types';
 import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
 import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
+import { getAssetPath } from '@/lib/paths';
 
 // ============================================
 // TYPES
@@ -233,13 +234,13 @@ export function useModuleLoader(): UseModuleLoaderReturn {
     clearErrorAction();
 
     const errors: string[] = [];
-    // Use relative paths - works with Next.js basePath automatically
-    const basePath = '';
+    // Use centralized asset path helper
+    // const basePath = ''; // Removed in favor of getAssetPath
 
     try {
       // Try loading Markdown first (Primary)
       try {
-        const mdUrl = `${basePath}./default-quiz.md`;
+        const mdUrl = getAssetPath('default-quiz.md');
         console.log(`[useModuleLoader] Attempting to fetch default quiz from: ${mdUrl}`);
         const mdResponse = await fetch(mdUrl);
 
@@ -267,7 +268,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
       // Try loading JSON fallback
       try {
-        const jsonUrl = `${basePath}./default-quiz.json`;
+        const jsonUrl = getAssetPath('default-quiz.json');
         console.log(`[useModuleLoader] Attempting to fetch fallback quiz from: ${jsonUrl}`);
         const jsonResponse = await fetch(jsonUrl);
 
