@@ -32,6 +32,7 @@ interface QuizCompleteProps {
   hasIncorrectAnswers: boolean;
   nextChapterId?: string | null;
   onStartChapterQuiz: (chapterId: string) => void;
+  onReviewMistakes?: () => void;
 }
 
 export function QuizComplete({
@@ -45,6 +46,7 @@ export function QuizComplete({
   hasIncorrectAnswers,
   nextChapterId,
   onStartChapterQuiz,
+  onReviewMistakes,
 }: QuizCompleteProps) {
   const getPerformanceMessage = () => {
     if (!results) return 'No results available';
@@ -153,6 +155,17 @@ export function QuizComplete({
             <RotateCcw className="mr-2 h-5 w-5" />
             Retry Quiz
           </Button>
+
+          {hasIncorrectAnswers && (
+            <Button
+              onClick={onReviewMistakes}
+              className="border-red-700 bg-red-900/40 text-red-200 shadow-sm transition-all duration-200 hover:border-red-600 hover:bg-red-800/50 hover:text-white"
+              size="lg"
+            >
+              <FileText className="mr-2 h-5 w-5" />
+              Review Mistakes
+            </Button>
+          )}
 
           {nextChapterId && (
             <Button

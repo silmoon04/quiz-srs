@@ -6,12 +6,14 @@ import { Toaster } from '@/components/ui/toaster';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import { DashboardContainer } from '@/features/dashboard/components/DashboardContainer';
 import { QuizSessionContainer } from '@/features/quiz-session/components/QuizSessionContainer';
+import { QuizCompleteContainer } from '@/features/quiz-session/components/QuizCompleteContainer';
 import { useModuleLoader } from '@/features/dashboard/hooks/use-module-loader';
 
 export default function MCQQuizForge() {
   const appState = useQuizStore((state) => state.appState);
   const startQuiz = useQuizStore((state) => state.startQuiz);
   const startReviewSession = useQuizStore((state) => state.startReviewSession);
+  const setAppState = useQuizStore((state) => state.setAppState);
   const { loadDefault, loadFromFile, isLoading, error } = useModuleLoader();
 
   return (
@@ -40,13 +42,15 @@ export default function MCQQuizForge() {
         {appState === 'quiz' && (
           <QuizSessionContainer
             onComplete={() => {
-              // Handled by container/store
+              setAppState('complete');
             }}
             onBack={() => {
               // Handled by container/store
             }}
           />
         )}
+
+        {appState === 'complete' && <QuizCompleteContainer />}
 
         <Toaster />
       </ScreenReaderAnnouncer>
