@@ -23,7 +23,7 @@
 
 ## P2 -- Medium
 
-- **Onboarding friction**: File-only import; no "paste Markdown/JSON" modal, drag-drop, or AI prompt copier. Add quick-start templates and paste-to-preview. (WelcomeScreen, Dashboard)
+- **Onboarding friction**: File-only import; no "paste Markdown/JSON" modal, drag-drop, or prompt copier. Add quick-start templates and paste-to-preview. (WelcomeScreen, Dashboard)
 - **Error log review**: Mistake export exists but no in-app drill-down/retry from that data. Add "Review mistakes" list -> queue. (DashboardContainer export hook, QuizSession routing)
 - **Accessibility gaps**: Missing aria-describedby targets and double key handlers in a11y components; ensure semantics and avoid duplicate firing. (AccessibleOptionList, AccessibleQuestionGrid)
 - **Mobile polish**: Large dashboard cards and multi-column grids lack small-screen layout; add responsive stacking and sticky submit bar. (Dashboard, QuizSession)
