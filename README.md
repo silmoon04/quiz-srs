@@ -80,7 +80,7 @@ npm run coverage         # Vitest coverage report
 npm run typecheck:strict # optional strict TS project
 ```
 
-See `docs/TESTING.md` for the full strategy, tooling rationale, and AI-agent checklist.
+See `docs/TESTING.md` for the full testing strategy and tooling rationale.
 
 ## Quiz Content Formats
 

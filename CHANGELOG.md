@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the MCQ Quiz Forge project will be documented in this file.
+All notable changes to the Quiz-SRS project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Error Handling**: Graceful handling of malformed content and LaTeX errors
 - **Unicode Support**: Full support for special characters and emojis
 - **Performance Optimization**: Lightweight regex-based processing for optimal speed
-- **Consolidated Documentation**: Comprehensive testing guide with AI agent instructions
+- **Consolidated Documentation**: Comprehensive testing guide and developer documentation
 - **API Documentation**: Complete SecureTextRenderer API documentation and migration guide
 
 ### Changed
@@ -83,7 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Legacy Hooks**: Removed `use-quiz-state.ts` (bridge hook) and `use-quiz-persistence.ts`.
 - **Monolithic Logic**: Extracted business logic from `page.tsx` into custom hooks and store actions.
 
-## [1.0.0] - 2024-01-XX
+## [1.0.0] - 2024-11-15
 
 ### Added
 
@@ -108,7 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **True/False Questions**: Support for T/F question type
 - **Error Recovery**: Graceful handling of malformed content
 
-## [0.9.0] - 2024-01-XX
+## [0.9.0] - 2024-11-01
 
 ### Added
 
@@ -134,7 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ID Generation**: Better handling of missing and duplicate IDs
 - **LaTeX Processing**: More conservative LaTeX correction patterns
 
-## [0.8.0] - 2024-01-XX
+## [0.8.0] - 2024-10-15
 
 ### Added
 
@@ -156,7 +156,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Navigation Bugs**: Corrected navigation and progress tracking
 - **Data Validation**: Improved data validation and error handling
 
-## [0.7.0] - 2024-01-XX
+## [0.7.0] - 2024-10-01
 
 ### Added
 
@@ -172,7 +172,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Code Organization**: Organized code structure and file organization
 - **Development Workflow**: Set up development and build processes
 
-## [0.6.0] - 2024-01-XX
+## [0.6.0] - 2024-09-15
 
 ### Added
 
