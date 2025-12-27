@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ProgressBar } from './progress-bar';
+import { ProgressBar } from '@/components/progress-bar';
 import {
   Trophy,
   RotateCcw,
