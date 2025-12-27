@@ -48,7 +48,7 @@ interface QuizSessionProps {
   totalQuestions: number;
   selectedOptionId: string | null;
   isSubmitted: boolean;
-  isReviewSession?: boolean;
+  isReviewSessionActive?: boolean;
   srsProgressCounts?: SrsProgressCounts;
   currentModule?: QuizModule;
   // Session History Navigation Props
@@ -84,7 +84,7 @@ export function QuizSession({
   totalQuestions,
   selectedOptionId,
   isSubmitted,
-  isReviewSession = false,
+  isReviewSessionActive = false,
   srsProgressCounts,
   currentModule,
   sessionHistory = [],
@@ -370,14 +370,14 @@ export function QuizSession({
   };
 
   const getHeaderTitle = () => {
-    if (isReviewSession) {
+    if (isReviewSessionActive) {
       return `Review Session`;
     }
     return parseChapterName(chapter.name);
   };
 
   const getProgressInfo = () => {
-    if (isReviewSession) {
+    if (isReviewSessionActive) {
       return '';
     }
     return 'Chapter Progress';
@@ -416,9 +416,9 @@ export function QuizSession({
 
   // Announce question changes and submission outcomes for screen readers.
   useEffect(() => {
-    if (isReviewSession) return;
+    if (isReviewSessionActive) return;
     announce(`Question ${currentQuestionIndex + 1} of ${totalQuestions}`);
-  }, [announce, isReviewSession, question.questionId, currentQuestionIndex, totalQuestions]);
+  }, [announce, isReviewSessionActive, question.questionId, currentQuestionIndex, totalQuestions]);
 
   useEffect(() => {
     if (!displayIsSubmitted) return;
@@ -472,7 +472,7 @@ export function QuizSession({
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex items-start gap-3">
                 <div className="min-w-0 flex-1">
-                  {isReviewSession ? (
+                  {isReviewSessionActive ? (
                     <div>
                       <h1 className="hyphens-auto break-words text-3xl font-bold leading-tight text-white">
                         Review Session
@@ -532,7 +532,7 @@ export function QuizSession({
                 </div>
               </div>
               <p className="break-words text-base text-gray-400">{getProgressInfo()}</p>
-              {isReviewSession &&
+              {isReviewSessionActive &&
                 displayQuestion.srsLevel !== undefined &&
                 displayQuestion.srsLevel > 0 && (
                   <p className="mt-2 text-sm text-blue-400">
@@ -544,7 +544,7 @@ export function QuizSession({
             <TooltipProvider>
               <div className="flex gap-2">
                 {/* NEW: View All Questions Button */}
-                {onViewAllQuestions && !isReviewSession && (
+                {onViewAllQuestions && !isReviewSessionActive && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -563,7 +563,7 @@ export function QuizSession({
                 )}
 
                 {/* Retry Chapter Button - Only visible for regular quizzes */}
-                {!isReviewSession && (
+                {!isReviewSessionActive && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -603,7 +603,7 @@ export function QuizSession({
           </div>
 
           {/* Anki-style Progress Bars - Enhanced spacing */}
-          {isReviewSession && srsProgressCounts && (
+          {isReviewSessionActive && srsProgressCounts && (
             <Card className="mb-8 border-indigo-700 bg-gradient-to-r from-indigo-950 to-purple-950 shadow-sm backdrop-blur-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="flex flex-wrap items-center gap-2 text-lg text-white">
@@ -685,7 +685,7 @@ export function QuizSession({
                 sessionHistory={sessionHistory}
                 currentHistoryViewIndex={currentHistoryViewIndex}
                 onNavigateToQuestion={onNavigateToQuestion}
-                isReviewSession={isReviewSession}
+                isReviewSession={isReviewSessionActive}
               />
 
               {/* Status Legend */}
@@ -714,7 +714,7 @@ export function QuizSession({
           <Card className="border-slate-700 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-lg backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="break-words text-lg text-white">
-                {isReviewSession ? `Review Question` : `Question ${currentQuestionIndex + 1}`}
+                {isReviewSessionActive ? `Review Question` : `Question ${currentQuestionIndex + 1}`}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -909,7 +909,7 @@ export function QuizSession({
                   onClick={onNextQuestion}
                   className="whitespace-nowrap bg-green-700 px-6 text-white shadow-sm transition-all duration-200 hover:bg-green-800 focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 active:bg-green-900"
                 >
-                  {isReviewSession ? 'Next Review' : 'Next Question'}
+                  {isReviewSessionActive ? 'Next Review' : 'Next Question'}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               )}

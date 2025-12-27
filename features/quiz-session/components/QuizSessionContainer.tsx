@@ -129,7 +129,7 @@ export function QuizSessionContainer({
       totalQuestions={totalQuestionsInChapter}
       selectedOptionId={selectedOptionId}
       isSubmitted={isSubmitted}
-      isReviewSession={isReviewSessionActive}
+      isReviewSessionActive={isReviewSessionActive}
       currentModule={currentModule ?? undefined}
       onSelectOption={handleSelectOption}
       onSubmitAnswer={handleSubmitAnswer}
