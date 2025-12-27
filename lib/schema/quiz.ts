@@ -1,21 +1,21 @@
 import { z } from 'zod';
 
-type AnyRecord = Record<string, any>;
+type UnknownRecord = Record<string, unknown>;
 
 function normalizeQuizModuleInput(data: unknown): unknown {
   if (!data || typeof data !== 'object') return data;
-  const moduleObj = data as AnyRecord;
+  const moduleObj = data as UnknownRecord;
 
   const chapters = Array.isArray(moduleObj.chapters) ? moduleObj.chapters : [];
 
   const normalizedChapters = chapters.map((chapterRaw: unknown) => {
     if (!chapterRaw || typeof chapterRaw !== 'object') return chapterRaw;
-    const chapter = chapterRaw as AnyRecord;
+    const chapter = chapterRaw as UnknownRecord;
 
     const questions = Array.isArray(chapter.questions) ? chapter.questions : [];
     const normalizedQuestions = questions.map((questionRaw: unknown) => {
       if (!questionRaw || typeof questionRaw !== 'object') return questionRaw;
-      const question = questionRaw as AnyRecord;
+      const question = questionRaw as UnknownRecord;
       return {
         ...question,
         explanationText: question.explanationText ?? question.explanation ?? '',

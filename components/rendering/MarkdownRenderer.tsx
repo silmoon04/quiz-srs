@@ -49,11 +49,11 @@ export function MarkdownRenderer({ markdown, className }: Props) {
         sanitized: disallowed,
         hasMermaid,
       };
-    } catch (e: any) {
+    } catch (e: unknown) {
       return {
         html: '<p>Error rendering content.</p>',
         sanitized: true,
-        error: String(e?.message ?? e),
+        error: e instanceof Error ? e.message : String(e),
       };
     }
   }, [markdown]);

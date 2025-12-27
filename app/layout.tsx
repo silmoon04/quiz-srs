@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono';
 import { Analytics } from '@vercel/analytics/next';
 import { ScreenReaderAnnouncer } from '@/components/a11y/ScreenReaderAnnouncer';
 import { PersistenceProvider } from '@/services/persistence/provider';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import './globals.css';
 import { LegacyStorageBridge } from '@/components/legacy-storage-bridge';
 import 'katex/dist/katex.min.css';
@@ -34,7 +35,9 @@ html {
       </head>
       <body>
         <PersistenceProvider>
-          <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
+          <ErrorBoundary>
+            <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
+          </ErrorBoundary>
         </PersistenceProvider>
         <LegacyStorageBridge />
         {process.env.NEXT_PUBLIC_VERCEL && <Analytics />}

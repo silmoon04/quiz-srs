@@ -105,8 +105,10 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
       try {
         const question = parseQuestionChunk(chunk, type, questionId, rawTitle);
         currentChapter.questions.push(question);
-      } catch (e: any) {
-        errors.push(`[Error] Failed to parse question "${questionId}": ${e.message}`);
+      } catch (e: unknown) {
+        errors.push(
+          `[Error] Failed to parse question "${questionId}": ${e instanceof Error ? e.message : String(e)}`,
+        );
       }
       continue;
     }

@@ -25,7 +25,7 @@ function safeJsonParse(value: string | null): unknown {
 export function LegacyStorageBridge() {
   useEffect(() => {
     // Hydrate from legacy key if present and store is empty.
-    const legacy = safeJsonParse(localStorage.getItem('quiz-state')) as any;
+    const legacy = safeJsonParse(localStorage.getItem('quiz-state')) as LegacyQuizState | null;
     if (legacy && typeof legacy === 'object') {
       const state = useQuizStore.getState();
       const hasModule = Boolean(state.currentModule);
@@ -73,7 +73,10 @@ export function LegacyStorageBridge() {
       if (event.key !== 'quiz-store' && event.key !== 'quiz-state') return;
       try {
         // Zustand persist middleware exposes a rehydrate() helper.
-        (useQuizStore as any).persist?.rehydrate?.();
+        const persistMiddleware = (
+          useQuizStore as unknown as { persist: { rehydrate: () => void } }
+        ).persist;
+        persistMiddleware?.rehydrate?.();
       } catch {
         // Ignore sync failures
       }

@@ -423,7 +423,8 @@ export function QuizSession({
   useEffect(() => {
     if (!displayIsSubmitted) return;
     const isCorrectNow =
-      (displayQuestion as any).lastIsCorrect === true ||
+      ('lastIsCorrect' in displayQuestion &&
+        (displayQuestion as { lastIsCorrect?: boolean }).lastIsCorrect === true) ||
       (displaySelectedOptionId
         ? displayQuestion.correctOptionIds.includes(displaySelectedOptionId)
         : false);

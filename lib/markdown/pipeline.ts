@@ -21,23 +21,37 @@ import { visit } from 'unist-util-visit';
  * Rehype plugin to transform mermaid code blocks into div.mermaid
  * This allows the client-side Mermaid library to pick them up automatically.
  */
+import { Node, Parent } from 'unist';
+
+interface ElementNode extends Parent {
+  tagName: string;
+  properties: Record<string, unknown>;
+  children: ElementNode[];
+}
+
 function rehypeMermaid() {
-  return (tree: any) => {
-    visit(tree, 'element', (node: any) => {
+  return (tree: Node) => {
+    visit(tree, 'element', (node: unknown) => {
+      // Cast to custom interface for property access safety
+      const elementNode = node as ElementNode;
       // Look for <pre><code class="language-mermaid">...</code></pre>
-      if (node.tagName === 'pre' && node.children && node.children.length > 0) {
-        const codeNode = node.children[0];
+      if (
+        elementNode.tagName === 'pre' &&
+        elementNode.children &&
+        elementNode.children.length > 0
+      ) {
+        const codeNode = elementNode.children[0];
         if (
           codeNode.tagName === 'code' &&
           codeNode.properties &&
           Array.isArray(codeNode.properties.className) &&
-          codeNode.properties.className.includes('language-mermaid')
+          (codeNode.properties.className as unknown[]).includes('language-mermaid')
         ) {
           // Found it! Transform the PRE node into a DIV
-          node.tagName = 'div';
-          node.properties.className = ['mermaid'];
+          elementNode.tagName = 'div';
+          elementNode.properties.className = ['mermaid'];
           // The children of the code node are the text content of the diagram
-          node.children = codeNode.children;
+          elementNode.children = codeNode.children;
         }
       }
     });
@@ -168,7 +182,8 @@ export function processMarkdownSync(content: string): string {
       .use(rehypeRaw) // Allow raw HTML
       .use(rehypeMermaid) // Transform mermaid blocks BEFORE highlight/sanitize
       .use(rehypeKatex) // Render math with KaTeX
-      .use(rehypeHighlight as any, { ignoreMissing: true }) // Syntax highlighting
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .use(rehypeHighlight as unknown as any, { ignoreMissing: true }) // Syntax highlighting - Type cast needed for plugin compatibility
       .use(rehypeSanitize, sanitizeSchema) // Sanitize HTML
       .use(rehypeStringify); // Convert to HTML string
 

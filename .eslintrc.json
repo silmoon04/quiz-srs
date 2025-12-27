@@ -9,7 +9,7 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "error",
     "no-unused-vars": "off",
     "no-console": "off",
     "prefer-const": "warn",
