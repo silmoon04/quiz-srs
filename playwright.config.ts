@@ -68,7 +68,7 @@ export default defineConfig({
       ],
   webServer: {
     command: process.env.CI
-      ? 'npm run build && npx serve out -l 4000'
+      ? 'GITHUB_ACTIONS= npm run build && npx serve out -l 4000 -s'
       : 'npm run dev -- --port 4000',
     url: 'http://localhost:4000',
     reuseExistingServer: !process.env.CI,
