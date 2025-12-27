@@ -15,15 +15,13 @@ import type {
   QuizQuestion,
   SessionHistoryEntry,
   DisplayedOption,
+  AppState,
 } from '@/types/quiz-types';
 import { calculateNextReview } from '@/lib/engine/srs';
 
 // ============================================
 // TYPES
 // ============================================
-
-/** Application view states */
-export type AppState = 'welcome' | 'dashboard' | 'quiz' | 'complete' | 'all-questions';
 
 /** Answer record for tracking submissions */
 export interface AnswerRecord {

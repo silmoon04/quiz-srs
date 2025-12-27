@@ -98,3 +98,6 @@ export interface SessionHistoryEntry {
   isReviewSessionQuestion: boolean;
   chapterId: string; // Chapter ID for context, especially for SRS reviews
 }
+
+/** Application view states */
+export type AppState = 'welcome' | 'dashboard' | 'quiz' | 'complete' | 'all-questions';
