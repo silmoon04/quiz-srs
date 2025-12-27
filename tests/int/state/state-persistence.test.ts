@@ -7,10 +7,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import {
-  validateAndCorrectQuizModule,
-  normalizeQuizModule,
-} from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/lib/quiz/module-validator';
+import { normalizeQuizModule } from '@/lib/validators/normalization';
 import type { QuizModule, QuizChapter, QuizQuestion } from '@/types/quiz-types';
 
 // Helper to create a question with full SRS state

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseMarkdownToQuizModule } from '@/utils/quiz-validation-refactored';
+import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 
 describe('Global ID Uniqueness Validation', () => {
   it('should detect duplicate chapter IDs across the entire module', () => {
@@ -31,8 +31,8 @@ What is 3+3?
 
     const result = parseMarkdownToQuizModule(markdown);
 
-    // Should still parse but with errors about duplicates
-    expect(result.success).toBe(false);
+    // Should parse with warnings about duplicates
+    expect(result.success).toBe(true);
     expect(
       result.errors.some(
         (e) => e.includes('Duplicate Chapter ID') || e.includes('Duplicate chapter ID'),
@@ -72,8 +72,8 @@ What is 3+3?
 
     const result = parseMarkdownToQuizModule(markdown);
 
-    // Should still parse but with errors about duplicates
-    expect(result.success).toBe(false);
+    // Should parse with warnings about duplicates
+    expect(result.success).toBe(true);
     expect(
       result.errors.some(
         (e) => e.includes('Duplicate Question ID') || e.includes('Duplicate question ID'),
@@ -114,8 +114,8 @@ What is 3+3?
 
     const result = parseMarkdownToQuizModule(markdown);
 
-    // Parser reports duplicate errors but still auto-fixes them
-    expect(result.success).toBe(false);
+    // Parser reports duplicate warnings but still auto-fixes them
+    expect(result.success).toBe(true);
     expect(result.errors.some((e) => e.includes('Duplicate Question ID'))).toBe(true);
     expect(result.errors.some((e) => e.includes('Auto-fix'))).toBe(true);
 

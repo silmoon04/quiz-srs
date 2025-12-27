@@ -467,7 +467,17 @@ export const useQuizStore = create<QuizState>()(
       }),
       {
         name: 'quiz-store',
-        version: 1,
+        version: 2,
+        migrate: (persistedState: unknown, version: number) => {
+          if (version < 2) {
+            // Migration from version 1 to 2
+            // In this case, we'll reset UI state but keep data if possible,
+            // or just safely return initial state to prevent corruption.
+            // For now, let's reset to ensuring clean slate on structure changes.
+            return { ...initialState };
+          }
+          return persistedState as QuizState;
+        },
         partialize: (state) => ({
           currentModule: state.currentModule,
           answerRecords: state.answerRecords,

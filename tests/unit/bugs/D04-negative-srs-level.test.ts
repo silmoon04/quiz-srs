@@ -9,11 +9,8 @@
  */
 
 import { describe, it, expect, vi } from 'vitest';
-import {
-  normalizeSingleQuestion,
-  normalizeQuizModule,
-  validateSingleQuestion,
-} from '@/utils/quiz-validation-refactored';
+import { normalizeSingleQuestion, normalizeQuizModule } from '@/lib/validators/normalization';
+import { validateSingleQuestion } from '@/lib/validators/schema-validator';
 import type { QuizQuestion } from '@/types/quiz-types';
 
 describe('D4: srsLevel Negative Value Bug', () => {

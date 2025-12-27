@@ -347,7 +347,7 @@ What is ${i} + ${i}?
 
 describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   it('should apply conservative LaTeX corrections idempotently', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
 
     const jsonWithLatex = JSON.stringify(
       {
@@ -370,7 +370,7 @@ describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   });
 
   it('should only correct LaTeX within $...$ delimiters', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
 
     const jsonWithMixedContent = JSON.stringify(
       {
@@ -389,7 +389,7 @@ describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   });
 
   it('should handle complex LaTeX expressions correctly', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
 
     const complexLatex = JSON.stringify(
       {
@@ -410,7 +410,7 @@ describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   });
 
   test('should correctly escape backslashes in LaTeX content within JSON', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
     const jsonContent = `{
       "question": "What is $\\\\frac{1}{2}$ + $\\\\frac{1}{3}$?",
       "explanation": "The answer is $\\\\frac{5}{6}$ using $\\\\frac{a}{b} + \\\\frac{c}{d} = \\\\frac{ad + bc}{bd}$"
@@ -424,7 +424,7 @@ describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   });
 
   test('should not alter already escaped backslashes', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
     const jsonContent = `{
       "question": "What is $\\\\frac{1}{2}$ + $\\\\frac{1}{3}$?",
       "explanation": "The answer is $\\\\frac{5}{6}$ using $\\\\frac{a}{b} + \\\\frac{c}{d} = \\\\frac{ad + bc}{bd}$"
@@ -440,7 +440,7 @@ describe.skip('LaTeX Correction Tests (TM-LX-02)', () => {
   });
 
   test('should handle multiple LaTeX expressions in one string', async () => {
-    const { correctLatexInJsonContent } = await import('@/utils/quiz-validation-refactored');
+    const { correctLatexInJsonContent } = await import('@/lib/formatters/latex-formatter');
     const jsonContent = `{
       "question": "Solve: $\\\\int_0^1 x^2 dx = \\\\left[\\\\frac{x^3}{3}\\\\right]_0^1$",
       "explanation": "Using the power rule: $\\\\frac{d}{dx}[x^n] = nx^{n-1}$"

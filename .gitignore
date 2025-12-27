@@ -35,4 +35,5 @@ coverage-report.json
 *-analysis.json
 *.log
 
-/openspec
+/openspec/
+/.agent/

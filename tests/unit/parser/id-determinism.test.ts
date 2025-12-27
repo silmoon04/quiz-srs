@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
-import { sanitizeForId, resolveDuplicateId } from '@/utils/quiz-validation-refactored';
+import { sanitizeForId, resolveDuplicateId } from '@/lib/validators/normalization';
 
 describe('ID Generation Determinism', () => {
   describe('sanitizeForId', () => {
@@ -39,8 +39,10 @@ describe('ID Generation Determinism', () => {
   describe('parseMarkdownToQuizModule', () => {
     it('should produce identical IDs for same markdown', () => {
       const markdown = `# Test Quiz
+---
 
 ## Chapter 1
+---
 
 ### Q: What is 2+2?
 

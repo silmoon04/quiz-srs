@@ -16,7 +16,7 @@ import type { QuizModule } from '@/types/quiz-types';
 // ============================================
 
 // Mock the validation module
-vi.mock('@/utils/quiz-validation-refactored', () => ({
+vi.mock('@/lib/quiz/module-validator', () => ({
   validateAndCorrectQuizModule: vi.fn(),
 }));
 
@@ -31,7 +31,7 @@ vi.mock('@/lib/markdown/pipeline', () => ({
 }));
 
 // Import mocked modules for type-safe access
-import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/lib/quiz/module-validator';
 import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 
 // ============================================

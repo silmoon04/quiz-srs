@@ -13,7 +13,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
-import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/lib/quiz/module-validator';
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 

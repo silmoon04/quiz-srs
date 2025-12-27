@@ -27,7 +27,7 @@ vi.mock('@/components/quiz-session', () => ({
       totalQuestions,
       selectedOptionId,
       isSubmitted,
-      isReviewSession,
+      isReviewSessionActive,
       onSelectOption,
       onSubmitAnswer,
       onNextQuestion,
@@ -40,7 +40,7 @@ vi.mock('@/components/quiz-session', () => ({
         <div data-testid="total-questions">{totalQuestions}</div>
         <div data-testid="selected-option">{selectedOptionId ?? 'none'}</div>
         <div data-testid="is-submitted">{String(isSubmitted)}</div>
-        <div data-testid="is-review-session">{String(isReviewSession)}</div>
+        <div data-testid="is-review-session">{String(isReviewSessionActive)}</div>
         <button data-testid="select-option-btn" onClick={() => onSelectOption('opt-a')}>
           Select Option
         </button>

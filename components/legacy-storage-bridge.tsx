@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react';
 import { useQuizStore } from '@/store';
+import { QuizModule, AppState, SessionHistoryEntry } from '@/types/quiz-types';
+import { AnswerRecord } from '@/store/quiz-store';
 
 type LegacyQuizState = {
   currentModule: unknown;
@@ -34,12 +36,14 @@ export function LegacyStorageBridge() {
         try {
           useQuizStore.setState(
             {
-              currentModule: legacy.currentModule,
-              appState: legacy.appState ?? state.appState,
+              currentModule: legacy.currentModule as QuizModule,
+              appState: (legacy.appState ?? state.appState) as AppState,
               currentChapterId: legacy.currentChapterId ?? state.currentChapterId,
               currentQuestionIndex: legacy.currentQuestionIndex ?? state.currentQuestionIndex,
-              answerRecords: legacy.answerRecords ?? state.answerRecords,
-              sessionHistory: legacy.sessionHistory ?? state.sessionHistory,
+              answerRecords: (legacy.answerRecords ??
+                state.answerRecords) as Record<string, AnswerRecord>,
+              sessionHistory: (legacy.sessionHistory ??
+                state.sessionHistory) as SessionHistoryEntry[],
             },
             false,
           );

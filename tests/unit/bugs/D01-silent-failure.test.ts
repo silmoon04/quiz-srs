@@ -11,11 +11,9 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import {
-  validateAndCorrectQuizModule,
-  validateQuizModule,
-  normalizeQuizModule,
-} from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/lib/quiz/module-validator';
+import { validateQuizModule } from '@/lib/validators/schema-validator';
+import { normalizeQuizModule } from '@/lib/validators/normalization';
 
 describe('D1: Silent Failure Path in JSON Loading', () => {
   describe('validateAndCorrectQuizModule edge cases', () => {
@@ -254,8 +252,8 @@ describe('D1: Silent Failure Path in JSON Loading', () => {
       // Should handle gracefully
       expect(
         result.normalizedModule !== null ||
-          !result.validationResult.isValid ||
-          (result.correctionResult && result.correctionResult.correctionsMade > 0),
+        !result.validationResult.isValid ||
+        (result.correctionResult && result.correctionResult.correctionsMade > 0),
       ).toBe(true);
     });
   });

@@ -14,7 +14,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { recalculateChapterStats } from '@/utils/quiz-validation-refactored';
+import { recalculateChapterStats } from '@/lib/quiz/stats';
 import type { QuizQuestion, QuizChapter, QuizModule } from '@/types/quiz-types';
 
 // Helper to create a question

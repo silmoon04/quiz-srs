@@ -1,9 +1,6 @@
 import { QuizModule, QuizChapter, QuizQuestion, QuizOption } from '@/types/quiz-types';
-import {
-  validateQuizModule,
-  normalizeQuizModule,
-  sanitizeForId,
-} from '@/utils/quiz-validation-refactored';
+import { validateQuizModule } from '@/lib/validators/schema-validator';
+import { normalizeQuizModule, sanitizeForId, resolveDuplicateId } from '@/lib/validators/normalization';
 
 interface ParseResult {
   success: boolean;
@@ -64,9 +61,17 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
         .replace(/<!--.*?-->/g, '')
         .trim();
       const idMatch = chunk.match(/<!--\s*(?:ID|CH_ID):\s*(\S+)\s*-->/);
-      const chapterId = idMatch
+      const rawChapterId = idMatch
         ? idMatch[1]
         : `chapter_${sanitizeForId(chapterName)}_${chapters.length}`;
+
+      const seenChapterIds = new Set(chapters.map((c) => c.id));
+      const chapterId = resolveDuplicateId(rawChapterId, seenChapterIds);
+      if (chapterId !== rawChapterId) {
+        errors.push(
+          `[Warning] Auto-fix: Resolved Duplicate Chapter ID '${rawChapterId}' to '${chapterId}'`,
+        );
+      }
 
       let chapterDesc = '';
       const cDescMatch = chunk.match(/^Description:\s*(.+)$/m) || chunk.match(/^_([^_]+)_$/m);
@@ -98,9 +103,21 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
       const type = questionMatch[1] === 'T/F:' ? 'true_false' : 'mcq';
       const rawTitle = questionMatch[2].trim();
       const idMatch = chunk.match(/<!--\s*(?:ID|Q_ID):\s*(\S+)\s*-->/);
-      const questionId = idMatch
+      const rawQuestionId = idMatch
         ? idMatch[1]
         : `${currentChapter.id}_q${currentChapter.questions.length + 1}`;
+
+      // Gather all seen question IDs
+      const allSeenQuestionIds = new Set<string>();
+      chapters.forEach((c) => c.questions.forEach((q) => allSeenQuestionIds.add(q.questionId)));
+      currentChapter.questions.forEach((q) => allSeenQuestionIds.add(q.questionId));
+
+      const questionId = resolveDuplicateId(rawQuestionId, allSeenQuestionIds);
+      if (questionId !== rawQuestionId) {
+        errors.push(
+          `[Warning] Auto-fix: Resolved Duplicate Question ID '${rawQuestionId}' to '${questionId}'`,
+        );
+      }
 
       try {
         const question = parseQuestionChunk(chunk, type, questionId, rawTitle);
@@ -126,7 +143,7 @@ export function parseMarkdownToQuizModule(markdown: string): ParseResult {
   // Final validation
   const validation = validateQuizModule(parsedModule);
   if (!validation.isValid) {
-    errors.push(...validation.errors);
+    errors.push(...validation.errors.map((e) => `[Error] ${e}`));
   }
 
   return {

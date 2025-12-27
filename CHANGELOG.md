@@ -230,4 +230,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-**MCQ Quiz Forge** - Secure, rich text rendering for educational applications! 🚀
+**Quiz-SRS** - A spaced repetition quiz platform for effective learning! 🚀

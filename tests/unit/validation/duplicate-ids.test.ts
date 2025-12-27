@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateQuizModule } from '@/utils/quiz-validation-refactored';
+import { validateQuizModule } from '@/lib/validators/schema-validator';
 
 describe('Duplicate ID Validation', () => {
   describe('Duplicate Chapter IDs', () => {

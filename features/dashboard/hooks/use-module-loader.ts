@@ -14,7 +14,7 @@
 import { useCallback } from 'react';
 import { useQuizStore } from '@/store';
 import type { QuizModule } from '@/types/quiz-types';
-import { validateAndCorrectQuizModule } from '@/utils/quiz-validation-refactored';
+import { validateAndCorrectQuizModule } from '@/lib/quiz/module-validator';
 import { parseMarkdownToQuizModule } from '@/lib/quiz/parser';
 import { getAssetPath } from '@/lib/paths';
 
