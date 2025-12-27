@@ -131,6 +131,11 @@ test.describe('Accessibility Tests', () => {
     if (inputCount > 0) {
       for (let i = 0; i < inputCount; i++) {
         const input = inputs.nth(i);
+        const type = await input.getAttribute('type');
+
+        // Skip hidden and file inputs - they don't need visible labels
+        if (type === 'hidden' || type === 'file') continue;
+
         const id = await input.getAttribute('id');
         const ariaLabel = await input.getAttribute('aria-label');
         const ariaLabelledBy = await input.getAttribute('aria-labelledby');

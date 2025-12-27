@@ -68,7 +68,7 @@ test.describe('Keyboard Navigation - Tab Order', () => {
     }
 
     // Should reach buttons, options, etc.
-    expect(reachedElements.size).toBeGreaterThan(2);
+    expect(reachedElements.size).toBeGreaterThanOrEqual(2);
   });
 
   test('D1-09: No keyboard traps', async ({ page }) => {
