@@ -11,6 +11,7 @@ import { useModuleLoader } from '@/features/dashboard/hooks/use-module-loader';
 export default function MCQQuizForge() {
   const appState = useQuizStore((state) => state.appState);
   const startQuiz = useQuizStore((state) => state.startQuiz);
+  const startReviewSession = useQuizStore((state) => state.startReviewSession);
   const { loadDefault, loadFromFile, isLoading, error } = useModuleLoader();
 
   return (
@@ -30,7 +31,9 @@ export default function MCQQuizForge() {
             onStartQuiz={(chapterId) => {
               startQuiz(chapterId);
             }}
-            onStartReview={() => {}}
+            onStartReview={() => {
+              startReviewSession();
+            }}
           />
         )}
 
