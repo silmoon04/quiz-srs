@@ -459,7 +459,7 @@ describe('useModuleLoader', () => {
         await result.current.loadDefault();
       });
 
-      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.md');
+      expect(global.fetch).toHaveBeenCalledWith('./default-quiz.md');
       expect(parseMarkdownToQuizModule).toHaveBeenCalled();
       expect(result.current.currentModule).not.toBeNull();
       expect(result.current.error).toBe('');
@@ -484,8 +484,8 @@ describe('useModuleLoader', () => {
         await result.current.loadDefault();
       });
 
-      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.md');
-      expect(global.fetch).toHaveBeenCalledWith('/default-quiz.json');
+      expect(global.fetch).toHaveBeenCalledWith('./default-quiz.md');
+      expect(global.fetch).toHaveBeenCalledWith('./default-quiz.json');
       expect(result.current.currentModule).not.toBeNull();
     });
 
@@ -501,8 +501,8 @@ describe('useModuleLoader', () => {
       });
 
       expect(result.current.error).toContain('Failed to load default quiz');
-      expect(result.current.error).toContain('/default-quiz.md');
-      expect(result.current.error).toContain('/default-quiz.json');
+      expect(result.current.error).toContain('./default-quiz.md');
+      expect(result.current.error).toContain('./default-quiz.json');
       expect(result.current.currentModule).toBeNull();
     });
 
