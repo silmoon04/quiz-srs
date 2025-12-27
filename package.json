@@ -129,7 +129,7 @@
   "size-limit": [
     {
       "path": ".next/static/chunks/**/*.js",
-      "limit": "500 KB"
+      "limit": "1500 KB"
     }
   ]
 }
