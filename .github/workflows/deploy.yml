@@ -29,11 +29,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Lint
-        run: npm run lint
+        run: npm run lint -- --max-warnings 0
       - name: Typecheck
         run: npm run typecheck
       - name: Unit Tests
         run: npm run test:unit
+      - name: Check Bundle Size
+        run: npm run size
+
 
   build:
     name: Build Application
