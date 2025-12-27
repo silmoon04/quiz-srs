@@ -67,10 +67,12 @@ export default defineConfig({
         },
       ],
   webServer: {
-    command: 'npm run dev -- --port 4000',
+    command: process.env.CI
+      ? 'npm run build && npx serve out -l 4000'
+      : 'npm run dev -- --port 4000',
     url: 'http://localhost:4000',
     reuseExistingServer: !process.env.CI,
-    timeout: 60000,
+    timeout: 120000, // Increased timeout for build + serve
   },
   globalSetup: './tests/e2e/global-setup.ts',
 });
