@@ -46,22 +46,9 @@ const nextConfig = {
     }
     return config;
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: buildCSP(),
-          },
-          { key: 'Referrer-Policy', value: 'no-referrer' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-        ],
-      },
-    ];
-  },
+  // Headers are not supported in 'output: export' mode
+  // CSP is handled via <meta> tags in layout.tsx or host configuration
+  // async headers() { ... }
 };
 
 export default nextConfig;
