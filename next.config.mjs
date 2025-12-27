@@ -29,14 +29,15 @@ const nextConfig = {
   basePath: process.env.GITHUB_ACTIONS ? '/quiz-srs' : '',
   assetPrefix: process.env.GITHUB_ACTIONS ? '/quiz-srs/' : '',
   output: 'export',
+  // GitHub Pages doesn't support built-in Image Optimization
+  images: {
+    unoptimized: true,
+  },
   eslint: {
     ignoreDuringBuilds: false,
   },
   typescript: {
     ignoreBuildErrors: false,
-  },
-  images: {
-    unoptimized: true,
   },
   webpack: (config, { isServer }) => {
     if (process.env.ANALYZE === 'true') {
