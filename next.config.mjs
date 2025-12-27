@@ -25,6 +25,10 @@ const buildCSP = () => {
 };
 
 const nextConfig = {
+  // GitHub Pages deployment configuration
+  basePath: process.env.GITHUB_ACTIONS ? '/quiz-srs' : '',
+  assetPrefix: process.env.GITHUB_ACTIONS ? '/quiz-srs/' : '',
+  output: 'export',
   eslint: {
     ignoreDuringBuilds: false,
   },

@@ -37,7 +37,7 @@ html {
           <ScreenReaderAnnouncer>{children}</ScreenReaderAnnouncer>
         </PersistenceProvider>
         <LegacyStorageBridge />
-        <Analytics />
+        {process.env.NEXT_PUBLIC_VERCEL && <Analytics />}
       </body>
     </html>
   );

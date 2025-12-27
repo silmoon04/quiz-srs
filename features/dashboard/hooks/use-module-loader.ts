@@ -233,12 +233,13 @@ export function useModuleLoader(): UseModuleLoaderReturn {
     clearErrorAction();
 
     const errors: string[] = [];
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    // Use relative paths - works with Next.js basePath automatically
+    const basePath = '';
 
     try {
       // Try loading Markdown first (Primary)
       try {
-        const mdUrl = `${basePath}/default-quiz.md`;
+        const mdUrl = `${basePath}./default-quiz.md`;
         console.log(`[useModuleLoader] Attempting to fetch default quiz from: ${mdUrl}`);
         const mdResponse = await fetch(mdUrl);
 
@@ -266,7 +267,7 @@ export function useModuleLoader(): UseModuleLoaderReturn {
 
       // Try loading JSON fallback
       try {
-        const jsonUrl = `${basePath}/default-quiz.json`;
+        const jsonUrl = `${basePath}./default-quiz.json`;
         console.log(`[useModuleLoader] Attempting to fetch fallback quiz from: ${jsonUrl}`);
         const jsonResponse = await fetch(jsonUrl);
 
