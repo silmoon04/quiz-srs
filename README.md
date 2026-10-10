@@ -1,76 +1,47 @@
-# Quiz-SRS (Spaced Repetition System)
+# Quiz-SRS
 
-![Build Status](https://github.com/silmoon04/quiz-srs/actions/workflows/deploy.yml/badge.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Next.js](https://img.shields.io/badge/Next.js-15.2-black)
+A study app for practising multiple-choice and true/false questions. Load a quiz from Markdown or JSON, work through its chapters, and return to questions due for review. The included question bank covers data structures and algorithms.
 
-**Quiz-SRS** is a high-performance web application designed to help learners master complex topics through active recall and spaced repetition. It is engineered to prevent rote memorization by dynamically restructuring questions and options on every attempt, ensuring true understanding of the material.
+[Open the hosted demo](https://silmoon04.github.io/quiz-srs/)
 
-## Live Demo
+## Using it
 
-Try the application directly in your browser:  
-[**https://silmoon04.github.io/quiz-srs**](https://silmoon04.github.io/quiz-srs)
+1. Choose **Try Algorithm Quiz** or upload your own `.md` or `.json` file with **Load Quiz (JSON/MD)**.
+2. Pick a chapter and answer its questions. Each answer has an explanation, and answer options vary between attempts.
+3. Use the dashboard to review due questions, export your progress, or download a log of incorrect answers for further study.
 
-## Key Learning Features
+Progress is stored in your browser's local storage. Export it from the dashboard if you want a backup or need to move to another browser; there is no account or cloud sync.
 
-### Anti-Memorization Architecture
-Most quiz apps suffer from "pattern matching," where users memorize the position of the correct answer (e.g., "Answer C is correct") rather than the concept itself.
-- **Dynamic Shuffling**: Every session randomizes the order of both questions and their multiple-choice options.
-- **Multiple Correct Variants**: The system supports questions where the "correct" usage is context-dependent, forcing the user to evaluate every option rather than remembering a single string.
+The mistake log includes the question, selected answers, correct answers and explanation. You can use it yourself or give it to an AI assistant for follow-up practice. The app does not call an AI service.
 
-### AI-Assisted Study Workflow
-The application is designed to function as an input provider for LLMs like ChatGPT or Claude.
-- **Mistake Export**: Users can export a structured log of their incorrect answers.
-- **Contextual Analysis**: This log includes the question, the user's selection, and the correct options, allowing AI tools to generate targeted explanations and new practice questions based on specific knowledge gaps.
+## Run locally
 
-### Spaced Repetition Engine
-Implements a modified SM-2 algorithm to schedule question reviews at optimal intervals, maximizing long-term retention efficiency.
+Use Node.js 22 or newer and npm.
 
-## Engineering Highlights
+```bash
+git clone https://github.com/silmoon04/quiz-srs.git
+cd quiz-srs
+npm ci
+npm run dev
+```
 
-- **Local-First Architecture**: Zero-backend design. All state is persisted locally using `zustand` with strict schema validation, ensuring privacy and offline capability.
-- **Strict Type Safety**: The codebase enforces `@typescript-eslint/no-explicit-any` validation to guarantee type integrity across the entire application state.
-- **Secure Rendering**: Uses a sanitized Markdown pipeline (`rehype-sanitize`) to render rich text and code blocks safely without exposing users to XSS vulnerabilities.
-- **Accessibility**: Built on Radix UI primitives ensuring full keyboard navigation and screen reader compliance.
+Open [localhost:3000](http://localhost:3000). For a static production export, run `npm run build`; Next.js writes the site to `out/`.
 
-## Quick Start (Local Development)
+## How it works
 
-To build and run the project locally:
+- **Quiz import:** a Markdown parser and Zod validation turn uploaded files into modules, chapters and questions. See the [quiz format guide](docs/QUIZ_FORMAT.md) for a small example.
+- **Answer selection:** questions can contain several valid answers and a larger pool of distractors. The app selects a subset and shuffles the displayed options.
+- **Review scheduling:** a small Leitner-style system retries incorrect answers after 30 seconds and schedules a correct answer for review after 10 minutes. A second consecutive correct answer marks the question as mastered and removes it from scheduled review.
+- **State:** Zustand manages the active module, answers and session progress, with browser persistence.
+- **Rendering:** Next.js, React and TypeScript, with Tailwind and Radix UI components. The Markdown pipeline supports code highlighting, KaTeX maths and Mermaid diagrams, with an HTML sanitisation step.
 
-1.  **Clone the repository**
-    ```bash
-    git clone https://github.com/silmoon04/quiz-srs.git
-    cd quiz-srs
-    ```
+This is a study tool with a deliberately short review cycle. It does not implement SM-2 or a long-term forgetting model. Dashboard import/export is connected; the corresponding buttons inside a quiz and on its results screen are still placeholders.
 
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
+## Development
 
-3.  **Run Development Server**
-    ```bash
-    npm run dev
-    ```
+```bash
+npm run typecheck
+npm run test:unit -- tests/unit/engine/srs.test.ts tests/unit/parser/markdown-parser.test.ts
+```
 
-4.  **Production Build**
-    ```bash
-    npm run build
-    ```
-
-## Documentation
-
-- **[Architecture Deep Dive](docs/ARCHITECTURE_DEEP_DIVE.md)**: Detailed breakdown of state management, design patterns (Facade, Adapter), and security models.
-- **[User Guide](docs/USER_GUIDE.md)**: Instructions for creating custom quiz modules using the Markdown format.
-
-## Tech Stack
-
-- **Framework**: Next.js 15 (App Router, Static Export)
-- **Language**: TypeScript (Strict Mode)
-- **State**: Zustand + Persist Middleware
-- **Testing**: Vitest, Playwright, Axe-core
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The repository also contains integration, accessibility and Playwright browser tests. See [testing notes](docs/TESTING.md) for the available suites and [architecture notes](docs/ARCHITECTURE.md) for a broader map of the code. The hosted demo is a deployed snapshot and may lag behind `main`.
